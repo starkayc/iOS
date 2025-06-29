@@ -1,0 +1,19 @@
+﻿#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/wallcraft.module
+
+#!name=WallCraft
+
+#!desc=WallCraft解锁永久专业版
+
+#!homepage=https://whatshub.top
+
+#!author=yqc007
+
+[MITM]
+
+hostname = %APPEND% *.wallpaperscraft.com
+
+
+
+[Script]
+
+WallCraft=type=http-response,pattern=^https?:\/\/billing-ios\.wallpaperscraft\.com\/verify_receipt\/remove_ads$,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/wallcraft.js

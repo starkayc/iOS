@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/purchasely.module
+
+#!name=Purchasely
+
+#!desc=Purchasely
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% api.purchasely.io
+
+[Script]
+
+Purchasely=type=http-response,pattern=https://api.purchasely.io/paab/user_purchases,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/purchasely.js

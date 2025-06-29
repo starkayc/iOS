@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/kinemaster.module
+
+#!name=KineMaster
+
+#!desc=KineMaster
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% api-account.kinemasters.com
+
+[Script]
+
+KineMaster=type=http-response,pattern=https://api-account.kinemasters.com/v2/user/subscribe,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/kinemaster.js

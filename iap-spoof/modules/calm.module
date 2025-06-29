@@ -1,0 +1,17 @@
+﻿#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/calm.module
+
+#!name=Calm
+
+#!desc=Calm
+
+#!homepage=https://whatshub.top
+
+#!author=Alex0510
+
+[MITM]
+
+hostname= %APPEND% api.calm.com
+
+[Script]
+
+Calm = type=http-response,pattern=https://api.calm.com/(me|device|ios/receipt),requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/Script/calm.js

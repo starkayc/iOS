@@ -1,0 +1,17 @@
+﻿#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/fantastical.module
+
+#!name=Fantastical
+
+#!desc=Fantastical解锁会员
+
+#!homepage=https://whatshub.top
+
+#!author=ddgksf2013
+
+[MITM]
+
+hostname = %APPEND% api.flexibits.com
+
+[Script]
+
+Fantastical=type=http-response,pattern=^https:\/\/api\.flexibits\.com\/(v1\/auth\/device|v1\/account\/details),requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/fantastical.js

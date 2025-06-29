@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/grammarly.module
+
+#!name=Grammarly
+
+#!desc=Grammarly
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% subscription.grammarly.com
+
+[Script]
+
+Grammarly=type=http-response,pattern=^https?:\/\/subscription\.grammarly\.com\/api\/v1\/subscription$,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/grammarly.js

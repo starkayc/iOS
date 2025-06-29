@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/carrot.module
+
+#!name=Carrot
+
+#!desc=Carrot
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% carrotweather.herokuapp.com
+
+[Script]
+
+Carrot=type=http-response,pattern=https://carrotweather.herokuapp.com/parse/functions/findSubscriptionsForUserId,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/carrot.js

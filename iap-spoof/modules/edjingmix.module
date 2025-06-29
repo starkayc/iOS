@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/edjingmix.module
+
+#!name=edjingMix
+
+#!desc=edjingMix
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% api.mwm-users.com
+
+[Script]
+
+edjingMix=type=http-response,pattern=https://api.mwm-users.com/me/features,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/edjingmix.js

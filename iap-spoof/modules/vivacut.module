@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/vivacut.module
+
+#!name=VivaCut
+
+#!desc=VivaCut
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% api-fra.vivacut.com
+
+[Script]
+
+VivaCut=type=http-response,pattern=https://api-fra.vivacut.com/api/rest/commerce/integrate/vip/perform,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/vivacut.js

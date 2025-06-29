@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/facemoji.module
+
+#!name=Facemoji
+
+#!desc=Facemoji
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% order.creativeappnow.com
+
+[Script]
+
+Facemoji=type=http-response,pattern=https://order.creativeappnow.com/iap/receipt,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/facemoji.js

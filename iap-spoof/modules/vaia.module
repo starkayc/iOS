@@ -1,0 +1,17 @@
+#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/vaia.module
+
+#!name=Vaia
+
+#!desc=Vaia
+
+#!homepage=https://apptesters.org/scripting
+
+#!author=AppTester
+
+[MITM]
+
+hostname = %APPEND% prod.studysmarter.de
+
+[Script]
+
+Vaia=type=http-response,pattern=prod.studysmarter.de/payments/info,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/vaia.js

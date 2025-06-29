@@ -1,0 +1,17 @@
+﻿#!url=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/modules/1blocker.module
+
+#!name=1blocker
+
+#!desc=1blocker会员解锁
+
+#!homepage=https://whatshub.top
+
+#!author=lutqhysky
+
+[MITM]
+
+hostname= %APPEND% api.revenuecat.com
+
+[Script]
+
+1blocker= type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/v1\/subscribers,requires-body=1,script-path=https://raw.githubusercontent.com/starkayc/iOS/main/iap-spoof/scripts/1blocker.js
