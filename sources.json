@@ -15,6 +15,12 @@
       "repo": "Apollo-Reborn/Apollo-Reborn",
       "release_type": "stable",
       "asset_pattern": "GLASS"
+    },
+    {
+      "name": "Nuvio",
+      "repo": "luqmanfadlli/NuvioMobile-iOS",
+      "release_type": "stable",
+      "asset_pattern": "Full"
     }
   ]
 }

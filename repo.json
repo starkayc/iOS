@@ -84,6 +84,32 @@
       "versionDate": "2026-07-04T04:36:25Z",
       "size": 16230474,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build a full featured Nuvio ipa for iOS and iPadOS user",
+      "subtitle": "Unofficial Nuvio Mobile repository to build a full featured Nuvio ipa for iOS and iPadOS user",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa",
+          "size": 39276321,
+          "version": "0.2.19",
+          "buildVersion": "91",
+          "date": "2026-07-06T03:52:07Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.2.19",
+      "versionDate": "2026-07-06T03:52:07Z",
+      "size": 39276321,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa"
     }
   ]
 }
