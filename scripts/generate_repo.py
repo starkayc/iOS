@@ -51,6 +51,11 @@ GITHUB_USER = "starkayc"
 GITHUB_REPO = "iOS"
 PAGES_BASE = f"https://{GITHUB_USER}.github.io/{GITHUB_REPO}"
 
+# GitHub Release used to host IPA binaries (avoids LFS-pointer issues with
+# GitHub Pages).  Workflow uploads each IPA as a release asset.
+RELEASE_TAG = "ipa-assets"
+RELEASE_BASE = f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/releases/download/{RELEASE_TAG}"
+
 SOURCE_ICON_URL = f"{PAGES_BASE}/icons/anny.png"
 SOURCE_WEBSITE = "https://github.com/starkayc/iOS"
 SOURCE_TINT_COLOR = "3c94fc"
@@ -655,10 +660,11 @@ def generate_repo(
         icon_filename = extract_icon(ipa_path, meta["icon_paths"], bundle_id)
         icon_url = f"{PAGES_BASE}/icons/{url_encode_path(icon_filename)}" if icon_filename else ""
 
-        # IPA size + download URL.
+        # IPA size + download URL (served from GitHub Releases, not
+        # Pages, to avoid Git-LFS pointer files being served as IPAs).
         ipa_size = ipa_path.stat().st_size
         safe_ipa_name = url_encode_path(ipa_path.name)
-        download_url = f"{PAGES_BASE}/ipas/{safe_ipa_name}"
+        download_url = f"{RELEASE_BASE}/{safe_ipa_name}"
 
         # Use the GitHub release date when available, otherwise fall
         # back to the file modification time.
@@ -712,7 +718,7 @@ def generate_repo(
                 # back-filled developer name or description).
                 meta_keys = (
                     "developerName", "localizedDescription",
-                    "subtitle", "iconURL",
+                    "subtitle", "iconURL", "downloadURL",
                 )
                 if any(
                     old.get(k) != app_entry.get(k)
