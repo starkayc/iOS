@@ -1,0 +1,20 @@
+{
+  "sources": [
+    {
+      "name": "Feather",
+      "repo": "claration/Feather",
+      "release_type": "stable"
+    },
+    {
+      "name": "Ksign",
+      "repo": "Nyasami/Ksign",
+      "release_type": "prerelease"
+    },
+    {
+      "name": "Apollo-Reborn",
+      "repo": "Apollo-Reborn/Apollo-Reborn",
+      "release_type": "stable",
+      "asset_pattern": "GLASS"
+    }
+  ]
+}

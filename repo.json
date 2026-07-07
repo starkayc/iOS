@@ -1,0 +1,89 @@
+{
+  "name": "Star's Repository",
+  "identifier": "moe.starkayc.repo",
+  "subtitle": "Personal AltStore source",
+  "description": "Personal AltStore source for IPA distribution.",
+  "iconURL": "https://starkayc.github.io/iOS/icons/anny.png",
+  "website": "https://github.com/starkayc/iOS",
+  "tintColor": "3c94fc",
+  "apps": [
+    {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://starkayc.github.io/iOS/ipas/Apollo-Reborn.ipa",
+          "size": 113032345,
+          "version": "3.3.0",
+          "buildVersion": "290",
+          "date": "2026-06-26T04:55:01Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.3.0",
+      "versionDate": "2026-06-26T04:55:01Z",
+      "size": 113032345,
+      "downloadURL": "https://starkayc.github.io/iOS/ipas/Apollo-Reborn.ipa"
+    },
+    {
+      "name": "Feather",
+      "bundleIdentifier": "thewonderofyou.Feather",
+      "developerName": "claration",
+      "iconURL": "https://starkayc.github.io/iOS/icons/thewonderofyou.Feather.png",
+      "localizedDescription": "Free on-device iOS/iPadOS application manager/installer, using certificates part of the Apple Developer Program.",
+      "subtitle": "Free on-device iOS/iPadOS application manager/installer, using certificates part of the Apple Developer Program.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://starkayc.github.io/iOS/ipas/Feather.ipa",
+          "size": 14241853,
+          "version": "2.9.0",
+          "buildVersion": "1",
+          "date": "2026-07-05T02:11:53Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "2.9.0",
+      "versionDate": "2026-07-05T02:11:53Z",
+      "size": 14241853,
+      "downloadURL": "https://starkayc.github.io/iOS/ipas/Feather.ipa"
+    },
+    {
+      "name": "Ksign",
+      "bundleIdentifier": "nya.asami.ksign",
+      "developerName": "Nyasami",
+      "iconURL": "https://starkayc.github.io/iOS/icons/nya.asami.ksign.png",
+      "localizedDescription": "Yet another codesigning app, have you ever wondered what if Feather and Esign had a child? Welcome to Ksign!",
+      "subtitle": "The \"cleaner\" Esign app.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://starkayc.github.io/iOS/ipas/Ksign.ipa",
+          "size": 16230474,
+          "version": "1.6.1",
+          "buildVersion": "1",
+          "date": "2026-07-04T04:36:25Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.6.1",
+      "versionDate": "2026-07-04T04:36:25Z",
+      "size": 16230474,
+      "downloadURL": "https://starkayc.github.io/iOS/ipas/Ksign.ipa"
+    }
+  ]
+}
