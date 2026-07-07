@@ -207,7 +207,7 @@ def extract_metadata(ipa_path: Path) -> Optional[dict]:
                 "minOSVersion": min_os,
                 "icon_paths": icon_paths,
             }
-    except (zipfile.BadZipFile, KeyError) as e:
+    except (zipfile.BadZipFile, KeyError, plistlib.InvalidFileException) as e:
         print(f"  ✗ Failed to read IPA: {e}")
         return None
 
@@ -520,17 +520,35 @@ def fetch_from_sources(
             print(f"    ✗ No .ipa asset in {tag}")
             continue
 
-        # ── Skip if already up-to-date (size match) ─────────────────────
+        # ── Skip if already up-to-date ─────────────────────────────────
         dest_name = f"{name}.ipa"
         dest_path = IPAS_DIR / dest_name
         asset_size = asset["size"]
 
-        if dest_path.exists() and dest_path.stat().st_size == asset_size:
-            print(f"    ✓ already current  ({tag}, {asset_size:,} bytes)")
-            release_dates[dest_name] = published
-            repo_descriptions[dest_name] = repo_desc
-            developer_names[dest_name] = repo_owner
-            continue
+        if dest_path.exists():
+            # Quick check: same file size → probably same version.
+            if dest_path.stat().st_size == asset_size:
+                print(f"    ✓ already current  ({tag}, {asset_size:,} bytes)")
+                release_dates[dest_name] = published
+                repo_descriptions[dest_name] = repo_desc
+                developer_names[dest_name] = repo_owner
+                continue
+
+            # Size differs — new version available.  Double-check by
+            # peeking at the existing IPA's version so we don't
+            # accidentally downgrade.
+            existing_meta = extract_metadata(dest_path)
+            if existing_meta and parse_version_tuple(
+                existing_meta["version"]
+            ) >= parse_version_tuple(tag.lstrip("v")):
+                print(
+                    f"    ✓ local is newer  "
+                    f"(local v{existing_meta['version']} ≥ {tag})"
+                )
+                release_dates[dest_name] = published
+                repo_descriptions[dest_name] = repo_desc
+                developer_names[dest_name] = repo_owner
+                continue
 
         # ── Download ────────────────────────────────────────────────────
         print(
