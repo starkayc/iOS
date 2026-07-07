@@ -4,3 +4,7 @@ __pycache__/
 
 # macOS
 .DS_Store
+
+# IPAs are hosted as GitHub Release assets (not committed to the
+# repo — avoids LFS pointer files being served by GitHub Pages).
+ipas/*.ipa

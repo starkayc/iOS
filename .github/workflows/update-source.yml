@@ -7,7 +7,6 @@ on:
     - cron: "17 */6 * * *"
   push:
     paths:
-      - "ipas/**"
       - "scripts/generate_repo.py"
       - "sources.json"
       - ".github/workflows/update-source.yml"
@@ -39,12 +38,30 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/generate_repo.py --fetch --github-token="$GH_TOKEN"
 
+      - name: Upload IPAs to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create the release if it doesn't exist yet.
+          if ! gh release view ipa-assets &>/dev/null; then
+            gh release create ipa-assets \
+              --title "IPA Assets" \
+              --notes "IPA binaries for the AltStore source.  Managed automatically."
+          fi
+
+          # Upload each IPA, overwriting any previous asset with the same name.
+          for ipa in ipas/*.ipa; do
+            [ -f "$ipa" ] || continue
+            echo "Uploading $ipa …"
+            gh release upload ipa-assets "$ipa" --clobber
+          done
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add repo.json icons/ ipas/
+          git add repo.json icons/
 
           # Only commit if there's something to commit.
           if git diff --cached --quiet; then

@@ -18,7 +18,7 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://starkayc.github.io/iOS/ipas/Apollo-Reborn.ipa",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.ipa",
           "size": 113032345,
           "version": "3.3.0",
           "buildVersion": "290",
@@ -31,7 +31,7 @@
       "version": "3.3.0",
       "versionDate": "2026-06-26T04:55:01Z",
       "size": 113032345,
-      "downloadURL": "https://starkayc.github.io/iOS/ipas/Apollo-Reborn.ipa"
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.ipa"
     },
     {
       "name": "Feather",
@@ -44,7 +44,7 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://starkayc.github.io/iOS/ipas/Feather.ipa",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Feather.ipa",
           "size": 14241853,
           "version": "2.9.0",
           "buildVersion": "1",
@@ -57,7 +57,7 @@
       "version": "2.9.0",
       "versionDate": "2026-07-05T02:11:53Z",
       "size": 14241853,
-      "downloadURL": "https://starkayc.github.io/iOS/ipas/Feather.ipa"
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Feather.ipa"
     },
     {
       "name": "Ksign",
@@ -70,7 +70,7 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://starkayc.github.io/iOS/ipas/Ksign.ipa",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa",
           "size": 16230474,
           "version": "1.6.1",
           "buildVersion": "1",
@@ -83,7 +83,7 @@
       "version": "1.6.1",
       "versionDate": "2026-07-04T04:36:25Z",
       "size": 16230474,
-      "downloadURL": "https://starkayc.github.io/iOS/ipas/Ksign.ipa"
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa"
     }
   ]
 }
