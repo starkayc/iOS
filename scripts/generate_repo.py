@@ -45,14 +45,15 @@ SOURCE_NAME = "Star's Repository"
 SOURCE_IDENTIFIER = "moe.starkayc.repo"
 SOURCE_SUBTITLE = "Personal AltStore source"
 SOURCE_DESCRIPTION = "Personal AltStore source for IPA distribution."
-SOURCE_ICON_URL = f"{PAGES_BASE}/icons/anny.png"
-SOURCE_WEBSITE = "https://github.com/starkayc/iOS"
-SOURCE_TINT_COLOR = "3c94fc"
 
 # Base URL for GitHub Pages — files in the repo root are served from here.
 GITHUB_USER = "starkayc"
 GITHUB_REPO = "iOS"
 PAGES_BASE = f"https://{GITHUB_USER}.github.io/{GITHUB_REPO}"
+
+SOURCE_ICON_URL = f"{PAGES_BASE}/icons/anny.png"
+SOURCE_WEBSITE = "https://github.com/starkayc/iOS"
+SOURCE_TINT_COLOR = "3c94fc"
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
