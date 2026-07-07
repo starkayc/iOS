@@ -3,7 +3,7 @@
   "identifier": "moe.starkayc.repo",
   "subtitle": "Personal AltStore source",
   "description": "Personal AltStore source for IPA distribution.",
-  "iconURL": "https://starkayc.github.io/iOS/icons/repo.jpg",
+  "iconURL": "https://github.com/starkayc.png",
   "website": "https://github.com/starkayc/iOS",
   "tintColor": "3c94fc",
   "apps": [
