@@ -56,7 +56,7 @@ PAGES_BASE = f"https://{GITHUB_USER}.github.io/{GITHUB_REPO}"
 RELEASE_TAG = "ipa-assets"
 RELEASE_BASE = f"https://github.com/{GITHUB_USER}/{GITHUB_REPO}/releases/download/{RELEASE_TAG}"
 
-SOURCE_ICON_URL = f"{PAGES_BASE}/icons/anny.png"
+SOURCE_ICON_URL = f"{PAGES_BASE}/icons/repo.jpg"
 SOURCE_WEBSITE = "https://github.com/starkayc/iOS"
 SOURCE_TINT_COLOR = "3c94fc"
 
