@@ -71,18 +71,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa",
-          "size": 16230474,
+          "size": 16231234,
           "version": "1.6.1",
           "buildVersion": "1",
-          "date": "2026-07-04T04:36:25Z",
+          "date": "2026-07-14T20:15:52Z",
           "localizedDescription": "",
           "minOSVersion": "16.0"
         }
       ],
       "appPermissions": {},
       "version": "1.6.1",
-      "versionDate": "2026-07-04T04:36:25Z",
-      "size": 16230474,
+      "versionDate": "2026-07-14T20:15:52Z",
+      "size": 16231234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa"
     },
     {
@@ -97,18 +97,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa",
-          "size": 41466558,
-          "version": "0.2.23",
-          "buildVersion": "95",
-          "date": "2026-07-13T03:55:32Z",
+          "size": 41542304,
+          "version": "0.2.24",
+          "buildVersion": "96",
+          "date": "2026-07-15T14:04:36Z",
           "localizedDescription": "",
           "minOSVersion": "16.1"
         }
       ],
       "appPermissions": {},
-      "version": "0.2.23",
-      "versionDate": "2026-07-13T03:55:32Z",
-      "size": 41466558,
+      "version": "0.2.24",
+      "versionDate": "2026-07-15T14:04:36Z",
+      "size": 41542304,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa"
     }
   ]
