@@ -19,18 +19,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.ipa",
-          "size": 117736712,
-          "version": "3.5.0",
-          "buildVersion": "294",
-          "date": "2026-07-30T17:03:26Z",
+          "size": 119846452,
+          "version": "3.5.1",
+          "buildVersion": "295",
+          "date": "2026-08-07T22:33:10Z",
           "localizedDescription": "",
           "minOSVersion": "15.0"
         }
       ],
       "appPermissions": {},
-      "version": "3.5.0",
-      "versionDate": "2026-07-30T17:03:26Z",
-      "size": 117736712,
+      "version": "3.5.1",
+      "versionDate": "2026-08-07T22:33:10Z",
+      "size": 119846452,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.ipa"
     },
     {
