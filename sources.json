@@ -21,6 +21,16 @@
       "repo": "luqmanfadlli/NuvioMobile-iOS",
       "release_type": "stable",
       "asset_pattern": "Full"
+    },
+    {
+      "name": "Debrify",
+      "repo": "varunsalian/debrify",
+      "release_type": "stable"
+    },
+    {
+      "name": "Ferrite",
+      "repo": "Ferrite-iOS/Ferrite",
+      "release_type": "stable"
     }
   ]
 }
