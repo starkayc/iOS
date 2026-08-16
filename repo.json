@@ -19,18 +19,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.ipa",
-          "size": 114066140,
-          "version": "3.4.0",
-          "buildVersion": "291",
-          "date": "2026-07-08T14:26:43Z",
+          "size": 119846452,
+          "version": "3.5.1",
+          "buildVersion": "295",
+          "date": "2026-08-07T22:33:10Z",
           "localizedDescription": "",
           "minOSVersion": "15.0"
         }
       ],
       "appPermissions": {},
-      "version": "3.4.0",
-      "versionDate": "2026-07-08T14:26:43Z",
-      "size": 114066140,
+      "version": "3.5.1",
+      "versionDate": "2026-08-07T22:33:10Z",
+      "size": 119846452,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.ipa"
     },
     {
@@ -71,18 +71,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa",
-          "size": 16230474,
+          "size": 16231234,
           "version": "1.6.1",
           "buildVersion": "1",
-          "date": "2026-07-04T04:36:25Z",
+          "date": "2026-07-14T20:15:52Z",
           "localizedDescription": "",
           "minOSVersion": "16.0"
         }
       ],
       "appPermissions": {},
       "version": "1.6.1",
-      "versionDate": "2026-07-04T04:36:25Z",
-      "size": 16230474,
+      "versionDate": "2026-07-14T20:15:52Z",
+      "size": 16231234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa"
     },
     {
@@ -97,18 +97,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa",
-          "size": 41396608,
-          "version": "0.2.22",
-          "buildVersion": "94",
-          "date": "2026-07-11T09:20:41Z",
+          "size": 48321307,
+          "version": "0.4.5",
+          "buildVersion": "109",
+          "date": "2026-08-13T06:10:17Z",
           "localizedDescription": "",
           "minOSVersion": "16.1"
         }
       ],
       "appPermissions": {},
-      "version": "0.2.22",
-      "versionDate": "2026-07-11T09:20:41Z",
-      "size": 41396608,
+      "version": "0.4.5",
+      "versionDate": "2026-08-13T06:10:17Z",
+      "size": 48321307,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa"
     }
   ]
