@@ -123,18 +123,18 @@
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa",
-          "size": 67833285,
-          "version": "0.4.15",
-          "buildVersion": "120",
-          "date": "2026-09-09T13:20:51Z",
+          "size": 66025212,
+          "version": "0.4.16",
+          "buildVersion": "121",
+          "date": "2026-09-11T12:21:04Z",
           "localizedDescription": "",
           "minOSVersion": "16.1"
         }
       ],
       "appPermissions": {},
-      "version": "0.4.15",
-      "versionDate": "2026-09-09T13:20:51Z",
-      "size": 67833285,
+      "version": "0.4.16",
+      "versionDate": "2026-09-11T12:21:04Z",
+      "size": 66025212,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.ipa"
     }
   ]
