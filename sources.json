@@ -18,9 +18,13 @@
     },
     {
       "name": "Nuvio",
+      "repo": "NuvioMedia/NuvioMobile",
+      "release_type": "stable"
+    },
+    {
+      "name": "Nuvio",
       "repo": "luqmanfadlli/NuvioMobile-iOS",
-      "release_type": "stable",
-      "asset_pattern": "Full"
+      "release_type": "stable"
     },
     {
       "name": "Debrify",
