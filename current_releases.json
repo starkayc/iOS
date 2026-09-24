@@ -1,0 +1,34 @@
+{
+  "Feather": {
+    "release_type": "stable",
+    "version": "2.9.0"
+  },
+  "Ksign": {
+    "release_type": "prerelease",
+    "commit": "03a3a9c"
+  },
+  "Apollo-Reborn": {
+    "release_type": "stable",
+    "version": "1.15.11_3.7.1"
+  },
+  "Nuvio": {
+    "release_type": "stable",
+    "version": "0.5.1-beta"
+  },
+  "Nuvio Enhanced": {
+    "release_type": "stable",
+    "version": "0.5.1-beta"
+  },
+  "Debrify": {
+    "release_type": "prerelease",
+    "commit": "d670326"
+  },
+  "Ferrite": {
+    "release_type": "stable",
+    "version": "0.7.4"
+  },
+  "Aidoku": {
+    "release_type": "stable",
+    "version": "0.9"
+  }
+}

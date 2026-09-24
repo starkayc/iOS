@@ -1,0 +1,78 @@
+name: Upload Custom IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: "App name (e.g. Balatro)"
+        required: true
+      version:
+        description: "Version (e.g. 1.0)"
+        required: true
+      download_link:
+        description: "Direct download link to the .ipa"
+        required: true
+      localized_description:
+        description: "App description shown in AltStore (optional — blank is fine)"
+        required: false
+        default: ""
+      subtitle:
+        description: "Subtitle shown under the app name (optional — blank is fine)"
+        required: false
+        default: ""
+
+# Prevent concurrent runs from stacking up.
+concurrency:
+  group: upload-custom-ipa
+  cancel-in-progress: true
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Download and name the IPA
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/add_custom_ipa.py \
+            --name="${{ inputs.app_name }}" \
+            --version="${{ inputs.version }}" \
+            --url="${{ inputs.download_link }}" \
+            --description="${{ inputs.localized_description }}" \
+            --subtitle="${{ inputs.subtitle }}" \
+            --token="$GH_TOKEN"
+
+      - name: Regenerate repo.json
+        run: python scripts/generate_repo.py
+
+      - name: Sync IPA Assets release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/sync_release.py --token="$GH_TOKEN"
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add repo.json icons/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: add custom IPA ${{ inputs.app_name }} (rel-${{ inputs.version }})" -m "Automated upload from GitHub Actions."
+
+          git push

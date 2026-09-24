@@ -1,0 +1,54 @@
+name: Check Releases
+
+on:
+  schedule:
+    # Hourly at minute 23 (off-minute to avoid the :00/:30 stampede).
+    - cron: "23 * * * *"
+  push:
+    paths:
+      - "sources.json"
+      - "scripts/**"
+      - ".github/workflows/check-releases.yml"
+  workflow_dispatch:
+
+# Prevent concurrent runs from stacking up.
+concurrency:
+  group: check-releases
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check for updates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/check_releases.py --token="$GH_TOKEN"
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add current_releases.json
+
+          # Only commit if something changed — otherwise exit cleanly.
+          if git diff --cached --quiet; then
+            echo "No version changes."
+            exit 0
+          fi
+
+          git commit -m "chore: update current releases" -m "Automated update from GitHub Actions."
+
+          git push

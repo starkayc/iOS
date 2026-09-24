@@ -31,7 +31,7 @@
     {
       "name": "Debrify",
       "repo": "varunsalian/debrify",
-      "release_type": "stable"
+      "release_type": "prerelease"
     },
     {
       "name": "Ferrite",
