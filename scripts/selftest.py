@@ -523,9 +523,12 @@ def test_add_custom_ipa(fake: FakeGitHub):
           "custom URL versioned")
     check("Balatro.rel-1.0.ipa" in fake.assets,
           "the asset was uploaded to the release")
-    check("Nuvio Enhanced.ipa" not in fake.assets
-          and "Feather.rel-2.8.0.ipa" not in fake.assets,
-          "stale assets cleaned up by the upload's sync")
+    # A custom upload must never delete other apps' assets (its repo.json
+    # view can lag behind other workflows) — cleanup belongs to the
+    # full sync in the update-source workflow.
+    check("Nuvio Enhanced.ipa" in fake.assets
+          and "Feather.rel-2.8.0.ipa" in fake.assets,
+          "custom upload leaves other assets alone")
     return balatro
 
 

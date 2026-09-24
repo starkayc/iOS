@@ -21,10 +21,11 @@ on:
         required: false
         default: ""
 
-# Prevent concurrent runs from stacking up.
+# All three workflows share one group so runs queue instead of racing
+# each other on repo.json, current_releases.json and the release.
 concurrency:
-  group: upload-custom-ipa
-  cancel-in-progress: true
+  group: altstore-repo
+  cancel-in-progress: false
 
 jobs:
   upload:
@@ -67,4 +68,13 @@ jobs:
 
           git commit -m "chore: add custom IPA ${{ inputs.app_name }} (rel-${{ inputs.version }})" -m "Automated upload from GitHub Actions."
 
-          git push
+          # Push with rebase retries — safety net against concurrent
+          # commits from the other workflows.
+          for i in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            git pull --rebase origin main
+            sleep 5
+          done
+          exit 1

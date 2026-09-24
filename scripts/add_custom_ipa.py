@@ -103,8 +103,15 @@ def run_custom_upload(
         )
         return 1
 
-    # Upload to the ipa-assets release.
-    return sync_release(token or "", client=lib.GitHubRelease(token or ""))
+    # Upload to the ipa-assets release.  Never delete other apps'
+    # assets here — this run's checkout can lag behind other workflows,
+    # and stale-asset cleanup belongs to the update-source workflow
+    # where repo.json is freshly generated.
+    return sync_release(
+        token or "",
+        no_delete=True,
+        client=lib.GitHubRelease(token or ""),
+    )
 
 
 def main() -> int:

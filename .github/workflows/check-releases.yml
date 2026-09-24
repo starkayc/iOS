@@ -11,10 +11,11 @@ on:
       - ".github/workflows/check-releases.yml"
   workflow_dispatch:
 
-# Prevent concurrent runs from stacking up.
+# All three workflows share one group so runs queue instead of racing
+# each other on repo.json, current_releases.json and the release.
 concurrency:
-  group: check-releases
-  cancel-in-progress: true
+  group: altstore-repo
+  cancel-in-progress: false
 
 jobs:
   check:
@@ -51,4 +52,13 @@ jobs:
 
           git commit -m "chore: update current releases" -m "Automated update from GitHub Actions."
 
-          git push
+          # Push with rebase retries — safety net against concurrent
+          # commits from the other workflows.
+          for i in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            git pull --rebase origin main
+            sleep 5
+          done
+          exit 1
