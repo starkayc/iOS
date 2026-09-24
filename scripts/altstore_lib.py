@@ -427,14 +427,28 @@ class GitHubRelease:
 # ── IPA metadata ─────────────────────────────────────────────────────────────
 
 def find_app_bundle(zf: zipfile.ZipFile) -> Optional[str]:
-    """Return the first .app/ directory inside Payload/."""
+    """Return the first .app/ directory inside Payload/.
+
+    Standard IPAs have an explicit "Payload/Name.app/" directory entry,
+    but some re-zipped IPAs omit directory entries entirely.  Fall back
+    to inferring the app dir from its files' paths.
+    """
     for name in zf.namelist():
         if name.startswith("Payload/") and name.endswith(".app/"):
             # Should be exactly Payload/Name.app/ (not nested deeper).
             parts = name[len("Payload/"):].rstrip("/").split("/")
             if len(parts) == 1:
                 return name
-    return None
+
+    # No directory entries — derive the app dir from any file inside it.
+    app_dirs = set()
+    for name in zf.namelist():
+        if not name.startswith("Payload/"):
+            continue
+        head, sep, _ = name[len("Payload/"):].partition("/")
+        if sep and head.endswith(".app"):
+            app_dirs.add(f"Payload/{head}/")
+    return sorted(app_dirs)[0] if app_dirs else None
 
 
 def extract_info_plist(zf: zipfile.ZipFile, app_dir: str) -> Optional[dict]:

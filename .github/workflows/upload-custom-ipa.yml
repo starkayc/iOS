@@ -41,7 +41,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Download and name the IPA
+      - name: Download, validate, update and sync
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -52,14 +52,6 @@ jobs:
             --description="${{ inputs.localized_description }}" \
             --subtitle="${{ inputs.subtitle }}" \
             --token="$GH_TOKEN"
-
-      - name: Regenerate repo.json
-        run: python scripts/generate_repo.py
-
-      - name: Sync IPA Assets release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/sync_release.py --token="$GH_TOKEN"
 
       - name: Commit and push changes
         run: |

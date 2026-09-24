@@ -32,10 +32,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import altstore_lib as lib  # noqa: E402
 import sync_release as sr  # noqa: E402
-from add_custom_ipa import add_custom_ipa  # noqa: E402
+from add_custom_ipa import run_custom_upload  # noqa: E402
 from check_releases import run_check  # noqa: E402
 from generate_repo import generate_repo  # noqa: E402
 from update_source import update_source  # noqa: E402
+
+_RealGitHubRelease = lib.GitHubRelease  # keep before any patching
+
+
+class FakeReleaseFactory:
+    """Builds the real client wired to the fake sync server."""
+
+    def __init__(self, fake):
+        self.fake = fake
+
+    def __call__(self, token):
+        client = _RealGitHubRelease(token)
+        client.api = self.fake.sync_api
+        return client
 
 PASS = 0
 
@@ -50,7 +64,8 @@ def check(cond, msg):
         raise AssertionError(msg)
 
 
-def make_ipa(bundle_id, version="0.5.1", name="Nuvio", build="133"):
+def make_ipa(bundle_id, version="0.5.1", name="Nuvio", build="133",
+             with_dir_entry=True):
     info = {
         "CFBundleIdentifier": bundle_id,
         "CFBundleDisplayName": name,
@@ -60,7 +75,8 @@ def make_ipa(bundle_id, version="0.5.1", name="Nuvio", build="133"):
     }
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w") as zf:
-        zf.writestr("Payload/App.app/", "")
+        if with_dir_entry:
+            zf.writestr("Payload/App.app/", "")
         zf.writestr(
             "Payload/App.app/Info.plist",
             plistlib.dumps(info, fmt=plistlib.FMT_BINARY),
@@ -321,6 +337,23 @@ def test_naming():
           == "Feather.rel-2.9.0.ipa", "github sanitization: safe name unchanged")
 
 
+def test_ipa_without_dir_entries():
+    print("\n── IPAs without zip directory entries ──")
+    # Some re-zipped IPAs (like the real Balatro upload) omit the
+    # "Payload/*.app/" directory entry — extraction must still work.
+    tmp = Path(tempfile.mkdtemp())
+    ipa = tmp / "NoDirs.ipa"
+    ipa.write_bytes(make_ipa("com.test.nodirs", with_dir_entry=False))
+    meta = lib.extract_metadata(ipa)
+    check(meta is not None, "metadata extracted without a directory entry")
+    check(meta and meta["bundleIdentifier"] == "com.test.nodirs",
+          "bundle ID correct")
+    check(lib.patch_bundle_id(ipa, "com.test.nodirs.patched"),
+          "bundle-ID patch works on dir-entry-less IPAs")
+    check(lib.extract_metadata(ipa)["bundleIdentifier"] == "com.test.nodirs.patched",
+          "patched bundle ID readable")
+
+
 def test_check_releases():
     print("\n── check_for_updates / check_releases ──")
     tmp = Path(tempfile.mkdtemp())
@@ -463,22 +496,19 @@ def test_update_source_bump_and_recovery():
 
 
 def test_add_custom_ipa(fake: FakeGitHub):
-    print("\n── add_custom_ipa + generate_repo ──")
-    add_custom_ipa("Balatro", "1.0", "https://up/balatro",
-                   description="A card game", subtitle="")
+    print("\n── add_custom_ipa (download + validate + generate + sync) ──")
+    lib.GitHubRelease = FakeReleaseFactory(fake)
+
+    rc = run_custom_upload("Balatro", "1.0", "https://up/balatro",
+                           description="A card game", subtitle="",
+                           token="test")
+    check(rc == 0, "run_custom_upload exited 0")
     check((lib.IPAS_DIR / "Balatro.rel-1.0.ipa").exists(),
           "custom IPA named Balatro.rel-1.0.ipa")
     meta = lib.load_custom_meta()
     check(meta.get("Balatro.rel-1.0.ipa", {}).get("description")
           == "A card game", "sidecar records the description")
 
-    generate_repo(fetch_report={
-        "release_dates": {},
-        "repo_descriptions": {},
-        "developer_names": {},
-        "manual_names": set(),
-        "display_names": {},
-    }, cleanup_losers=True)
     repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
     apps = {a["bundleIdentifier"]: a for a in repo["apps"]}
     balatro = apps.get("com.example.balatro")
@@ -491,7 +521,29 @@ def test_add_custom_ipa(fake: FakeGitHub):
           "blank subtitle stays blank")
     check(balatro and balatro["downloadURL"].endswith("Balatro.rel-1.0.ipa"),
           "custom URL versioned")
+    check("Balatro.rel-1.0.ipa" in fake.assets,
+          "the asset was uploaded to the release")
+    check("Nuvio Enhanced.ipa" not in fake.assets
+          and "Feather.rel-2.8.0.ipa" not in fake.assets,
+          "stale assets cleaned up by the upload's sync")
     return balatro
+
+
+def test_invalid_custom_ipa():
+    print("\n── add_custom_ipa rejects an unreadable IPA ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.GitHubRelease = FakeReleaseFactory(fake)
+    fake.add_download("https://up/bad", b"this is not a zip file")
+    fake.seed_asset("existing.ipa", 123)
+
+    rc = run_custom_upload("BadApp", "1.0", "https://up/bad", token="test")
+    check(rc == 1, "run_custom_upload fails on an unreadable IPA")
+    check(set(fake.assets) == {"existing.ipa"},
+          "nothing was uploaded for the bad IPA")
+    check("BadApp" not in (lib.REPO_JSON.read_text(encoding="utf-8")
+          if lib.REPO_JSON.exists() else ""),
+          "repo.json has no BadApp entry")
 
 
 def test_sync_release(fake: FakeGitHub):
@@ -523,8 +575,10 @@ def main():
     print("=" * 60)
 
     test_naming()
+    test_ipa_without_dir_entries()
     test_check_releases()
     test_update_source_unchanged()
+    test_invalid_custom_ipa()  # own fixture; the next test re-patches lib
     fake = test_update_source_bump_and_recovery()
     test_add_custom_ipa(fake)
     test_sync_release(fake)
