@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Aidoku",
+      "bundleIdentifier": "app.aidoku.Aidoku",
+      "developerName": "Aidoku",
+      "iconURL": "https://starkayc.github.io/iOS/icons/app.aidoku.Aidoku.png",
+      "localizedDescription": "Manga reading app for iOS, iPadOS, and macOS",
+      "subtitle": "Manga reading app for iOS, iPadOS, and macOS",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.ipa",
+          "size": 14731108,
+          "version": "0.9",
+          "buildVersion": "3",
+          "date": "2026-09-03T20:17:08Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.9",
+      "versionDate": "2026-09-03T20:17:08Z",
+      "size": 14731108,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.ipa"
+    },
+    {
       "name": "Apollo",
       "bundleIdentifier": "com.christianselig.Apollo",
       "developerName": "Apollo-Reborn",
@@ -48,14 +74,14 @@
           "size": 37000715,
           "version": "0.9.0.1",
           "buildVersion": "44",
-          "date": "2026-09-01T07:07:18Z",
+          "date": "2026-09-24T04:50:51Z",
           "localizedDescription": "",
           "minOSVersion": "14.0"
         }
       ],
       "appPermissions": {},
       "version": "0.9.0.1",
-      "versionDate": "2026-09-01T07:07:18Z",
+      "versionDate": "2026-09-24T04:50:51Z",
       "size": 37000715,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.ipa"
     },
@@ -86,6 +112,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Feather.ipa"
     },
     {
+      "name": "Ferrite",
+      "bundleIdentifier": "me.kingbri.Ferrite",
+      "developerName": "Ferrite-iOS",
+      "iconURL": "https://starkayc.github.io/iOS/icons/me.kingbri.Ferrite.png",
+      "localizedDescription": "A media search engine for iOS with debrid support",
+      "subtitle": "A media search engine for iOS with debrid support",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ferrite.ipa",
+          "size": 1929231,
+          "version": "0.7.4",
+          "buildVersion": "26",
+          "date": "2025-11-28T20:33:01Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.7.4",
+      "versionDate": "2025-11-28T20:33:01Z",
+      "size": 1929231,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ferrite.ipa"
+    },
+    {
       "name": "Ksign",
       "bundleIdentifier": "nya.asami.ksign",
       "developerName": "Nyasami",
@@ -110,6 +162,32 @@
       "versionDate": "2026-07-14T20:15:52Z",
       "size": 16231234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.ipa"
+    },
+    {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio%20Enhanced.ipa",
+          "size": 67885966,
+          "version": "0.5.1",
+          "buildVersion": "133",
+          "date": "2026-09-23T13:18:13Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.1",
+      "versionDate": "2026-09-23T13:18:13Z",
+      "size": 67885966,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio%20Enhanced.ipa"
     },
     {
       "name": "Nuvio",
