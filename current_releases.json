@@ -1,15 +1,27 @@
 {
-  "Feather": {
+  "Aidoku": {
     "release_type": "stable",
-    "version": "2.9.0"
-  },
-  "Ksign": {
-    "release_type": "prerelease",
-    "commit": "03a3a9c"
+    "version": "0.9"
   },
   "Apollo-Reborn": {
     "release_type": "stable",
     "version": "1.15.11_3.7.1"
+  },
+  "Debrify": {
+    "release_type": "prerelease",
+    "commit": "e31bdec"
+  },
+  "Feather": {
+    "release_type": "stable",
+    "version": "2.9.0"
+  },
+  "Ferrite": {
+    "release_type": "stable",
+    "version": "0.7.4"
+  },
+  "Ksign": {
+    "release_type": "prerelease",
+    "commit": "03a3a9c"
   },
   "Nuvio": {
     "release_type": "stable",
@@ -19,20 +31,12 @@
     "release_type": "stable",
     "version": "0.5.1-beta"
   },
-  "Debrify": {
-    "release_type": "prerelease",
-    "commit": "e31bdec"
-  },
-  "Ferrite": {
-    "release_type": "stable",
-    "version": "0.7.4"
-  },
-  "Aidoku": {
-    "release_type": "stable",
-    "version": "0.9"
-  },
   "Osu": {
     "release_type": "stable",
     "version": "2026.921.0-lazer"
+  },
+  "Sulfur": {
+    "release_type": "stable",
+    "version": "1.3.0"
   }
 }
