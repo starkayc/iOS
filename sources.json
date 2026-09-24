@@ -24,7 +24,9 @@
     {
       "name": "Nuvio Enhanced",
       "repo": "luqmanfadlli/NuvioMobile-iOS",
-      "release_type": "stable"
+      "release_type": "stable",
+      "bundle_id_override": "com.nuvio.enhancedmedia",
+      "display_name": "Nuvio Enhanced"
     },
     {
       "name": "Debrify",
@@ -34,6 +36,11 @@
     {
       "name": "Ferrite",
       "repo": "Ferrite-iOS/Ferrite",
+      "release_type": "stable"
+    },
+    {
+      "name": "Aidoku",
+      "repo": "Aidoku/Aidoku",
       "release_type": "stable"
     }
   ]

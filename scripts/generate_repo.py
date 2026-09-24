@@ -8,10 +8,13 @@ icon, etc.) from each, and generates/updates repo.json.
 Preserves manually-set fields from existing repo.json entries (descriptions,
 subtitles, developer names, tint colors) so you only need to write them once.
 Apps that reference external download URLs (not in ipas/) are kept as-is.
+IPAs dropped manually onto the ipa-assets release are downloaded and included
+too — new ones are named after their file name.
 
 Usage:
     python scripts/generate_repo.py
     python scripts/generate_repo.py --dry-run   # show changes without writing
+    python scripts/upload_ipa.py                # drop-in uploader (see its docstring)
 """
 
 import json
@@ -215,6 +218,56 @@ def extract_metadata(ipa_path: Path) -> Optional[dict]:
     except (zipfile.BadZipFile, KeyError, plistlib.InvalidFileException) as e:
         print(f"  ✗ Failed to read IPA: {e}")
         return None
+
+
+def patch_bundle_id(ipa_path: Path, new_bundle_id: str) -> bool:
+    """Rewrite CFBundleIdentifier in the IPA's Info.plist.
+
+    AltStore re-signs apps on install, so changing the bundle ID lets two
+    builds of the same app coexist in one source (e.g. "Nuvio" and
+    "Nuvio Enhanced").  The Info.plist is re-serialized in its original
+    format and the zip rebuilt in place.  Idempotent.
+    """
+    with zipfile.ZipFile(ipa_path, "r") as zf:
+        app_dir = find_app_bundle(zf)
+        if not app_dir:
+            print(f"    ⚠ Cannot patch bundle ID — no .app bundle in {ipa_path.name}")
+            return False
+        plist_path = app_dir + "Info.plist"
+        if plist_path not in zf.namelist():
+            print(f"    ⚠ Cannot patch bundle ID — no Info.plist in {ipa_path.name}")
+            return False
+        raw = zf.read(plist_path)
+
+    info = plistlib.loads(raw)
+    if info.get("CFBundleIdentifier") == new_bundle_id:
+        print(f"    ✓ bundle ID already {new_bundle_id}")
+        return True
+
+    info["CFBundleIdentifier"] = new_bundle_id
+    is_binary = raw.startswith(b"bplist00")
+    new_raw = plistlib.dumps(
+        info, fmt=plistlib.FMT_BINARY if is_binary else plistlib.FMT_XML
+    )
+
+    # Rebuild the zip with the patched plist.  Written to a temp file
+    # first — Windows can't replace a file that still has a handle open.
+    tmp_path = ipa_path.with_suffix(".ipa.patched")
+    with zipfile.ZipFile(ipa_path, "r") as zin, zipfile.ZipFile(
+        tmp_path, "w"
+    ) as zout:
+        for item in zin.infolist():
+            if item.filename == plist_path:
+                zout.writestr(
+                    item, new_raw, compress_type=zipfile.ZIP_DEFLATED
+                )
+            else:
+                zout.writestr(
+                    item, zin.read(item.filename), compress_type=item.compress_type
+                )
+    tmp_path.replace(ipa_path)
+    print(f"    ↯ bundle ID → {new_bundle_id}")
+    return True
 
 
 def _uncrush_png(data: bytes) -> bytes:
@@ -455,29 +508,36 @@ def _find_ipa_asset(release: dict, pattern: Optional[str] = None) -> Optional[di
 
 def fetch_from_sources(
     token: Optional[str] = None,
-) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
-    """Download IPAs from the GitHub repos listed in sources.json.
+) -> dict:
+    """Download IPAs from the GitHub repos listed in sources.json, plus any
+    IPAs manually dropped onto the ipa-assets release.
 
-    Returns three dicts, each keyed by IPA filename:
-      - release dates (ISO 8601 string)
-      - repo descriptions (the "About" text from GitHub)
-      - developer names (repo owner login)
+    Returns a dict (mostly keyed by IPA filename):
+      - release_dates: ISO 8601 dates
+      - repo_descriptions: the repo "About" text
+      - developer_names: repo owner logins
+      - manual_names: set of filenames from manual release drops
+      - patch_overrides: bundle-ID overrides from sources.json
+      - display_names: display-name overrides from sources.json
     """
     if not SOURCES_JSON.exists():
-        return {}, {}, {}
+        return {}
 
     with open(SOURCES_JSON, encoding="utf-8") as f:
         config = json.load(f)
 
     sources = config.get("sources", [])
     if not sources:
-        return {}, {}, {}
+        return {}
 
     IPAS_DIR.mkdir(exist_ok=True)
     print("Fetching IPAs from GitHub releases …\n")
     release_dates: dict[str, str] = {}
     repo_descriptions: dict[str, str] = {}
     developer_names: dict[str, str] = {}
+    manual_names: set[str] = set()
+    patch_overrides: dict[str, str] = {}
+    display_names: dict[str, str] = {}
 
     for source in sources:
         name = source["name"]
@@ -520,15 +580,82 @@ def fetch_from_sources(
         tag = target["tag_name"]
         published = target.get("published_at", "")
 
+        dest_name = f"{name}.ipa"
+        dest_path = IPAS_DIR / dest_name
+
         asset = _find_ipa_asset(target, source.get("asset_pattern"))
         if not asset:
+            # Some repos ship the IPA zipped (e.g. Ferrite) — extract it.
+            zip_assets = [
+                a for a in target.get("assets", [])
+                if a["name"].lower().endswith(".ipa.zip")
+            ]
+            if zip_assets:
+                zip_asset = zip_assets[0]
+
+                # Skip if we already have a current build locally.
+                if dest_path.exists():
+                    existing_meta = extract_metadata(dest_path)
+                    if existing_meta and parse_version_tuple(
+                        existing_meta["version"]
+                    ) >= parse_version_tuple(tag.lstrip("v")):
+                        print(f"    ✓ already current  ({tag}, zipped asset)")
+                        release_dates[dest_name] = published
+                        repo_descriptions[dest_name] = repo_desc
+                        developer_names[dest_name] = repo_owner
+                        continue
+
+                print(
+                    f"    ↓ downloading {zip_asset['name']} "
+                    f"({zip_asset['size']:,} bytes, zipped) … ",
+                    end="",
+                    flush=True,
+                )
+                tmp_zip = IPAS_DIR / (dest_name + ".zip")
+                try:
+                    _download_file(
+                        zip_asset["browser_download_url"], tmp_zip, token
+                    )
+                    with zipfile.ZipFile(tmp_zip) as zf:
+                        ipa_entry = next(
+                            (
+                                n for n in zf.namelist()
+                                if n.lower().endswith(".ipa")
+                            ),
+                            None,
+                        )
+                        if ipa_entry is None:
+                            print(
+                                f"\n    ✗ no .ipa found inside "
+                                f"{zip_asset['name']}"
+                            )
+                            tmp_zip.unlink()
+                            continue
+                        ipa_bytes = zf.read(ipa_entry)
+                    tmp_zip.unlink()
+                    dest_path.write_bytes(ipa_bytes)
+                    print(f"done (extracted {ipa_entry})")
+                    release_dates[dest_name] = published
+                    repo_descriptions[dest_name] = repo_desc
+                    developer_names[dest_name] = repo_owner
+                    continue
+                except Exception as e:
+                    print(f"failed: {e}")
+                    tmp_zip.unlink(missing_ok=True)
+                    continue
             print(f"    ✗ No .ipa asset in {tag}")
             continue
 
         # ── Skip if already up-to-date ─────────────────────────────────
-        dest_name = f"{name}.ipa"
-        dest_path = IPAS_DIR / dest_name
         asset_size = asset["size"]
+
+        # Bookkeeping used when building repo.json.  The local file name
+        # is canonical: the workflow uploads it to the ipa-assets release
+        # under exactly this name.
+        if source.get("bundle_id_override"):
+            patch_overrides[dest_name] = source["bundle_id_override"]
+        if source.get("display_name"):
+            display_names[dest_name] = source["display_name"]
 
         if dest_path.exists():
             # Quick check: same file size → probably same version.
@@ -571,8 +698,43 @@ def fetch_from_sources(
         except Exception as e:
             print(f"failed: {e}")
 
-    print()
-    return release_dates, repo_descriptions, developer_names
+    # ── Pick up IPAs manually dropped onto the ipa-assets release ─────────
+    # Anything uploaded there that wasn't produced by sources.json is a
+    # hand-built IPA — download it so it joins the source on the next scan.
+    try:
+        release = _github_api(
+            f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}"
+            f"/releases/tags/{RELEASE_TAG}",
+            token,
+        )
+    except Exception:
+        release = None  # release doesn't exist yet
+
+    if release:
+        for a in release.get("assets", []):
+            asset_name = a["name"]
+            if not asset_name.lower().endswith(".ipa"):
+                continue
+            dest_path = IPAS_DIR / asset_name
+            if dest_path.exists():
+                continue  # already fetched from sources.json
+            print(f"  📥 manual drop: {asset_name} ({a['size']:,} bytes)")
+            try:
+                _download_file(a["browser_download_url"], dest_path, token)
+                manual_names.add(asset_name)
+                release_dates[asset_name] = a.get("updated_at", "")
+            except Exception as e:
+                print(f"    ✗ failed: {e}")
+        print()
+
+    return {
+        "release_dates": release_dates,
+        "repo_descriptions": repo_descriptions,
+        "developer_names": developer_names,
+        "manual_names": manual_names,
+        "patch_overrides": patch_overrides,
+        "display_names": display_names,
+    }
 
 
 # ── Repo.json management ─────────────────────────────────────────────────────
@@ -598,11 +760,13 @@ def generate_repo(
     fetch: bool = False,
     token: Optional[str] = None,
     dry_run: bool = False,
+    manual_names: Optional[set[str]] = None,
 ) -> bool:
     """Scan ipas/, update repo.json, return True if changes were made.
 
     With --fetch, downloads IPAs from sources.json first.
     Pass --github-token for authenticated GitHub API calls.
+    manual_names marks IPAs as hand-dropped (named after their file).
     """
     print("=" * 60)
     print("  AltStore Source Generator")
@@ -613,11 +777,13 @@ def generate_repo(
     IPAS_DIR.mkdir(exist_ok=True)
 
     # ── Fetch from GitHub releases (if requested) ──────────────────────────
-    release_dates: dict[str, str] = {}
-    repo_descriptions: dict[str, str] = {}
-    developer_names: dict[str, str] = {}
-    if fetch:
-        release_dates, repo_descriptions, developer_names = fetch_from_sources(token)
+    fetch_info = fetch_from_sources(token) if fetch else {}
+    release_dates = fetch_info.get("release_dates", {})
+    repo_descriptions = fetch_info.get("repo_descriptions", {})
+    developer_names = fetch_info.get("developer_names", {})
+    manual_names = manual_names or fetch_info.get("manual_names", set())
+    patch_overrides = fetch_info.get("patch_overrides", {})
+    display_names = fetch_info.get("display_names", {})
 
     # Load existing state.
     existing = load_existing_repo()
@@ -634,10 +800,18 @@ def generate_repo(
     print(f"Scanning {len(ipa_files)} IPA(s) in ipas/ …\n")
 
     processed: dict[str, dict] = {}   # bundle_id → new app entry
+    processed_manual: dict[str, bool] = {}  # bundle_id → came from manual drop
+    processed_file: dict[str, Path] = {}    # bundle_id → source IPA file
     changes: list[str] = []           # human-readable change log
 
     for ipa_path in ipa_files:
         print(f"  📦 {ipa_path.name}")
+
+        # Bundle-ID override: lets two builds of the same app coexist in
+        # one source (AltStore re-signs on install, so the patched ID
+        # becomes the app's real identity).
+        if ipa_path.name in patch_overrides:
+            patch_bundle_id(ipa_path, patch_overrides[ipa_path.name])
 
         meta = extract_metadata(ipa_path)
         if not meta:
@@ -645,15 +819,36 @@ def generate_repo(
 
         bundle_id = meta["bundleIdentifier"]
         old = existing_apps.get(bundle_id)
+        is_manual = ipa_path.name in manual_names
 
         # If we've already seen this bundle ID (duplicate IPAs), keep the
-        # higher version.
+        # higher version.  On a tie, a sources.json build wins over a
+        # manual drop.
         if bundle_id in processed:
             prev_ver = processed[bundle_id]["version"]
-            if parse_version_tuple(meta["version"]) > parse_version_tuple(prev_ver):
+            new_t = parse_version_tuple(meta["version"])
+            prev_t = parse_version_tuple(prev_ver)
+            keep = (
+                new_t > prev_t
+                or (new_t == prev_t and processed_manual[bundle_id] and not is_manual)
+            )
+            if keep:
                 print(f"    (replacing v{prev_ver} with v{meta['version']})")
+                if fetch:
+                    loser = processed_file[bundle_id]
+                    print(f"      (removing {loser.name} — same bundle ID)")
+                    loser.unlink()
             else:
-                print(f"    (skipping — v{prev_ver} ≥ v{meta['version']})")
+                print(
+                    f"    ⚠ duplicate bundle ID {bundle_id} — keeping "
+                    f"{processed[bundle_id].get('name', '?')} v{prev_ver}, "
+                    f"skipping {ipa_path.name}"
+                )
+                # Collision losers are dropped so the workflow cleans up
+                # their stale release assets too.
+                if fetch:
+                    print(f"      (removing {ipa_path.name})")
+                    ipa_path.unlink()
                 continue
 
         # Extract icon.
@@ -662,6 +857,9 @@ def generate_repo(
 
         # IPA size + download URL (served from GitHub Releases, not
         # Pages, to avoid Git-LFS pointer files being served as IPAs).
+        # The local file name is canonical: files fetched from sources
+        # are uploaded under it by the workflow, and manual drops are
+        # downloaded by their asset name, so the two always match.
         ipa_size = ipa_path.stat().st_size
         safe_ipa_name = url_encode_path(ipa_path.name)
         download_url = f"{RELEASE_BASE}/{safe_ipa_name}"
@@ -688,6 +886,12 @@ def generate_repo(
             "localizedDescription": "",
             "minOSVersion": meta["minOSVersion"],
         }
+
+        # Display name: sources.json override, then the file name for
+        # manual drops, then the IPA's own display name.
+        default_name = display_names.get(ipa_path.name, "") or (
+            ipa_path.stem if is_manual else meta["name"]
+        )
 
         # ── Merge with existing entry (preserve manual fields) ──────────
         if old:
@@ -736,7 +940,7 @@ def generate_repo(
             gh_desc = repo_descriptions.get(ipa_path.name, "")
             gh_dev = developer_names.get(ipa_path.name, "")
             app_entry = {
-                "name": meta["name"],
+                "name": default_name,
                 "bundleIdentifier": bundle_id,
                 "developerName": gh_dev,
                 "iconURL": icon_url,
@@ -751,9 +955,11 @@ def generate_repo(
                 "size": ipa_size,
                 "downloadURL": download_url,
             }
-            changes.append(f"  ✦ NEW: {meta['name']} ({bundle_id})")
+            changes.append(f"  ✦ NEW: {default_name} ({bundle_id})")
 
         processed[bundle_id] = app_entry
+        processed_manual[bundle_id] = is_manual
+        processed_file[bundle_id] = ipa_path
 
     # ── Preserve external-only apps ───────────────────────────────────────
     external_count = 0

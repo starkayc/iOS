@@ -8,3 +8,6 @@ __pycache__/
 # IPAs are hosted as GitHub Release assets (not committed to the
 # repo — avoids LFS pointer files being served by GitHub Pages).
 ipas/*.ipa
+
+# Local GitHub token for scripts/upload_ipa.py
+.github-token

@@ -56,6 +56,21 @@ jobs:
             gh release upload ipa-assets "$ipa" --clobber
           done
 
+      - name: Delete stale release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Remove .ipa assets that no longer match any file in ipas/
+          # (e.g. renamed files, or web-UI uploads whose spaces became
+          # dots).  Manual drops were downloaded into ipas/ by the
+          # generator, so they're protected.
+          for asset in $(gh release view ipa-assets --json assets --jq '.assets[].name' | grep -i '\.ipa$'); do
+            if [ ! -f "ipas/$asset" ]; then
+              echo "Deleting stale asset: $asset"
+              gh release delete-asset ipa-assets "$asset" --yes
+            fi
+          done
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
