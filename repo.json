@@ -22,16 +22,42 @@
           "size": 74445999,
           "version": "1.0.1c",
           "buildVersion": "1.0",
-          "date": "2026-09-24T15:18:30Z",
+          "date": "2026-09-24T15:01:54Z",
           "localizedDescription": "",
           "minOSVersion": "7.0"
         }
       ],
       "appPermissions": {},
       "version": "1.0.1c",
-      "versionDate": "2026-09-24T15:18:30Z",
+      "versionDate": "2026-09-24T15:01:54Z",
       "size": 74445999,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
+    },
+    {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-e31bdec.ipa",
+          "size": 40836766,
+          "version": "0.9.11.1",
+          "buildVersion": "55",
+          "date": "2026-09-24T14:37:16Z",
+          "localizedDescription": "",
+          "minOSVersion": "14.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.9.11.1",
+      "versionDate": "2026-09-24T14:37:16Z",
+      "size": 40836766,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-e31bdec.ipa"
     },
     {
       "name": "Aidoku",
@@ -84,32 +110,6 @@
       "versionDate": "2026-09-13T03:24:58Z",
       "size": 124722640,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.7.1.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-d670326.ipa",
-          "size": 40842427,
-          "version": "0.9.10.1",
-          "buildVersion": "54",
-          "date": "2026-09-24T08:21:07Z",
-          "localizedDescription": "",
-          "minOSVersion": "14.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.9.10.1",
-      "versionDate": "2026-09-24T08:21:07Z",
-      "size": 40842427,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-d670326.ipa"
     },
     {
       "name": "Feather",
