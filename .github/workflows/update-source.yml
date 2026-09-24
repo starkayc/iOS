@@ -8,6 +8,8 @@ on:
   push:
     paths:
       - "scripts/generate_repo.py"
+      - "scripts/sync_release.py"
+      - "scripts/upload_ipa.py"
       - "sources.json"
       - ".github/workflows/update-source.yml"
   workflow_dispatch:
@@ -38,41 +40,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/generate_repo.py --fetch --github-token="$GH_TOKEN"
 
-      - name: Upload IPAs to GitHub Release
+      - name: Sync IPA Assets release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Create the release if it doesn't exist yet.
-          if ! gh release view ipa-assets &>/dev/null; then
-            gh release create ipa-assets \
-              --title "IPA Assets" \
-              --notes "IPA binaries for the AltStore source.  Managed automatically."
-          fi
-
-          # Upload each IPA, overwriting any previous asset with the same name.
-          for ipa in ipas/*.ipa; do
-            [ -f "$ipa" ] || continue
-            echo "Uploading $ipa …"
-            gh release upload ipa-assets "$ipa" --clobber
-          done
-
-      - name: Delete stale release assets
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Remove .ipa assets that no longer match any file in ipas/
-          # (e.g. renamed files, or web-UI uploads whose spaces became
-          # dots).  Manual drops were downloaded into ipas/ by the
-          # generator, so they're protected.  Use while-read so asset
-          # names containing spaces survive word splitting.
-          gh release view ipa-assets --json assets --jq '.assets[].name' \
-            | grep -i '\.ipa$' \
-            | while IFS= read -r asset; do
-                if [ ! -f "ipas/$asset" ]; then
-                  echo "Deleting stale asset: $asset"
-                  gh release delete-asset ipa-assets "$asset" --yes
-                fi
-              done
+          # Deterministic sync: creates the release if needed, uploads
+          # every ipas/*.ipa (missing or size-changed), deletes stale
+          # .ipa assets (exact-name API matching — no shell word
+          # splitting, no gh fuzzy matching), and fails if the release
+          # doesn't match ipas/ afterwards.
+          python scripts/sync_release.py --token="$GH_TOKEN"
 
       - name: Commit and push changes
         run: |

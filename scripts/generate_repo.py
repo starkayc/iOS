@@ -23,6 +23,7 @@ import plistlib
 import re
 import struct
 import sys
+import time
 import urllib.request
 import zlib
 import zipfile
@@ -440,26 +441,43 @@ def extract_icon(ipa_path: Path, icon_paths: list[str], bundle_id: str) -> Optio
 # ── GitHub release fetching ───────────────────────────────────────────────────
 
 def _github_api(url: str, token: Optional[str] = None) -> dict | list:
-    """Call the GitHub API and return parsed JSON."""
+    """Call the GitHub API and return parsed JSON (retries transient errors)."""
     headers = {
         "Accept": "application/vnd.github+json",
         "User-Agent": "altstore-source-generator",
     }
     if token:
         headers["Authorization"] = f"Bearer {token}"
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        return json.loads(resp.read())
+    last_err: Optional[Exception] = None
+    for attempt in range(1, 4):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read())
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            last_err = e
+            if attempt < 3:
+                time.sleep(2 * attempt)
+    raise last_err
 
 
 def _download_file(url: str, dest: Path, token: Optional[str] = None) -> None:
-    """Download a file to disk."""
+    """Download a file to disk (retries transient network errors)."""
     headers = {"Accept": "application/octet-stream"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        dest.write_bytes(resp.read())
+    last_err: Optional[Exception] = None
+    for attempt in range(1, 4):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                dest.write_bytes(resp.read())
+            return
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            last_err = e
+            if attempt < 3:
+                time.sleep(2 * attempt)
+    raise last_err
 
 
 def _find_ipa_asset(release: dict, pattern: Optional[str] = None) -> Optional[dict]:
@@ -624,15 +642,16 @@ def fetch_from_sources(
                             ),
                             None,
                         )
-                        if ipa_entry is None:
-                            print(
-                                f"\n    ✗ no .ipa found inside "
-                                f"{zip_asset['name']}"
-                            )
-                            tmp_zip.unlink()
-                            continue
-                        ipa_bytes = zf.read(ipa_entry)
+                        ipa_bytes = zf.read(ipa_entry) if ipa_entry else None
+                    # Unlink after the zip is closed — Windows can't
+                    # delete a file that still has a handle open.
                     tmp_zip.unlink()
+                    if ipa_bytes is None:
+                        print(
+                            f"\n    ✗ no .ipa found inside "
+                            f"{zip_asset['name']}"
+                        )
+                        continue
                     dest_path.write_bytes(ipa_bytes)
                     print(f"done (extracted {ipa_entry})")
                     release_dates[dest_name] = published
