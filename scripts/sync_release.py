@@ -39,6 +39,7 @@ from generate_repo import (  # noqa: E402
     IPAS_DIR,
     RELEASE_TAG,
     REPO_JSON,
+    canonicalize_ipa_files,
 )
 
 API = "https://api.github.com"
@@ -125,6 +126,7 @@ class GitHubRelease:
             f"/releases/assets/{asset_id}",
             method="DELETE",
         )
+        self._release = None  # asset list changed
 
     def upload_asset(self, name: str, data: bytes) -> None:
         """Upload an asset, replacing any existing asset of the same name."""
@@ -141,6 +143,7 @@ class GitHubRelease:
             f"/releases/{release['id']}/assets?name={quote(name)}"
         )
         self.api(url, data)
+        self._release = None  # asset list changed — force a re-fetch
 
 
 def referenced_asset_names(repo_json: Path) -> set[str]:
@@ -160,9 +163,20 @@ def referenced_asset_names(repo_json: Path) -> set[str]:
     return names
 
 
-def sync_release(token: str, no_delete: bool = False) -> int:
-    """Mirror ipas/*.ipa onto the release.  Returns an exit code."""
-    client = GitHubRelease(token)
+def sync_release(
+    token: str,
+    no_delete: bool = False,
+    client: Optional[GitHubRelease] = None,
+) -> int:
+    """Mirror ipas/*.ipa onto the release.  Returns an exit code.
+
+    ``client`` is injectable so tests can use a fake API backend.
+    """
+    # Normalize file names first (spaces → dashes) so upload names and
+    # release assets always match.
+    canonicalize_ipa_files(IPAS_DIR)
+
+    client = client or GitHubRelease(token)
     if not client.get_release():
         client.create_release()
 

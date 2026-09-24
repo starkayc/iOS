@@ -31,7 +31,10 @@ if sys.platform == "win32":
 
 # Import the generator and release client from this same folder.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from generate_repo import generate_repo  # noqa: E402
+from generate_repo import (  # noqa: E402
+    canonicalize_ipa_files,
+    generate_repo,
+)
 from sync_release import GitHubRelease, get_token  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -69,6 +72,9 @@ def main() -> None:
         )
         sys.exit(1)
 
+    # Normalize file names first (spaces → dashes) so upload names and
+    # release assets always match.
+    canonicalize_ipa_files(folder)
     ipa_files = sorted(folder.glob("*.ipa"))
     if not ipa_files:
         print(f"No .ipa files found in {folder}")

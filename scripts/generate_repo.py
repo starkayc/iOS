@@ -93,6 +93,30 @@ def url_encode_path(path: str) -> str:
     return quote(path, safe="/")
 
 
+def canonical_filename(name: str) -> str:
+    """Swap spaces for dashes in an IPA file name.
+
+    GitHub's release API (and web UI) normalizes spaces in asset names
+    to dots, which desyncs repo.json URLs from the actual assets.
+    Dashes are safe everywhere, so spaces never enter the pipeline.
+    """
+    return name.replace(" ", "-")
+
+
+def canonicalize_ipa_files(ipas_dir: Path) -> None:
+    """Rename any .ipa in the folder, swapping spaces for dashes."""
+    for p in sorted(ipas_dir.glob("*.ipa")):
+        canonical = canonical_filename(p.name)
+        if canonical == p.name:
+            continue
+        target = p.with_name(canonical)
+        if target.exists():
+            print(f"  ⚠ cannot rename {p.name} — {canonical} already exists")
+            continue
+        p.rename(target)
+        print(f"  ↯ renamed {p.name} → {canonical}")
+
+
 def find_app_bundle(zf: zipfile.ZipFile) -> Optional[str]:
     """Return the first .app/ directory inside Payload/."""
     for name in zf.namelist():
@@ -598,7 +622,7 @@ def fetch_from_sources(
         tag = target["tag_name"]
         published = target.get("published_at", "")
 
-        dest_name = f"{name}.ipa"
+        dest_name = canonical_filename(f"{name}.ipa")
         dest_path = IPAS_DIR / dest_name
 
         asset = _find_ipa_asset(target, source.get("asset_pattern"))
@@ -734,14 +758,15 @@ def fetch_from_sources(
             asset_name = a["name"]
             if not asset_name.lower().endswith(".ipa"):
                 continue
-            dest_path = IPAS_DIR / asset_name
+            local_name = canonical_filename(asset_name)
+            dest_path = IPAS_DIR / local_name
             if dest_path.exists():
                 continue  # already fetched from sources.json
             print(f"  📥 manual drop: {asset_name} ({a['size']:,} bytes)")
             try:
                 _download_file(a["browser_download_url"], dest_path, token)
-                manual_names.add(asset_name)
-                release_dates[asset_name] = a.get("updated_at", "")
+                manual_names.add(local_name)
+                release_dates[local_name] = a.get("updated_at", "")
             except Exception as e:
                 print(f"    ✗ failed: {e}")
         print()
@@ -810,6 +835,9 @@ def generate_repo(
     print(f"Loaded existing repo.json — {len(existing_apps)} app(s)")
 
     # ── Scan IPAs ─────────────────────────────────────────────────────────
+    # Normalize file names first (spaces → dashes) so download URLs and
+    # release assets always match.
+    canonicalize_ipa_files(IPAS_DIR)
     ipa_files = sorted(IPAS_DIR.glob("*.ipa"))
     if not ipa_files:
         print("\nNo .ipa files found in ipas/ folder.")
