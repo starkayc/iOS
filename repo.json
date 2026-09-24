@@ -34,6 +34,84 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
     },
     {
+      "name": "Get More Ram",
+      "bundleIdentifier": "com.aigch.getMoreRam",
+      "developerName": "hugeBlack",
+      "iconURL": "",
+      "localizedDescription": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
+      "subtitle": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Get-More-Ram.pre-52f5e96.ipa",
+          "size": 2305445,
+          "version": "1.0",
+          "buildVersion": "1",
+          "date": "2026-09-12T14:39:53Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.0",
+      "versionDate": "2026-09-12T14:39:53Z",
+      "size": 2305445,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Get-More-Ram.pre-52f5e96.ipa"
+    },
+    {
+      "name": "StikDebug",
+      "bundleIdentifier": "com.stik.stikdebug",
+      "developerName": "StikDebug",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
+      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.11.ipa",
+          "size": 13515131,
+          "version": "3.1.11",
+          "buildVersion": "1",
+          "date": "2026-09-23T23:25:55Z",
+          "localizedDescription": "",
+          "minOSVersion": "17.4"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.1.11",
+      "versionDate": "2026-09-23T23:25:55Z",
+      "size": 13515131,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.11.ipa"
+    },
+    {
+      "name": "qBitControl",
+      "bundleIdentifier": "MikeMichael225.qBitControl",
+      "developerName": "Michael-128",
+      "iconURL": "https://starkayc.github.io/iOS/icons/MikeMichael225.qBitControl.png",
+      "localizedDescription": "qBittorrent remote client for iOS devices.",
+      "subtitle": "qBittorrent remote client for iOS devices.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-release-1.4.1.ipa",
+          "size": 4777720,
+          "version": "1.4.1",
+          "buildVersion": "21",
+          "date": "2026-07-23T18:28:15Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.4.1",
+      "versionDate": "2026-07-23T18:28:15Z",
+      "size": 4777720,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-release-1.4.1.ipa"
+    },
+    {
       "name": "Sora",
       "bundleIdentifier": "me.cranci.sulfur",
       "developerName": "cranci1",
