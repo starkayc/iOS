@@ -34,6 +34,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
     },
     {
+      "name": "osu!",
+      "bundleIdentifier": "sh.ppy.osulazer",
+      "developerName": "ppy",
+      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
+      "localizedDescription": "rhythm is just a *click* away!",
+      "subtitle": "rhythm is just a *click* away!",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.921.0-lazer.ipa",
+          "size": 221244419,
+          "version": "1.0",
+          "buildVersion": "2026.921.0",
+          "date": "2026-09-21T05:32:11Z",
+          "localizedDescription": "",
+          "minOSVersion": "13.4"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.0",
+      "versionDate": "2026-09-21T05:32:11Z",
+      "size": 221244419,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.921.0-lazer.ipa"
+    },
+    {
       "name": "Debrify",
       "bundleIdentifier": "com.varunsalian.debrify",
       "developerName": "varunsalian",
