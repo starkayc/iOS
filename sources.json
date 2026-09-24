@@ -42,6 +42,11 @@
       "name": "Aidoku",
       "repo": "Aidoku/Aidoku",
       "release_type": "stable"
+    },
+    {
+      "name": "Osu",
+      "repo": "ppy/osu",
+      "release_type": "stable"
     }
   ]
 }
