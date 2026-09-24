@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Balatro",
+      "bundleIdentifier": "org.htf65jud.balatro",
+      "developerName": "",
+      "iconURL": "https://starkayc.github.io/iOS/icons/org.htf65jud.balatro.png",
+      "localizedDescription": "",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa",
+          "size": 74445999,
+          "version": "1.0.1c",
+          "buildVersion": "1.0",
+          "date": "2026-09-24T15:18:30Z",
+          "localizedDescription": "",
+          "minOSVersion": "7.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.0.1c",
+      "versionDate": "2026-09-24T15:18:30Z",
+      "size": 74445999,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
+    },
+    {
       "name": "Aidoku",
       "bundleIdentifier": "app.aidoku.Aidoku",
       "developerName": "Aidoku",
