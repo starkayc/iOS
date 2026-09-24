@@ -27,6 +27,11 @@
       "release_type": "stable"
     },
     {
+      "name": "Get More Ram",
+      "repo": "hugeBlack/GetMoreRam",
+      "release_type": "prerelease"
+    },
+    {
       "name": "Ksign",
       "repo": "Nyasami/Ksign",
       "release_type": "prerelease"
@@ -49,8 +54,18 @@
       "release_type": "stable"
     },
     {
+      "name": "qBitControl",
+      "repo": "Michael-128/qBitControl",
+      "release_type": "stable"
+    },
+    {
       "name": "Sulfur",
       "repo": "cranci1/Sora",
+      "release_type": "stable"
+    },
+    {
+      "name": "StikDebug",
+      "repo": "StikDebug/StikDebug",
       "release_type": "stable"
     }
   ]
