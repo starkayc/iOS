@@ -7,6 +7,10 @@ generate_repo, add_custom_ipa, sync_release) against a stateful fake
 GitHub API and synthetic IPAs, including the REAL GitHubRelease client
 so cache-staleness regressions fail the test.
 
+The fake mirrors GitHub's asset-name sanitization (unsafe characters →
+dots, e.g. spaces and parentheses), so name-normalization regressions
+fail too.
+
 Run from the repo root:
 
     python scripts/selftest.py
@@ -72,8 +76,8 @@ class FakeGitHub:
 
     ``api`` serves repo info, releases lists, commit lookups, and the
     ipa-assets release.  ``download`` serves bytes from download_store.
-    ``assets`` is the ipa-assets release's asset table, shared with the
-    sync client's server below so both views agree.
+    ``assets`` is the ipa-assets release's asset table — uploads store
+    names the way GitHub does (sanitized: unsafe chars → dots).
     """
 
     def __init__(self):
@@ -145,13 +149,15 @@ class FakeGitHub:
             return None
         if "uploads.github.com" in url and data is not None:
             name = unquote(url.split("name=", 1)[1])
-            self.assets.pop(name, None)  # same-name replacement, like the API
+            # Mirror GitHub: sanitize the name the way the real API does.
+            stored = lib.github_asset_name(name)
+            self.assets.pop(stored, None)
             self.next_id += 1
-            self.assets[name] = {
-                "id": self.next_id, "name": name, "size": len(data),
+            self.assets[stored] = {
+                "id": self.next_id, "name": stored, "size": len(data),
                 "updated_at": "2026-09-24T12:00:00Z",
             }
-            return {"id": self.next_id, "name": name, "state": "uploaded"}
+            return {"id": self.next_id, "name": stored, "state": "uploaded"}
         if "/releases" in url and data is not None:
             return {"id": 1}  # create release
         if "/releases/tags/" in url:
@@ -251,25 +257,68 @@ def seed_current_releases(fake: FakeGitHub, tmp: Path, feather="2.9.0",
     return data
 
 
+def seed_repo_json(tmp: Path, apps: list[dict]):
+    """Write a minimal repo.json with the given apps."""
+    path = tmp / "repo.json"
+    path.write_text(json.dumps({"apps": apps}, indent=2), encoding="utf-8")
+
+
+def app_entry(bundle_id, name, url):
+    return {
+        "name": name,
+        "bundleIdentifier": bundle_id,
+        "developerName": "dev",
+        "iconURL": "",
+        "localizedDescription": "",
+        "subtitle": "",
+        "tintColor": "3c94fc",
+        "category": "utilities",
+        "versions": [{
+            "downloadURL": url,
+            "size": 1000,
+            "version": "1.0",
+            "buildVersion": "1",
+            "date": "2026-07-14T20:15:52Z",
+            "localizedDescription": "",
+            "minOSVersion": "16.0",
+        }],
+        "appPermissions": {},
+        "version": "1.0",
+        "versionDate": "2026-07-14T20:15:52Z",
+        "size": 1000,
+        "downloadURL": url,
+    }
+
+
+def asset_url(filename):
+    return ("https://github.com/starkayc/iOS/releases/"
+            f"download/ipa-assets/{filename}")
+
+
 # ── Tests ────────────────────────────────────────────────────────────────────
 
 def test_naming():
     print("\n── naming helpers ──")
     check(lib.sanitize_version("0.5.1-beta") == "0.5.1", "sanitize beta suffix")
     check(lib.sanitize_version("2.0.0-rc.2") == "2.0.0", "sanitize rc suffix")
-    check(lib.sanitize_version("v1.0".lstrip("v")) == "1.0", "sanitize no-op")
     check(lib.sanitize_version("1.15.11_3.7.1") == "1.15.11_3.7.1",
           "sanitize leaves underscore version alone")
     check(lib.ipa_filename("Nuvio Enhanced", version="0.5.1-beta")
-          == "Nuvio-Enhanced(rel-0.5.1).ipa", "stable filename")
+          == "Nuvio-Enhanced.rel-0.5.1.ipa", "stable filename (dot form)")
     check(lib.ipa_filename("Ksign", commit="03a3a9c1234")
-          == "Ksign(pre-03a3a9c).ipa", "prerelease filename")
-    check(lib.parse_ipa_filename("Nuvio-Enhanced(rel-0.5.1).ipa")
+          == "Ksign.pre-03a3a9c.ipa", "prerelease filename (dot form)")
+    check(lib.parse_ipa_filename("Nuvio-Enhanced.rel-0.5.1.ipa")
           == ("Nuvio-Enhanced", "rel", "0.5.1"), "parse stable filename")
-    check(lib.parse_ipa_filename("Ksign(pre-03a3a9c).ipa")
+    check(lib.parse_ipa_filename("Ksign.pre-03a3a9c.ipa")
           == ("Ksign", "pre", "03a3a9c"), "parse prerelease filename")
     check(lib.parse_ipa_filename("My App.ipa") == ("My App", "", ""),
           "parse plain filename")
+    check(lib.github_asset_name("Feather(rel-2.9.0).ipa")
+          == "Feather.rel-2.9.0.ipa", "github sanitization: parens → dot")
+    check(lib.github_asset_name("Nuvio Enhanced.ipa")
+          == "Nuvio.Enhanced.ipa", "github sanitization: space → dot")
+    check(lib.github_asset_name("Feather.rel-2.9.0.ipa")
+          == "Feather.rel-2.9.0.ipa", "github sanitization: safe name unchanged")
 
 
 def test_check_releases():
@@ -278,19 +327,19 @@ def test_check_releases():
     fake = build_fixture(tmp)
     seed_current_releases(fake, tmp)
 
-    fake.seed_asset("Feather(rel-2.9.0).ipa", 1000)
-    fake.seed_asset("Ksign(pre-03a3a9c).ipa", 1000)
-    fake.seed_asset("Nuvio-Enhanced(rel-0.5.1).ipa", 1000)
-    fake.seed_asset("Ferrite(rel-0.7.4).ipa", 1000)
+    fake.seed_asset("Feather.rel-2.9.0.ipa", 1000)
+    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
+    fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
+    fake.seed_asset("Ferrite.rel-0.7.4.ipa", 1000)
 
     report = lib.check_for_updates()
     by_name = {e["name"]: e for e in report["entries"]}
     check(not report["any_changed"], "no changes detected when all current")
     check(by_name["Feather"]["asset_in_release"], "Feather asset present")
-    check(by_name["Ksign"]["expected_filename"] == "Ksign(pre-03a3a9c).ipa",
+    check(by_name["Ksign"]["expected_filename"] == "Ksign.pre-03a3a9c.ipa",
           "Ksign tracked by commit")
     check(by_name["Nuvio Enhanced"]["expected_filename"]
-          == "Nuvio-Enhanced(rel-0.5.1).ipa", "Enhanced filename sanitized")
+          == "Nuvio-Enhanced.rel-0.5.1.ipa", "Enhanced filename sanitized")
 
     before = (tmp / "current_releases.json").read_text(encoding="utf-8")
     check(run_check() == 0, "run_check exits 0 when unchanged")
@@ -324,60 +373,58 @@ def test_update_source_unchanged():
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
     seed_current_releases(fake, tmp)
-    fake.seed_asset("Feather(rel-2.9.0).ipa", 1000)
-    fake.seed_asset("Ksign(pre-03a3a9c).ipa", 1000)
-    fake.seed_asset("Nuvio-Enhanced(rel-0.5.1).ipa", 1000)
-    fake.seed_asset("Ferrite(rel-0.7.4).ipa", 1000)
+    fake.seed_asset("Feather.rel-2.9.0.ipa", 1000)
+    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
+    fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
+    fake.seed_asset("Ferrite.rel-0.7.4.ipa", 1000)
+
+    # The committed repo.json must already reference the versioned
+    # assets, otherwise the updater rebuilds the entries.
+    seed_repo_json(tmp, [
+        app_entry("thewonderofyou.Feather", "Feather",
+                  asset_url("Feather.rel-2.9.0.ipa")),
+        app_entry("nya.asami.ksign", "Ksign",
+                  asset_url("Ksign.pre-03a3a9c.ipa")),
+        app_entry("com.nuvio.enhancedmedia", "Nuvio Enhanced",
+                  asset_url("Nuvio-Enhanced.rel-0.5.1.ipa")),
+        app_entry("me.kingbri.Ferrite", "Ferrite",
+                  asset_url("Ferrite.rel-0.7.4.ipa")),
+    ])
+    repo_before = lib.REPO_JSON.read_text(encoding="utf-8")
 
     check(update_source() is False, "update_source returns False (clean exit)")
     check(fake.downloads == [], "nothing was downloaded")
-    check(not lib.REPO_JSON.exists(), "repo.json untouched")
+    check(lib.REPO_JSON.read_text(encoding="utf-8") == repo_before,
+          "repo.json untouched")
 
 
-def test_update_source_bump_and_migration():
-    print("\n── update_source (bump + migration + override + zip) ──")
+def test_update_source_bump_and_recovery():
+    print("\n── update_source (bump + recovery + override + zip) ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    # Feather recorded stale; Enhanced + Ferrite recorded current but their
-    # versioned assets are missing (legacy names only) → re-fetch.
+    # Feather recorded stale; Enhanced + Ferrite recorded current with
+    # assets present but repo.json still referencing legacy names
+    # (recovery from a scheme migration / failed run) → re-fetch.
     seed_current_releases(fake, tmp, feather="2.8.0")
     fake.repos["claration/Feather"]["releases"].insert(0, release(
         "v2.10.0", False, ("Feather.ipa", 1000, "https://up/feather")))
 
-    fake.seed_asset("Ksign(pre-03a3a9c).ipa", 1000)      # current — skipped
+    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)      # current — skipped
     fake.seed_asset("Nuvio Enhanced.ipa", 999)           # legacy manual-drop bait
-    fake.seed_asset("Feather(rel-2.8.0).ipa", 1000)      # old version
+    fake.seed_asset("Feather.rel-2.8.0.ipa", 1000)       # old version
 
-    # Seed an existing repo.json so Ksign's entry is preserved as an
-    # external app (its asset must stay protected during the sync).
-    lib.REPO_JSON.write_text(json.dumps({
-        "apps": [{
-            "name": "Ksign",
-            "bundleIdentifier": "nya.asami.ksign",
-            "developerName": "Nyasami",
-            "iconURL": "",
-            "localizedDescription": "Ksign desc",
-            "subtitle": "Ksign desc",
-            "tintColor": "3c94fc",
-            "category": "utilities",
-            "versions": [{
-                "downloadURL": "https://github.com/starkayc/iOS/releases/"
-                               "download/ipa-assets/Ksign(pre-03a3a9c).ipa",
-                "size": 1000,
-                "version": "1.6.1",
-                "buildVersion": "1",
-                "date": "2026-07-14T20:15:52Z",
-                "localizedDescription": "",
-                "minOSVersion": "16.0",
-            }],
-            "appPermissions": {},
-            "version": "1.6.1",
-            "versionDate": "2026-07-14T20:15:52Z",
-            "size": 1000,
-            "downloadURL": "https://github.com/starkayc/iOS/releases/"
-                           "download/ipa-assets/Ksign(pre-03a3a9c).ipa",
-        }],
-    }, indent=2), encoding="utf-8")
+    # repo.json: Ksign already correct → skipped; the rest legacy →
+    # rebuilt even though Feather's old asset still exists.
+    seed_repo_json(tmp, [
+        app_entry("nya.asami.ksign", "Ksign",
+                  asset_url("Ksign.pre-03a3a9c.ipa")),
+        app_entry("thewonderofyou.Feather", "Feather",
+                  asset_url("Feather.ipa")),
+        app_entry("com.nuvio.enhancedmedia", "Nuvio Enhanced",
+                  asset_url("Nuvio%20Enhanced.ipa")),
+        app_entry("me.kingbri.Ferrite", "Ferrite",
+                  asset_url("Ferrite.ipa")),
+    ])
 
     check(update_source() is True, "update_source did work")
 
@@ -385,13 +432,13 @@ def test_update_source_bump_and_migration():
     # into the final .ipa afterwards).
     downloaded = {name for _, name in fake.downloads}
     check(downloaded == {
-        "Feather(rel-2.10.0).ipa",
-        "Nuvio-Enhanced(rel-0.5.1).ipa",
-        "Ferrite(rel-0.7.4).ipa.zip",
+        "Feather.rel-2.10.0.ipa",
+        "Nuvio-Enhanced.rel-0.5.1.ipa",
+        "Ferrite.rel-0.7.4.ipa.zip",
     }, f"only changed/missing apps downloaded (got {sorted(downloaded)})")
 
     enhanced_meta = lib.extract_metadata(
-        lib.IPAS_DIR / "Nuvio-Enhanced(rel-0.5.1).ipa")
+        lib.IPAS_DIR / "Nuvio-Enhanced.rel-0.5.1.ipa")
     check(enhanced_meta["bundleIdentifier"] == "com.nuvio.enhancedmedia",
           "bundle-ID override applied after download")
 
@@ -402,13 +449,14 @@ def test_update_source_bump_and_migration():
     repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
     apps = {a["bundleIdentifier"]: a for a in repo["apps"]}
     check(apps["thewonderofyou.Feather"]["downloadURL"]
-          .endswith("Feather(rel-2.10.0).ipa"), "Feather URL versioned")
+          .endswith("Feather.rel-2.10.0.ipa"), "Feather URL versioned")
     check(apps["com.nuvio.enhancedmedia"]["name"] == "Nuvio Enhanced",
           "Enhanced app named via display_name")
     check(apps["com.nuvio.enhancedmedia"]["downloadURL"]
-          .endswith("Nuvio-Enhanced(rel-0.5.1).ipa"), "Enhanced URL dashed + versioned")
+          .endswith("Nuvio-Enhanced.rel-0.5.1.ipa"),
+          "Enhanced URL dashed + versioned")
     check(apps["me.kingbri.Ferrite"]["downloadURL"]
-          .endswith("Ferrite(rel-0.7.4).ipa"), "Ferrite came through the zip fallback")
+          .endswith("Ferrite.rel-0.7.4.ipa"), "Ferrite came through the zip fallback")
     check("nya.asami.ksign" in apps,
           "Ksign preserved as an external app (not re-downloaded)")
     return fake
@@ -418,10 +466,10 @@ def test_add_custom_ipa(fake: FakeGitHub):
     print("\n── add_custom_ipa + generate_repo ──")
     add_custom_ipa("Balatro", "1.0", "https://up/balatro",
                    description="A card game", subtitle="")
-    check((lib.IPAS_DIR / "Balatro(rel-1.0).ipa").exists(),
-          "custom IPA named Balatro(rel-1.0).ipa")
+    check((lib.IPAS_DIR / "Balatro.rel-1.0.ipa").exists(),
+          "custom IPA named Balatro.rel-1.0.ipa")
     meta = lib.load_custom_meta()
-    check(meta.get("Balatro(rel-1.0).ipa", {}).get("description")
+    check(meta.get("Balatro.rel-1.0.ipa", {}).get("description")
           == "A card game", "sidecar records the description")
 
     generate_repo(fetch_report={
@@ -441,7 +489,7 @@ def test_add_custom_ipa(fake: FakeGitHub):
           "description from the sidecar")
     check(balatro and balatro["subtitle"] == "",
           "blank subtitle stays blank")
-    check(balatro and balatro["downloadURL"].endswith("Balatro(rel-1.0).ipa"),
+    check(balatro and balatro["downloadURL"].endswith("Balatro.rel-1.0.ipa"),
           "custom URL versioned")
     return balatro
 
@@ -456,14 +504,14 @@ def test_sync_release(fake: FakeGitHub):
 
     final = set(fake.assets)
     check(final == {
-        "Balatro(rel-1.0).ipa",
-        "Feather(rel-2.10.0).ipa",
-        "Ferrite(rel-0.7.4).ipa",
-        "Ksign(pre-03a3a9c).ipa",
-        "Nuvio-Enhanced(rel-0.5.1).ipa",
+        "Balatro.rel-1.0.ipa",
+        "Feather.rel-2.10.0.ipa",
+        "Ferrite.rel-0.7.4.ipa",
+        "Ksign.pre-03a3a9c.ipa",
+        "Nuvio-Enhanced.rel-0.5.1.ipa",
     }, f"release ends with exactly the expected assets (got {sorted(final)})")
     check("Nuvio Enhanced.ipa" not in final
-          and "Feather(rel-2.8.0).ipa" not in final,
+          and "Feather.rel-2.8.0.ipa" not in final,
           "legacy and old-version assets deleted")
     check(fake.tag_fetches >= 2,
           f"client re-fetched after mutations ({fake.tag_fetches} fetches)")
@@ -477,7 +525,7 @@ def main():
     test_naming()
     test_check_releases()
     test_update_source_unchanged()
-    fake = test_update_source_bump_and_migration()
+    fake = test_update_source_bump_and_recovery()
     test_add_custom_ipa(fake)
     test_sync_release(fake)
 

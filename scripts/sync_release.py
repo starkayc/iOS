@@ -68,12 +68,25 @@ def sync_release(
     files = {p.name: p for p in sorted(lib.IPAS_DIR.glob("*.ipa"))}
     referenced = referenced_asset_names(lib.REPO_JSON)
 
+    # GitHub normalizes asset names on upload (spaces/parens → dots), so
+    # every local-name ↔ server-name comparison goes through the same
+    # sanitization.
+    file_names_san = {lib.github_asset_name(n) for n in files}
+    referenced_san = {lib.github_asset_name(n) for n in referenced}
+
     if files:
         print(f"Syncing {len(files)} IPA(s) to the {lib.RELEASE_TAG} release …")
 
     # ── Upload missing / size-changed files ────────────────────────────────
     for name, path in sorted(files.items()):
-        existing = assets.get(name)
+        san = lib.github_asset_name(name)
+        existing = next(
+            (
+                a for a in assets.values()
+                if lib.github_asset_name(a["name"]) == san
+            ),
+            None,
+        )
         if existing is not None and existing["size"] == path.stat().st_size:
             continue
         print(
@@ -92,9 +105,10 @@ def sync_release(
     for name, asset in sorted(assets.items()):
         if not name.lower().endswith(".ipa"):
             continue
-        if name in files:
+        san = lib.github_asset_name(name)
+        if san in file_names_san:
             continue
-        if name in referenced:
+        if san in referenced_san:
             print(
                 f"  ⚠ {name}: referenced by repo.json but not in ipas/ — "
                 f"keeping (external app)"
@@ -112,10 +126,13 @@ def sync_release(
             return 1
 
     # ── Verify the final state ──────────────────────────────────────────────
-    final = {a["name"]: a["size"] for a in client.list_assets()}
+    final = {
+        lib.github_asset_name(a["name"]): a["size"]
+        for a in client.list_assets()
+    }
     errors = 0
     for name, path in files.items():
-        if final.get(name) != path.stat().st_size:
+        if final.get(lib.github_asset_name(name)) != path.stat().st_size:
             print(f"  ✗ {name}: not in the release with the right size")
             errors += 1
     if errors:

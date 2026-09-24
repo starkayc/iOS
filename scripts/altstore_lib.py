@@ -28,7 +28,7 @@ import zlib
 import zipfile
 from pathlib import Path
 from typing import Optional
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 # Force UTF-8 output on Windows terminals that default to cp1252.
 if sys.platform == "win32":
@@ -124,6 +124,20 @@ def sanitize_version(version: str) -> str:
     return cleaned or version  # never return an empty name
 
 
+def github_asset_name(name: str) -> str:
+    """Mirror GitHub's release-asset name sanitization.
+
+    GitHub's upload API (and web UI) rewrites characters it doesn't
+    allow in asset names: each unsafe character becomes a dot and runs
+    of dots collapse (observed: " " → ".", "(" → ".", ")" → removed;
+    "Feather(rel-2.9.0).ipa" is stored as "Feather.rel-2.9.0.ipa").
+    The download endpoint matches exactly, so every comparison between
+    a local file name and a server asset name goes through this.
+    """
+    sanitized = re.sub(r"[^A-Za-z0-9._-]", ".", name)
+    return re.sub(r"\.{2,}", ".", sanitized)
+
+
 def ipa_filename(
     name: str,
     version: Optional[str] = None,
@@ -131,26 +145,29 @@ def ipa_filename(
 ) -> str:
     """Build the canonical IPA file name.
 
+    Parentheses can't survive GitHub's release assets (the API rewrites
+    them to dots), so the separator is a dot:
+
     Stable:      ipa_filename("Nuvio Enhanced", version="0.5.1-beta")
-                 → "Nuvio-Enhanced(rel-0.5.1).ipa"
+                 → "Nuvio-Enhanced.rel-0.5.1.ipa"
     Pre-release: ipa_filename("Ksign", commit="03a3a9c1234")
-                 → "Ksign(pre-03a3a9c).ipa"
+                 → "Ksign.pre-03a3a9c.ipa"
     """
     stem = canonical_filename(name)
     if commit:
-        return f"{stem}(pre-{commit[:7]}).ipa"
-    return f"{stem}(rel-{sanitize_version(version or '1.0')}).ipa"
+        return f"{stem}.pre-{commit[:7]}.ipa"
+    return f"{stem}.rel-{sanitize_version(version or '1.0')}.ipa"
 
 
-_IPA_NAME_RE = re.compile(r"^(.*)\((rel|pre)-([^()]+)\)\.ipa$", re.IGNORECASE)
+_IPA_NAME_RE = re.compile(r"^(.*)\.(rel|pre)-(.+)\.ipa$", re.IGNORECASE)
 
 
 def parse_ipa_filename(filename: str) -> tuple[str, str, str]:
     """Split a versioned IPA file name into (stem, kind, value).
 
-    "Nuvio-Enhanced(rel-0.5.1).ipa" → ("Nuvio-Enhanced", "rel", "0.5.1")
-    "Ksign(pre-03a3a9c).ipa"        → ("Ksign", "pre", "03a3a9c")
-    "My App.ipa"                    → ("My App", "", "")
+    "Nuvio-Enhanced.rel-0.5.1.ipa" → ("Nuvio-Enhanced", "rel", "0.5.1")
+    "Ksign.pre-03a3a9c.ipa"        → ("Ksign", "pre", "03a3a9c")
+    "My App.ipa"                   → ("My App", "", "")
     """
     m = _IPA_NAME_RE.match(filename)
     if m:
@@ -386,13 +403,17 @@ class GitHubRelease:
         self._release = None  # asset list changed
 
     def upload_asset(self, name: str, data: bytes) -> None:
-        """Upload an asset, replacing any existing asset of the same name."""
+        """Upload an asset, replacing any existing asset of the same name.
+
+        Same-name matching uses GitHub's sanitization, so a stale asset
+        stored under a normalized name is removed first.
+        """
         release = self.get_release()
         if not release:
             release = self.create_release()
         for asset in self.list_assets():
-            if asset["name"] == name:
-                print(f"    replacing existing asset {name} …")
+            if github_asset_name(asset["name"]) == github_asset_name(name):
+                print(f"    replacing existing asset {asset['name']} …")
                 self.delete_asset(asset["id"])
                 break
         url = (
@@ -861,8 +882,11 @@ def check_for_updates(token: Optional[str] = None) -> dict:
             )
 
         entry["changed"] = entry["recorded"] != entry["latest"]
-        entry["asset_in_release"] = (
-            entry["expected_filename"] in release_assets
+        # Compare with GitHub's name sanitization applied — the server
+        # may have stored the asset under a normalized name.
+        entry["asset_in_release"] = any(
+            github_asset_name(a) == github_asset_name(entry["expected_filename"])
+            for a in release_assets
         )
         if entry["changed"]:
             any_changed = True
@@ -874,6 +898,31 @@ def check_for_updates(token: Optional[str] = None) -> dict:
         "any_changed": any_changed,
         "release_assets": release_assets,
     }
+
+
+def repo_json_references(filename: str) -> bool:
+    """Whether any downloadURL in repo.json points at this asset name.
+
+    Names are compared with GitHub's sanitization applied, so a URL
+    referencing "Feather(rel-2.9.0).ipa" still counts as referencing
+    the stored asset "Feather.rel-2.9.0.ipa".  Used to detect a
+    committed repo.json that no longer matches the release.
+    """
+    if not REPO_JSON.exists():
+        return False
+    with open(REPO_JSON, encoding="utf-8") as f:
+        repo = json.load(f)
+    for app in repo.get("apps", []):
+        urls = [app.get("downloadURL", "")]
+        for v in app.get("versions", []):
+            urls.append(v.get("downloadURL", ""))
+        for url in urls:
+            if RELEASE_TAG not in url:
+                continue
+            name = unquote(url.rsplit("/", 1)[-1])
+            if github_asset_name(name) == github_asset_name(filename):
+                return True
+    return False
 
 
 # ── Token handling ───────────────────────────────────────────────────────────

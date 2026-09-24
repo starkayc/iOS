@@ -73,7 +73,14 @@ def update_source(token: Optional[str] = None) -> bool:
         expected = e["expected_filename"]
         expected_stems.add(lib.parse_ipa_filename(expected)[0])
 
-        if not e["changed"] and e["asset_in_release"]:
+        # Skip only when the release has the asset AND the committed
+        # repo.json already points at it — otherwise rebuild the entry
+        # (recovers from name-scheme migrations and failed runs).
+        if (
+            not e["changed"]
+            and e["asset_in_release"]
+            and lib.repo_json_references(expected)
+        ):
             print(f"  ✓ {name} up to date  ({e['latest']})")
             continue
 
