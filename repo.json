@@ -8,30 +8,30 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "Apollo",
-      "bundleIdentifier": "com.christianselig.Apollo",
-      "developerName": "Apollo-Reborn",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
-      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "name": "Air",
+      "bundleIdentifier": "com.air-devs.air",
+      "developerName": "herbrine8403",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.air-devs.air.png",
+      "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
+      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.0.ipa",
-          "size": 125144343,
-          "version": "3.8.0",
-          "buildVersion": "299",
-          "date": "2026-09-25T02:15:27Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa",
+          "size": 193369366,
+          "version": "5.0.0",
+          "buildVersion": "5.0.0",
+          "date": "2026-08-24T03:05:18Z",
           "localizedDescription": "",
-          "minOSVersion": "15.0"
+          "minOSVersion": "14.0"
         }
       ],
       "appPermissions": {},
-      "version": "3.8.0",
-      "versionDate": "2026-09-25T02:15:27Z",
-      "size": 125144343,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.0.ipa"
+      "version": "5.0.0",
+      "versionDate": "2026-08-24T03:05:18Z",
+      "size": 193369366,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa"
     },
     {
       "name": "Balatro",
@@ -58,6 +58,32 @@
       "versionDate": "2026-09-24T15:01:54Z",
       "size": 74445999,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
+    },
+    {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.0.ipa",
+          "size": 125144343,
+          "version": "3.8.0",
+          "buildVersion": "299",
+          "date": "2026-09-25T02:15:27Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.8.0",
+      "versionDate": "2026-09-25T02:15:27Z",
+      "size": 125144343,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.0.ipa"
     },
     {
       "name": "Get More Ram",
