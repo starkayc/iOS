@@ -8,32 +8,6 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "Air",
-      "bundleIdentifier": "com.air-devs.air",
-      "developerName": "herbrine8403",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.air-devs.air.png",
-      "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
-      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa",
-          "size": 193369366,
-          "version": "5.0.0",
-          "buildVersion": "5.0.0",
-          "date": "2026-08-24T03:05:18Z",
-          "localizedDescription": "",
-          "minOSVersion": "14.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "5.0.0",
-      "versionDate": "2026-08-24T03:05:18Z",
-      "size": 193369366,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa"
-    },
-    {
       "name": "Balatro",
       "bundleIdentifier": "org.htf65jud.balatro",
       "developerName": "",
@@ -58,6 +32,58 @@
       "versionDate": "2026-09-24T15:01:54Z",
       "size": 74445999,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "Official Nuvio Mobile Repository",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.2.ipa",
+          "size": 66138236,
+          "version": "0.5.2",
+          "buildVersion": "134",
+          "date": "2026-09-25T18:03:57Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.2",
+      "versionDate": "2026-09-25T18:03:57Z",
+      "size": 66138236,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.2.ipa"
+    },
+    {
+      "name": "Air",
+      "bundleIdentifier": "com.air-devs.air",
+      "developerName": "herbrine8403",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.air-devs.air.png",
+      "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
+      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa",
+          "size": 193369366,
+          "version": "5.0.0",
+          "buildVersion": "5.0.0",
+          "date": "2026-08-24T03:05:18Z",
+          "localizedDescription": "",
+          "minOSVersion": "14.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "5.0.0",
+      "versionDate": "2026-08-24T03:05:18Z",
+      "size": 193369366,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa"
     },
     {
       "name": "Apollo",
@@ -370,32 +396,6 @@
       "versionDate": "2026-09-23T13:18:13Z",
       "size": 67885966,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.1.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.1.ipa",
-          "size": 66042992,
-          "version": "0.5.1",
-          "buildVersion": "133",
-          "date": "2026-09-23T06:37:37Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.1",
-      "versionDate": "2026-09-23T06:37:37Z",
-      "size": 66042992,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.1.ipa"
     }
   ]
 }
