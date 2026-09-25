@@ -12,6 +12,11 @@
       "asset_pattern": "GLASS"
     },
     {
+      "name": "Amethyst",
+      "repo": "herbrine8403/Amethyst-iOS-MyRemastered",
+      "release_type": "stable"
+    },
+    {
       "name": "Debrify",
       "repo": "varunsalian/debrify",
       "release_type": "prerelease"
