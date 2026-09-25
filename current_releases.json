@@ -7,6 +7,10 @@
     "release_type": "stable",
     "version": "1.15.11_3.8.0"
   },
+  "Amethyst": {
+    "release_type": "stable",
+    "version": "5.0.0"
+  },
   "Debrify": {
     "release_type": "prerelease",
     "commit": "e31bdec"
