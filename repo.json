@@ -34,6 +34,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
     },
     {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.2.ipa",
+          "size": 68006117,
+          "version": "0.5.2",
+          "buildVersion": "134",
+          "date": "2026-09-26T00:05:01Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.2",
+      "versionDate": "2026-09-26T00:05:01Z",
+      "size": 68006117,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.2.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
@@ -370,32 +396,6 @@
       "versionDate": "2026-07-14T20:15:52Z",
       "size": 16231234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.pre-03a3a9c.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.1.ipa",
-          "size": 67885966,
-          "version": "0.5.1",
-          "buildVersion": "133",
-          "date": "2026-09-23T13:18:13Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.1",
-      "versionDate": "2026-09-23T13:18:13Z",
-      "size": 67885966,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.1.ipa"
     }
   ]
 }
