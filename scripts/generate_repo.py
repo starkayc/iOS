@@ -153,9 +153,13 @@ def generate_repo(
                     ipa_path.unlink()
                 continue
 
-        # Extract icon.
+        # Extract icon, falling back to the placeholder when the IPA has
+        # none — an empty iconURL breaks Feather's source loading.
         icon_filename = lib.extract_icon(ipa_path, meta["icon_paths"], bundle_id)
-        icon_url = f"{lib.PAGES_BASE}/icons/{lib.url_encode_path(icon_filename)}" if icon_filename else ""
+        if icon_filename:
+            icon_url = f"{lib.PAGES_BASE}/icons/{lib.url_encode_path(icon_filename)}"
+        else:
+            icon_url = f"{lib.PAGES_BASE}/icons/placeholder.png"
 
         # IPA size + download URL (served from GitHub Releases, not
         # Pages, to avoid Git-LFS pointer files being served as IPAs).
@@ -205,7 +209,7 @@ def generate_repo(
                 "name": old.get("name", meta["name"]),
                 "bundleIdentifier": bundle_id,
                 "developerName": old.get("developerName") or developer_names.get(ipa_path.name, ""),
-                "iconURL": icon_url or old.get("iconURL", ""),
+                "iconURL": icon_url,
                 "localizedDescription": old.get("localizedDescription") or custom_entry.get("description") or repo_descriptions.get(ipa_path.name, ""),
                 "subtitle": old.get("subtitle") or custom_entry.get("subtitle") or repo_descriptions.get(ipa_path.name, ""),
                 "tintColor": old.get("tintColor", lib.SOURCE_TINT_COLOR),

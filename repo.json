@@ -115,7 +115,7 @@
       "name": "Get More Ram",
       "bundleIdentifier": "com.aigch.getMoreRam",
       "developerName": "hugeBlack",
-      "iconURL": "",
+      "iconURL": "https://starkayc.github.io/iOS/icons/placeholder.png",
       "localizedDescription": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
       "subtitle": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
       "tintColor": "3c94fc",
