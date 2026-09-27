@@ -44,20 +44,20 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.2.ipa",
-          "size": 68006117,
-          "version": "0.5.2",
-          "buildVersion": "134",
-          "date": "2026-09-26T00:05:01Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.3.ipa",
+          "size": 68423969,
+          "version": "0.5.3",
+          "buildVersion": "135",
+          "date": "2026-09-27T05:17:38Z",
           "localizedDescription": "",
           "minOSVersion": "16.1"
         }
       ],
       "appPermissions": {},
-      "version": "0.5.2",
-      "versionDate": "2026-09-26T00:05:01Z",
-      "size": 68006117,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.2.ipa"
+      "version": "0.5.3",
+      "versionDate": "2026-09-27T05:17:38Z",
+      "size": 68423969,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.3.ipa"
     },
     {
       "name": "Nuvio",
@@ -70,20 +70,20 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.2.ipa",
-          "size": 66138236,
-          "version": "0.5.2",
-          "buildVersion": "134",
-          "date": "2026-09-25T18:03:57Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.3.ipa",
+          "size": 66299682,
+          "version": "0.5.3",
+          "buildVersion": "135",
+          "date": "2026-09-27T01:18:47Z",
           "localizedDescription": "",
           "minOSVersion": "16.1"
         }
       ],
       "appPermissions": {},
-      "version": "0.5.2",
-      "versionDate": "2026-09-25T18:03:57Z",
-      "size": 66138236,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.2.ipa"
+      "version": "0.5.3",
+      "versionDate": "2026-09-27T01:18:47Z",
+      "size": 66299682,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.3.ipa"
     },
     {
       "name": "Air",
