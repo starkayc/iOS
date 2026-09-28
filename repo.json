@@ -34,6 +34,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
     },
     {
+      "name": "StikDebug",
+      "bundleIdentifier": "com.stik.stikdebug",
+      "developerName": "StikDebug",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
+      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.13.ipa",
+          "size": 13544310,
+          "version": "3.1.13",
+          "buildVersion": "1",
+          "date": "2026-09-28T14:29:59Z",
+          "localizedDescription": "",
+          "minOSVersion": "17.4"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.1.13",
+      "versionDate": "2026-09-28T14:29:59Z",
+      "size": 13544310,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.13.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -84,32 +110,6 @@
       "versionDate": "2026-09-28T09:23:38Z",
       "size": 66389579,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.4.ipa"
-    },
-    {
-      "name": "StikDebug",
-      "bundleIdentifier": "com.stik.stikdebug",
-      "developerName": "StikDebug",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
-      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.12.ipa",
-          "size": 13544301,
-          "version": "3.1.12",
-          "buildVersion": "1",
-          "date": "2026-09-27T20:57:00Z",
-          "localizedDescription": "",
-          "minOSVersion": "17.4"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.1.12",
-      "versionDate": "2026-09-27T20:57:00Z",
-      "size": 13544301,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.12.ipa"
     },
     {
       "name": "Air",
