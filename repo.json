@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa",
+          "size": 128072289,
+          "version": "3.8.5",
+          "buildVersion": "300",
+          "date": "2026-09-29T02:39:57Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.8.5",
+      "versionDate": "2026-09-29T02:39:57Z",
+      "size": 128072289,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa"
+    },
+    {
       "name": "Balatro",
       "bundleIdentifier": "org.htf65jud.balatro",
       "developerName": "",
@@ -136,32 +162,6 @@
       "versionDate": "2026-08-24T03:05:18Z",
       "size": 193369366,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa"
-    },
-    {
-      "name": "Apollo",
-      "bundleIdentifier": "com.christianselig.Apollo",
-      "developerName": "Apollo-Reborn",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
-      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.0.ipa",
-          "size": 125144343,
-          "version": "3.8.0",
-          "buildVersion": "299",
-          "date": "2026-09-25T02:15:27Z",
-          "localizedDescription": "",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.8.0",
-      "versionDate": "2026-09-25T02:15:27Z",
-      "size": 125144343,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.0.ipa"
     },
     {
       "name": "Get More Ram",
