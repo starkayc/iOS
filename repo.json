@@ -8,32 +8,6 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "Apollo",
-      "bundleIdentifier": "com.christianselig.Apollo",
-      "developerName": "Apollo-Reborn",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
-      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa",
-          "size": 128072289,
-          "version": "3.8.5",
-          "buildVersion": "300",
-          "date": "2026-09-29T02:39:57Z",
-          "localizedDescription": "",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.8.5",
-      "versionDate": "2026-09-29T02:39:57Z",
-      "size": 128072289,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa"
-    },
-    {
       "name": "Balatro",
       "bundleIdentifier": "org.htf65jud.balatro",
       "developerName": "",
@@ -58,6 +32,58 @@
       "versionDate": "2026-09-24T15:01:54Z",
       "size": 74445999,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "Official Nuvio Mobile Repository",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.5.ipa",
+          "size": 66647562,
+          "version": "0.5.5",
+          "buildVersion": "137",
+          "date": "2026-09-30T19:22:54Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.5",
+      "versionDate": "2026-09-30T19:22:54Z",
+      "size": 66647562,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.5.ipa"
+    },
+    {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa",
+          "size": 128072289,
+          "version": "3.8.5",
+          "buildVersion": "300",
+          "date": "2026-09-29T02:39:57Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.8.5",
+      "versionDate": "2026-09-29T02:39:57Z",
+      "size": 128072289,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa"
     },
     {
       "name": "StikDebug",
@@ -110,32 +136,6 @@
       "versionDate": "2026-09-28T10:25:25Z",
       "size": 68651824,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.4.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.4.ipa",
-          "size": 66389579,
-          "version": "0.5.4",
-          "buildVersion": "136",
-          "date": "2026-09-28T09:23:38Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.4",
-      "versionDate": "2026-09-28T09:23:38Z",
-      "size": 66389579,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.4.ipa"
     },
     {
       "name": "Air",
