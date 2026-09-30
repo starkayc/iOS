@@ -24,10 +24,7 @@ from typing import Optional
 from urllib.parse import unquote
 
 import altstore_lib as lib
-
-# Force UTF-8 output on Windows terminals that default to cp1252.
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import cli_common as cli
 
 
 def referenced_asset_names(repo_json: Path) -> set[str]:
@@ -142,34 +139,23 @@ def sync_release(
     return 0
 
 
-def main() -> int:
-    token_flag: Optional[str] = None
-    no_delete = False
-    args = sys.argv[1:]
-    i = 0
-    while i < len(args):
-        arg = args[i]
-        if arg.startswith("--token="):
-            token_flag = arg.split("=", 1)[1]
-            i += 1
-        elif arg == "--no-delete":
-            no_delete = True
-            i += 1
-        else:
-            print(f"Unknown argument: {arg}")
-            return 1
-
-    token = lib.get_token(token_flag)
+def main(args) -> int:
+    token = lib.get_token(args.token)
     if not token:
-        print(
+        cli.error(
             "No GitHub token found.  Pass --token, set GITHUB_TOKEN (or "
             "GH_TOKEN), or save it in a file named .github-token "
             "(it's gitignored)."
         )
         return 1
-
-    return sync_release(token, no_delete)
+    return sync_release(token, args.no_delete)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    parser = cli.make_parser(__doc__)
+    parser.add_argument(
+        "--no-delete",
+        action="store_true",
+        help="report stale release assets but do not delete them",
+    )
+    sys.exit(cli.run(parser, main))

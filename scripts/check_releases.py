@@ -18,10 +18,7 @@ import sys
 from typing import Optional
 
 import altstore_lib as lib
-
-# Force UTF-8 output on Windows terminals that default to cp1252.
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import cli_common as cli
 
 
 def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
@@ -82,20 +79,15 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
     return 0
 
 
-def main() -> int:
-    token_flag: Optional[str] = None
-    dry_run = False
-    for arg in sys.argv[1:]:
-        if arg.startswith("--token="):
-            token_flag = arg.split("=", 1)[1]
-        elif arg == "--dry-run":
-            dry_run = True
-        else:
-            print(f"Unknown argument: {arg}")
-            return 1
-
-    return run_check(lib.get_token(token_flag), dry_run)
+def main(args) -> int:
+    return run_check(lib.get_token(args.token), args.dry_run)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    parser = cli.make_parser(__doc__)
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="print the changes without writing current_releases.json",
+    )
+    sys.exit(cli.run(parser, main))

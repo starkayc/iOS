@@ -2,46 +2,26 @@
 """
 Custom IPA uploader — workflow 3.
 
-Downloads a single IPA from a URL, names it with the canonical
-versioned scheme ("Balatro" + "1.0" → ipas/Balatro.rel-1.0.ipa),
-validates it, rebuilds repo.json, and syncs it to the ipa-assets
-release.  Every step fails loudly so a bad link or unreadable IPA
-can't silently leave an orphaned release asset.
+Downloads a single IPA from a URL, names it with the canonical versioned
+scheme ("Balatro" + "1.0" → ipas/Balatro.rel-1.0.ipa), validates it,
+rebuilds repo.json, and syncs it to the ipa-assets release.  Every step
+fails loudly so a bad link or unreadable IPA can't silently leave an
+orphaned release asset.
 
 Usage:
     python scripts/add_custom_ipa.py \
         --name "Balatro" --version "1.0" --url "https://…/Balatro.ipa" \
-        [--description "…"] [--subtitle "…"] [--token TOKEN]
+        [--description "…"] [--subtitle "…"] [--token TOKEN] [--debug]
 """
 
 import json
 import sys
-from pathlib import Path
 from typing import Optional
 
 import altstore_lib as lib
+import cli_common as cli
 from generate_repo import generate_repo
 from sync_release import sync_release
-
-# Force UTF-8 output on Windows terminals that default to cp1252.
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-
-
-def _repo_contains(filename: str) -> bool:
-    """Whether any downloadURL in repo.json points at this asset name."""
-    if not lib.REPO_JSON.exists():
-        return False
-    with open(lib.REPO_JSON, encoding="utf-8") as f:
-        repo = json.load(f)
-    for app in repo.get("apps", []):
-        urls = [app.get("downloadURL", "")]
-        for v in app.get("versions", []):
-            urls.append(v.get("downloadURL", ""))
-        for url in urls:
-            if url.rsplit("/", 1)[-1] == filename:
-                return True
-    return False
 
 
 def run_custom_upload(
@@ -66,8 +46,8 @@ def run_custom_upload(
     # the run instead of leaving an orphaned release asset.
     meta = lib.extract_metadata(dest)
     if not meta:
-        print(
-            f"    ✗ {filename} is not a readable IPA — expected a "
+        cli.error(
+            f"{filename} is not a readable IPA — expected a "
             f"Payload/*.app bundle with an Info.plist.  Nothing was uploaded."
         )
         return 1
@@ -96,10 +76,10 @@ def run_custom_upload(
 
     # The app must actually have landed — otherwise something is wrong
     # (e.g. a duplicate bundle ID) and we must not upload the asset.
-    if not _repo_contains(filename):
-        print(
-            f"    ✗ {filename} did not make it into repo.json — a "
-            f"duplicate bundle ID may have been skipped.  Nothing was uploaded."
+    if not lib.repo_json_references(filename):
+        cli.error(
+            f"{filename} did not make it into repo.json — a duplicate "
+            f"bundle ID may have been skipped.  Nothing was uploaded."
         )
         return 1
 
@@ -114,57 +94,29 @@ def run_custom_upload(
     )
 
 
-def main() -> int:
-    name: Optional[str] = None
-    version: Optional[str] = None
-    url: Optional[str] = None
-    description = ""
-    subtitle = ""
-    token: Optional[str] = None
-
-    args = sys.argv[1:]
-    i = 0
-    while i < len(args):
-        arg = args[i]
-        if arg.startswith("--name="):
-            name = arg.split("=", 1)[1]
-        elif arg.startswith("--version="):
-            version = arg.split("=", 1)[1]
-        elif arg.startswith("--url="):
-            url = arg.split("=", 1)[1]
-        elif arg.startswith("--description="):
-            description = arg.split("=", 1)[1]
-        elif arg.startswith("--subtitle="):
-            subtitle = arg.split("=", 1)[1]
-        elif arg.startswith("--token="):
-            token = arg.split("=", 1)[1]
-        else:
-            print(f"Unknown argument: {arg}")
-            return 1
-        i += 1
-
-    if not name or not version or not url:
-        print(
-            "Missing required arguments.  Usage:\n"
-            "  python scripts/add_custom_ipa.py --name NAME --version VERSION "
-            "--url URL [--description DESC] [--subtitle SUB] [--token TOKEN]"
-        )
-        return 1
-
-    token = lib.get_token(token)
+def main(args) -> int:
+    token = lib.get_token(args.token)
     if not token:
-        print(
+        cli.error(
             "No GitHub token found.  Pass --token, set GITHUB_TOKEN (or "
             "GH_TOKEN), or save it in a file named .github-token."
         )
         return 1
-
-    try:
-        return run_custom_upload(name, version, url, description, subtitle, token)
-    except Exception as e:
-        print(f"failed: {e}")
-        return 1
+    return run_custom_upload(
+        args.name,
+        args.version,
+        args.url,
+        args.description,
+        args.subtitle,
+        token,
+    )
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    parser = cli.make_parser(__doc__)
+    parser.add_argument("--name", required=True, help="app name, e.g. Balatro")
+    parser.add_argument("--version", required=True, help="version, e.g. 1.0")
+    parser.add_argument("--url", required=True, help="direct download link to the .ipa")
+    parser.add_argument("--description", default="", help="AltStore description")
+    parser.add_argument("--subtitle", default="", help="AltStore subtitle")
+    sys.exit(cli.run(parser, main))

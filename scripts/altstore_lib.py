@@ -20,7 +20,6 @@ import os
 import plistlib
 import re
 import struct
-import sys
 import time
 import urllib.error
 import urllib.request
@@ -30,9 +29,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import quote, unquote
 
-# Force UTF-8 output on Windows terminals that default to cp1252.
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import cli_common as diag
 
 
 # ── Paths ────────────────────────────────────────────────────────────────────
@@ -71,8 +68,11 @@ def parse_version_tuple(version: str) -> tuple:
 
     >>> parse_version_tuple("1.6") > parse_version_tuple("1.5.2")
     True
-    >>> parse_version_tuple("2.0.0-beta") < parse_version_tuple("2.0.0")
-    True  (shorter = prerelease, sorts lower)
+
+    Non-numeric segments are treated as 0, so "2.0.0-beta" parses the
+    same as "2.0.0" (the trailing "-beta" segment yields 0).  This is
+    only a rough ordering helper for picking the newer of two IPAs —
+    exact pre-release ordering is not attempted.
     """
     parts = []
     for segment in version.split("."):
@@ -183,7 +183,7 @@ def canonicalize_ipa_files(ipas_dir: Path) -> None:
             continue
         target = p.with_name(canonical)
         if target.exists():
-            print(f"  ⚠ cannot rename {p.name} — {canonical} already exists")
+            diag.warn(f"cannot rename {p.name} — {canonical} already exists")
             continue
         p.rename(target)
         print(f"  ↯ renamed {p.name} → {canonical}")
@@ -234,7 +234,99 @@ API_BASE = "https://api.github.com"
 UPLOADS_BASE = "https://uploads.github.com"
 
 
-def github_api(url: str, token: Optional[str] = None) -> dict | list:
+class GitHubError(RuntimeError):
+    """A failed GitHub request, with the HTTP status and response body.
+
+    ``status`` is the HTTP status code (None for network-level errors)
+    and ``body`` is the (truncated) response body — GitHub puts the real
+    reason there, so it's kept for the error message and debugging.
+    """
+
+    def __init__(self, message: str, status: Optional[int] = None,
+                 body: str = ""):
+        super().__init__(message)
+        self.status = status
+        self.body = body
+
+
+def _http_request(
+    url: str,
+    headers: dict,
+    data: Optional[bytes] = None,
+    method: Optional[str] = None,
+    timeout: int = 30,
+    retries: int = 3,
+    dest: Optional[Path] = None,
+) -> Optional[bytes]:
+    """Perform an HTTP request, retrying only *transient* failures.
+
+    With ``dest`` set, the body is streamed to a ``<dest>.part`` file and
+    atomically renamed onto success — so a failed or interrupted download
+    never leaves a half-written file behind (returns ``b""``).  Without
+    ``dest``, the full body is read into memory and returned.
+
+    Client errors (4xx) are raised immediately with GitHub's response
+    body attached — retrying them just wastes time and hides the real
+    message.  Server errors (5xx) and network/timeout errors are retried
+    with a linear backoff.
+    """
+    last_err: Optional[GitHubError] = None
+    for attempt in range(1, retries + 1):
+        try:
+            req = urllib.request.Request(
+                url, data=data, headers=headers, method=method
+            )
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                if dest is None:
+                    return resp.read()
+                # Stream to a .part file and rename on success so a
+                # failed/interrupted download never leaves a half-written
+                # IPA that would confuse the next run.
+                part = dest.with_name(dest.name + ".part")
+                try:
+                    with open(part, "wb") as f:
+                        while True:
+                            chunk = resp.read(1024 * 1024)
+                            if not chunk:
+                                break
+                            f.write(chunk)
+                    part.replace(dest)
+                except Exception:
+                    part.unlink(missing_ok=True)
+                    raise
+                return b""
+        except urllib.error.HTTPError as e:
+            # HTTPError is a subclass of URLError — handle it first.
+            body = ""
+            try:
+                body = e.read().decode("utf-8", "replace").strip()
+            except Exception:
+                pass
+            detail = body[:500]
+            message = f"HTTP {e.code} {e.reason} for {url}"
+            if detail:
+                message += f" — {detail}"
+            err = GitHubError(message, status=e.code, body=detail)
+            if 400 <= e.code < 500:
+                # Client error: retrying can't help.
+                raise err
+            last_err = err
+        except (urllib.error.URLError, TimeoutError, ConnectionError,
+                OSError) as e:
+            last_err = GitHubError(f"{type(e).__name__}: {e} for {url}")
+        if attempt < retries:
+            delay = 2 * attempt
+            diag.debug(
+                f"retrying {url} in {delay}s "
+                f"(attempt {attempt}/{retries}): {last_err}"
+            )
+            time.sleep(delay)
+    # Unreachable in practice (every attempt either returns or sets
+    # last_err), but guard against retries==0 instead of asserting.
+    raise last_err or GitHubError(f"no response from {url}")
+
+
+def github_api(url: str, token: Optional[str] = None):
     """Call the GitHub API and return parsed JSON (retries transient errors)."""
     headers = {
         "Accept": "application/vnd.github+json",
@@ -242,36 +334,23 @@ def github_api(url: str, token: Optional[str] = None) -> dict | list:
     }
     if token:
         headers["Authorization"] = f"Bearer {token}"
-    last_err: Optional[Exception] = None
-    for attempt in range(1, 4):
-        try:
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                return json.loads(resp.read())
-        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
-            last_err = e
-            if attempt < 3:
-                time.sleep(2 * attempt)
-    raise last_err
+    diag.debug(f"GET {url}")
+    raw = _http_request(url, headers, timeout=30)
+    return json.loads(raw) if raw else None
 
 
 def download_file(url: str, dest: Path, token: Optional[str] = None) -> None:
-    """Download a file to disk (retries transient network errors)."""
+    """Download a file to disk (retries transient network errors).
+
+    Streams to a ``<dest>.part`` file and renames on success, so an
+    interrupted download can't leave a half-written file behind —
+    important for the ~200 MB IPAs in the source.
+    """
     headers = {"Accept": "application/octet-stream"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
-    last_err: Optional[Exception] = None
-    for attempt in range(1, 4):
-        try:
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=120) as resp:
-                dest.write_bytes(resp.read())
-            return
-        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
-            last_err = e
-            if attempt < 3:
-                time.sleep(2 * attempt)
-    raise last_err
+    diag.debug(f"downloading {url} → {dest.name}")
+    _http_request(url, headers, timeout=120, dest=dest)
 
 
 def find_ipa_asset(release: dict, pattern: Optional[str] = None) -> Optional[dict]:
@@ -311,11 +390,82 @@ def find_ipa_asset(release: dict, pattern: Optional[str] = None) -> Optional[dic
             matching.sort(key=lambda a: (_segment_count(a), len(a["name"])))
             return matching[0]
 
-        print(f"    ⚠ No IPA with segment '{pattern}', falling back to default")
+        diag.warn(f"No IPA with segment '{pattern}', falling back to default")
 
     # Pick the shortest filename — the base build has no extra suffixes.
     ipa_assets.sort(key=lambda a: len(a["name"]))
     return ipa_assets[0]
+
+
+def fetch_ipa_from_release(
+    release: dict,
+    source: dict,
+    dest: Path,
+    token: Optional[str] = None,
+) -> bool:
+    """Download an app's IPA from a release into ``dest``; True on success.
+
+    Picks the asset matching ``source["asset_pattern"]`` (or the plain
+    default build).  Some repos only ship a zipped IPA (e.g. Ferrite), so
+    the ``.ipa.zip`` fallback downloads the archive and extracts the
+    inner .ipa.  Fails loudly (returns False) rather than half-writing.
+    """
+    asset = find_ipa_asset(release, source.get("asset_pattern"))
+    if asset:
+        print(
+            f"    ↓ downloading {asset['name']} "
+            f"({asset['size']:,} bytes) … ",
+            end="",
+            flush=True,
+        )
+        try:
+            download_file(asset["browser_download_url"], dest, token)
+            print("done")
+            return True
+        except Exception as ex:
+            print("failed")
+            diag.error(f"download failed: {ex}")
+            return False
+
+    zip_assets = [
+        a for a in release.get("assets", [])
+        if a["name"].lower().endswith(".ipa.zip")
+    ]
+    if not zip_assets:
+        diag.error(f"no .ipa asset in release {release.get('tag_name', '?')}")
+        return False
+
+    zip_asset = zip_assets[0]
+    print(
+        f"    ↓ downloading {zip_asset['name']} "
+        f"({zip_asset['size']:,} bytes, zipped) … ",
+        end="",
+        flush=True,
+    )
+    tmp_zip = dest.with_name(dest.name + ".zip")
+    try:
+        download_file(zip_asset["browser_download_url"], tmp_zip, token)
+        with zipfile.ZipFile(tmp_zip) as zf:
+            ipa_entry = next(
+                (n for n in zf.namelist() if n.lower().endswith(".ipa")),
+                None,
+            )
+            ipa_bytes = zf.read(ipa_entry) if ipa_entry else None
+        if ipa_bytes is None:
+            print("failed")
+            diag.error(f"no .ipa found inside {zip_asset['name']}")
+            return False
+        dest.write_bytes(ipa_bytes)
+        print(f"done (extracted {ipa_entry})")
+        return True
+    except Exception as ex:
+        print("failed")
+        diag.error(f"download failed: {ex}")
+        return False
+    finally:
+        # Windows can't delete a file that still has a handle open, so
+        # remove the temp archive after the ZipFile context has closed.
+        tmp_zip.unlink(missing_ok=True)
 
 
 class GitHubRelease:
@@ -346,20 +496,11 @@ class GitHubRelease:
             headers["Authorization"] = f"Bearer {self.token}"
         if data is not None:
             headers["Content-Type"] = content_type
-        last_err: Optional[Exception] = None
-        for attempt in range(1, 4):
-            try:
-                req = urllib.request.Request(
-                    url, data=data, headers=headers, method=method
-                )
-                with urllib.request.urlopen(req, timeout=600) as resp:
-                    body = resp.read()
-                    return json.loads(body) if body else None
-            except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
-                last_err = e
-                if attempt < 3:
-                    time.sleep(2 * attempt)
-        raise last_err
+        diag.debug(f"{method or 'GET'} {url}")
+        raw = _http_request(
+            url, headers, data=data, method=method, timeout=600
+        )
+        return json.loads(raw) if raw else None
 
     def get_release(self) -> Optional[dict]:
         """Return the release dict, or None if it doesn't exist yet."""
@@ -370,8 +511,8 @@ class GitHubRelease:
             )
             try:
                 self._release = self.api(url)
-            except urllib.error.HTTPError as e:
-                if e.code != 404:
+            except GitHubError as e:
+                if e.status != 404:
                     raise
                 self._release = None
         return self._release
@@ -533,12 +674,12 @@ def extract_metadata(ipa_path: Path) -> Optional[dict]:
         with zipfile.ZipFile(ipa_path, "r") as zf:
             app_dir = find_app_bundle(zf)
             if not app_dir:
-                print(f"  ⚠ No .app bundle found in Payload/")
+                diag.warn("No .app bundle found in Payload/")
                 return None
 
             info = extract_info_plist(zf, app_dir)
             if not info:
-                print(f"  ⚠ No Info.plist found")
+                diag.warn("No Info.plist found")
                 return None
 
             bundle_id = info.get("CFBundleIdentifier", "unknown")
@@ -562,7 +703,7 @@ def extract_metadata(ipa_path: Path) -> Optional[dict]:
                 "icon_paths": icon_paths,
             }
     except (zipfile.BadZipFile, KeyError, plistlib.InvalidFileException) as e:
-        print(f"  ✗ Failed to read IPA: {e}")
+        diag.error(f"Failed to read IPA: {e}")
         return None
 
 
@@ -577,11 +718,11 @@ def patch_bundle_id(ipa_path: Path, new_bundle_id: str) -> bool:
     with zipfile.ZipFile(ipa_path, "r") as zf:
         app_dir = find_app_bundle(zf)
         if not app_dir:
-            print(f"    ⚠ Cannot patch bundle ID — no .app bundle in {ipa_path.name}")
+            diag.warn(f"Cannot patch bundle ID — no .app bundle in {ipa_path.name}")
             return False
         plist_path = app_dir + "Info.plist"
         if plist_path not in zf.namelist():
-            print(f"    ⚠ Cannot patch bundle ID — no Info.plist in {ipa_path.name}")
+            diag.warn(f"Cannot patch bundle ID — no Info.plist in {ipa_path.name}")
             return False
         raw = zf.read(plist_path)
 
@@ -779,7 +920,7 @@ def extract_icon(ipa_path: Path, icon_paths: list[str], bundle_id: str) -> Optio
         print(f"    ✓ Icon extracted → icons/{output_name} ({size_kb} KB){tag}")
         return output_name
     except Exception as e:
-        print(f"    ✗ Failed to extract icon: {e}")
+        diag.error(f"Failed to extract icon: {e}")
         return None
 
 
@@ -848,9 +989,17 @@ def check_for_updates(token: Optional[str] = None) -> dict:
             f"/releases/tags/{RELEASE_TAG}",
             token,
         )
-        release_assets = {a["name"]: a for a in rel.get("assets", [])}
-    except Exception:
-        pass  # release doesn't exist yet
+        release_assets = {a["name"]: a for a in (rel or {}).get("assets", [])}
+    except GitHubError as e:
+        if e.status == 404:
+            diag.debug(f"release {RELEASE_TAG} does not exist yet")
+        else:
+            diag.warn(
+                f"could not read the {RELEASE_TAG} release — assuming it has "
+                f"no assets: {e}"
+            )
+    except Exception as e:
+        diag.warn(f"could not read the {RELEASE_TAG} release: {e}")
 
     entries = []
     any_changed = False
@@ -878,7 +1027,7 @@ def check_for_updates(token: Optional[str] = None) -> dict:
         try:
             info = latest_release_info(repo, release_type, token)
         except Exception as e:
-            print(f"  ✗ {name}: API error: {e}")
+            diag.error(f"{name}: API error: {e}")
         entry["info"] = info
         if info is None:
             entries.append(entry)

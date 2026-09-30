@@ -31,10 +31,7 @@ from pathlib import Path
 from typing import Optional
 
 import altstore_lib as lib
-
-# Force UTF-8 output on Windows terminals that default to cp1252.
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import cli_common as cli
 
 
 # ── Repo.json management ─────────────────────────────────────────────────────
@@ -228,18 +225,27 @@ def generate_repo(
                     f"  ↑ {meta['name']}: {prev_ver} → {meta['version']}"
                 )
             else:
-                # Version didn't change, but metadata might have (e.g.
-                # back-filled developer name or description).
-                meta_keys = (
-                    "developerName", "localizedDescription",
-                    "subtitle", "iconURL", "downloadURL",
-                )
-                if any(
-                    old.get(k) != app_entry.get(k)
-                    for k in meta_keys
-                ):
+                # Same version string — but a rebuild can still change the
+                # binary (build number, size, minOSVersion) or other
+                # metadata, so compare the generated entry field by field.
+                # (The date is intentionally not compared: it falls back to
+                # the file mtime when no release date is available, which
+                # would churn on every run.)
+                old_ver0 = (old.get("versions") or [{}])[0]
+                changed_fields = [
+                    k for k in (
+                        "developerName", "localizedDescription",
+                        "subtitle", "iconURL", "downloadURL",
+                    )
+                    if old.get(k) != app_entry.get(k)
+                ]
+                for k in ("buildVersion", "size", "minOSVersion"):
+                    if old_ver0.get(k) != version_obj.get(k):
+                        changed_fields.append(k)
+                if changed_fields:
                     changes.append(
-                        f"  ✎ {meta['name']}: metadata updated"
+                        f"  ✎ {meta['name']}: metadata updated "
+                        f"({', '.join(changed_fields)})"
                     )
                 else:
                     print(f"    (unchanged — v{meta['version']})")
@@ -324,7 +330,16 @@ def generate_repo(
     return True
 
 
+def main(args) -> int:
+    generate_repo(dry_run=args.dry_run)
+    return 0
+
+
 if __name__ == "__main__":
-    dry = "--dry-run" in sys.argv
-    changed = generate_repo(dry_run=dry)
-    sys.exit(0)
+    parser = cli.make_parser(__doc__, token=False)
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="show the changes without writing repo.json",
+    )
+    sys.exit(cli.run(parser, main))

@@ -42,19 +42,30 @@ jobs:
         with:
           python-version: "3.13"
 
+      # Workflow inputs are attacker-controllable, so they are passed to
+      # the script through the environment — never interpolated straight
+      # into the run script (which would allow shell injection).
       - name: Download, validate, update and sync
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APP_NAME: ${{ inputs.app_name }}
+          APP_VERSION: ${{ inputs.version }}
+          APP_URL: ${{ inputs.download_link }}
+          APP_DESCRIPTION: ${{ inputs.localized_description }}
+          APP_SUBTITLE: ${{ inputs.subtitle }}
         run: |
           python scripts/add_custom_ipa.py \
-            --name="${{ inputs.app_name }}" \
-            --version="${{ inputs.version }}" \
-            --url="${{ inputs.download_link }}" \
-            --description="${{ inputs.localized_description }}" \
-            --subtitle="${{ inputs.subtitle }}" \
+            --name="$APP_NAME" \
+            --version="$APP_VERSION" \
+            --url="$APP_URL" \
+            --description="$APP_DESCRIPTION" \
+            --subtitle="$APP_SUBTITLE" \
             --token="$GH_TOKEN"
 
       - name: Commit and push changes
+        env:
+          APP_NAME: ${{ inputs.app_name }}
+          APP_VERSION: ${{ inputs.version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -66,7 +77,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore: add custom IPA ${{ inputs.app_name }} (rel-${{ inputs.version }})" -m "Automated upload from GitHub Actions."
+          git commit -m "chore: add custom IPA ${APP_NAME} (rel-${APP_VERSION})" -m "Automated upload from GitHub Actions."
 
           # Push with rebase retries — safety net against concurrent
           # commits from the other workflows.

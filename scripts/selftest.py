@@ -24,6 +24,7 @@ import json
 import plistlib
 import sys
 import tempfile
+import urllib.error
 import zipfile
 from pathlib import Path
 from urllib.parse import unquote
@@ -31,13 +32,18 @@ from urllib.parse import unquote
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import altstore_lib as lib  # noqa: E402
+import cli_common as cli  # noqa: E402
 import sync_release as sr  # noqa: E402
 from add_custom_ipa import run_custom_upload  # noqa: E402
 from check_releases import run_check  # noqa: E402
 from generate_repo import generate_repo  # noqa: E402
-from update_source import update_source  # noqa: E402
+from update_source import update_source, update_source_report  # noqa: E402
+
+cli.setup_stdio()
 
 _RealGitHubRelease = lib.GitHubRelease  # keep before any patching
+_RealGithubApi = lib.github_api  # keep before any patching
+_RealDownloadFile = lib.download_file  # keep before any patching
 
 
 class FakeReleaseFactory:
@@ -102,6 +108,7 @@ class FakeGitHub:
         self.assets = {}     # asset name → {"id", "name", "size", "updated_at"}
         self.download_store = {}  # url → bytes
         self.downloads = []  # recorded (url, filename)
+        self.fail_downloads = {}  # url → error message (simulate a failure)
         self.tag_fetches = 0
         self.next_id = 100
 
@@ -148,6 +155,8 @@ class FakeGitHub:
         raise AssertionError(f"unexpected API call: {url}")
 
     def download(self, url, dest, token=None):
+        if url in self.fail_downloads:
+            raise RuntimeError(self.fail_downloads[url])
         data = self.download_store.get(url)
         if data is None:
             raise AssertionError(f"unexpected download: {url}")
@@ -261,12 +270,12 @@ def build_fixture(tmp: Path, feather_tag="v2.9.0", ksign_sha=SHA_KSIGN):
 
 
 def seed_current_releases(fake: FakeGitHub, tmp: Path, feather="2.9.0",
-                          ksign="03a3a9c"):
+                          ksign="03a3a9c", ferrite="0.7.4"):
     data = {
         "Feather": {"release_type": "stable", "version": feather},
         "Ksign": {"release_type": "prerelease", "commit": ksign},
         "Nuvio Enhanced": {"release_type": "stable", "version": "0.5.1-beta"},
-        "Ferrite": {"release_type": "stable", "version": "0.7.4"},
+        "Ferrite": {"release_type": "stable", "version": ferrite},
     }
     path = tmp / "current_releases.json"
     path.write_text(json.dumps(data, indent=2), encoding="utf-8")
@@ -572,6 +581,174 @@ def test_sync_release(fake: FakeGitHub):
           f"client re-fetched after mutations ({fake.tag_fetches} fetches)")
 
 
+def test_http_error_verbose_no_retry():
+    print("\n── HTTP errors: verbose, no 4xx retry, 5xx retried ──")
+    calls = {"n": 0}
+    orig_urlopen = lib.urllib.request.urlopen
+    orig_sleep = lib.time.sleep
+
+    def raise_404(req, timeout=None):
+        calls["n"] += 1
+        raise urllib.error.HTTPError(
+            req.full_url, 404, "Not Found", None,
+            io.BytesIO(b'{"message":"Not Found"}'),
+        )
+
+    lib.urllib.request.urlopen = raise_404
+    lib.time.sleep = lambda _s: None
+    try:
+        try:
+            _RealGithubApi("https://api.github.com/repos/x/y")
+            check(False, "404 should raise GitHubError")
+        except lib.GitHubError as e:
+            check(e.status == 404, "GitHubError carries the 404 status")
+            check("404" in str(e) and "Not Found" in str(e),
+                  "error message is verbose")
+            check("message" in e.body, "GitHub's response body is captured")
+        check(calls["n"] == 1, f"4xx is not retried (attempts={calls['n']})")
+
+        calls["n"] = 0
+
+        def raise_500(req, timeout=None):
+            calls["n"] += 1
+            raise urllib.error.HTTPError(
+                req.full_url, 500, "Server Error", None, io.BytesIO(b"boom")
+            )
+
+        lib.urllib.request.urlopen = raise_500
+        try:
+            _RealGithubApi("https://api.github.com/repos/x/y")
+            check(False, "500 should raise GitHubError")
+        except lib.GitHubError as e:
+            check(e.status == 500, "5xx surfaced as GitHubError")
+        check(calls["n"] == 3, f"5xx is retried (attempts={calls['n']})")
+    finally:
+        lib.urllib.request.urlopen = orig_urlopen
+        lib.time.sleep = orig_sleep
+
+
+def test_same_version_rebuild():
+    print("\n── generate_repo: same-version rebuild is detected ──")
+    tmp = Path(tempfile.mkdtemp())
+    lib.SOURCES_JSON = tmp / "sources.json"
+    lib.IPAS_DIR = tmp / "ipas"
+    lib.ICONS_DIR = tmp / "icons"
+    lib.REPO_JSON = tmp / "repo.json"
+    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
+    lib.IPAS_DIR.mkdir()
+
+    ipa = lib.IPAS_DIR / "App.rel-1.0.ipa"
+    ipa.write_bytes(make_ipa("com.test.rebuild", "1.0", "App", build="1"))
+    check(generate_repo() is True, "initial repo.json built")
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    apps = {a["bundleIdentifier"]: a for a in repo["apps"]}
+    check(apps["com.test.rebuild"]["versions"][0]["buildVersion"] == "1",
+          "build 1 recorded")
+    before = lib.REPO_JSON.read_text(encoding="utf-8")
+
+    # Same CFBundleShortVersionString, new build → must still be picked up.
+    ipa.write_bytes(make_ipa("com.test.rebuild", "1.0", "App", build="2"))
+    check(generate_repo() is True, "same-version rebuild detected")
+    check(lib.REPO_JSON.read_text(encoding="utf-8") != before,
+          "repo.json rewritten")
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    apps = {a["bundleIdentifier"]: a for a in repo["apps"]}
+    check(apps["com.test.rebuild"]["versions"][0]["buildVersion"] == "2",
+          "new build recorded")
+
+    check(generate_repo() is False, "a genuinely unchanged run is a no-op")
+
+
+def test_failed_download_keeps_state():
+    print("\n── update_source: failed download does not advance state ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    # Feather recorded stale and will fail to download; Ferrite is also
+    # stale so a *successful* download happens and current_releases.json
+    # gets written — proving the failure path (not the early return) is
+    # what preserves Feather's version.
+    seed_current_releases(fake, tmp, feather="2.8.0", ferrite="0.7.3")
+    fake.repos["claration/Feather"]["releases"].insert(0, release(
+        "v2.10.0", False, ("Feather.ipa", 1000, "https://up/feather")))
+    fake.fail_downloads["https://up/feather"] = "connection reset by peer"
+
+    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
+    fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
+
+    seed_repo_json(tmp, [
+        app_entry("nya.asami.ksign", "Ksign",
+                  asset_url("Ksign.pre-03a3a9c.ipa")),
+        app_entry("com.nuvio.enhancedmedia", "Nuvio Enhanced",
+                  asset_url("Nuvio-Enhanced.rel-0.5.1.ipa")),
+        app_entry("thewonderofyou.Feather", "Feather",
+                  asset_url("Feather.rel-2.8.0.ipa")),
+    ])
+
+    worked, failures = update_source_report()
+    check("Feather" in failures, "the failed app is reported")
+    check(worked is True, "the successful app still produced work")
+    recorded = lib.load_current_releases()
+    check(recorded["Feather"]["version"] == "2.8.0",
+          "failed app's recorded version was NOT advanced")
+    check(recorded["Ferrite"]["version"] == "0.7.4",
+          "successful app's recorded version WAS advanced")
+
+
+def test_download_file_streams_to_disk():
+    print("\n── download_file streams to disk (atomic, no partial) ──")
+    tmp = Path(tempfile.mkdtemp())
+    dest = tmp / "payload.bin"
+    payload = b"\x00\x01\x02" * ((1024 * 1024 // 3) + 1)  # ~1 MiB, multi-chunk
+    orig_urlopen = lib.urllib.request.urlopen
+    orig_sleep = lib.time.sleep
+
+    class FakeResp:
+        def __init__(self, data):
+            self._buf = io.BytesIO(data)
+
+        def read(self, n=-1):
+            return self._buf.read(n)
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            self._buf.close()
+
+    lib.urllib.request.urlopen = lambda req, timeout=None: FakeResp(payload)
+    lib.time.sleep = lambda _s: None
+    try:
+        _RealDownloadFile("https://example.com/big", dest)
+        check(dest.read_bytes() == payload, "streamed file matches payload")
+        check(not (tmp / "payload.bin.part").exists(),
+              ".part cleaned up on success")
+
+        # A mid-stream failure must leave no partial file behind.
+        dest2 = tmp / "fail.bin"
+
+        class FailingResp:
+            def read(self, n=-1):
+                raise OSError("connection reset")
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                pass
+
+        lib.urllib.request.urlopen = lambda req, timeout=None: FailingResp()
+        try:
+            _RealDownloadFile("https://example.com/fail", dest2)
+            check(False, "a failed download should raise")
+        except lib.GitHubError:
+            pass
+        check(not dest2.exists(), "no partial file left on failure")
+        check(not (tmp / "fail.bin.part").exists(), ".part removed on failure")
+    finally:
+        lib.urllib.request.urlopen = orig_urlopen
+        lib.time.sleep = orig_sleep
+
+
 def main():
     print("=" * 60)
     print("  AltStore pipeline selftest")
@@ -581,6 +758,10 @@ def main():
     test_ipa_without_dir_entries()
     test_check_releases()
     test_update_source_unchanged()
+    test_http_error_verbose_no_retry()
+    test_download_file_streams_to_disk()
+    test_same_version_rebuild()
+    test_failed_download_keeps_state()
     test_invalid_custom_ipa()  # own fixture; the next test re-patches lib
     fake = test_update_source_bump_and_recovery()
     test_add_custom_ipa(fake)

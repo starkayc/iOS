@@ -1,0 +1,38 @@
+name: Tests
+
+on:
+  push:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/tests.yml"
+  pull_request:
+    paths:
+      - "scripts/**"
+      - ".github/workflows/tests.yml"
+  workflow_dispatch:
+
+# Independent of the altstore-repo group — the tests never write repo state.
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Byte-compile all scripts
+        run: python -m compileall -q scripts
+
+      - name: Run pipeline selftest
+        run: python scripts/selftest.py

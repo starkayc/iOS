@@ -8,3 +8,5 @@ __pycache__/
 # IPAs are hosted as GitHub Release assets (not committed to the
 # repo — avoids LFS pointer files being served by GitHub Pages).
 ipas/*.ipa
+# In-progress downloads (atomic .part files from download_file).
+*.part
