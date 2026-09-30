@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "EeveeSpotify",
+      "bundleIdentifier": "com.spotify.client",
+      "developerName": "",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.spotify.client.png",
+      "localizedDescription": "Enhancing your Spotify experience on iOS",
+      "subtitle": "Enhancing your Spotify experience on iOS",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotify.rel-6.6.8.ipa",
+          "size": 132943852,
+          "version": "9.1.74",
+          "buildVersion": "917402018",
+          "date": "2026-09-30T23:48:41Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "9.1.74",
+      "versionDate": "2026-09-30T23:48:41Z",
+      "size": 132943852,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotify.rel-6.6.8.ipa"
+    },
+    {
       "name": "Balatro",
       "bundleIdentifier": "org.htf65jud.balatro",
       "developerName": "",
