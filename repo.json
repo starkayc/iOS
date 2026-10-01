@@ -8,7 +8,7 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "EeveeSpotify",
+      "name": "EeveeSpotifyReincarnated",
       "bundleIdentifier": "com.spotify.client",
       "developerName": "",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.spotify.client.png",
