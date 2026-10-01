@@ -18,20 +18,20 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotify.rel-6.6.8.ipa",
-          "size": 132943852,
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpoti.pw.rel-0.22.0.ipa",
+          "size": 131889246,
           "version": "9.1.74",
           "buildVersion": "917402018",
-          "date": "2026-09-30T23:48:41Z",
+          "date": "2026-10-01T00:05:54Z",
           "localizedDescription": "",
           "minOSVersion": "15.0"
         }
       ],
       "appPermissions": {},
       "version": "9.1.74",
-      "versionDate": "2026-09-30T23:48:41Z",
-      "size": 132943852,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotify.rel-6.6.8.ipa"
+      "versionDate": "2026-10-01T00:05:54Z",
+      "size": 131889246,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpoti.pw.rel-0.22.0.ipa"
     },
     {
       "name": "Balatro",
