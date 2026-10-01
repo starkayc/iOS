@@ -8,30 +8,30 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "EeveeSpotifyReincarnated",
-      "bundleIdentifier": "com.spotify.client",
-      "developerName": "",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.spotify.client.png",
-      "localizedDescription": "Enhancing your Spotify experience on iOS",
-      "subtitle": "Enhancing your Spotify experience on iOS",
+      "name": "Air",
+      "bundleIdentifier": "com.air-devs.air",
+      "developerName": "herbrine8403",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.air-devs.air.png",
+      "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
+      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa",
-          "size": 139389791,
-          "version": "9.1.86",
-          "buildVersion": "918602428",
-          "date": "2026-10-01T01:53:07Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.1.0.ipa",
+          "size": 244024897,
+          "version": "5.1.0",
+          "buildVersion": "5.1.0",
+          "date": "2026-10-01T01:38:02Z",
           "localizedDescription": "",
-          "minOSVersion": "15.0"
+          "minOSVersion": "14.0"
         }
       ],
       "appPermissions": {},
-      "version": "9.1.86",
-      "versionDate": "2026-10-01T01:53:07Z",
-      "size": 139389791,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa"
+      "version": "5.1.0",
+      "versionDate": "2026-10-01T01:38:02Z",
+      "size": 244024897,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.1.0.ipa"
     },
     {
       "name": "Balatro",
@@ -58,6 +58,32 @@
       "versionDate": "2026-09-24T15:01:54Z",
       "size": 74445999,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa"
+    },
+    {
+      "name": "EeveeSpotifyReincarnated",
+      "bundleIdentifier": "com.spotify.client",
+      "developerName": "",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.spotify.client.png",
+      "localizedDescription": "Enhancing your Spotify experience on iOS",
+      "subtitle": "Enhancing your Spotify experience on iOS",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa",
+          "size": 139389791,
+          "version": "9.1.86",
+          "buildVersion": "918602428",
+          "date": "2026-10-01T01:53:12Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "9.1.86",
+      "versionDate": "2026-10-01T01:53:12Z",
+      "size": 139389791,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa"
     },
     {
       "name": "Nuvio",
@@ -162,32 +188,6 @@
       "versionDate": "2026-09-28T10:25:25Z",
       "size": 68651824,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.4.ipa"
-    },
-    {
-      "name": "Air",
-      "bundleIdentifier": "com.air-devs.air",
-      "developerName": "herbrine8403",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.air-devs.air.png",
-      "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
-      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa",
-          "size": 193369366,
-          "version": "5.0.0",
-          "buildVersion": "5.0.0",
-          "date": "2026-08-24T03:05:18Z",
-          "localizedDescription": "",
-          "minOSVersion": "14.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "5.0.0",
-      "versionDate": "2026-08-24T03:05:18Z",
-      "size": 193369366,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.0.0.ipa"
     },
     {
       "name": "Get More Ram",
