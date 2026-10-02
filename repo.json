@@ -60,6 +60,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa"
     },
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "Official Nuvio Mobile Repository",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.6.ipa",
+          "size": 66690752,
+          "version": "0.5.6",
+          "buildVersion": "138",
+          "date": "2026-10-02T12:45:05Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.6",
+      "versionDate": "2026-10-02T12:45:05Z",
+      "size": 66690752,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.6.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -110,32 +136,6 @@
       "versionDate": "2026-10-01T01:38:02Z",
       "size": 244024897,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.1.0.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.5.ipa",
-          "size": 66647562,
-          "version": "0.5.5",
-          "buildVersion": "137",
-          "date": "2026-09-30T19:22:54Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.5",
-      "versionDate": "2026-09-30T19:22:54Z",
-      "size": 66647562,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.5.ipa"
     },
     {
       "name": "Apollo",
