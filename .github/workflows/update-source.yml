@@ -5,12 +5,12 @@ on:
     # Runs every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)
     # Uses minute 17 to avoid the :00/:30 stampede.
     - cron: "17 */6 * * *"
-  push:
-    paths:
-      - "current_releases.json"
-      - "scripts/**"
-      - "sources.json"
-      - ".github/workflows/update-source.yml"
+  # No `push` trigger on purpose.  check-releases commits
+  # current_releases.json with GITHUB_TOKEN, and GitHub does not start
+  # runs for GITHUB_TOKEN pushes — so this never fired for the automated
+  # flow.  A scripts/ push *would* fire it, but check-releases fires at
+  # the same time and the shared concurrency group cancels one of them.
+  # Use workflow_dispatch, or wait for the 6-hourly run.
   workflow_dispatch:
 
 # All three workflows share one group so runs queue instead of racing
