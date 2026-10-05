@@ -60,6 +60,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa"
     },
     {
+      "name": "qBitControl",
+      "bundleIdentifier": "MikeMichael225.qBitControl",
+      "developerName": "Michael-128",
+      "iconURL": "https://starkayc.github.io/iOS/icons/MikeMichael225.qBitControl.png",
+      "localizedDescription": "qBittorrent remote client for iOS devices.",
+      "subtitle": "qBittorrent remote client for iOS devices.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-1.4.1.ipa",
+          "size": 4777720,
+          "version": "1.4.1",
+          "buildVersion": "21",
+          "date": "2026-07-23T18:28:15Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.4.1",
+      "versionDate": "2026-07-23T18:28:15Z",
+      "size": 4777720,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-1.4.1.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -214,32 +240,6 @@
       "versionDate": "2026-09-12T14:39:53Z",
       "size": 2305445,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Get-More-Ram.pre-52f5e96.ipa"
-    },
-    {
-      "name": "qBitControl",
-      "bundleIdentifier": "MikeMichael225.qBitControl",
-      "developerName": "Michael-128",
-      "iconURL": "https://starkayc.github.io/iOS/icons/MikeMichael225.qBitControl.png",
-      "localizedDescription": "qBittorrent remote client for iOS devices.",
-      "subtitle": "qBittorrent remote client for iOS devices.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-release-1.4.1.ipa",
-          "size": 4777720,
-          "version": "1.4.1",
-          "buildVersion": "21",
-          "date": "2026-07-23T18:28:15Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "1.4.1",
-      "versionDate": "2026-07-23T18:28:15Z",
-      "size": 4777720,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-release-1.4.1.ipa"
     },
     {
       "name": "Sora",
