@@ -109,18 +109,21 @@ def canonical_filename(name: str) -> str:
 
 
 def sanitize_version(version: str) -> str:
-    """Strip a trailing pre-release suffix for use in file names.
+    """Clean a release tag for use in file names.
 
-    "0.5.1-beta" → "0.5.1", "2.0.0-rc.2" → "2.0.0", "1.0" → "1.0".
+    Drops a leading "release" prefix and a trailing pre-release suffix:
+    "release-1.4.1" → "1.4.1", "0.5.1-beta" → "0.5.1",
+    "2.0.0-rc.2" → "2.0.0", "1.0" → "1.0".
     current_releases.json keeps the raw tag so a beta→stable move is
     still detected as a change; file names use this sanitized form.
     """
+    stripped = re.sub(r"^release[-_.]?", "", version, flags=re.IGNORECASE)
     cleaned = re.sub(
         r"[-_.]?(alpha|beta|rc|preview|pre)[-_.]?\d*$",
         "",
-        version,
+        stripped,
         flags=re.IGNORECASE,
-    ).strip("-. _")
+    ).strip("- . _")
     return cleaned or version  # never return an empty name
 
 

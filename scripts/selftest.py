@@ -328,6 +328,11 @@ def test_naming():
     check(lib.sanitize_version("2.0.0-rc.2") == "2.0.0", "sanitize rc suffix")
     check(lib.sanitize_version("1.15.11_3.7.1") == "1.15.11_3.7.1",
           "sanitize leaves underscore version alone")
+    check(lib.sanitize_version("release-1.4.1") == "1.4.1",
+          "sanitize drops a leading release prefix")
+    check(lib.ipa_filename("qBitControl", version="release-1.4.1")
+          == "qBitControl.rel-1.4.1.ipa",
+          "release prefix not baked into the file name")
     check(lib.ipa_filename("Nuvio Enhanced", version="0.5.1-beta")
           == "Nuvio-Enhanced.rel-0.5.1.ipa", "stable filename (dot form)")
     check(lib.ipa_filename("Ksign", commit="03a3a9c1234")
