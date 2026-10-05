@@ -402,8 +402,14 @@ def fetch_ipa_from_release(
     source: dict,
     dest: Path,
     token: Optional[str] = None,
-) -> bool:
-    """Download an app's IPA from a release into ``dest``; True on success.
+) -> Optional[bool]:
+    """Download an app's IPA from a release into ``dest``.
+
+    Returns True on success, False on a download/extract failure, and
+    None when the release has no .ipa (or .ipa.zip) asset at all.  The
+    caller treats None as "nothing to download yet", not an error: some
+    projects (e.g. ppy/osu) publish the release before the iOS build is
+    attached, so the next run retries it.
 
     Picks the asset matching ``source["asset_pattern"]`` (or the plain
     default build).  Some repos only ship a zipped IPA (e.g. Ferrite), so
@@ -432,8 +438,8 @@ def fetch_ipa_from_release(
         if a["name"].lower().endswith(".ipa.zip")
     ]
     if not zip_assets:
-        diag.error(f"no .ipa asset in release {release.get('tag_name', '?')}")
-        return False
+        diag.debug(f"no .ipa asset in release {release.get('tag_name', '?')}")
+        return None
 
     zip_asset = zip_assets[0]
     print(

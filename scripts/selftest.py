@@ -659,6 +659,40 @@ def test_same_version_rebuild():
     check(generate_repo() is False, "a genuinely unchanged run is a no-op")
 
 
+def test_update_source_missing_asset():
+    print("\n── update_source: release without an IPA asset is skipped ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    # Feather publishes v2.10.0 but ships no .ipa (like ppy/osu, which
+    # attaches the iOS build later or not at all).  The run must finish
+    # cleanly and leave Feather's recorded version alone.
+    seed_current_releases(fake, tmp, feather="2.9.0")
+    fake.repos["claration/Feather"]["releases"].insert(0, release(
+        "v2.10.0", False, ("Feather-installer.exe", 1000, "https://up/nope")))
+
+    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
+    fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
+    fake.seed_asset("Ferrite.rel-0.7.4.ipa", 1000)
+
+    seed_repo_json(tmp, [
+        app_entry("thewonderofyou.Feather", "Feather",
+                  asset_url("Feather.rel-2.9.0.ipa")),
+        app_entry("nya.asami.ksign", "Ksign",
+                  asset_url("Ksign.pre-03a3a9c.ipa")),
+        app_entry("com.nuvio.enhancedmedia", "Nuvio Enhanced",
+                  asset_url("Nuvio-Enhanced.rel-0.5.1.ipa")),
+        app_entry("me.kingbri.Ferrite", "Ferrite",
+                  asset_url("Ferrite.rel-0.7.4.ipa")),
+    ])
+
+    worked, failures = update_source_report()
+    check(failures == [], f"no failure reported (got {failures})")
+    check(worked is False, "nothing was downloaded")
+    check(fake.downloads == [], "no asset was fetched")
+    check(lib.load_current_releases()["Feather"]["version"] == "2.9.0",
+          "recorded version left untouched for the next run")
+
+
 def test_failed_download_keeps_state():
     print("\n── update_source: failed download does not advance state ──")
     tmp = Path(tempfile.mkdtemp())
@@ -758,6 +792,7 @@ def main():
     test_ipa_without_dir_entries()
     test_check_releases()
     test_update_source_unchanged()
+    test_update_source_missing_asset()
     test_http_error_verbose_no_retry()
     test_download_file_streams_to_disk()
     test_same_version_rebuild()

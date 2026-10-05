@@ -9,9 +9,11 @@ overrides, picks up manual release drops, records the new state in
 current_releases.json, then rebuilds repo.json via generate_repo.py.
 
 If nothing needs downloading, exits cleanly without touching repo.json,
-the release, or git — so unchanged runs upload nothing.  If an app's
-download fails, its recorded version is left untouched (so the next run
-retries it) and the script exits non-zero.
+the release, or git — so unchanged runs upload nothing.  A release whose
+IPA asset isn't attached yet (e.g. ppy/osu ships it separately) is
+skipped, not failed.  If an app's download fails, its recorded version is
+left untouched (so the next run retries it) and the script exits
+non-zero.
 
 Usage:
     python scripts/update_source.py [--github-token TOKEN] [--debug]
@@ -105,9 +107,21 @@ def update_source_report(
             repo_desc, repo_owner = "", ""
 
         dest_path = lib.IPAS_DIR / expected
-        if not lib.fetch_ipa_from_release(
+        fetched = lib.fetch_ipa_from_release(
             info["release"], source, dest_path, token
-        ):
+        )
+        if fetched is None:
+            # New version published but no IPA attached yet — nothing to
+            # download.  Leave the recorded value and retry next run
+            # instead of failing the workflow.
+            cli.warn(
+                f"{name}: {info['release'].get('tag_name', '?')} has no "
+                ".ipa asset yet — skipping"
+            )
+            if name in old_recorded:
+                new_recorded[name] = old_recorded[name]
+            continue
+        if not fetched:
             cli.error(f"{name}: could not download {expected}")
             failures.append(name)
             # Do NOT record the new version — the download failed, so
