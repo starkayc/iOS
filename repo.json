@@ -60,6 +60,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa"
     },
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "Official Nuvio Mobile Repository",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.7.ipa",
+          "size": 66836754,
+          "version": "0.5.7",
+          "buildVersion": "139",
+          "date": "2026-10-06T15:53:34Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.7",
+      "versionDate": "2026-10-06T15:53:34Z",
+      "size": 66836754,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.7.ipa"
+    },
+    {
       "name": "qBitControl",
       "bundleIdentifier": "MikeMichael225.qBitControl",
       "developerName": "Michael-128",
@@ -110,32 +136,6 @@
       "versionDate": "2026-10-03T01:19:21Z",
       "size": 69160774,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.6.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.6.ipa",
-          "size": 66690752,
-          "version": "0.5.6",
-          "buildVersion": "138",
-          "date": "2026-10-02T12:45:05Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.6",
-      "versionDate": "2026-10-02T12:45:05Z",
-      "size": 66690752,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.6.ipa"
     },
     {
       "name": "Air",
