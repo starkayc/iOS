@@ -60,6 +60,32 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa"
     },
     {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.7.ipa",
+          "size": 69505135,
+          "version": "0.5.7",
+          "buildVersion": "139",
+          "date": "2026-10-07T02:11:42Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.7",
+      "versionDate": "2026-10-07T02:11:42Z",
+      "size": 69505135,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.7.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
@@ -110,32 +136,6 @@
       "versionDate": "2026-07-23T18:28:15Z",
       "size": 4777720,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/qBitControl.rel-1.4.1.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.6.ipa",
-          "size": 69160774,
-          "version": "0.5.6",
-          "buildVersion": "138",
-          "date": "2026-10-03T01:19:21Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.6",
-      "versionDate": "2026-10-03T01:19:21Z",
-      "size": 69160774,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.5.6.ipa"
     },
     {
       "name": "Air",
