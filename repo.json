@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.9.0.ipa",
+          "size": 128560322,
+          "version": "3.9.0",
+          "buildVersion": "301",
+          "date": "2026-10-09T22:56:25Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.9.0",
+      "versionDate": "2026-10-09T22:56:25Z",
+      "size": 128560322,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.9.0.ipa"
+    },
+    {
       "name": "Balatro",
       "bundleIdentifier": "org.htf65jud.balatro",
       "developerName": "",
@@ -188,32 +214,6 @@
       "versionDate": "2026-10-01T01:38:02Z",
       "size": 244024897,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.1.0.ipa"
-    },
-    {
-      "name": "Apollo",
-      "bundleIdentifier": "com.christianselig.Apollo",
-      "developerName": "Apollo-Reborn",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
-      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa",
-          "size": 128072289,
-          "version": "3.8.5",
-          "buildVersion": "300",
-          "date": "2026-09-29T02:39:57Z",
-          "localizedDescription": "",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.8.5",
-      "versionDate": "2026-09-29T02:39:57Z",
-      "size": 128072289,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.8.5.ipa"
     },
     {
       "name": "StikDebug",
