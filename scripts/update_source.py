@@ -1,30 +1,102 @@
 #!/usr/bin/env python3
 """
-Update source — workflow 2.
+Update source, workflow 2.
 
-Checks every sources.json app against current_releases.json and
-downloads only apps whose version/commit changed or whose versioned
-asset is missing from the ipa-assets release.  Applies bundle-ID
-overrides, picks up manual release drops, records the new state in
-current_releases.json, then rebuilds repo.json via generate_repo.py.
+Checks every sources.json app against current_releases.json and downloads
+only the apps whose version or commit changed, or whose versioned asset is
+missing from the ipa-assets release.  It applies bundle-ID overrides,
+picks up manual release drops, records the new state in
+current_releases.json, and rebuilds repo.json through generate_repo.py.
 
-If nothing needs downloading, exits cleanly without touching repo.json,
-the release, or git — so unchanged runs upload nothing.  A release whose
-IPA asset isn't attached yet (e.g. ppy/osu ships it separately) is
-skipped, not failed.  If an app's download fails, its recorded version is
-left untouched (so the next run retries it) and the script exits
-non-zero.
+When nothing needs downloading, the script exits without touching
+repo.json, the release or git, so an unchanged run uploads nothing.  A
+release whose IPA asset is not attached yet, such as ppy/osu which ships
+it separately, is skipped rather than failed.  When a download fails, or
+the downloaded file is not a usable IPA, the recorded version stays
+untouched so the next run retries it, and the script exits non-zero and
+names the app.
 
 Usage:
     python scripts/update_source.py [--github-token TOKEN] [--debug]
 """
 
 import sys
+from pathlib import Path
 from typing import Optional
 
 import altstore_lib as lib
 import cli_common as cli
+import ipa
+import release as rel
 from generate_repo import generate_repo
+
+
+def _repo_facts(repo: str, token: Optional[str]) -> tuple[str, str]:
+    """A repo's About text and owner login (defaults for a new app)."""
+    try:
+        info = lib.github_api(f"{lib.API_BASE}/repos/{repo}", token) or {}
+    except Exception as ex:
+        cli.warn(f"{repo}: could not read repo info: {ex}")
+        return "", ""
+    description = (info.get("description") or "").strip()
+    if description:
+        print(
+            f"    About: {description[:80]}"
+            f"{'…' if len(description) > 80 else ''}"
+        )
+    return description, (info.get("owner", {}) or {}).get("login", "")
+
+
+def _apply_bundle_id(dest: Path, bundle_id: str) -> str:
+    """Rewrite the IPA's bundle ID; "" on success, else the reason.
+
+    AltStore re-signs on install, so two builds of the same app coexist
+    only if one of them carries a different ID.  An unpatched build
+    collides with the base app, so this is a failure, not a warning.
+    """
+    try:
+        patched = ipa.patch_bundle_id(dest, bundle_id)
+    except Exception as ex:
+        return f"bundle-ID patch crashed: {type(ex).__name__}: {ex}"
+    return "" if patched else f"could not patch the bundle ID to {bundle_id}"
+
+
+def _fetch_one(
+    entry: dict, token: Optional[str], dest: Path
+) -> tuple[Optional[str], dict]:
+    """Fetch one app's IPA and apply its bundle-ID override.
+
+    Returns ``(problem, facts)``.  ``problem`` carries the same meaning as
+    in release.fetch_ipa_from_release.  None means the release has no IPA
+    asset yet, so skip it and retry next run.  An empty string means
+    ``dest`` is ready to publish.  Anything else is the reason it is not.
+    ``facts`` is what generate_repo needs to know about that file, and is
+    empty unless the fetch worked.
+    """
+    source = entry["source"]
+    description, developer = _repo_facts(entry["repo"], token)
+    problem = rel.fetch_ipa_from_release(
+        entry["info"]["release"], source, dest, token
+    )
+    if problem or problem is None:
+        return problem, {}
+    if source.get("bundle_id_override"):
+        problem = _apply_bundle_id(dest, source["bundle_id_override"])
+        if problem:
+            return problem, {}
+    facts = {
+        "date": entry["info"]["published_at"],
+        "description": description,
+        "developer": developer,
+        "display_name": source.get("display_name", ""),
+    }
+    if entry["release_type"] == "stable":
+        # A build can keep CFBundleShortVersionString constant (osu! ships
+        # 1.0 for every release) while its tag moves.  AltStore only offers an
+        # update when the source's version is higher, so generate_repo gets
+        # the tracked release version to compare against the plist's.
+        facts["version"] = entry["latest"]
+    return "", facts
 
 
 def update_source_report(
@@ -32,10 +104,10 @@ def update_source_report(
 ) -> tuple[bool, list[str]]:
     """Fetch changed apps and rebuild repo.json.
 
-    Returns ``(worked, failures)``: ``worked`` is True if any work was
-    done (repo.json may or may not have changed); ``failures`` lists the
-    apps that could not be fetched (or manual drops that failed), so the
-    caller can exit non-zero and surface exactly what went wrong.
+    Returns ``(worked, failures)``.  ``worked`` is True when the run did
+    any work, whether or not repo.json changed.  ``failures`` lists the
+    apps that could not be fetched, including manual drops that failed,
+    so the caller can exit non-zero and report them.
     """
     print("=" * 60)
     print("  AltStore Source Updater")
@@ -47,42 +119,73 @@ def update_source_report(
 
     lib.IPAS_DIR.mkdir(exist_ok=True)
 
-    release_dates: dict[str, str] = {}
-    repo_descriptions: dict[str, str] = {}
-    developer_names: dict[str, str] = {}
-    manual_names: set[str] = set()
-    display_names: dict[str, str] = {}
-
+    per_app: dict[str, dict] = {}
     new_recorded: dict[str, dict] = {}
     old_recorded = lib.load_current_releases()
+    repo_assets = lib.repo_json_asset_names()
     downloaded_any = False
     failures: list[str] = []
-    expected_stems: set[str] = set()
+    # Every sources.json app owns files named "<stem>.rel|pre-….ipa".  An
+    # asset that carries one of these stems is an older version of a watched
+    # app, never a manual drop, even when this run could not reach its API.
+    expected_stems = {
+        lib.ipa_stem(e["source"]["name"]) for e in entries
+    }
+
+    def _keep_recorded(app_name: str) -> None:
+        """Leave the previously recorded version so the next run retries."""
+        if app_name in old_recorded:
+            new_recorded[app_name] = old_recorded[app_name]
+        else:
+            new_recorded.pop(app_name, None)
+
+    def _defer(app_name: str, drop_file: Optional[Path] = None) -> None:
+        """Mark an app failed: keep its recorded version, drop its file.
+
+        The caller then ``continue``s, so the version is never recorded as
+        installed and the next run retries the app.
+        """
+        failures.append(app_name)
+        _keep_recorded(app_name)
+        if drop_file is not None:
+            drop_file.unlink(missing_ok=True)
+
+    # A manual drop exists only on the release until it is ingested.  List
+    # every candidate up front, so the download loop below only touches
+    # files that are not already on disk, not a watched app, and not yet
+    # referenced by repo.json.
+    manual_candidates: set[str] = set()
+    for name in release_assets:
+        if not name.lower().endswith(".ipa"):
+            continue
+        local_name = lib.canonical_filename(name)
+        if (lib.IPAS_DIR / local_name).exists():
+            continue
+        if lib.parse_ipa_filename(local_name)[0] in expected_stems:
+            continue
+        if lib.repo_json_references(local_name, repo_assets):
+            continue
+        manual_candidates.add(name)
 
     for e in entries:
         name = e["name"]
-        repo = e["repo"]
         release_type = e["release_type"]
-        source = e["source"]
         info = e["info"]
+        value_key = "commit" if release_type == "prerelease" else "version"
+        expected = e["expected_filename"]
 
         if info is None:
             cli.error(f"{name}: could not determine the latest release")
-            if name in old_recorded:
-                new_recorded[name] = old_recorded[name]
+            _keep_recorded(name)
             continue
 
-        value_key = "commit" if release_type == "prerelease" else "version"
-        expected = e["expected_filename"]
-        expected_stems.add(lib.parse_ipa_filename(expected)[0])
-
-        # Skip only when the release has the asset AND the committed
-        # repo.json already points at it — otherwise rebuild the entry
-        # (recovers from name-scheme migrations and failed runs).
+        # Skip only when the release holds the asset and the committed
+        # repo.json already points at it.  Otherwise rebuild the entry,
+        # which recovers from a name-scheme change or a failed run.
         if (
             not e["changed"]
             and e["asset_in_release"]
-            and lib.repo_json_references(expected)
+            and lib.repo_json_references(expected, repo_assets)
         ):
             new_recorded[name] = {"release_type": release_type,
                                   value_key: e["latest"]}
@@ -92,84 +195,45 @@ def update_source_report(
         reason = "updated" if e["changed"] else "asset missing — re-fetching"
         print(f"  🔍 {name} — {reason}: {e['recorded']} → {e['latest']}")
 
-        # Repo "About" text + owner become defaults for new apps.
-        try:
-            repo_info = lib.github_api(f"{lib.API_BASE}/repos/{repo}", token) or {}
-            repo_desc = (repo_info.get("description") or "").strip()
-            repo_owner = (repo_info.get("owner", {}) or {}).get("login", "")
-            if repo_desc:
-                print(
-                    f"    About: {repo_desc[:80]}"
-                    f"{'…' if len(repo_desc) > 80 else ''}"
-                )
-        except Exception as ex:
-            cli.warn(f"{name}: could not read repo info ({repo}): {ex}")
-            repo_desc, repo_owner = "", ""
-
         dest_path = lib.IPAS_DIR / expected
-        fetched = lib.fetch_ipa_from_release(
-            info["release"], source, dest_path, token
-        )
-        if fetched is None:
-            # New version published but no IPA attached yet — nothing to
-            # download.  Leave the recorded value and retry next run
-            # instead of failing the workflow.
+        problem, facts = _fetch_one(e, token, dest_path)
+        if problem is None:
+            # A new version is published but no IPA is attached yet, so
+            # there is nothing to download.  Leave the recorded value and
+            # retry next run instead of failing the workflow.
             cli.warn(
                 f"{name}: {info['release'].get('tag_name', '?')} has no "
                 ".ipa asset yet — skipping"
             )
-            if name in old_recorded:
-                new_recorded[name] = old_recorded[name]
+            _keep_recorded(name)
             continue
-        if not fetched:
-            cli.error(f"{name}: could not download {expected}")
-            failures.append(name)
-            # Do NOT record the new version — the download failed, so
-            # leave the recorded value so the next run retries this app.
-            if name in old_recorded:
-                new_recorded[name] = old_recorded[name]
+        if problem:
+            cli.error(f"{name}: {problem}")
+            _defer(name, dest_path)
             continue
 
         downloaded_any = True
         new_recorded[name] = {"release_type": release_type,
                               value_key: e["latest"]}
+        per_app[expected] = facts
 
-        # Bundle-ID override: lets two builds of the same app coexist in
-        # one source (AltStore re-signs on install).
-        if source.get("bundle_id_override"):
-            lib.patch_bundle_id(dest_path, source["bundle_id_override"])
-
-        release_dates[expected] = info["published_at"]
-        repo_descriptions[expected] = repo_desc
-        developer_names[expected] = repo_owner
-        if source.get("display_name"):
-            display_names[expected] = source["display_name"]
-
-    # ── Pick up IPAs manually dropped onto the ipa-assets release ─────────
-    # Anything uploaded there that isn't a current source artifact is a
-    # hand-built IPA — download it so it joins the source on the scan.
-    # Assets whose stem matches a sources app (stale/older versions) are
-    # left alone: sync_release deletes them once repo.json no longer
-    # references them.
-    for asset_name, a in sorted(release_assets.items()):
-        if not asset_name.lower().endswith(".ipa"):
-            continue
+    for asset_name in sorted(manual_candidates):
+        a = release_assets[asset_name]
         local_name = lib.canonical_filename(asset_name)
-        if (lib.IPAS_DIR / local_name).exists():
-            continue
-        if lib.parse_ipa_filename(local_name)[0] in expected_stems:
-            continue
         print(f"  📥 manual drop: {asset_name} ({a['size']:,} bytes)")
-        try:
-            lib.download_file(
-                a["browser_download_url"], lib.IPAS_DIR / local_name, token
-            )
-            manual_names.add(local_name)
-            release_dates[local_name] = a.get("updated_at", "")
-            downloaded_any = True
-        except Exception as ex:
-            cli.error(f"manual drop {asset_name} failed: {ex}")
-            failures.append(asset_name)
+        target = lib.IPAS_DIR / local_name
+        problem = rel.ingest_ipa(
+            a["browser_download_url"], target, a.get("size"), token
+        )
+        if problem:
+            cli.error(f"manual drop {asset_name}: {problem}")
+            _defer(asset_name, target)
+            continue
+        per_app[local_name] = {
+            "date": a.get("updated_at", ""),
+            "manual": True,
+        }
+        downloaded_any = True
 
     print()
 
@@ -177,25 +241,16 @@ def update_source_report(
         print("✓ Nothing to do — all apps up to date.\n")
         return False, failures
 
-    # ── Record the new release state ──────────────────────────────────────
     if new_recorded != old_recorded:
         lib.save_current_releases(new_recorded)
         print("  ✓ current_releases.json updated")
 
-    # ── Rebuild repo.json from the files we downloaded ────────────────────
-    fetch_report = {
-        "release_dates": release_dates,
-        "repo_descriptions": repo_descriptions,
-        "developer_names": developer_names,
-        "manual_names": manual_names,
-        "display_names": display_names,
-    }
-    worked = generate_repo(fetch_report=fetch_report, cleanup_losers=True)
+    worked = generate_repo(per_app, cleanup_losers=True)
     return worked, failures
 
 
 def update_source(token: Optional[str] = None) -> bool:
-    """Thin wrapper returning just the 'did work' flag (used by tests)."""
+    """Return only the "did work" flag, for the tests that call it."""
     worked, _failures = update_source_report(token)
     return worked
 

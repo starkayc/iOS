@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Release checker — workflow 1.
+Release checker, workflow 1.
 
-Compares every sources.json app against current_releases.json.  If a
-stable app's version tag changed, or a prerelease app's commit moved,
-current_releases.json is updated (and the workflow commits it, which
-triggers the update-source workflow).
+Compares every sources.json app against current_releases.json. When a
+stable app's version tag changes, or a prerelease app's commit moves, this
+script writes current_releases.json. The workflow commits that file, and
+the next scheduled update-source run picks the change up.
 
 If nothing changed, nothing is written and the job exits cleanly.
 
@@ -24,9 +24,9 @@ import cli_common as cli
 def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
     """Compare sources.json against current_releases.json.
 
-    Writes current_releases.json when anything changed (unless
-    --dry-run).  Always returns 0 — the workflow decides whether to
-    commit based on the git diff.
+    Writes current_releases.json when anything changed, unless --dry-run
+    is set.  Always returns 0; the workflow decides whether to commit by
+    looking at the git diff.
     """
     print("=" * 60)
     print("  Release Checker")
@@ -47,7 +47,7 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
         release_type = e["release_type"]
 
         if e["info"] is None:
-            # API error — keep the old value so we don't lose track.
+            # An API error keeps the old value, so we don't lose track.
             if name in old_recorded:
                 new_recorded[name] = old_recorded[name]
                 print(f"  ⚠ {name}: could not check (API error)")

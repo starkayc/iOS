@@ -2,8 +2,8 @@
 """
 Release asset synchronizer.
 
-Makes the ipa-assets release exactly mirror ipas/*.ipa, deterministically —
-no shell word splitting, no gh fuzzy asset matching:
+Makes the ipa-assets release exactly mirror ipas/*.ipa.  No shell word
+splitting and no gh fuzzy asset matching.  It does four things:
 
   - creates the release if it doesn't exist
   - uploads every ipas/*.ipa whose asset is missing or has a different size
@@ -11,70 +11,46 @@ no shell word splitting, no gh fuzzy asset matching:
     downloadURL in repo.json still references them (external apps)
   - exits non-zero if the release doesn't match ipas/ afterwards
 
-Used by the CI workflows after generate_repo.py/update_source.py.
+The CI workflows run it after generate_repo.py or update_source.py.
 
 Usage:
     python scripts/sync_release.py [--token TOKEN] [--no-delete]
 """
 
-import json
 import sys
-from pathlib import Path
 from typing import Optional
-from urllib.parse import unquote
 
 import altstore_lib as lib
 import cli_common as cli
-
-
-def referenced_asset_names(repo_json: Path) -> set[str]:
-    """Names of assets that downloadURLs in repo.json point at."""
-    if not repo_json.exists():
-        return set()
-    with open(repo_json, encoding="utf-8") as f:
-        repo = json.load(f)
-    names: set[str] = set()
-    for app in repo.get("apps", []):
-        urls = [app.get("downloadURL", "")]
-        for v in app.get("versions", []):
-            urls.append(v.get("downloadURL", ""))
-        for url in urls:
-            if lib.RELEASE_TAG in url:
-                names.add(unquote(url.rsplit("/", 1)[-1]))
-    return names
+import release as rel
 
 
 def sync_release(
     token: str,
     no_delete: bool = False,
-    client: Optional[lib.GitHubRelease] = None,
+    client: Optional[rel.GitHubRelease] = None,
 ) -> int:
     """Mirror ipas/*.ipa onto the release.  Returns an exit code.
 
-    ``client`` is injectable so tests can use a fake API backend.
+    A caller can pass its own ``client``, which the tests use to point the
+    sync at a fake API backend.
     """
-    # Normalize file names first (spaces → dashes) so upload names and
-    # release assets always match.
     lib.canonicalize_ipa_files(lib.IPAS_DIR)
 
-    client = client or lib.GitHubRelease(token)
+    client = client or rel.GitHubRelease(token)
     if not client.get_release():
         client.create_release()
 
     assets = {a["name"]: a for a in client.list_assets()}
     files = {p.name: p for p in sorted(lib.IPAS_DIR.glob("*.ipa"))}
-    referenced = referenced_asset_names(lib.REPO_JSON)
+    referenced = lib.repo_json_asset_names()
 
-    # GitHub normalizes asset names on upload (spaces/parens → dots), so
-    # every local-name ↔ server-name comparison goes through the same
-    # sanitization.
     file_names_san = {lib.github_asset_name(n) for n in files}
     referenced_san = {lib.github_asset_name(n) for n in referenced}
 
     if files:
         print(f"Syncing {len(files)} IPA(s) to the {lib.RELEASE_TAG} release …")
 
-    # ── Upload missing / size-changed files ────────────────────────────────
     for name, path in sorted(files.items()):
         san = lib.github_asset_name(name)
         existing = next(
@@ -98,7 +74,6 @@ def sync_release(
             print(f"failed: {e}")
             return 1
 
-    # ── Delete stale assets ─────────────────────────────────────────────────
     for name, asset in sorted(assets.items()):
         if not name.lower().endswith(".ipa"):
             continue
@@ -122,7 +97,6 @@ def sync_release(
             print(f"failed: {e}")
             return 1
 
-    # ── Verify the final state ──────────────────────────────────────────────
     final = {
         lib.github_asset_name(a["name"]): a["size"]
         for a in client.list_assets()

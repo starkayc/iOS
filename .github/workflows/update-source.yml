@@ -27,19 +27,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.13"
 
       - name: Update source (fetch changed apps)
+        id: update
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/update_source.py --github-token="$GH_TOKEN"
 
       - name: Sync IPA Assets release
+        if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -47,17 +49,19 @@ jobs:
           # every ipas/*.ipa (missing or size-changed), deletes stale
           # .ipa assets (exact-name API matching — no shell word
           # splitting, no gh fuzzy matching), and fails if the release
-          # doesn't match ipas/ afterwards.
-          python scripts/sync_release.py --token="$GH_TOKEN"
+          # doesn't match ipas/ afterwards.  When the update step failed,
+          # --no-delete keeps every asset it might still need.
+          python scripts/sync_release.py --token="$GH_TOKEN" \
+            ${{ steps.update.outcome != 'success' && '--no-delete' || '' }}
 
       - name: Commit and push changes
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add repo.json icons/ current_releases.json
 
-          # Only commit if there's something to commit.
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0

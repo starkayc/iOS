@@ -3,59 +3,71 @@
 End-to-end selftest for the AltStore source pipeline.
 
 Runs the real pipeline code (check_for_updates, update_source,
-generate_repo, add_custom_ipa, sync_release) against a stateful fake
-GitHub API and synthetic IPAs, including the REAL GitHubRelease client
-so cache-staleness regressions fail the test.
+generate_repo, add_custom_ipa, sync_release) against the stateful fake
+GitHub API in selftest_fake.py and against synthetic IPAs.  The real
+GitHubRelease client is included, so a cache-staleness regression fails the
+test.
 
-The fake mirrors GitHub's asset-name sanitization (unsafe characters →
-dots, e.g. spaces and parentheses), so name-normalization regressions
-fail too.
+The fake mirrors GitHub's asset-name sanitization, turning unsafe
+characters such as spaces and parentheses into dots, so a name-
+normalization regression fails too.
 
 Run from the repo root:
 
     python scripts/selftest.py
 
-Every test uses throwaway temp directories — nothing in the repo is
+Every test uses a throwaway temp directory, so nothing in the repo is
 modified.
 """
 
 import io
+import http.client
 import json
-import plistlib
 import sys
 import tempfile
 import urllib.error
+import urllib.request
 import zipfile
+import zlib
 from pathlib import Path
-from urllib.parse import unquote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import altstore_lib as lib  # noqa: E402
 import cli_common as cli  # noqa: E402
+import ipa  # noqa: E402
+import release as rel  # noqa: E402
 import sync_release as sr  # noqa: E402
 from add_custom_ipa import run_custom_upload  # noqa: E402
 from check_releases import run_check  # noqa: E402
 from generate_repo import generate_repo  # noqa: E402
 from update_source import update_source, update_source_report  # noqa: E402
+from selftest_fake import (  # noqa: E402
+    FakeGitHub,
+    FakeReleaseFactory,
+    SHA_KSIGN,
+    SHA_KSIGN_NEW,
+    app_entry,
+    asset_url,
+    build_fixture,
+    crushed_icon_png,
+    make_ipa,
+    make_ipa_with_icon,
+    plain_png,
+    png_chunks,
+    release,
+    seed_current_releases,
+    seed_repo_json,
+    seed_up_to_date,
+)
 
 cli.setup_stdio()
 
-_RealGitHubRelease = lib.GitHubRelease  # keep before any patching
 _RealGithubApi = lib.github_api  # keep before any patching
 _RealDownloadFile = lib.download_file  # keep before any patching
+_RealGitHubRelease = rel.GitHubRelease  # ditto, the tests replace it
 
 
-class FakeReleaseFactory:
-    """Builds the real client wired to the fake sync server."""
-
-    def __init__(self, fake):
-        self.fake = fake
-
-    def __call__(self, token):
-        client = _RealGitHubRelease(token)
-        client.api = self.fake.sync_api
-        return client
 
 PASS = 0
 
@@ -70,257 +82,6 @@ def check(cond, msg):
         raise AssertionError(msg)
 
 
-def make_ipa(bundle_id, version="0.5.1", name="Nuvio", build="133",
-             with_dir_entry=True):
-    info = {
-        "CFBundleIdentifier": bundle_id,
-        "CFBundleDisplayName": name,
-        "CFBundleShortVersionString": version,
-        "CFBundleVersion": build,
-        "MinimumOSVersion": "16.1",
-    }
-    buf = io.BytesIO()
-    with zipfile.ZipFile(buf, "w") as zf:
-        if with_dir_entry:
-            zf.writestr("Payload/App.app/", "")
-        zf.writestr(
-            "Payload/App.app/Info.plist",
-            plistlib.dumps(info, fmt=plistlib.FMT_BINARY),
-        )
-        zf.writestr("Payload/App.app/binary", b"x" * 5000)
-    return buf.getvalue()
-
-
-# ── Fake GitHub backend ──────────────────────────────────────────────────────
-
-class FakeGitHub:
-    """Stateful stand-in for the GitHub REST API + file downloads.
-
-    ``api`` serves repo info, releases lists, commit lookups, and the
-    ipa-assets release.  ``download`` serves bytes from download_store.
-    ``assets`` is the ipa-assets release's asset table — uploads store
-    names the way GitHub does (sanitized: unsafe chars → dots).
-    """
-
-    def __init__(self):
-        self.repos = {}      # "owner/repo" → {"desc", "owner", "releases": [...]}
-        self.commits = {}    # "owner/repo" → {tag: full sha}
-        self.assets = {}     # asset name → {"id", "name", "size", "updated_at"}
-        self.download_store = {}  # url → bytes
-        self.downloads = []  # recorded (url, filename)
-        self.fail_downloads = {}  # url → error message (simulate a failure)
-        self.tag_fetches = 0
-        self.next_id = 100
-
-    # ── fixture builders ─────────────────────────────────────────────
-    def add_repo(self, repo, desc, owner, releases):
-        self.repos[repo] = {"desc": desc, "owner": owner, "releases": releases}
-
-    def set_commit(self, repo, tag, sha):
-        self.commits.setdefault(repo, {})[tag] = sha
-
-    def add_download(self, url, data):
-        self.download_store[url] = data
-
-    def seed_asset(self, name, size):
-        self.next_id += 1
-        self.assets[name] = {
-            "id": self.next_id, "name": name, "size": size,
-            "updated_at": "2026-09-24T11:45:57Z",
-        }
-
-    # ── API handlers ─────────────────────────────────────────────────
-    def api(self, url, token=None):
-        if "/releases/tags/" in url:
-            self.tag_fetches += 1
-            return {
-                "id": 1,
-                "assets": [
-                    dict(a) for a in self.assets.values()
-                ],
-            }
-        if "/releases?per_page=10" in url:
-            repo = url.split("/repos/", 1)[1].split("/releases", 1)[0]
-            return self.repos[repo]["releases"]
-        if "/commits/" in url:
-            repo = url.split("/repos/", 1)[1].split("/commits/", 1)[0]
-            tag = unquote(url.rsplit("/commits/", 1)[1])
-            return {"sha": self.commits[repo][tag]}
-        # Anything else under /repos/… is repo info.
-        if "/repos/" in url:
-            repo = url.split("/repos/", 1)[1]
-            if repo in self.repos:
-                r = self.repos[repo]
-                return {"description": r["desc"], "owner": {"login": r["owner"]}}
-        raise AssertionError(f"unexpected API call: {url}")
-
-    def download(self, url, dest, token=None):
-        if url in self.fail_downloads:
-            raise RuntimeError(self.fail_downloads[url])
-        data = self.download_store.get(url)
-        if data is None:
-            raise AssertionError(f"unexpected download: {url}")
-        dest.write_bytes(data)
-        self.downloads.append((url, dest.name))
-
-    # ── sync client server (uploads/deletes, same asset table) ───────
-    def sync_api(self, url, data=None, method=None,
-                 content_type="application/octet-stream"):
-        if method == "DELETE":
-            asset_id = int(url.rstrip("/").rsplit("/", 1)[1])
-            self.assets = {
-                k: v for k, v in self.assets.items() if v["id"] != asset_id
-            }
-            return None
-        if "uploads.github.com" in url and data is not None:
-            name = unquote(url.split("name=", 1)[1])
-            # Mirror GitHub: sanitize the name the way the real API does.
-            stored = lib.github_asset_name(name)
-            self.assets.pop(stored, None)
-            self.next_id += 1
-            self.assets[stored] = {
-                "id": self.next_id, "name": stored, "size": len(data),
-                "updated_at": "2026-09-24T12:00:00Z",
-            }
-            return {"id": self.next_id, "name": stored, "state": "uploaded"}
-        if "/releases" in url and data is not None:
-            return {"id": 1}  # create release
-        if "/releases/tags/" in url:
-            self.tag_fetches += 1
-            return {
-                "id": 1,
-                "assets": [dict(a) for a in self.assets.values()],
-            }
-        raise AssertionError(f"unexpected sync call: {method} {url}")
-
-
-# ── Fixtures ─────────────────────────────────────────────────────────────────
-
-SHA_KSIGN = "03a3a9c1234567890123456789012345678901234"
-SHA_KSIGN_NEW = "0abc123456789012345678901234567890123456"
-
-
-def release(tag, prerelease, *assets):
-    return {
-        "tag_name": tag,
-        "prerelease": prerelease,
-        "published_at": "2026-09-23T06:37:37Z",
-        "assets": [
-            {"name": n, "size": s, "browser_download_url": u}
-            for n, s, u in assets
-        ],
-    }
-
-
-def build_fixture(tmp: Path, feather_tag="v2.9.0", ksign_sha=SHA_KSIGN):
-    """Set up sources, patches, and the fake GitHub with 4 sources."""
-    sources = tmp / "sources.json"
-    sources.write_text(json.dumps({"sources": [
-        {"name": "Feather", "repo": "claration/Feather", "release_type": "stable"},
-        {"name": "Ksign", "repo": "Nyasami/Ksign", "release_type": "prerelease"},
-        {"name": "Nuvio Enhanced", "repo": "luqmanfadlli/NuvioMobile-iOS",
-         "release_type": "stable",
-         "bundle_id_override": "com.nuvio.enhancedmedia",
-         "display_name": "Nuvio Enhanced"},
-        {"name": "Ferrite", "repo": "Ferrite-iOS/Ferrite", "release_type": "stable"},
-    ]}, indent=2), encoding="utf-8")
-
-    fake = FakeGitHub()
-    fake.add_repo("claration/Feather", "Feather desc", "claration", [
-        release(feather_tag, False, ("Feather.ipa", 1000, "https://up/feather")),
-    ])
-    fake.add_repo("Nyasami/Ksign", "Ksign desc", "Nyasami", [
-        release("beta", True, ("Ksign.ipa", 1000, "https://up/ksign")),
-    ])
-    fake.set_commit("Nyasami/Ksign", "beta", ksign_sha)
-    fake.add_repo("luqmanfadlli/NuvioMobile-iOS", "Enhanced desc", "luqmanfadlli", [
-        release("0.5.1-beta", False,
-                ("Nuvio-0.5.1-Enhanced.ipa", 1000, "https://up/enhanced")),
-    ])
-    fake.add_repo("Ferrite-iOS/Ferrite", "Ferrite desc", "Ferrite-iOS", [
-        release("v0.7.4", False,
-                ("Ferrite-iOS_v0.7.4.ipa.zip", 1000, "https://up/ferrite.zip")),
-    ])
-
-    fake.add_download("https://up/feather",
-                      make_ipa("thewonderofyou.Feather", "2.9.0", "Feather"))
-    fake.add_download("https://up/ksign",
-                      make_ipa("nya.asami.ksign", "1.6.1", "Ksign"))
-    fake.add_download("https://up/enhanced",
-                      make_ipa("com.nuvio.media", "0.5.1", "Nuvio"))
-    buf = io.BytesIO()
-    with zipfile.ZipFile(buf, "w") as zf:
-        zf.writestr(
-            "Ferrite-iOS_v0.7.4.ipa",
-            make_ipa("me.kingbri.Ferrite", "0.7.4", "Ferrite", "26"),
-        )
-    fake.add_download("https://up/ferrite.zip", buf.getvalue())
-    fake.add_download("https://up/balatro",
-                      make_ipa("com.example.balatro", "1.0", "Balatro"))
-
-    # Point the whole pipeline at temp dirs + the fake network.
-    lib.SOURCES_JSON = sources
-    lib.IPAS_DIR = tmp / "ipas"
-    lib.ICONS_DIR = tmp / "icons"
-    lib.REPO_JSON = tmp / "repo.json"
-    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
-    lib.github_api = fake.api
-    lib.download_file = fake.download
-    return fake
-
-
-def seed_current_releases(fake: FakeGitHub, tmp: Path, feather="2.9.0",
-                          ksign="03a3a9c", ferrite="0.7.4"):
-    data = {
-        "Feather": {"release_type": "stable", "version": feather},
-        "Ksign": {"release_type": "prerelease", "commit": ksign},
-        "Nuvio Enhanced": {"release_type": "stable", "version": "0.5.1-beta"},
-        "Ferrite": {"release_type": "stable", "version": ferrite},
-    }
-    path = tmp / "current_releases.json"
-    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    return data
-
-
-def seed_repo_json(tmp: Path, apps: list[dict]):
-    """Write a minimal repo.json with the given apps."""
-    path = tmp / "repo.json"
-    path.write_text(json.dumps({"apps": apps}, indent=2), encoding="utf-8")
-
-
-def app_entry(bundle_id, name, url):
-    return {
-        "name": name,
-        "bundleIdentifier": bundle_id,
-        "developerName": "dev",
-        "iconURL": "",
-        "localizedDescription": "",
-        "subtitle": "",
-        "tintColor": "3c94fc",
-        "category": "utilities",
-        "versions": [{
-            "downloadURL": url,
-            "size": 1000,
-            "version": "1.0",
-            "buildVersion": "1",
-            "date": "2026-07-14T20:15:52Z",
-            "localizedDescription": "",
-            "minOSVersion": "16.0",
-        }],
-        "appPermissions": {},
-        "version": "1.0",
-        "versionDate": "2026-07-14T20:15:52Z",
-        "size": 1000,
-        "downloadURL": url,
-    }
-
-
-def asset_url(filename):
-    return ("https://github.com/starkayc/iOS/releases/"
-            f"download/ipa-assets/{filename}")
-
-
-# ── Tests ────────────────────────────────────────────────────────────────────
 
 def test_naming():
     print("\n── naming helpers ──")
@@ -349,30 +110,126 @@ def test_naming():
           == "Nuvio.Enhanced.ipa", "github sanitization: space → dot")
     check(lib.github_asset_name("Feather.rel-2.9.0.ipa")
           == "Feather.rel-2.9.0.ipa", "github sanitization: safe name unchanged")
+    check(lib.canonical_filename("App(1).ipa") == "App.1.ipa",
+          "canonical_filename matches GitHub's stored asset name")
+    check(lib.canonical_filename("My App.ipa") == "My-App.ipa",
+          "a space becomes a dash, not a dot")
+    check(lib.safe_stem("com.example.app") == "com.example.app",
+          "safe_stem leaves a normal bundle ID alone")
+    check(lib.safe_stem("../../escape") == "_.._escape",
+          "safe_stem drops separators and leading dots")
+    check(lib.safe_stem("") == "app", "safe_stem never returns an empty name")
+    check(lib.ipa_filename("App", version="1.0/../x") == "App.rel-1.0_.._x.ipa",
+          "a hostile version cannot escape ipas/")
+    check(lib.version_from_tag("v2.9.0") == "2.9.0",
+          "version_from_tag strips a real v prefix")
+    check(lib.version_from_tag("version-2.0") == "version-2.0",
+          "a tag that merely starts with 'v' keeps its name")
+    check(lib.version_from_tag("2026.1005.0-lazer") == "2026.1005.0-lazer",
+          "a tag without a v prefix is untouched")
 
 
 def test_ipa_without_dir_entries():
     print("\n── IPAs without zip directory entries ──")
-    # Some re-zipped IPAs (like the real Balatro upload) omit the
-    # "Payload/*.app/" directory entry — extraction must still work.
+    # Some re-zipped IPAs, like the real Balatro upload, omit the
+    # "Payload/*.app/" directory entry.  Extraction must still work.
     tmp = Path(tempfile.mkdtemp())
-    ipa = tmp / "NoDirs.ipa"
-    ipa.write_bytes(make_ipa("com.test.nodirs", with_dir_entry=False))
-    meta = lib.extract_metadata(ipa)
+    ipa_path = tmp / "NoDirs.ipa"
+    ipa_path.write_bytes(make_ipa("com.test.nodirs", with_dir_entry=False))
+    meta = ipa.extract_metadata(ipa_path)
     check(meta is not None, "metadata extracted without a directory entry")
     check(meta and meta["bundleIdentifier"] == "com.test.nodirs",
           "bundle ID correct")
-    check(lib.patch_bundle_id(ipa, "com.test.nodirs.patched"),
+    check(ipa.patch_bundle_id(ipa_path, "com.test.nodirs.patched"),
           "bundle-ID patch works on dir-entry-less IPAs")
-    check(lib.extract_metadata(ipa)["bundleIdentifier"] == "com.test.nodirs.patched",
-          "patched bundle ID readable")
+    check(ipa.extract_metadata(ipa_path)["bundleIdentifier"]
+          == "com.test.nodirs.patched", "patched bundle ID readable")
+
+
+def test_crushed_icon_png():
+    print("\n── crushed (CgBI) icons: rebuild, find, extract ──")
+    chunks = png_chunks(ipa._uncrush_png(crushed_icon_png()))
+    check(b"CgBI" not in chunks and b"IHDR" in chunks and b"IDAT" in chunks,
+          "the CgBI chunk is gone and the image chunks are rebuilt")
+    check(zlib.decompress(chunks[b"IDAT"]) == b"\x00\x12\x34\x00\x56\x78",
+          "both sub-byte rows survive the round trip")
+    check(chunks[b"PLTE"] == bytes([3, 2, 1, 6, 5, 4]),
+          "the indexed palette's red and blue are swapped")
+    plain = plain_png()
+    check(ipa._uncrush_png(plain) == plain, "a normal PNG is returned as-is")
+
+    tmp = Path(tempfile.mkdtemp())
+    ipa_path = tmp / "Icon.ipa"
+    ipa_path.write_bytes(make_ipa_with_icon())
+    meta = ipa.extract_metadata(ipa_path)
+    check(meta["icon_paths"] == ["Payload/App.app/AppIcon60x60@2x.png"],
+          "find_icon_files resolves the plist's icon name to the real file")
+
+    icons_dir = tmp / "icons"
+    icons_dir.mkdir()
+    name = ipa.extract_icon(
+        ipa_path, meta["icon_paths"], meta["bundleIdentifier"], icons_dir
+    )
+    check(name == "com.test.icon.png", "icon saved under the bundle ID")
+    saved = (icons_dir / name).read_bytes()
+    check(saved[:8] == b"\x89PNG\r\n\x1a\n" and b"CgBI" not in saved,
+          "the published icon is an uncrushed PNG")
+
+    escaped = ipa.extract_icon(
+        ipa_path, meta["icon_paths"], "../../escape", icons_dir
+    )
+    check(
+        escaped is not None
+        and "/" not in escaped
+        and (icons_dir / escaped).exists()
+        and not (tmp / "escape.png").exists(),
+        f"a traversing bundle ID stays inside icons/ (got {escaped})",
+    )
+
+
+def test_prune_stale_icons():
+    print("\n── generate_repo: stale icons are pruned; dry run writes nothing ──")
+    tmp = Path(tempfile.mkdtemp())
+    lib.SOURCES_JSON = tmp / "sources.json"
+    lib.IPAS_DIR = tmp / "ipas"
+    lib.ICONS_DIR = tmp / "icons"
+    lib.REPO_JSON = tmp / "repo.json"
+    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
+    lib.IPAS_DIR.mkdir()
+    lib.ICONS_DIR.mkdir()
+
+    (lib.IPAS_DIR / "App.rel-1.0.ipa").write_bytes(
+        make_ipa_with_icon("com.test.prune", "1.0")
+    )
+    (lib.ICONS_DIR / "orphan.png").write_bytes(plain_png())
+    (lib.ICONS_DIR / "placeholder.png").write_bytes(plain_png())
+
+    check(generate_repo() is True, "repo.json built")
+    check((lib.ICONS_DIR / "com.test.prune.png").exists(),
+          "the icon the new entry points at is kept")
+    check((lib.ICONS_DIR / "placeholder.png").exists(),
+          "the placeholder fallback is kept")
+    check(not (lib.ICONS_DIR / "orphan.png").exists(),
+          "an icon no entry points at is removed")
+
+    # A dry run that would prune still writes nothing and deletes no icon.
+    repo_before = lib.REPO_JSON.read_text(encoding="utf-8")
+    (lib.ICONS_DIR / "orphan.png").write_bytes(plain_png())
+    (lib.IPAS_DIR / "App.rel-1.0.ipa").write_bytes(
+        make_ipa_with_icon("com.test.prune", "2.0")
+    )
+    check(generate_repo(dry_run=True) is True, "dry run reports a change")
+    check(lib.REPO_JSON.read_text(encoding="utf-8") == repo_before,
+          "a dry run does not write repo.json")
+    check((lib.ICONS_DIR / "orphan.png").exists(),
+          "a dry run does not delete a stale icon")
 
 
 def test_check_releases():
     print("\n── check_for_updates / check_releases ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    seed_current_releases(fake, tmp)
+    seed_current_releases(tmp)
 
     fake.seed_asset("Feather.rel-2.9.0.ipa", 1000)
     fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
@@ -393,7 +250,6 @@ def test_check_releases():
     check((tmp / "current_releases.json").read_text(encoding="utf-8") == before,
           "current_releases.json untouched when unchanged")
 
-    # Bump Feather and move Ksign's commit.
     fake.repos["claration/Feather"]["releases"].insert(0, release(
         "v2.10.0", False, ("Feather.ipa", 1000, "https://up/feather")))
     fake.set_commit("Nyasami/Ksign", "beta", SHA_KSIGN_NEW)
@@ -419,7 +275,7 @@ def test_update_source_unchanged():
     print("\n── update_source (nothing to do) ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    seed_current_releases(fake, tmp)
+    seed_current_releases(tmp)
     fake.seed_asset("Feather.rel-2.9.0.ipa", 1000)
     fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
     fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
@@ -449,19 +305,18 @@ def test_update_source_bump_and_recovery():
     print("\n── update_source (bump + recovery + override + zip) ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    # Feather recorded stale; Enhanced + Ferrite recorded current with
-    # assets present but repo.json still referencing legacy names
-    # (recovery from a scheme migration / failed run) → re-fetch.
-    seed_current_releases(fake, tmp, feather="2.8.0")
+    # Feather is recorded stale.  Enhanced and Ferrite are recorded current
+    # with their assets present, but repo.json still references legacy names,
+    # which is what a scheme migration or a failed run leaves behind.  All
+    # three re-fetch.
+    seed_current_releases(tmp, feather="2.8.0")
     fake.repos["claration/Feather"]["releases"].insert(0, release(
         "v2.10.0", False, ("Feather.ipa", 1000, "https://up/feather")))
 
-    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)      # current — skipped
-    fake.seed_asset("Nuvio Enhanced.ipa", 999)           # legacy manual-drop bait
-    fake.seed_asset("Feather.rel-2.8.0.ipa", 1000)       # old version
+    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
+    fake.seed_asset("Nuvio Enhanced.ipa", 999)
+    fake.seed_asset("Feather.rel-2.8.0.ipa", 1000)
 
-    # repo.json: Ksign already correct → skipped; the rest legacy →
-    # rebuilt even though Feather's old asset still exists.
     seed_repo_json(tmp, [
         app_entry("nya.asami.ksign", "Ksign",
                   asset_url("Ksign.pre-03a3a9c.ipa")),
@@ -484,7 +339,7 @@ def test_update_source_bump_and_recovery():
         "Ferrite.rel-0.7.4.ipa.zip",
     }, f"only changed/missing apps downloaded (got {sorted(downloaded)})")
 
-    enhanced_meta = lib.extract_metadata(
+    enhanced_meta = ipa.extract_metadata(
         lib.IPAS_DIR / "Nuvio-Enhanced.rel-0.5.1.ipa")
     check(enhanced_meta["bundleIdentifier"] == "com.nuvio.enhancedmedia",
           "bundle-ID override applied after download")
@@ -511,7 +366,7 @@ def test_update_source_bump_and_recovery():
 
 def test_add_custom_ipa(fake: FakeGitHub):
     print("\n── add_custom_ipa (download + validate + generate + sync) ──")
-    lib.GitHubRelease = FakeReleaseFactory(fake)
+    rel.GitHubRelease = FakeReleaseFactory(fake)
 
     rc = run_custom_upload("Balatro", "1.0", "https://up/balatro",
                            description="A card game", subtitle="",
@@ -537,9 +392,9 @@ def test_add_custom_ipa(fake: FakeGitHub):
           "custom URL versioned")
     check("Balatro.rel-1.0.ipa" in fake.assets,
           "the asset was uploaded to the release")
-    # A custom upload must never delete other apps' assets (its repo.json
-    # view can lag behind other workflows) — cleanup belongs to the
-    # full sync in the update-source workflow.
+    # A custom upload must never delete other apps' assets, because its
+    # repo.json view can lag behind the other workflows.  Cleanup belongs to
+    # the full sync in the update-source workflow.
     check("Nuvio Enhanced.ipa" in fake.assets
           and "Feather.rel-2.8.0.ipa" in fake.assets,
           "custom upload leaves other assets alone")
@@ -550,7 +405,7 @@ def test_invalid_custom_ipa():
     print("\n── add_custom_ipa rejects an unreadable IPA ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    lib.GitHubRelease = FakeReleaseFactory(fake)
+    rel.GitHubRelease = FakeReleaseFactory(fake)
     fake.add_download("https://up/bad", b"this is not a zip file")
     fake.seed_asset("existing.ipa", 123)
 
@@ -565,7 +420,7 @@ def test_invalid_custom_ipa():
 
 def test_sync_release(fake: FakeGitHub):
     print("\n── sync_release (real client on the fake server) ──")
-    real = sr.lib.GitHubRelease("test")
+    real = rel.GitHubRelease("test")
     real.api = fake.sync_api
 
     rc = sr.sync_release("test", client=real)
@@ -632,6 +487,58 @@ def test_http_error_verbose_no_retry():
         lib.time.sleep = orig_sleep
 
 
+def test_real_release_client_api():
+    print("\n── GitHubRelease.api sends the token on the real code path ──")
+    seen: list[dict] = []
+    orig_urlopen = lib.urllib.request.urlopen
+
+    class Resp:
+        def read(self, n=-1):
+            return b'{"id": 7}'
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            pass
+
+    def spy(req, timeout=None):
+        seen.append(dict(req.headers))
+        return Resp()
+
+    lib.urllib.request.urlopen = spy
+    try:
+        client = _RealGitHubRelease("SECRET")
+        check(client.api(f"{lib.API_BASE}/repos/x/y") == {"id": 7},
+              "real api() returns the parsed JSON")
+        check(seen and seen[0].get("Authorization") == "Bearer SECRET",
+              "real api() sends the token (see _auth in altstore_lib)")
+    finally:
+        lib.urllib.request.urlopen = orig_urlopen
+
+
+def test_redirects_never_carry_the_token_off_github():
+    print("\n── redirects: the token is dropped when the host changes ──")
+    handler = lib._SafeRedirect()
+
+    def headers_after(url: str) -> dict:
+        req = urllib.request.Request(
+            "https://api.github.com/repos/x/y",
+            headers={"Authorization": "Bearer SECRET"},
+        )
+        new_req = handler.redirect_request(req, None, 302, "Found", {}, url)
+        return dict(new_req.headers)
+
+    check(
+        headers_after("https://github.com/o/r/releases/download/t/a.ipa")
+        .get("Authorization") == "Bearer SECRET",
+        "a redirect that stays on GitHub keeps the token",
+    )
+    check(
+        "Authorization" not in headers_after("https://evil.example/x.ipa"),
+        "a redirect to a foreign host drops the token",
+    )
+
+
 def test_same_version_rebuild():
     print("\n── generate_repo: same-version rebuild is detected ──")
     tmp = Path(tempfile.mkdtemp())
@@ -651,7 +558,8 @@ def test_same_version_rebuild():
           "build 1 recorded")
     before = lib.REPO_JSON.read_text(encoding="utf-8")
 
-    # Same CFBundleShortVersionString, new build → must still be picked up.
+    # The version string is the same but the build changed, which must still
+    # be picked up.
     ipa.write_bytes(make_ipa("com.test.rebuild", "1.0", "App", build="2"))
     check(generate_repo() is True, "same-version rebuild detected")
     check(lib.REPO_JSON.read_text(encoding="utf-8") != before,
@@ -664,6 +572,65 @@ def test_same_version_rebuild():
     check(generate_repo() is False, "a genuinely unchanged run is a no-op")
 
 
+def test_release_version_wins_only_when_it_is_newer():
+    print("\n── generate_repo: a constant IPA version can't hide an update ──")
+    tmp = Path(tempfile.mkdtemp())
+    lib.SOURCES_JSON = tmp / "sources.json"
+    lib.IPAS_DIR = tmp / "ipas"
+    lib.ICONS_DIR = tmp / "icons"
+    lib.REPO_JSON = tmp / "repo.json"
+    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
+    lib.IPAS_DIR.mkdir()
+
+    (lib.IPAS_DIR / "Osu.rel-2026.1005.0-lazer.ipa").write_bytes(
+        make_ipa("sh.ppy.osulazer", "1.0", "osu!", build="2026.1005.0")
+    )
+    (lib.IPAS_DIR / "Apollo-Reborn.rel-1.15.11_3.8.5.ipa").write_bytes(
+        make_ipa("com.christianselig.Apollo", "3.8.5", "Apollo")
+    )
+    check(generate_repo({
+        "Osu.rel-2026.1005.0-lazer.ipa": {"version": "2026.1005.0-lazer"},
+        "Apollo-Reborn.rel-1.15.11_3.8.5.ipa": {"version": "1.15.11_3.8.5"},
+    }) is True, "repo.json built")
+
+    apps = {
+        app["bundleIdentifier"]: app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(apps["sh.ppy.osulazer"]["version"] == "2026.1005.0-lazer"
+          and apps["sh.ppy.osulazer"]["versions"][0]["version"]
+          == "2026.1005.0-lazer",
+          "the release version is published when the IPA's own is stale")
+    check(apps["com.christianselig.Apollo"]["version"] == "3.8.5",
+          "a tag older than the IPA's own version is ignored")
+
+
+def test_subtitle_never_repeats_the_description():
+    print("\n── generate_repo: a copied-in subtitle is dropped ──")
+    tmp = Path(tempfile.mkdtemp())
+    lib.SOURCES_JSON = tmp / "sources.json"
+    lib.IPAS_DIR = tmp / "ipas"
+    lib.ICONS_DIR = tmp / "icons"
+    lib.REPO_JSON = tmp / "repo.json"
+    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
+    lib.IPAS_DIR.mkdir()
+
+    (lib.IPAS_DIR / "App.rel-1.0.ipa").write_bytes(
+        make_ipa("com.test.subtitle", "1.0", "App")
+    )
+    check(generate_repo() is True, "repo.json built")
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    repo["apps"][0]["localizedDescription"] = "About text"
+    repo["apps"][0]["subtitle"] = "About text"
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+
+    check(generate_repo() is True, "the duplicate counts as a change")
+    app = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"][0]
+    check(app["subtitle"] == "", "the duplicated subtitle is dropped")
+    check(app["localizedDescription"] == "About text",
+          "the description itself is kept")
+
+
 def test_update_source_missing_asset():
     print("\n── update_source: release without an IPA asset is skipped ──")
     tmp = Path(tempfile.mkdtemp())
@@ -671,7 +638,7 @@ def test_update_source_missing_asset():
     # Feather publishes v2.10.0 but ships no .ipa (like ppy/osu, which
     # attaches the iOS build later or not at all).  The run must finish
     # cleanly and leave Feather's recorded version alone.
-    seed_current_releases(fake, tmp, feather="2.9.0")
+    seed_current_releases(tmp, feather="2.9.0")
     fake.repos["claration/Feather"]["releases"].insert(0, release(
         "v2.10.0", False, ("Feather-installer.exe", 1000, "https://up/nope")))
 
@@ -702,26 +669,14 @@ def test_failed_download_keeps_state():
     print("\n── update_source: failed download does not advance state ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    # Feather recorded stale and will fail to download; Ferrite is also
-    # stale so a *successful* download happens and current_releases.json
-    # gets written — proving the failure path (not the early return) is
-    # what preserves Feather's version.
-    seed_current_releases(fake, tmp, feather="2.8.0", ferrite="0.7.3")
+    # Feather is recorded stale and will fail to download.  Ferrite is stale
+    # too, so a *successful* download happens and current_releases.json gets
+    # written.  That proves the failure path, not the early return, is what
+    # preserves Feather's version.
+    seed_up_to_date(fake, tmp, feather="2.8.0", ferrite="0.7.3")
     fake.repos["claration/Feather"]["releases"].insert(0, release(
         "v2.10.0", False, ("Feather.ipa", 1000, "https://up/feather")))
     fake.fail_downloads["https://up/feather"] = "connection reset by peer"
-
-    fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
-    fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
-
-    seed_repo_json(tmp, [
-        app_entry("nya.asami.ksign", "Ksign",
-                  asset_url("Ksign.pre-03a3a9c.ipa")),
-        app_entry("com.nuvio.enhancedmedia", "Nuvio Enhanced",
-                  asset_url("Nuvio-Enhanced.rel-0.5.1.ipa")),
-        app_entry("thewonderofyou.Feather", "Feather",
-                  asset_url("Feather.rel-2.8.0.ipa")),
-    ])
 
     worked, failures = update_source_report()
     check("Feather" in failures, "the failed app is reported")
@@ -733,11 +688,42 @@ def test_failed_download_keeps_state():
           "successful app's recorded version WAS advanced")
 
 
+def test_failed_api_never_ingests_a_stale_asset():
+    print("\n── update_source: an API error must not publish a stale asset ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.10.0")
+    # A leftover older Feather build on the release, and Feather's release
+    # lookup fails this run (rate limit / 5xx / renamed repo).
+    fake.seed_asset("Feather.rel-2.9.0.ipa", 1000)
+    fake.add_download(asset_url("Feather.rel-2.9.0.ipa"),
+                      make_ipa("thewonderofyou.Feather", "2.9.0", "Feather"))
+    real_api = fake.api
+
+    def flaky(url, token=None):
+        if "claration/Feather" in url and "/releases" in url:
+            raise RuntimeError("503 after retries")
+        return real_api(url, token)
+
+    lib.github_api = flaky
+    worked, failures = update_source_report()
+    check(fake.downloads == [],
+          f"the stale asset was left alone (got {fake.downloads})")
+    check(worked is False, "nothing was published")
+    urls = {
+        app["bundleIdentifier"]: app["downloadURL"].rsplit("/", 1)[-1]
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(urls["thewonderofyou.Feather"] == "Feather.rel-2.10.0.ipa",
+          f"repo.json still points at the current build "
+          f"(got {urls['thewonderofyou.Feather']})")
+
+
 def test_download_file_streams_to_disk():
     print("\n── download_file streams to disk (atomic, no partial) ──")
     tmp = Path(tempfile.mkdtemp())
     dest = tmp / "payload.bin"
-    payload = b"\x00\x01\x02" * ((1024 * 1024 // 3) + 1)  # ~1 MiB, multi-chunk
+    payload = b"\x00\x01\x02" * ((1024 * 1024 // 3) + 1)
     orig_urlopen = lib.urllib.request.urlopen
     orig_sleep = lib.time.sleep
 
@@ -783,9 +769,378 @@ def test_download_file_streams_to_disk():
             pass
         check(not dest2.exists(), "no partial file left on failure")
         check(not (tmp / "fail.bin.part").exists(), ".part removed on failure")
+
+        dest3 = tmp / "short.bin"
+        attempts = []
+
+        class TruncatedResp(FakeResp):
+            def read(self, n=-1):
+                raise http.client.IncompleteRead(b"x" * 10, 90)
+
+        class TruncateOnce:
+            def __init__(self):
+                self.n = 0
+
+            def __call__(self, req, timeout=None):
+                self.n += 1
+                attempts.append(self.n)
+                return TruncatedResp(payload) if self.n == 1 else FakeResp(payload)
+
+        lib.urllib.request.urlopen = TruncateOnce()
+        _RealDownloadFile("https://example.com/short", dest3)
+        check(len(attempts) == 2,
+              f"a truncated body is retried (attempts={len(attempts)})")
+        check(dest3.read_bytes() == payload, "the retry wrote the whole body")
+
+        dest3b = tmp / "short2.bin"
+        lib.urllib.request.urlopen = lambda req, timeout=None: TruncatedResp(
+            payload
+        )
+        try:
+            _RealDownloadFile("https://example.com/short2", dest3b)
+            check(False, "a body that always truncates should raise")
+        except lib.GitHubError as ex:
+            check("IncompleteRead" in str(ex),
+                  "the real exception is reported")
+        check(not dest3b.exists(), "no truncated file left behind")
+        check(not (tmp / "short2.bin.part").exists(),
+              ".part removed for a truncated body")
+
+        dest4 = tmp / "want.bin"
+        lib.urllib.request.urlopen = lambda req, timeout=None: FakeResp(
+            payload[:50]
+        )
+        try:
+            _RealDownloadFile("https://example.com/want", dest4, None,
+                              len(payload))
+            check(False, "a body shorter than expected should raise")
+        except lib.GitHubError as ex:
+            check("short download" in str(ex),
+                  "body vs expected size is reported")
+        check(not dest4.exists(), "no partial file left behind")
+
+        dest5 = tmp / "exact.bin"
+        lib.urllib.request.urlopen = lambda req, timeout=None: FakeResp(payload)
+        _RealDownloadFile("https://example.com/exact", dest5, None,
+                          len(payload))
+        check(dest5.read_bytes() == payload, "expected size honoured")
     finally:
         lib.urllib.request.urlopen = orig_urlopen
         lib.time.sleep = orig_sleep
+
+
+def test_ipa_problem_detects_junk():
+    print("\n── ipa_problem: junk, truncation, no bundle ──")
+    tmp = Path(tempfile.mkdtemp())
+    good = tmp / "good.ipa"
+    good.write_bytes(make_ipa("com.example.good", "1.0", "Good"))
+    check(ipa.ipa_problem(good) == "", "a real IPA passes")
+
+    junk = tmp / "junk.ipa"
+    junk.write_bytes(b"<!DOCTYPE html>\n<html>not an ipa</html>")
+    check("not a zip archive" in ipa.ipa_problem(junk),
+          "non-zip body is named as such")
+
+    cut = tmp / "cut.ipa"
+    raw = good.read_bytes()
+    cut.write_bytes(raw[: len(raw) // 2])
+    check("broken zip" in ipa.ipa_problem(cut), "truncated zip is reported")
+
+    nobundle = tmp / "nobundle.ipa"
+    with zipfile.ZipFile(nobundle, "w") as zf:
+        zf.writestr("Payload.txt", "hi")
+    check("no Payload/*.app" in ipa.ipa_problem(nobundle),
+          "zip without an app bundle is reported")
+
+    # Every entry the pipeline publishes is built from the bundle's
+    # Info.plist, so an unreadable one is not a usable IPA either.
+    badplist = tmp / "badplist.ipa"
+    with zipfile.ZipFile(badplist, "w") as zf:
+        zf.writestr("Payload/App.app/", "")
+        zf.writestr("Payload/App.app/Info.plist", b"<plist><dict><key>x")
+        zf.writestr("Payload/App.app/bin", b"x" * 100)
+    check("Info.plist" in ipa.ipa_problem(badplist),
+          "a malformed Info.plist is reported")
+    check(ipa.extract_metadata(badplist) is None,
+          "a malformed Info.plist returns None instead of raising")
+
+    noplist = tmp / "noplist.ipa"
+    with zipfile.ZipFile(noplist, "w") as zf:
+        zf.writestr("Payload/App.app/", "")
+        zf.writestr("Payload/App.app/bin", b"x" * 100)
+    check("Info.plist" in ipa.ipa_problem(noplist),
+          "an app bundle without an Info.plist is reported")
+
+
+def test_corrupt_upstream_ipa():
+    print("\n── update_source: non-zip upstream IPA fails cleanly ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0", ferrite="0.7.3")
+    junk = b"\x1f\x8b\x08\x00" + b"x" * 4096
+    fake.repos["claration/Feather"]["releases"].insert(0, release(
+        "v2.10.0", False,
+        ("Feather.ipa", len(junk), "https://up/feather-junk")))
+    fake.add_download("https://up/feather-junk", junk)
+
+    worked, failures = update_source_report()
+    check("Feather" in failures, "the bad-IPA app is reported")
+    check(worked is True, "the healthy app still downloaded")
+    check(lib.load_current_releases()["Feather"]["version"] == "2.9.0",
+          "recorded version was NOT advanced for the bad IPA")
+    check(not list(lib.IPAS_DIR.glob("Feather*.ipa")),
+          "the unusable download was not left in ipas/")
+
+
+def test_per_app_failure_is_isolated():
+    print("\n── update_source: one app's bad IPA fails that app only ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    # Nuvio Enhanced's build carries no Info.plist, so the validity gate
+    # rejects it.  That app fails while the rest of the run carries on.
+    seed_up_to_date(fake, tmp, feather="2.9.0", missing=("Nuvio Enhanced",))
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("Payload/App.app/", "")
+        zf.writestr("Payload/App.app/binary", b"x" * 1000)
+    fake.download_store["https://up/enhanced"] = buf.getvalue()
+
+    worked, failures = update_source_report()
+    check(failures == ["Nuvio Enhanced"],
+          f"only the unreadable app failed (got {failures})")
+    check(worked is False, "nothing was published")
+    check(lib.load_current_releases()["Nuvio Enhanced"]["version"]
+          == "0.5.1-beta", "recorded version was NOT advanced")
+    check(not (lib.IPAS_DIR / "Nuvio-Enhanced.rel-0.5.1.ipa").exists(),
+          "the rejected IPA was dropped")
+
+
+def test_token_never_leaves_github_hosts():
+    print("\n── download_file: token is scoped to GitHub hosts ──")
+    tmp = Path(tempfile.mkdtemp())
+    seen: list[dict] = []
+    orig_urlopen = lib.urllib.request.urlopen
+
+    class Resp:
+        def read(self, n=-1):
+            return b""
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            pass
+
+    def spy(req, timeout=None):
+        seen.append(dict(req.headers))
+        return Resp()
+
+    lib.urllib.request.urlopen = spy
+    try:
+        _RealDownloadFile("https://evil.example/x.ipa",
+                          tmp / "a.ipa", "SECRET")
+        _RealDownloadFile("https://github.com/o/r/releases/download/t/a.ipa",
+                          tmp / "b.ipa", "SECRET")
+        check("Authorization" not in seen[0],
+              "no token sent to a foreign host")
+        check(seen[1].get("Authorization") == "Bearer SECRET",
+              "token still sent to github.com")
+        check(lib._is_github_host("https://objects.githubusercontent.com/x")
+              and not lib._is_github_host("https://evil-github.com/x"),
+              "github host check covers subdomains only")
+    finally:
+        lib.urllib.request.urlopen = orig_urlopen
+
+
+def test_write_json_is_atomic():
+    print("\n── write_json: a crash mid-write keeps the old file ──")
+    tmp = Path(tempfile.mkdtemp())
+    target = tmp / "state.json"
+    lib.write_json(target, {"a": 1})
+    check(json.loads(target.read_text()) ["a"] == 1, "writes the file")
+    try:
+        lib.write_json(target, {"b": object()})
+        check(False, "a non-serialisable value should raise")
+    except TypeError:
+        pass
+    check(json.loads(target.read_text())["a"] == 1,
+          "previous file left intact")
+    check(not (tmp / "state.json.part").exists(), "no .part left behind")
+
+
+def test_manual_drop_must_be_a_real_ipa():
+    print("\n── update_source: a junk manual drop is rejected ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0")
+    fake.seed_asset("HandMade.ipa", 4096)
+    fake.add_download(asset_url("HandMade.ipa"), b"<!DOCTYPE html>nope")
+
+    worked, failures = update_source_report()
+    check(failures == ["HandMade.ipa"], f"the junk drop is reported ({failures})")
+    check(worked is False, "nothing was published")
+    check(not (lib.IPAS_DIR / "HandMade.ipa").exists(),
+          "the unusable drop was removed from ipas/")
+
+
+def test_manual_drop_name_matches_stored_asset():
+    print("\n── update_source: a manual drop lands under GitHub's name ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0")
+    # GitHub stores the asset "App(1).ipa" as "App.1.ipa".
+    fake.seed_asset("App(1).ipa", 4096)
+    fake.add_download(asset_url("App(1).ipa"),
+                      make_ipa("com.test.drop", "1.0", "Drop"))
+
+    worked, failures = update_source_report()
+    check(failures == [], f"the drop ingested cleanly ({failures})")
+    check(worked is True, "the drop produced work")
+    check((lib.IPAS_DIR / "App.1.ipa").exists(),
+          "the file on disk carries GitHub's stored name")
+    check(not (lib.IPAS_DIR / "App(1).ipa").exists(),
+          "the raw name is never left behind")
+    urls = {
+        app["bundleIdentifier"]: app["downloadURL"].rsplit("/", 1)[-1]
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(urls.get("com.test.drop") == "App.1.ipa",
+          f"repo.json points at the stored name (got {urls.get('com.test.drop')})")
+
+
+def test_referenced_manual_drop_is_not_refetched():
+    print("\n── update_source: an already-referenced asset is not re-downloaded ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0")
+    fake.seed_asset("Custom.rel-1.0.ipa", 4096)
+    fake.add_download(asset_url("Custom.rel-1.0.ipa"),
+                      make_ipa("com.test.custom", "1.0", "Custom"))
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    repo["apps"].append(
+        app_entry("com.test.custom", "Custom", asset_url("Custom.rel-1.0.ipa"))
+    )
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(fake.downloads == [],
+          f"the referenced asset was not re-downloaded (got {fake.downloads})")
+    check(worked is False, "the run did no work")
+    check(not (lib.IPAS_DIR / "Custom.rel-1.0.ipa").exists(),
+          "the referenced asset was left off disk")
+
+
+def test_sync_no_delete_uploads_but_deletes_nothing():
+    print("\n── sync_release: --no-delete uploads but never deletes ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.IPAS_DIR.mkdir(exist_ok=True)
+    fake.seed_asset("Stale.ipa", 4096)
+    (lib.IPAS_DIR / "Local.rel-1.0.ipa").write_bytes(
+        make_ipa("com.test.local", "1.0", "Local"))
+
+    real = rel.GitHubRelease("test")
+    real.api = fake.sync_api
+    check(sr.sync_release("test", client=real, no_delete=True) == 0,
+          "sync_release --no-delete exited 0")
+    check("Stale.ipa" in fake.assets, "the stale asset was not deleted")
+    check("Local.rel-1.0.ipa" in fake.assets,
+          "the local IPA was uploaded")
+
+
+def test_display_name_override_renames_existing_app():
+    print("\n── generate_repo: display_name overrides an existing entry ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0", missing=("Nuvio Enhanced",))
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    for app in repo["apps"]:
+        if app["bundleIdentifier"] == "com.nuvio.enhancedmedia":
+            app["name"] = "Old Name"
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the app was rebuilt")
+    names = {
+        app["bundleIdentifier"]: app["name"]
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(names["com.nuvio.enhancedmedia"] == "Nuvio Enhanced",
+          f"display_name applied (got {names['com.nuvio.enhancedmedia']!r})")
+
+
+def test_human_fields_survive_rebuild():
+    print("\n── generate_repo: human-set fields survive a rebuild ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0", missing=("Nuvio Enhanced",))
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    for app in repo["apps"]:
+        if app["bundleIdentifier"] == "com.nuvio.enhancedmedia":
+            app.update({
+                "tintColor": "ff00ff",
+                "category": "games",
+                "developerName": "Someone",
+                "subtitle": "mine",
+            })
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the app was rebuilt")
+    entry = next(
+        app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+        if app["bundleIdentifier"] == "com.nuvio.enhancedmedia"
+    )
+    check(entry["tintColor"] == "ff00ff", "tintColor kept")
+    check(entry["category"] == "games", "category kept")
+    check(entry["developerName"] == "Someone", "developerName kept")
+    check(entry["subtitle"] == "mine", "subtitle kept")
+
+
+def test_name_survives_rebuild_without_display_name():
+    print("\n── generate_repo: a hand-set name survives with no display_name ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0", missing=("Feather",))
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    for app in repo["apps"]:
+        if app["bundleIdentifier"] == "thewonderofyou.Feather":
+            app["name"] = "Feather Renamed"
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the app was rebuilt")
+    names = {
+        app["bundleIdentifier"]: app["name"]
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(names["thewonderofyou.Feather"] == "Feather Renamed",
+          f"hand-set name survived (got {names['thewonderofyou.Feather']!r})")
+
+
+def test_asset_pattern_picks_the_variant():
+    print("\n── find_ipa_asset: asset_pattern picks one variant ──")
+    release_dict = {
+        "tag_name": "v1",
+        "assets": [
+            {"name": "App.ipa", "size": 1,
+             "browser_download_url": "https://up/app"},
+            {"name": "App-GLASS.ipa", "size": 1,
+             "browser_download_url": "https://up/glass"},
+            {"name": "App-GLASSICONS.ipa", "size": 1,
+             "browser_download_url": "https://up/icons"},
+        ],
+    }
+    picked = rel.find_ipa_asset(release_dict, "GLASS")
+    check(picked["name"] == "App-GLASS.ipa",
+          f"the pattern picks its variant (got {picked['name']})")
+    check(rel.find_ipa_asset(release_dict, None)["name"] == "App.ipa",
+          "without a pattern the shortest name wins")
 
 
 def main():
@@ -795,13 +1150,33 @@ def main():
 
     test_naming()
     test_ipa_without_dir_entries()
+    test_crushed_icon_png()
+    test_prune_stale_icons()
     test_check_releases()
     test_update_source_unchanged()
     test_update_source_missing_asset()
     test_http_error_verbose_no_retry()
+    test_real_release_client_api()
     test_download_file_streams_to_disk()
+    test_token_never_leaves_github_hosts()
+    test_redirects_never_carry_the_token_off_github()
     test_same_version_rebuild()
+    test_release_version_wins_only_when_it_is_newer()
+    test_subtitle_never_repeats_the_description()
     test_failed_download_keeps_state()
+    test_failed_api_never_ingests_a_stale_asset()
+    test_ipa_problem_detects_junk()
+    test_write_json_is_atomic()
+    test_asset_pattern_picks_the_variant()
+    test_corrupt_upstream_ipa()
+    test_per_app_failure_is_isolated()
+    test_manual_drop_must_be_a_real_ipa()
+    test_manual_drop_name_matches_stored_asset()
+    test_referenced_manual_drop_is_not_refetched()
+    test_sync_no_delete_uploads_but_deletes_nothing()
+    test_display_name_override_renames_existing_app()
+    test_human_fields_survive_rebuild()
+    test_name_survives_rebuild_without_display_name()
     test_invalid_custom_ipa()  # own fixture; the next test re-patches lib
     fake = test_update_source_bump_and_recovery()
     test_add_custom_ipa(fake)

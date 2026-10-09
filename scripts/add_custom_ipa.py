@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Custom IPA uploader — workflow 3.
+Custom IPA uploader, workflow 3.
 
-Downloads a single IPA from a URL, names it with the canonical versioned
-scheme ("Balatro" + "1.0" → ipas/Balatro.rel-1.0.ipa), validates it,
-rebuilds repo.json, and syncs it to the ipa-assets release.  Every step
-fails loudly so a bad link or unreadable IPA can't silently leave an
-orphaned release asset.
+Downloads a single IPA from a URL and names it with the canonical
+versioned scheme, so "Balatro" plus "1.0" becomes
+ipas/Balatro.rel-1.0.ipa.  Then it validates the file, rebuilds repo.json
+and syncs it to the ipa-assets release.  Every step fails loudly, so a bad
+link or an unreadable IPA cannot leave an orphaned release asset behind.
 
 Usage:
     python scripts/add_custom_ipa.py \
@@ -20,6 +20,8 @@ from typing import Optional
 
 import altstore_lib as lib
 import cli_common as cli
+import ipa
+import release as rel
 from generate_repo import generate_repo
 from sync_release import sync_release
 
@@ -32,50 +34,42 @@ def run_custom_upload(
     subtitle: str = "",
     token: Optional[str] = None,
 ) -> int:
-    """Download, validate, rebuild repo.json and sync.  Returns an exit code."""
+    """Download the IPA, validate it, rebuild repo.json and sync the release."""
     filename = lib.ipa_filename(name, version=version)
     lib.IPAS_DIR.mkdir(exist_ok=True)
     dest = lib.IPAS_DIR / filename
 
     print(f"  ↓ downloading {url} … ", end="", flush=True)
-    lib.download_file(url, dest, token)
-    print(f"done")
-    print(f"    ✓ saved as {filename} ({dest.stat().st_size:,} bytes)")
-
-    # Validate BEFORE uploading anywhere — an unreadable IPA must fail
-    # the run instead of leaving an orphaned release asset.
-    meta = lib.extract_metadata(dest)
-    if not meta:
+    problem = rel.ingest_ipa(url, dest, None, token)
+    print("failed" if problem else "done")
+    if problem:
         cli.error(
-            f"{filename} is not a readable IPA — expected a "
-            f"Payload/*.app bundle with an Info.plist.  Nothing was uploaded."
+            f"{filename} is not a usable IPA — {problem}.  Nothing was "
+            f"uploaded."
         )
         return 1
+
+    meta = ipa.extract_metadata(dest) or {}
     print(
-        f"    ✓ bundle ID {meta['bundleIdentifier']} "
-        f"(display name in the IPA: {meta['name']!r})"
+        f"    ✓ saved as {filename} ({dest.stat().st_size:,} bytes), "
+        f"bundle ID {meta.get('bundleIdentifier', '?')} "
+        f"(display name in the IPA: {meta.get('name', '?')!r})"
     )
 
-    # Sidecar: description/subtitle for this file (blank inputs stay blank).
     meta_file = lib.IPAS_DIR / ".custom_meta.json"
     sidecar = lib.load_custom_meta()
     sidecar[filename] = {
         "description": description or "",
         "subtitle": subtitle or "",
     }
-    with open(meta_file, "w", encoding="utf-8") as f:
-        json.dump(sidecar, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    lib.write_json(meta_file, sidecar)
     print(
         f"    ✓ sidecar updated "
         f"(description={description!r}, subtitle={subtitle!r})"
     )
 
-    # Rebuild repo.json from the files in ipas/.
-    generate_repo(fetch_report={}, cleanup_losers=True)
+    generate_repo(cleanup_losers=True)
 
-    # The app must actually have landed — otherwise something is wrong
-    # (e.g. a duplicate bundle ID) and we must not upload the asset.
     if not lib.repo_json_references(filename):
         cli.error(
             f"{filename} did not make it into repo.json — a duplicate "
@@ -83,14 +77,14 @@ def run_custom_upload(
         )
         return 1
 
-    # Upload to the ipa-assets release.  Never delete other apps'
-    # assets here — this run's checkout can lag behind other workflows,
-    # and stale-asset cleanup belongs to the update-source workflow
-    # where repo.json is freshly generated.
+    # Upload to the ipa-assets release.  This run never deletes other apps'
+    # assets, because its checkout can lag behind the other workflows.
+    # Stale-asset cleanup belongs to the update-source workflow, where
+    # repo.json is freshly generated.
     return sync_release(
         token or "",
         no_delete=True,
-        client=lib.GitHubRelease(token or ""),
+        client=rel.GitHubRelease(token or ""),
     )
 
 

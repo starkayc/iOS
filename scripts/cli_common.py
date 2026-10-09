@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """
-Shared CLI + diagnostics helpers for the AltStore pipeline scripts.
+Shared CLI and diagnostics helpers for the AltStore pipeline scripts.
 
-Kept deliberately dependency-free and free of domain logic (it never
-imports altstore_lib) so any script can use it without import cycles.
+The module depends on nothing and holds no domain logic. It never imports
+altstore_lib, so any script can import it without creating a cycle.
 """
 
 import argparse
 import sys
 import traceback
 
-
-# ── Verbosity ────────────────────────────────────────────────────────────────
 
 _DEBUG = False
 
@@ -25,7 +23,7 @@ def set_debug(enabled: bool) -> None:
 def setup_stdio() -> None:
     """Force UTF-8 output on Windows terminals that default to cp1252.
 
-    Safe to call on every platform and more than once.
+    You can call it on any platform, and more than once.
     """
     if sys.platform != "win32":
         return
@@ -34,18 +32,6 @@ def setup_stdio() -> None:
             stream.reconfigure(encoding="utf-8", errors="replace")
         except Exception:
             pass  # e.g. a stream that doesn't support reconfigure
-
-
-def step(msg: str) -> None:
-    print(msg)
-
-
-def ok(msg: str) -> None:
-    print(f"  ✓ {msg}")
-
-
-def info(msg: str) -> None:
-    print(f"  · {msg}")
 
 
 def warn(msg: str) -> None:
@@ -61,8 +47,6 @@ def debug(msg: str) -> None:
         print(f"    · {msg}")
 
 
-# ── Argument parsing ─────────────────────────────────────────────────────────
-
 def make_parser(
     description: str,
     *,
@@ -71,8 +55,8 @@ def make_parser(
 ) -> argparse.ArgumentParser:
     """Build an ArgumentParser with the flags every script shares.
 
-    ``--token``/``--github-token`` are aliases so a workflow can pass
-    either spelling; argparse accepts both ``--token X`` and ``--token=X``.
+    ``--token`` and ``--github-token`` are aliases, so a workflow can use
+    either spelling. argparse accepts both ``--token X`` and ``--token=X``.
     """
     parser = argparse.ArgumentParser(
         description=description,
@@ -99,14 +83,12 @@ def make_parser(
     return parser
 
 
-# ── Runner ───────────────────────────────────────────────────────────────────
-
 def run(parser: argparse.ArgumentParser, main_fn) -> int:
-    """Parse args, set up stdio/verbosity, run ``main_fn(args)``.
+    """Parse the arguments, set up stdio and verbosity, call ``main_fn(args)``.
 
-    Any unexpected exception is printed with a full traceback so the CI
-    log carries everything needed to diagnose it later, then mapped to a
-    non-zero exit code.
+    An unexpected exception prints a full traceback before the function
+    returns a non-zero exit code, so the CI log holds everything needed to
+    diagnose it later.
     """
     setup_stdio()
     args = parser.parse_args()

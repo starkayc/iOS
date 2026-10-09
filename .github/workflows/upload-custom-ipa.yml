@@ -35,10 +35,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.13"
 
@@ -77,7 +77,12 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore: add custom IPA ${APP_NAME} (rel-${APP_VERSION})" -m "Automated upload from GitHub Actions."
+          # Workflow inputs go through printf into a message file: inside
+          # double quotes the shell would still run a "$(…)" that arrived
+          # in a name.
+          printf 'chore: add custom IPA %s (rel-%s)\n\nAutomated upload from GitHub Actions.\n' \
+            "$APP_NAME" "$APP_VERSION" > /tmp/commit-msg.txt
+          git commit -F /tmp/commit-msg.txt
 
           # Push with rebase retries — safety net against concurrent
           # commits from the other workflows.

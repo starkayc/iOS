@@ -1,8 +1,6 @@
-# Python
 __pycache__/
 *.py[cod]
 
-# macOS
 .DS_Store
 
 # IPAs are hosted as GitHub Release assets (not committed to the
@@ -10,3 +8,5 @@ __pycache__/
 ipas/*.ipa
 # In-progress downloads (atomic .part files from download_file).
 *.part
+
+.github-token
