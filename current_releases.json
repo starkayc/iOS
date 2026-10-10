@@ -3,13 +3,13 @@
     "release_type": "stable",
     "version": "0.9"
   },
-  "Apollo-Reborn": {
-    "release_type": "stable",
-    "version": "1.15.11_3.9.0"
-  },
   "Amethyst": {
     "release_type": "stable",
     "version": "5.1.0"
+  },
+  "Apollo-Reborn": {
+    "release_type": "stable",
+    "version": "1.15.11_3.9.0"
   },
   "Debrify": {
     "release_type": "prerelease",
@@ -31,6 +31,10 @@
     "release_type": "prerelease",
     "commit": "03a3a9c"
   },
+  "Lume": {
+    "release_type": "stable",
+    "version": "2.4.0"
+  },
   "Nuvio": {
     "release_type": "stable",
     "version": "0.5.8-beta"
@@ -47,12 +51,16 @@
     "release_type": "stable",
     "version": "release-1.4.1"
   },
-  "Sulfur": {
+  "Roam Control": {
     "release_type": "stable",
-    "version": "1.3.0"
+    "version": "0.9.7"
   },
   "StikDebug": {
     "release_type": "stable",
     "version": "3.1.13"
+  },
+  "Sulfur": {
+    "release_type": "stable",
+    "version": "1.3.0"
   }
 }
