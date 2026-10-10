@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.9.ipa",
+          "size": 67606241,
+          "version": "0.5.9",
+          "buildVersion": "141",
+          "date": "2026-10-10T17:30:30Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.5.9",
+      "versionDate": "2026-10-10T17:30:30Z",
+      "size": 67606241,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.9.ipa"
+    },
+    {
       "name": "Lume",
       "bundleIdentifier": "com.bilipp.lume",
       "developerName": "bilipp",
@@ -188,32 +214,6 @@
       "versionDate": "2026-09-24T15:31:15Z",
       "size": 40836766,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-e31bdec.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.8.ipa",
-          "size": 67558904,
-          "version": "0.5.8",
-          "buildVersion": "140",
-          "date": "2026-10-08T10:44:43Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.5.8",
-      "versionDate": "2026-10-08T10:44:43Z",
-      "size": 67558904,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.8.ipa"
     },
     {
       "name": "qBitControl",
