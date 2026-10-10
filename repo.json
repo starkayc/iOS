@@ -8,6 +8,58 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Lume",
+      "bundleIdentifier": "com.bilipp.lume",
+      "developerName": "bilipp",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
+      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.4.0.ipa",
+          "size": 47777296,
+          "version": "2.4.0",
+          "buildVersion": "30",
+          "date": "2026-10-06T22:05:13Z",
+          "localizedDescription": "",
+          "minOSVersion": "18.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "2.4.0",
+      "versionDate": "2026-10-06T22:05:13Z",
+      "size": 47777296,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.4.0.ipa"
+    },
+    {
+      "name": "Roam Control",
+      "bundleIdentifier": "com.roamcontrol",
+      "developerName": "seanhowarthdev",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.roamcontrol.png",
+      "localizedDescription": "Choose, test and move an iPhone’s reported location.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.7.ipa",
+          "size": 4111825,
+          "version": "0.9.7",
+          "buildVersion": "96",
+          "date": "2026-10-08T19:54:46Z",
+          "localizedDescription": "",
+          "minOSVersion": "27.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.9.7",
+      "versionDate": "2026-10-08T19:54:46Z",
+      "size": 4111825,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.7.ipa"
+    },
+    {
       "name": "Apollo",
       "bundleIdentifier": "com.christianselig.Apollo",
       "developerName": "Apollo-Reborn",
