@@ -11,7 +11,7 @@
       "release_type": "stable"
     },
     {
-      "name": "Apollo-Reborn",
+      "name": "Apollo Reborn",
       "repo": "Apollo-Reborn/Apollo-Reborn",
       "release_type": "stable",
       "asset_pattern": "GLASS"
@@ -44,7 +44,8 @@
     {
       "name": "Lume",
       "repo": "bilipp/lume",
-      "release_type": "stable"
+      "release_type": "stable",
+      "asset_pattern": "iOS"
     },
     {
       "name": "Nuvio",
