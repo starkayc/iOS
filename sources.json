@@ -6,15 +6,15 @@
       "release_type": "stable"
     },
     {
+      "name": "Amethyst",
+      "repo": "herbrine8403/Amethyst-iOS-MyRemastered",
+      "release_type": "stable"
+    },
+    {
       "name": "Apollo-Reborn",
       "repo": "Apollo-Reborn/Apollo-Reborn",
       "release_type": "stable",
       "asset_pattern": "GLASS"
-    },
-    {
-      "name": "Amethyst",
-      "repo": "herbrine8403/Amethyst-iOS-MyRemastered",
-      "release_type": "stable"
     },
     {
       "name": "Debrify",
@@ -42,6 +42,11 @@
       "release_type": "prerelease"
     },
     {
+      "name": "Lume",
+      "repo": "bilipp/lume",
+      "release_type": "stable"
+    },
+    {
       "name": "Nuvio",
       "repo": "NuvioMedia/NuvioMobile",
       "release_type": "stable"
@@ -64,13 +69,18 @@
       "release_type": "stable"
     },
     {
-      "name": "Sulfur",
-      "repo": "cranci1/Sora",
+      "name": "Roam Control",
+      "repo": "seanhowarthdev/Roam-Control",
       "release_type": "stable"
     },
     {
       "name": "StikDebug",
       "repo": "StikDebug/StikDebug",
+      "release_type": "stable"
+    },
+    {
+      "name": "Sulfur",
+      "repo": "cranci1/Sora",
       "release_type": "stable"
     }
   ]
