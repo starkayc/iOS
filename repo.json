@@ -8,6 +8,58 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Lume",
+      "bundleIdentifier": "com.bilipp.lume",
+      "developerName": "bilipp",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
+      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.5.0.ipa",
+          "size": 47815148,
+          "version": "2.5.0",
+          "buildVersion": "31",
+          "date": "2026-10-11T21:52:28Z",
+          "localizedDescription": "",
+          "minOSVersion": "18.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "2.5.0",
+      "versionDate": "2026-10-11T21:52:28Z",
+      "size": 47815148,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.5.0.ipa"
+    },
+    {
+      "name": "StikDebug",
+      "bundleIdentifier": "com.stik.stikdebug",
+      "developerName": "StikDebug",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
+      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.14.ipa",
+          "size": 13544340,
+          "version": "3.1.14",
+          "buildVersion": "1",
+          "date": "2026-10-12T03:13:42Z",
+          "localizedDescription": "",
+          "minOSVersion": "17.4"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.1.14",
+      "versionDate": "2026-10-12T03:13:42Z",
+      "size": 13544340,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.14.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -58,32 +110,6 @@
       "versionDate": "2026-10-10T17:30:30Z",
       "size": 67606241,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.5.9.ipa"
-    },
-    {
-      "name": "Lume",
-      "bundleIdentifier": "com.bilipp.lume",
-      "developerName": "bilipp",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
-      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.4.0.ipa",
-          "size": 47777296,
-          "version": "2.4.0",
-          "buildVersion": "30",
-          "date": "2026-10-06T22:05:13Z",
-          "localizedDescription": "",
-          "minOSVersion": "18.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "2.4.0",
-      "versionDate": "2026-10-06T22:05:13Z",
-      "size": 47777296,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.4.0.ipa"
     },
     {
       "name": "Roam Control",
@@ -266,32 +292,6 @@
       "versionDate": "2026-10-01T01:38:02Z",
       "size": 244024897,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.1.0.ipa"
-    },
-    {
-      "name": "StikDebug",
-      "bundleIdentifier": "com.stik.stikdebug",
-      "developerName": "StikDebug",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
-      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.13.ipa",
-          "size": 13544310,
-          "version": "3.1.13",
-          "buildVersion": "1",
-          "date": "2026-09-28T14:29:59Z",
-          "localizedDescription": "",
-          "minOSVersion": "17.4"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.1.13",
-      "versionDate": "2026-09-28T14:29:59Z",
-      "size": 13544310,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.13.ipa"
     },
     {
       "name": "Get More Ram",
