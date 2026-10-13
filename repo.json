@@ -18,20 +18,20 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.5.0.ipa",
-          "size": 47815148,
-          "version": "2.5.0",
-          "buildVersion": "31",
-          "date": "2026-10-11T21:52:28Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.6.0.ipa",
+          "size": 48230680,
+          "version": "2.6.0",
+          "buildVersion": "32",
+          "date": "2026-10-13T19:53:39Z",
           "localizedDescription": "",
           "minOSVersion": "18.0"
         }
       ],
       "appPermissions": {},
-      "version": "2.5.0",
-      "versionDate": "2026-10-11T21:52:28Z",
-      "size": 47815148,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.5.0.ipa"
+      "version": "2.6.0",
+      "versionDate": "2026-10-13T19:53:39Z",
+      "size": 48230680,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.6.0.ipa"
     },
     {
       "name": "StikDebug",
