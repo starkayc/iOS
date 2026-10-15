@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "StikDebug",
+      "bundleIdentifier": "com.stik.stikdebug",
+      "developerName": "StikDebug",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
+      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.15.ipa",
+          "size": 13543234,
+          "version": "3.1.15",
+          "buildVersion": "1",
+          "date": "2026-10-15T14:31:50Z",
+          "localizedDescription": "",
+          "minOSVersion": "17.4"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.1.15",
+      "versionDate": "2026-10-15T14:31:50Z",
+      "size": 13543234,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.15.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -84,32 +110,6 @@
       "versionDate": "2026-10-13T19:53:39Z",
       "size": 48230680,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.6.0.ipa"
-    },
-    {
-      "name": "StikDebug",
-      "bundleIdentifier": "com.stik.stikdebug",
-      "developerName": "StikDebug",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
-      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.14.ipa",
-          "size": 13544340,
-          "version": "3.1.14",
-          "buildVersion": "1",
-          "date": "2026-10-12T03:13:42Z",
-          "localizedDescription": "",
-          "minOSVersion": "17.4"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.1.14",
-      "versionDate": "2026-10-12T03:13:42Z",
-      "size": 13544340,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.14.ipa"
     },
     {
       "name": "Roam Control",
