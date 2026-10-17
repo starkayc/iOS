@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Aidoku",
+      "bundleIdentifier": "app.aidoku.Aidoku",
+      "developerName": "Aidoku",
+      "iconURL": "https://starkayc.github.io/iOS/icons/app.aidoku.Aidoku.png",
+      "localizedDescription": "Manga reading app for iOS, iPadOS, and macOS",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.rel-0.9-4.ipa",
+          "size": 14753154,
+          "version": "0.9",
+          "buildVersion": "4",
+          "date": "2026-10-16T22:25:27Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.9",
+      "versionDate": "2026-10-16T22:25:27Z",
+      "size": 14753154,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.rel-0.9-4.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -370,32 +396,6 @@
       "versionDate": "2026-09-21T05:32:11Z",
       "size": 221244419,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.921.0-lazer.ipa"
-    },
-    {
-      "name": "Aidoku",
-      "bundleIdentifier": "app.aidoku.Aidoku",
-      "developerName": "Aidoku",
-      "iconURL": "https://starkayc.github.io/iOS/icons/app.aidoku.Aidoku.png",
-      "localizedDescription": "Manga reading app for iOS, iPadOS, and macOS",
-      "subtitle": "Manga reading app for iOS, iPadOS, and macOS",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.rel-0.9.ipa",
-          "size": 14731108,
-          "version": "0.9",
-          "buildVersion": "3",
-          "date": "2026-09-03T20:17:08Z",
-          "localizedDescription": "",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.9",
-      "versionDate": "2026-09-03T20:17:08Z",
-      "size": 14731108,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.rel-0.9.ipa"
     },
     {
       "name": "Feather",
