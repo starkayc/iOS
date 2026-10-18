@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Lume",
+      "bundleIdentifier": "com.bilipp.lume",
+      "developerName": "bilipp",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
+      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.7.0.ipa",
+          "size": 48439478,
+          "version": "2.7.0",
+          "buildVersion": "33",
+          "date": "2026-10-18T18:44:03Z",
+          "localizedDescription": "",
+          "minOSVersion": "18.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "2.7.0",
+      "versionDate": "2026-10-18T18:44:03Z",
+      "size": 48439478,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.7.0.ipa"
+    },
+    {
       "name": "Aidoku",
       "bundleIdentifier": "app.aidoku.Aidoku",
       "developerName": "Aidoku",
@@ -110,32 +136,6 @@
       "versionDate": "2026-10-15T14:31:50Z",
       "size": 13543234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.15.ipa"
-    },
-    {
-      "name": "Lume",
-      "bundleIdentifier": "com.bilipp.lume",
-      "developerName": "bilipp",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
-      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.6.0.ipa",
-          "size": 48230680,
-          "version": "2.6.0",
-          "buildVersion": "32",
-          "date": "2026-10-13T19:53:39Z",
-          "localizedDescription": "",
-          "minOSVersion": "18.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "2.6.0",
-      "versionDate": "2026-10-13T19:53:39Z",
-      "size": 48230680,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.6.0.ipa"
     },
     {
       "name": "Roam Control",
