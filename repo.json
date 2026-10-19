@@ -8,6 +8,58 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.2.ipa",
+          "size": 72829728,
+          "version": "0.6.2",
+          "buildVersion": "145",
+          "date": "2026-10-19T04:08:19Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.6.2",
+      "versionDate": "2026-10-19T04:08:19Z",
+      "size": 72829728,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.2.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.2.ipa",
+          "size": 68666779,
+          "version": "0.6.2",
+          "buildVersion": "145",
+          "date": "2026-10-18T23:13:01Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.6.2",
+      "versionDate": "2026-10-18T23:13:01Z",
+      "size": 68666779,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.2.ipa"
+    },
+    {
       "name": "Lume",
       "bundleIdentifier": "com.bilipp.lume",
       "developerName": "bilipp",
@@ -58,58 +110,6 @@
       "versionDate": "2026-10-16T22:25:27Z",
       "size": 14753154,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.rel-0.9-4.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.1.ipa",
-          "size": 72475787,
-          "version": "0.6.1",
-          "buildVersion": "144",
-          "date": "2026-10-16T16:15:30Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.6.1",
-      "versionDate": "2026-10-16T16:15:30Z",
-      "size": 72475787,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.1.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.1.ipa",
-          "size": 68517984,
-          "version": "0.6.1",
-          "buildVersion": "144",
-          "date": "2026-10-16T14:44:49Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.6.1",
-      "versionDate": "2026-10-16T14:44:49Z",
-      "size": 68517984,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.1.ipa"
     },
     {
       "name": "StikDebug",
