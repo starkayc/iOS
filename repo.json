@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Roam Control",
+      "bundleIdentifier": "com.roamcontrol",
+      "developerName": "seanhowarthdev",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.roamcontrol.png",
+      "localizedDescription": "Choose, test and move an iPhone’s reported location.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.9.ipa",
+          "size": 4627321,
+          "version": "0.9.9",
+          "buildVersion": "105",
+          "date": "2026-10-20T19:33:03Z",
+          "localizedDescription": "",
+          "minOSVersion": "27.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.9.9",
+      "versionDate": "2026-10-20T19:33:03Z",
+      "size": 4627321,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.9.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -136,32 +162,6 @@
       "versionDate": "2026-10-15T14:31:50Z",
       "size": 13543234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.15.ipa"
-    },
-    {
-      "name": "Roam Control",
-      "bundleIdentifier": "com.roamcontrol",
-      "developerName": "seanhowarthdev",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.roamcontrol.png",
-      "localizedDescription": "Choose, test and move an iPhone’s reported location.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.7.ipa",
-          "size": 4111825,
-          "version": "0.9.7",
-          "buildVersion": "96",
-          "date": "2026-10-08T19:54:46Z",
-          "localizedDescription": "",
-          "minOSVersion": "27.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.9.7",
-      "versionDate": "2026-10-08T19:54:46Z",
-      "size": 4111825,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.7.ipa"
     },
     {
       "name": "Apollo",
