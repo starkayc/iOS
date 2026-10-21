@@ -37,11 +37,11 @@
   },
   "Nuvio": {
     "release_type": "stable",
-    "version": "0.6.2-beta"
+    "version": "0.6.3-beta"
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
-    "version": "0.6.2-beta"
+    "version": "0.6.3-beta"
   },
   "Osu": {
     "release_type": "stable",
