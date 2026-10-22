@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Ksign",
+      "bundleIdentifier": "nya.asami.ksign",
+      "developerName": "Nyasami",
+      "iconURL": "https://starkayc.github.io/iOS/icons/nya.asami.ksign.png",
+      "localizedDescription": "Yet another codesigning app, have you ever wondered what if Feather and Esign had a child? Welcome to Ksign!",
+      "subtitle": "The \"cleaner\" Esign app.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.pre-c14dedc.ipa",
+          "size": 16229912,
+          "version": "1.6.1",
+          "buildVersion": "1",
+          "date": "2026-10-22T20:03:07Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.6.1",
+      "versionDate": "2026-10-22T20:03:07Z",
+      "size": 16229912,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.pre-c14dedc.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -448,32 +474,6 @@
       "versionDate": "2025-11-28T20:33:01Z",
       "size": 1929231,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ferrite.rel-0.7.4.ipa"
-    },
-    {
-      "name": "Ksign",
-      "bundleIdentifier": "nya.asami.ksign",
-      "developerName": "Nyasami",
-      "iconURL": "https://starkayc.github.io/iOS/icons/nya.asami.ksign.png",
-      "localizedDescription": "Yet another codesigning app, have you ever wondered what if Feather and Esign had a child? Welcome to Ksign!",
-      "subtitle": "The \"cleaner\" Esign app.",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.pre-03a3a9c.ipa",
-          "size": 16231234,
-          "version": "1.6.1",
-          "buildVersion": "1",
-          "date": "2026-07-14T20:15:52Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "1.6.1",
-      "versionDate": "2026-07-14T20:15:52Z",
-      "size": 16231234,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ksign.pre-03a3a9c.ipa"
     }
   ]
 }
