@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.4.ipa",
+          "size": 67805794,
+          "version": "0.6.4",
+          "buildVersion": "147",
+          "date": "2026-10-23T23:20:42Z",
+          "localizedDescription": "",
+          "minOSVersion": "16.1"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.6.4",
+      "versionDate": "2026-10-23T23:20:42Z",
+      "size": 67805794,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.4.ipa"
+    },
+    {
       "name": "Ksign",
       "bundleIdentifier": "nya.asami.ksign",
       "developerName": "Nyasami",
@@ -58,32 +84,6 @@
       "versionDate": "2026-10-21T04:26:46Z",
       "size": 73324642,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.3.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.3.ipa",
-          "size": 68815810,
-          "version": "0.6.3",
-          "buildVersion": "146",
-          "date": "2026-10-21T04:42:34Z",
-          "localizedDescription": "",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {},
-      "version": "0.6.3",
-      "versionDate": "2026-10-21T04:42:34Z",
-      "size": 68815810,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.3.ipa"
     },
     {
       "name": "Roam Control",
