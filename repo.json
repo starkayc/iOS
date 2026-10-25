@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.0.0.ipa",
+          "size": 129151957,
+          "version": "4.0.0",
+          "buildVersion": "302",
+          "date": "2026-10-25T17:15:04Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "4.0.0",
+      "versionDate": "2026-10-25T17:15:04Z",
+      "size": 129151957,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.0.0.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -188,32 +214,6 @@
       "versionDate": "2026-10-15T14:31:50Z",
       "size": 13543234,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.1.15.ipa"
-    },
-    {
-      "name": "Apollo",
-      "bundleIdentifier": "com.christianselig.Apollo",
-      "developerName": "Apollo-Reborn",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
-      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.9.0.ipa",
-          "size": 128560322,
-          "version": "3.9.0",
-          "buildVersion": "301",
-          "date": "2026-10-09T22:56:25Z",
-          "localizedDescription": "",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "3.9.0",
-      "versionDate": "2026-10-09T22:56:25Z",
-      "size": 128560322,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_3.9.0.ipa"
     },
     {
       "name": "Balatro",
