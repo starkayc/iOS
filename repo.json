@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Lume",
+      "bundleIdentifier": "com.bilipp.lume",
+      "developerName": "bilipp",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
+      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.8.0.ipa",
+          "size": 52089692,
+          "version": "2.8.0",
+          "buildVersion": "34",
+          "date": "2026-10-25T20:53:05Z",
+          "localizedDescription": "",
+          "minOSVersion": "18.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "2.8.0",
+      "versionDate": "2026-10-25T20:53:05Z",
+      "size": 52089692,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.8.0.ipa"
+    },
+    {
       "name": "Apollo",
       "bundleIdentifier": "com.christianselig.Apollo",
       "developerName": "Apollo-Reborn",
@@ -136,32 +162,6 @@
       "versionDate": "2026-10-20T19:33:03Z",
       "size": 4627321,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Roam-Control.rel-0.9.9.ipa"
-    },
-    {
-      "name": "Lume",
-      "bundleIdentifier": "com.bilipp.lume",
-      "developerName": "bilipp",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
-      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.7.0.ipa",
-          "size": 48439478,
-          "version": "2.7.0",
-          "buildVersion": "33",
-          "date": "2026-10-18T18:44:03Z",
-          "localizedDescription": "",
-          "minOSVersion": "18.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "2.7.0",
-      "versionDate": "2026-10-18T18:44:03Z",
-      "size": 48439478,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.7.0.ipa"
     },
     {
       "name": "Aidoku",
