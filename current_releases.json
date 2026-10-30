@@ -9,7 +9,7 @@
   },
   "Apollo Reborn": {
     "release_type": "stable",
-    "version": "1.15.11_4.0.0"
+    "version": "1.15.11_4.0.1"
   },
   "Debrify": {
     "release_type": "prerelease",
@@ -57,7 +57,7 @@
   },
   "StikDebug": {
     "release_type": "stable",
-    "version": "3.1.15"
+    "version": "3.2.0"
   },
   "Sulfur": {
     "release_type": "stable",
