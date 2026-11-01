@@ -43,6 +43,10 @@
     "release_type": "stable",
     "version": "0.6.6-beta"
   },
+  "NeoFreeBird": {
+    "release_type": "stable",
+    "version": "7.3.0"
+  },
   "Osu": {
     "release_type": "stable",
     "version": "2026.1005.0-lazer"
