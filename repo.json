@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Lume",
+      "bundleIdentifier": "com.bilipp.lume",
+      "developerName": "bilipp",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
+      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-3.0.0.ipa",
+          "size": 52697822,
+          "version": "3.0.0",
+          "buildVersion": "35",
+          "date": "2026-11-01T11:34:40Z",
+          "localizedDescription": "",
+          "minOSVersion": "18.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "3.0.0",
+      "versionDate": "2026-11-01T11:34:40Z",
+      "size": 52697822,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-3.0.0.ipa"
+    },
+    {
       "name": "X",
       "bundleIdentifier": "com.atebits.Tweetie2",
       "developerName": "NeoFreeBird",
@@ -162,32 +188,6 @@
       "versionDate": "2026-10-30T03:02:00Z",
       "size": 16818331,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.0.ipa"
-    },
-    {
-      "name": "Lume",
-      "bundleIdentifier": "com.bilipp.lume",
-      "developerName": "bilipp",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
-      "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.8.0.ipa",
-          "size": 52089692,
-          "version": "2.8.0",
-          "buildVersion": "34",
-          "date": "2026-10-25T20:53:05Z",
-          "localizedDescription": "",
-          "minOSVersion": "18.0"
-        }
-      ],
-      "appPermissions": {},
-      "version": "2.8.0",
-      "versionDate": "2026-10-25T20:53:05Z",
-      "size": 52089692,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-2.8.0.ipa"
     },
     {
       "name": "Ksign",
