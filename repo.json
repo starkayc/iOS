@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "X",
+      "bundleIdentifier": "com.atebits.Tweetie2",
+      "developerName": "NeoFreeBird",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.atebits.Tweetie2.png",
+      "localizedDescription": "A modified Twitter app, with branding reverts, BHTwitter and other QoL modifications.",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/NeoFreeBird.rel-7.3.0.ipa",
+          "size": 273143491,
+          "version": "12.38.1",
+          "buildVersion": "2",
+          "date": "2026-10-28T18:16:07Z",
+          "localizedDescription": "",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "12.38.1",
+      "versionDate": "2026-10-28T18:16:07Z",
+      "size": 273143491,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/NeoFreeBird.rel-7.3.0.ipa"
+    },
+    {
       "name": "Debrify",
       "bundleIdentifier": "com.varunsalian.debrify",
       "developerName": "varunsalian",
