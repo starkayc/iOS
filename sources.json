@@ -60,6 +60,12 @@
       "display_name": "Nuvio Enhanced"
     },
     {
+      "name": "NeoFreeBird",
+      "repo": "NeoFreeBird/app",
+      "release_type": "stable",
+      "asset_pattern": "sideloaded-Twitter"
+    },
+    {
       "name": "Osu",
       "repo": "ppy/osu",
       "release_type": "stable"
