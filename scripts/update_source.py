@@ -21,6 +21,8 @@ Usage:
     python scripts/update_source.py [--github-token TOKEN] [--debug]
 """
 
+import html
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -35,6 +37,61 @@ from generate_repo import generate_repo
 # rather than carried whole.
 CHANGELOG_LIMIT = 4000
 
+# Release notes are written in Markdown, and neither AltStore nor Feather
+# renders it in the What's New section, so the syntax has to go.
+_MD_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
+_MD_FENCE = re.compile(r"^[ \t]*```.*$", re.MULTILINE)
+_MD_IMAGE = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
+_MD_LINK = re.compile(r"\[([^\]]+)\]\([^)]*\)")
+_MD_AUTOLINK = re.compile(r"<((?:https?|mailto):[^>\s]+)>")
+_MD_HEADING = re.compile(r"^[ \t]{0,3}#{1,6}[ \t]*", re.MULTILINE)
+# GitHub alert markers, e.g. "> [!TIP]".
+_MD_ALERT = re.compile(
+    r"^[ \t]*\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\][ \t]*$",
+    re.IGNORECASE | re.MULTILINE,
+)
+_MD_QUOTE = re.compile(r"^[ \t]{0,3}>[ \t]?", re.MULTILINE)
+_MD_RULE = re.compile(r"^[ \t]*(?:[-*_][ \t]*){3,}$", re.MULTILINE)
+_MD_BULLET = re.compile(r"^[ \t]*[-*+][ \t]+", re.MULTILINE)
+_MD_TASK = re.compile(r"^([•\-])[ \t]*\[([ xX])\][ \t]*", re.MULTILINE)
+_MD_STRONG = re.compile(r"(\*\*|__)(?=\S)(.+?)(?<=\S)\1", re.DOTALL)
+_MD_STRIKE = re.compile(r"~~(?=\S)(.+?)(?<=\S)~~", re.DOTALL)
+_MD_EM_STAR = re.compile(r"(?<![\w*])\*(?!\s)([^*\n]+?)\*(?![\w*])")
+_MD_EM_UNDER = re.compile(r"(?<![\w_])_(?!\s)([^_\n]+?)_(?![\w_])")
+_MD_BLANK_RUN = re.compile(r"\n{3,}")
+
+
+def _markdown_as_text(body: str) -> str:
+    """Flatten release notes to the plain text clients actually show.
+
+    Headings keep their words, bullets become "• ", emphasis and inline
+    code lose their markers, links keep their label, and images and HTML
+    comments disappear.  Tables are left as they are: they are rare in
+    release notes and flattening them badly is worse than leaving them.
+    """
+    text = _MD_COMMENT.sub("", body.replace("\r\n", "\n").replace("\r", "\n"))
+    text = _MD_FENCE.sub("", text)
+    text = _MD_IMAGE.sub(lambda m: m.group(1), text)
+    text = _MD_LINK.sub(lambda m: m.group(1), text)
+    text = _MD_AUTOLINK.sub(lambda m: m.group(1), text)
+    text = _MD_RULE.sub("", text)
+    text = _MD_HEADING.sub("", text)
+    text = _MD_QUOTE.sub("", text)
+    # After the quote strip, because the real form is "> [!TIP]".
+    text = _MD_ALERT.sub("", text)
+    text = _MD_BULLET.sub("• ", text)
+    text = _MD_TASK.sub(lambda m: f"{m.group(1)} [{'x' if m.group(2).lower() == 'x' else ' '}] ", text)
+    text = _MD_STRONG.sub(lambda m: m.group(2), text)
+    text = _MD_STRIKE.sub(lambda m: m.group(1), text)
+    text = _MD_EM_STAR.sub(lambda m: m.group(1), text)
+    text = _MD_EM_UNDER.sub(lambda m: m.group(1), text)
+    text = text.replace("`", "")
+    text = html.unescape(text)
+
+    lines = [line.strip() for line in text.splitlines()]
+    text = _MD_BLANK_RUN.sub("\n\n", "\n".join(lines))
+    return text.strip()
+
 
 def _changelog(release: dict) -> str:
     """A release's notes, as the entry's "What's New" text.
@@ -43,7 +100,7 @@ def _changelog(release: dict) -> str:
     that is empty, so generate_repo leaves the field out when this returns
     "": a manual drop or a release without notes shows a blank section.
     """
-    body = (release.get("body") or "").strip()
+    body = _markdown_as_text(release.get("body") or "")
     if len(body) <= CHANGELOG_LIMIT:
         return body
     # Cut on a line boundary so the notes don't end mid-sentence.

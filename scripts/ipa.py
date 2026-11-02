@@ -141,11 +141,191 @@ def find_icon_files(info: dict, zf: zipfile.ZipFile, app_dir: str) -> list[str]:
     return [p for _, p in found]
 
 
+# Entitlements AltStore requires the source to list.
+_REQUIRED_ENTITLEMENTS = {
+    "application-identifier",
+    "com.apple.developer.team-identifier",
+}
+
+# Mach-O / code-signing constants (Apple's loader.h and cs_blobs.h).
+_MH_MAGIC = (0xFEEDFACE, 0xFEEDFACF)
+_FAT_MAGIC = (0xCAFEBABE, 0xCAFEBABF)
+_LC_CODE_SIGNATURE = 0x1D
+_CSMAGIC_EMBEDDED_SIGNATURE = 0xFADE0CC0
+_CSMAGIC_EMBEDDED_ENTITLEMENTS = 0xFADE7171
+_CSSLOT_ENTITLEMENTS = 5
+
+
+def _read_entitlements(reader, size: int) -> dict:
+    """The entitlements plist out of a Mach-O's code signature.
+
+    ``reader(offset, length)`` returns bytes from the binary.  A fat
+    binary holds one slice per architecture; the first slice that carries
+    a signature wins.  {} means unsigned, or signed with the DER-encoded
+    entitlements modern iOS also allows, which this does not decode.
+    """
+    head = reader(0, min(size, 65536))
+    if len(head) < 8:
+        return {}
+    magic_be = struct.unpack(">I", head[:4])[0]
+    slices: list[tuple[int, int]] = []
+    if magic_be in _FAT_MAGIC:
+        entry = 32 if magic_be == _FAT_MAGIC[1] else 20
+        for i in range(struct.unpack(">I", head[4:8])[0]):
+            base = 8 + i * entry
+            chunk = head[base:base + entry]
+            if len(chunk) < entry:
+                break
+            slices.append(struct.unpack(">II", chunk[8:16]))
+    else:
+        slices.append((0, size))
+
+    for offset, length in slices:
+        found = _slice_entitlements(reader, offset, length)
+        if found:
+            return found
+    return {}
+
+
+def _slice_entitlements(reader, base: int, length: int) -> dict:
+    """Entitlements of one Mach-O slice, or {}."""
+    head = reader(base, min(length, 65536))
+    if len(head) < 28:
+        return {}
+    magic = struct.unpack("<I", head[:4])[0]
+    if magic not in _MH_MAGIC:
+        return {}
+    header_size = 32 if magic == _MH_MAGIC[1] else 28
+    sizeofcmds = struct.unpack("<I", head[20:24])[0]
+    commands = reader(base + header_size, min(sizeofcmds, 1 << 20))
+
+    pos = 0
+    while pos + 8 <= len(commands):
+        cmd, cmdsize = struct.unpack("<II", commands[pos:pos + 8])
+        if cmdsize < 8:
+            break
+        if cmd == _LC_CODE_SIGNATURE and pos + 16 <= len(commands):
+            dataoff, datasize = struct.unpack(
+                "<II", commands[pos + 8:pos + 16]
+            )
+            return _signature_entitlements(reader, base + dataoff, datasize)
+        pos += cmdsize
+    return {}
+
+
+def _signature_entitlements(reader, offset: int, size: int) -> dict:
+    """Entitlements blob out of a code signature SuperBlob, or {}."""
+    blob = reader(offset, min(size, 4 << 20))
+    if len(blob) < 12:
+        return {}
+    magic, _length, count = struct.unpack(">III", blob[:12])
+    if magic != _CSMAGIC_EMBEDDED_SIGNATURE:
+        return {}
+    for i in range(count):
+        entry = blob[12 + i * 8:20 + i * 8]
+        if len(entry) < 8:
+            break
+        slot, start = struct.unpack(">II", entry)
+        if slot != _CSSLOT_ENTITLEMENTS:
+            continue
+        head = blob[start:start + 8]
+        if len(head) < 8:
+            continue
+        blob_magic, blob_length = struct.unpack(">II", head)
+        if blob_magic != _CSMAGIC_EMBEDDED_ENTITLEMENTS:
+            continue
+        try:
+            parsed = plistlib.loads(blob[start + 8:start + blob_length])
+        except Exception:
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    return {}
+
+
+def _profile_entitlements(zf: zipfile.ZipFile, app_dir: str) -> dict:
+    """Entitlements from the bundle's embedded provisioning profile.
+
+    A re-signed build always carries one, so it stands in for a binary
+    whose signature blob this cannot read.
+    """
+    path = app_dir + "embedded.mobileprovision"
+    if path not in zf.namelist():
+        return {}
+    blob = zf.read(path)
+    start = blob.find(b"<?xml")
+    end = blob.find(b"</plist>", start)
+    if start < 0 or end < 0:
+        return {}
+    try:
+        profile = plistlib.loads(blob[start:end + len(b"</plist>")])
+    except Exception:
+        return {}
+    entitlements = profile.get("Entitlements") if profile else None
+    return entitlements if isinstance(entitlements, dict) else {}
+
+
+def _bundle_dirs(zf: zipfile.ZipFile, app_dir: str) -> list[str]:
+    """The app bundle and every extension bundle inside it."""
+    dirs = [app_dir]
+    for name in zf.namelist():
+        if not name.startswith(app_dir):
+            continue
+        rest = name[len(app_dir):]
+        parts = rest.split("/")
+        if len(parts) >= 3 and parts[0] in ("PlugIns", "Extensions"):
+            nested = app_dir + parts[0] + "/" + parts[1] + "/"
+            if nested not in dirs:
+                dirs.append(nested)
+    return dirs
+
+
+def extract_permissions(zf: zipfile.ZipFile, app_dir: str) -> dict:
+    """The appPermissions object for an IPA: entitlements and privacy keys.
+
+    AltStore compares this against the IPA it downloads and refuses an
+    install when the two disagree, so it has to be exact: the entitlements
+    come from the code signature (or the provisioning profile when the
+    signature is unreadable), and the privacy keys from every Info.plist,
+    extensions included.  The two entitlements every app carries are left
+    out, which is what AltStore asks for.
+    """
+    entitlements: set[str] = set()
+    privacy: dict[str, str] = {}
+
+    for bundle in _bundle_dirs(zf, app_dir):
+        info = extract_info_plist(zf, bundle) or {}
+        for key, value in info.items():
+            if key.endswith("UsageDescription") and isinstance(value, str):
+                privacy[key] = value
+
+        executable = bundle + str(info.get("CFBundleExecutable", ""))
+        signed: dict = {}
+        if executable in zf.namelist():
+            entry = zf.getinfo(executable)
+
+            def read(offset: int, length: int, path: str = executable):
+                with zf.open(path) as f:
+                    f.seek(offset)
+                    return f.read(length)
+
+            signed = _read_entitlements(read, entry.file_size)
+        for key in signed or _profile_entitlements(zf, bundle):
+            if key not in _REQUIRED_ENTITLEMENTS:
+                entitlements.add(key)
+
+    return {
+        "entitlements": sorted(entitlements),
+        "privacy": privacy,
+    }
+
+
 def extract_metadata(ipa_path: Path) -> Optional[dict]:
     """Open an IPA and extract all relevant metadata.
 
     Returns a dict with keys:
         bundleIdentifier, name, version, buildVersion, minOSVersion,
+        category (the raw LSApplicationCategoryType, "" when absent),
+        permissions (entitlements + privacy keys AltStore checks),
         icon_paths (list of paths inside the IPA, largest last),
     or None if the IPA couldn't be parsed.
     """
@@ -179,6 +359,8 @@ def extract_metadata(ipa_path: Path) -> Optional[dict]:
                 "version": version,
                 "buildVersion": build,
                 "minOSVersion": min_os,
+                "category": info.get("LSApplicationCategoryType", ""),
+                "permissions": extract_permissions(zf, app_dir),
                 "icon_paths": icon_paths,
             }
     except (zipfile.BadZipFile, KeyError, plistlib.InvalidFileException) as e:

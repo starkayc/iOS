@@ -41,7 +41,11 @@ import sync_release as sr  # noqa: E402
 from add_custom_ipa import run_custom_upload  # noqa: E402
 from check_releases import run_check  # noqa: E402
 from generate_repo import generate_repo  # noqa: E402
-from update_source import update_source, update_source_report  # noqa: E402
+from update_source import (  # noqa: E402
+    _changelog,
+    update_source,
+    update_source_report,
+)
 from selftest_fake import (  # noqa: E402
     FakeGitHub,
     FakeReleaseFactory,
@@ -370,7 +374,7 @@ def test_add_custom_ipa(fake: FakeGitHub):
 
     rc = run_custom_upload("Balatro", "1.0", "https://up/balatro",
                            description="A card game", subtitle="",
-                           token="test")
+                           token="test", developer="LocalThunk")
     check(rc == 0, "run_custom_upload exited 0")
     check((lib.IPAS_DIR / "Balatro.rel-1.0.ipa").exists(),
           "custom IPA named Balatro.rel-1.0.ipa")
@@ -388,6 +392,8 @@ def test_add_custom_ipa(fake: FakeGitHub):
           "description from the sidecar")
     check(balatro and balatro["subtitle"] == "",
           "blank subtitle stays blank")
+    check(balatro and balatro["developerName"] == "LocalThunk",
+          f"developer from the sidecar (got {balatro['developerName']!r})")
     check(balatro and balatro["downloadURL"].endswith("Balatro.rel-1.0.ipa"),
           "custom URL versioned")
     check("Balatro.rel-1.0.ipa" in fake.assets,
@@ -1317,6 +1323,168 @@ def test_release_notes_become_the_changelog():
           "a build without notes has no changelog field")
 
 
+def test_changelog_markdown_is_flattened():
+    print("\n── changelog: markdown is flattened to the text clients show ──")
+    body = (
+        "<!-- hidden -->\n"
+        "# Version 7.3.0\n"
+        "\n"
+        "> **Alpha build** for testers\n"
+        "\n"
+        "## What's Changed\n"
+        "* Fixed `install` crash\n"
+        "- Added [search](https://x/pull/1)\n"
+        "  - Nested **_bold italic_** item\n"
+        "1. Step one\n"
+        "\n"
+        "![screenshot](https://x/y.png)\n"
+        "---\n"
+        "> [!TIP]\n"
+        "~~Old~~ New &amp; improved\n"
+        "```\n"
+        "code line\n"
+        "```\n"
+    )
+    expected = (
+        "Version 7.3.0\n"
+        "\n"
+        "Alpha build for testers\n"
+        "\n"
+        "What's Changed\n"
+        "• Fixed install crash\n"
+        "• Added search\n"
+        "• Nested bold italic item\n"
+        "1. Step one\n"
+        "\n"
+        "screenshot\n"
+        "\n"
+        "Old New & improved\n"
+        "\n"
+        "code line"
+    )
+    got = _changelog({"body": body})
+    check(got == expected, f"markdown flattened (got {got!r})")
+    # Some releases are authored on Windows, and a CRLF body used to leave
+    # its carriage returns in place, so line markers survived the flatten.
+    check(_changelog({"body": "> [!TIP]\r\n## Notes\r\n* a\r\n"})
+          == "Notes\n• a", "a CRLF body flattens like an LF one")
+    check(_changelog({"body": "<!-- nothing -->\n"}) == "",
+          "a body holding only a comment counts as no notes")
+    check(_changelog({"body": "x" * 5000}).endswith("…"),
+          "an oversized body is cut with an ellipsis")
+
+
+def test_category_comes_from_the_ipa():
+    print("\n── generate_repo: the IPA's own category is used ──")
+    tmp = Path(tempfile.mkdtemp())
+    lib.SOURCES_JSON = tmp / "sources.json"
+    lib.IPAS_DIR = tmp / "ipas"
+    lib.ICONS_DIR = tmp / "icons"
+    lib.REPO_JSON = tmp / "repo.json"
+    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
+    lib.IPAS_DIR.mkdir()
+
+    (lib.IPAS_DIR / "Game.rel-1.0.ipa").write_bytes(make_ipa(
+        "com.test.game", "1.0", "Game",
+        category="public.app-category.games"))
+    (lib.IPAS_DIR / "Plain.rel-1.0.ipa").write_bytes(make_ipa(
+        "com.test.plain", "1.0", "Plain",
+        category="public.app-category.something-new"))
+    check(generate_repo() is True, "repo.json built")
+
+    apps = {
+        app["bundleIdentifier"]: app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(apps["com.test.game"]["category"] == "games",
+          f"the declared category is mapped (got "
+          f"{apps['com.test.game']['category']!r})")
+    check(apps["com.test.plain"]["category"] == "utilities",
+          "an unknown category falls back to utilities")
+    check(lib.altstore_category("public.app-category.photo-video")
+          == "photo-video",
+          "AltStore's hyphenated category name is kept")
+    check(lib.altstore_category("public.app-category.productivity")
+          == "other",
+          "an Apple category AltStore lacks becomes other")
+
+    # A category declared by the build wins over a hand-set one, because
+    # the build knows what it is.
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    for app in repo["apps"]:
+        if app["bundleIdentifier"] == "com.test.game":
+            app["category"] = "entertainment"
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+    check(generate_repo() is True, "the hand edit counts as a change")
+    apps = {
+        app["bundleIdentifier"]: app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(apps["com.test.game"]["category"] == "games",
+          "the declared category replaces a hand-set one")
+
+
+def test_permissions_come_from_the_ipa():
+    print("\n── generate_repo: permissions come from the IPA ──")
+    tmp = Path(tempfile.mkdtemp())
+    lib.SOURCES_JSON = tmp / "sources.json"
+    lib.IPAS_DIR = tmp / "ipas"
+    lib.ICONS_DIR = tmp / "icons"
+    lib.REPO_JSON = tmp / "repo.json"
+    lib.CURRENT_RELEASES_JSON = tmp / "current_releases.json"
+    lib.IPAS_DIR.mkdir()
+
+    (lib.IPAS_DIR / "Siri.rel-1.0.ipa").write_bytes(make_ipa(
+        "com.test.siri", "1.0", "Siri",
+        entitlements={
+            "application-identifier": "TEAM.com.test.siri",
+            "com.apple.developer.team-identifier": "TEAM",
+            "com.apple.developer.siri": True,
+            "get-task-allow": True,
+            "keychain-access-groups": ["TEAM.com.test.siri"],
+        },
+        privacy={
+            "NSCameraUsageDescription": "Scan things",
+            "NSMicrophoneUsageDescription": "Hear things",
+            "CFBundleName": "ignored",
+        },
+    ))
+    check(generate_repo() is True, "repo.json built")
+
+    apps = {
+        app["bundleIdentifier"]: app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(apps["com.test.siri"]["appPermissions"] == {
+        "entitlements": [
+            "com.apple.developer.siri",
+            "get-task-allow",
+            "keychain-access-groups",
+        ],
+        "privacy": {
+            "NSCameraUsageDescription": "Scan things",
+            "NSMicrophoneUsageDescription": "Hear things",
+        },
+    }, f"entitlements and privacy keys read from the bundle "
+       f"(got {apps['com.test.siri']['appPermissions']})")
+
+    # An unsigned build has no signature to read, so it must not blank a
+    # declaration the entry already carries.
+    (lib.IPAS_DIR / "Plain.rel-1.0.ipa").write_bytes(
+        make_ipa("com.test.plain", "1.0", "Plain"))
+    check(generate_repo() is True, "the second app was added")
+    apps = {
+        app["bundleIdentifier"]: app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(apps["com.test.plain"]["appPermissions"] == {},
+          "an unsigned build declares nothing")
+    check(apps["com.test.siri"]["appPermissions"]["entitlements"]
+          == ["com.apple.developer.siri", "get-task-allow",
+              "keychain-access-groups"],
+          "a signed build keeps what it declares")
+
+
 def main():
     print("=" * 60)
     print("  AltStore pipeline selftest")
@@ -1340,6 +1508,9 @@ def main():
     test_failed_download_keeps_state()
     test_failed_api_never_ingests_a_stale_asset()
     test_release_notes_become_the_changelog()
+    test_changelog_markdown_is_flattened()
+    test_category_comes_from_the_ipa()
+    test_permissions_come_from_the_ipa()
     test_ipa_problem_detects_junk()
     test_write_json_is_atomic()
     test_asset_pattern_picks_the_variant()

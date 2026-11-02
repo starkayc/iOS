@@ -40,14 +40,19 @@ class FakeReleaseFactory:
 
 
 def make_ipa(bundle_id, version="0.5.1", name="Nuvio", build="133",
-             with_dir_entry=True):
+             with_dir_entry=True, category=None, entitlements=None,
+             privacy=None):
     info = {
         "CFBundleIdentifier": bundle_id,
         "CFBundleDisplayName": name,
         "CFBundleShortVersionString": version,
         "CFBundleVersion": build,
+        "CFBundleExecutable": "App",
         "MinimumOSVersion": "16.1",
     }
+    if category:
+        info["LSApplicationCategoryType"] = category
+    info.update(privacy or {})
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w") as zf:
         if with_dir_entry:
@@ -56,8 +61,33 @@ def make_ipa(bundle_id, version="0.5.1", name="Nuvio", build="133",
             "Payload/App.app/Info.plist",
             plistlib.dumps(info, fmt=plistlib.FMT_BINARY),
         )
-        zf.writestr("Payload/App.app/binary", b"x" * 5000)
+        zf.writestr(
+            "Payload/App.app/App",
+            macho_with_entitlements(entitlements) if entitlements
+            else b"x" * 5000,
+        )
     return buf.getvalue()
+
+
+def macho_with_entitlements(entitlements: dict) -> bytes:
+    """A minimal 64-bit Mach-O whose code signature carries entitlements.
+
+    Apple's layout: a mach_header_64, one LC_CODE_SIGNATURE, then the
+    signature SuperBlob holding a single entitlements blob (an XML plist).
+    """
+    ent_xml = plistlib.dumps(entitlements, fmt=plistlib.FMT_XML)
+    ent_blob = struct.pack(">II", 0xFADE7171, 8 + len(ent_xml)) + ent_xml
+    superblob = (
+        struct.pack(">III", 0xFADE0CC0, 12 + 8 + len(ent_blob), 1)
+        + struct.pack(">II", 5, 20)
+        + ent_blob
+    )
+    header = struct.pack(
+        "<IIIIIIII", 0xFEEDFACF, 0x0100000C, 0, 2, 1,
+        16, 0, 0,
+    )
+    command = struct.pack("<IIII", 0x1D, 16, len(header) + 16, len(superblob))
+    return header + command + superblob
 
 
 def png_chunk(ctype: bytes, data: bytes) -> bytes:

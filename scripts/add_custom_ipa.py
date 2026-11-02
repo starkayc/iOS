@@ -11,7 +11,8 @@ link or an unreadable IPA cannot leave an orphaned release asset behind.
 Usage:
     python scripts/add_custom_ipa.py \
         --name "Balatro" --version "1.0" --url "https://…/Balatro.ipa" \
-        [--description "…"] [--subtitle "…"] [--token TOKEN] [--debug]
+        [--description "…"] [--subtitle "…"] [--developer "…"] \
+        [--token TOKEN] [--debug]
 """
 
 import json
@@ -33,6 +34,7 @@ def run_custom_upload(
     description: str = "",
     subtitle: str = "",
     token: Optional[str] = None,
+    developer: str = "",
 ) -> int:
     """Download the IPA, validate it, rebuild repo.json and sync the release."""
     filename = lib.ipa_filename(name, version=version)
@@ -61,11 +63,13 @@ def run_custom_upload(
     sidecar[filename] = {
         "description": description or "",
         "subtitle": subtitle or "",
+        "developer": developer or "",
     }
     lib.write_json(meta_file, sidecar)
     print(
         f"    ✓ sidecar updated "
-        f"(description={description!r}, subtitle={subtitle!r})"
+        f"(description={description!r}, subtitle={subtitle!r}, "
+        f"developer={developer!r})"
     )
 
     generate_repo(cleanup_losers=True)
@@ -103,6 +107,7 @@ def main(args) -> int:
         args.description,
         args.subtitle,
         token,
+        args.developer,
     )
 
 
@@ -113,4 +118,7 @@ if __name__ == "__main__":
     parser.add_argument("--url", required=True, help="direct download link to the .ipa")
     parser.add_argument("--description", default="", help="AltStore description")
     parser.add_argument("--subtitle", default="", help="AltStore subtitle")
+    parser.add_argument(
+        "--developer", default="", help="developer name AltStore shows"
+    )
     sys.exit(cli.run(parser, main))

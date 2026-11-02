@@ -188,6 +188,56 @@ def parse_ipa_filename(filename: str) -> tuple[str, str, str]:
     return filename.rsplit(".", 1)[0], "", ""
 
 
+# LSApplicationCategoryType, as an App Store build declares it, mapped to
+# the category values AltStore accepts.  Apple has more categories than
+# AltStore lists, so the rest collapse to "other".
+APPLE_CATEGORY_MAP = {
+    "public.app-category.developer-tools": "developer",
+    "public.app-category.entertainment": "entertainment",
+    "public.app-category.games": "games",
+    "public.app-category.lifestyle": "lifestyle",
+    "public.app-category.photo-video": "photo-video",
+    "public.app-category.social-networking": "social",
+    "public.app-category.utilities": "utilities",
+}
+
+APPLE_CATEGORY_OTHER = frozenset({
+    "public.app-category.books",
+    "public.app-category.business",
+    "public.app-category.education",
+    "public.app-category.finance",
+    "public.app-category.food-and-drink",
+    "public.app-category.graphics-design",
+    "public.app-category.healthcare-fitness",
+    "public.app-category.medical",
+    "public.app-category.music",
+    "public.app-category.navigation",
+    "public.app-category.news",
+    "public.app-category.productivity",
+    "public.app-category.reference",
+    "public.app-category.shopping",
+    "public.app-category.sports",
+    "public.app-category.travel",
+    "public.app-category.weather",
+})
+
+
+def altstore_category(plist_value: str) -> str:
+    """The AltStore category for an IPA's LSApplicationCategoryType.
+
+    "" means the build declares nothing or something unrecognised, which a
+    sideloaded IPA usually does: App Store builds carry the key, re-signed
+    ones often lost it.  AltStore only accepts developer, entertainment,
+    games, lifestyle, other, photo-video, social and utilities.
+    """
+    key = (plist_value or "").strip().lower()
+    if key in APPLE_CATEGORY_MAP:
+        return APPLE_CATEGORY_MAP[key]
+    if key in APPLE_CATEGORY_OTHER:
+        return "other"
+    return ""
+
+
 def canonicalize_ipa_files(ipas_dir: Path) -> None:
     """Rename any .ipa in the folder, swapping spaces for dashes."""
     for p in sorted(ipas_dir.glob("*.ipa")):

@@ -36,10 +36,12 @@ import altstore_lib as lib
 import cli_common as cli
 import ipa
 
-PRESERVED_AS_IS = ("name", "tintColor", "category", "appPermissions")
+PRESERVED_AS_IS = ("name", "tintColor")
 PRESERVED_IF_SET = ("developerName", "localizedDescription", "subtitle")
 
-COMPARED_ENTRY = PRESERVED_IF_SET + ("iconURL", "downloadURL")
+COMPARED_ENTRY = PRESERVED_IF_SET + (
+    "iconURL", "downloadURL", "category", "appPermissions",
+)
 COMPARED_VERSION = ("version", "buildVersion", "size", "minOSVersion")
 
 
@@ -225,10 +227,20 @@ def generate_repo(
             else meta["name"]
         )
 
+        # Permissions come from the bundle.  A build with no readable
+        # signature declares nothing, so keep what the entry already says
+        # instead of blanking a declaration someone made.
+        permissions = meta.get("permissions") or {}
+        if not (permissions.get("entitlements") or permissions.get("privacy")):
+            permissions = (old or {}).get("appPermissions") or {}
+
         app_entry = {
             "name": default_name,
             "bundleIdentifier": bundle_id,
-            "developerName": facts.get("developer", ""),
+            "developerName": (
+                facts.get("developer", "")
+                or custom_entry.get("developer", "")
+            ),
             "iconURL": icon_url,
             "localizedDescription": custom_entry.get("description")
             or facts.get("description", ""),
@@ -237,9 +249,13 @@ def generate_repo(
             # About text in both prints it twice.
             "subtitle": custom_entry.get("subtitle", ""),
             "tintColor": lib.SOURCE_TINT_COLOR,
-            "category": "utilities",
+            "category": (
+                lib.altstore_category(meta.get("category", ""))
+                or (old or {}).get("category")
+                or "utilities"
+            ),
             "versions": [version_obj],
-            "appPermissions": {},
+            "appPermissions": permissions,
             # Top-level convenience fields (AltStore uses these too).
             "version": version_str,
             "versionDate": ipa_mtime.strftime("%Y-%m-%dT%H:%M:%SZ"),
