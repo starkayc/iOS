@@ -41,6 +41,7 @@ import sync_release as sr  # noqa: E402
 from add_custom_ipa import run_custom_upload  # noqa: E402
 from check_releases import run_check  # noqa: E402
 from generate_repo import generate_repo  # noqa: E402
+from generate_repo import short_subtitle  # noqa: E402
 from update_source import (  # noqa: E402
     _changelog,
     update_source,
@@ -390,8 +391,9 @@ def test_add_custom_ipa(fake: FakeGitHub):
           "display name comes from the file, not the IPA")
     check(balatro and balatro["localizedDescription"] == "A card game",
           "description from the sidecar")
-    check(balatro and balatro["subtitle"] == "",
-          "blank subtitle stays blank")
+    check(balatro and balatro["subtitle"] == "A card game",
+          f"the subtitle falls back to the description "
+          f"(got {balatro['subtitle']!r})")
     check(balatro and balatro["developerName"] == "LocalThunk",
           f"developer from the sidecar (got {balatro['developerName']!r})")
     check(balatro and balatro["downloadURL"].endswith("Balatro.rel-1.0.ipa"),
@@ -1487,6 +1489,29 @@ def test_permissions_come_from_the_ipa():
           "a signed build keeps what it declares")
 
 
+def test_subtitle_is_derived_from_the_description():
+    print("\n── generate_repo: an absent subtitle gets a one-liner ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.8.0")
+    fake.repos["claration/Feather"]["releases"][0] = release(
+        "v2.9.0", False, ("Feather.ipa", 1000, "https://up/feather"))
+    fake.add_download("https://up/feather",
+                      make_ipa("thewonderofyou.Feather", "2.9.0", "Feather"))
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    app = next(
+        a for a in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+        if a["bundleIdentifier"] == "thewonderofyou.Feather"
+    )
+    check(app["subtitle"] == "Feather desc",
+          f"the description becomes the subtitle (got {app['subtitle']!r})")
+    check(short_subtitle("one two three four five", limit=10) == "one two…",
+          "a long subtitle is cut on a word boundary")
+    check(short_subtitle("") == "", "no description, no subtitle")
+
+
 def main():
     print("=" * 60)
     print("  AltStore pipeline selftest")
@@ -1513,6 +1538,7 @@ def main():
     test_changelog_markdown_is_flattened()
     test_category_comes_from_the_ipa()
     test_permissions_come_from_the_ipa()
+    test_subtitle_is_derived_from_the_description()
     test_ipa_problem_detects_junk()
     test_write_json_is_atomic()
     test_asset_pattern_picks_the_variant()

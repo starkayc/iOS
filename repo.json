@@ -13,7 +13,7 @@
       "developerName": "Apollo-Reborn",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
       "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "",
+      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys…",
       "tintColor": "3c94fc",
       "category": "social",
       "versions": [
@@ -58,7 +58,7 @@
       "developerName": "bilipp",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.bilipp.lume.png",
       "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
-      "subtitle": "",
+      "subtitle": "A modern, native IPTV player for Apple platforms. Browse…",
       "tintColor": "3c94fc",
       "category": "entertainment",
       "versions": [
@@ -89,7 +89,7 @@
       "developerName": "NeoFreeBird",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.atebits.Tweetie2.png",
       "localizedDescription": "A modified Twitter app, with branding reverts, BHTwitter and other QoL modifications.",
-      "subtitle": "",
+      "subtitle": "A modified Twitter app, with branding reverts, BHTwitter…",
       "tintColor": "3c94fc",
       "category": "social",
       "versions": [
@@ -149,7 +149,7 @@
       "developerName": "ppy",
       "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
       "localizedDescription": "rhythm is just a *click* away!",
-      "subtitle": "",
+      "subtitle": "rhythm is just a *click* away!",
       "tintColor": "3c94fc",
       "category": "games",
       "versions": [
@@ -185,7 +185,7 @@
       "developerName": "varunsalian",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
       "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [
@@ -216,7 +216,7 @@
       "developerName": "luqmanfadlli",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
       "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
       "tintColor": "3c94fc",
       "category": "entertainment",
       "versions": [
@@ -248,7 +248,7 @@
       "developerName": "NuvioMedia",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
       "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
+      "subtitle": "Official Nuvio Mobile Repository",
       "tintColor": "3c94fc",
       "category": "entertainment",
       "versions": [
@@ -279,7 +279,7 @@
       "developerName": "StikDebug",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
       "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "subtitle": "",
+      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+…",
       "tintColor": "3c94fc",
       "category": "developer",
       "versions": [
@@ -338,7 +338,7 @@
       "developerName": "seanhowarthdev",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.roamcontrol.png",
       "localizedDescription": "Choose, test and move an iPhone’s reported location.",
-      "subtitle": "",
+      "subtitle": "Choose, test and move an iPhone’s reported location",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [
@@ -370,7 +370,7 @@
       "developerName": "Aidoku",
       "iconURL": "https://starkayc.github.io/iOS/icons/app.aidoku.Aidoku.png",
       "localizedDescription": "Manga reading app for iOS, iPadOS, and macOS",
-      "subtitle": "",
+      "subtitle": "Manga reading app for iOS, iPadOS, and macOS",
       "tintColor": "3c94fc",
       "category": "entertainment",
       "versions": [
@@ -409,10 +409,10 @@
     {
       "name": "Balatro",
       "bundleIdentifier": "org.htf65jud.balatro",
-      "developerName": "",
+      "developerName": "Playstack",
       "iconURL": "https://starkayc.github.io/iOS/icons/org.htf65jud.balatro.png",
-      "localizedDescription": "",
-      "subtitle": "",
+      "localizedDescription": "Welcome to Balatro!\n\nHypnotic and endlessly satisfying, Balatro is a magical mix of card games like Solitaire and Poker, that lets you twist the rules in ways never seen before!\n\nYour goal is to beat the Boss Blinds by making strong poker hands.\n\nFind new Jokers that change the game and create awesome and exciting combos! Win enough chips to beat tricky bosses, and find hidden bonus hands and decks as you play. You'll need all the help you can get to beat the big boss, win the final challenge, and win the game.\n\nFeatures:\n• Remastered controls for touch screen devices.\n• Each run is different: every pick-up, discard and joker can dramatically alter the course of your run.\n• Multiple game items: discover over 150 Jokers, each with special powers. Use them with different decks, upgrade cards and vouchers to boost your scores.\n• Different Game modes: Campaign mode and challenge mode for you to play.\n• Beautiful Pixel Art: Immerse yourself in the CRT fuzz and enjoy detailed, hand-crafted pixel art.",
+      "subtitle": "When Poker Meets Solitaire",
       "tintColor": "3c94fc",
       "category": "games",
       "versions": [
@@ -506,7 +506,7 @@
       "developerName": "Michael-128",
       "iconURL": "https://starkayc.github.io/iOS/icons/MikeMichael225.qBitControl.png",
       "localizedDescription": "qBittorrent remote client for iOS devices.",
-      "subtitle": "qBittorrent remote client for iOS devices.",
+      "subtitle": "qBittorrent remote client for iOS devices",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [
@@ -538,7 +538,7 @@
       "developerName": "herbrine8403",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.air-devs.air.png",
       "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
-      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
+      "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为…",
       "tintColor": "3c94fc",
       "category": "games",
       "versions": [
@@ -577,7 +577,7 @@
       "developerName": "hugeBlack",
       "iconURL": "https://starkayc.github.io/iOS/icons/placeholder.png",
       "localizedDescription": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
-      "subtitle": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
+      "subtitle": "A simple AltSign wrapper app that allows you to enable…",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [
@@ -629,7 +629,7 @@
       "developerName": "claration",
       "iconURL": "https://starkayc.github.io/iOS/icons/thewonderofyou.Feather.png",
       "localizedDescription": "Free on-device iOS/iPadOS application manager/installer, using certificates part of the Apple Developer Program.",
-      "subtitle": "Free on-device iOS/iPadOS application manager/installer, using certificates part of the Apple Developer Program.",
+      "subtitle": "Free on-device iOS/iPadOS application manager/installer…",
       "tintColor": "3c94fc",
       "category": "utilities",
       "versions": [

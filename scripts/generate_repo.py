@@ -42,6 +42,23 @@ PRESERVED_IF_SET = ("developerName", "localizedDescription", "subtitle")
 COMPARED_ENTRY = PRESERVED_IF_SET + (
     "iconURL", "downloadURL", "category", "appPermissions",
 )
+
+# AltStore shows the subtitle on one line under the app's name.
+SUBTITLE_LIMIT = 60
+
+
+def short_subtitle(text: str, limit: int = SUBTITLE_LIMIT) -> str:
+    """A one-line subtitle cut from an app's description.
+
+    An empty subtitle leaves a visible gap in the Browse list, so a
+    description that fits is used whole and a longer one is cut on a word
+    boundary.  A hand-set subtitle still wins over this.
+    """
+    line = " ".join((text or "").split())
+    if len(line) <= limit:
+        return line.rstrip(".")
+    cut = line.rfind(" ", 0, limit)
+    return line[:cut if cut > 0 else limit].rstrip(" ,;:-") + "…"
 COMPARED_VERSION = ("version", "buildVersion", "size", "minOSVersion")
 
 
@@ -234,6 +251,9 @@ def generate_repo(
         if not (permissions.get("entitlements") or permissions.get("privacy")):
             permissions = (old or {}).get("appPermissions") or {}
 
+        description = (
+            custom_entry.get("description") or facts.get("description", "")
+        )
         app_entry = {
             "name": default_name,
             "bundleIdentifier": bundle_id,
@@ -242,12 +262,14 @@ def generate_repo(
                 or custom_entry.get("developer", "")
             ),
             "iconURL": icon_url,
-            "localizedDescription": custom_entry.get("description")
-            or facts.get("description", ""),
+            "localizedDescription": description,
             # No description fallback here.  AltStore shows the subtitle
             # under the name and the description below it, so putting the
-            # About text in both prints it twice.
-            "subtitle": custom_entry.get("subtitle", ""),
+            # About text in both prints it twice.  A derived one-liner is
+            # short enough to read as a tagline instead.
+            "subtitle": (
+                custom_entry.get("subtitle", "") or short_subtitle(description)
+            ),
             "tintColor": lib.SOURCE_TINT_COLOR,
             "category": (
                 lib.altstore_category(meta.get("category", ""))
