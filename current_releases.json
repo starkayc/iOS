@@ -9,7 +9,8 @@
   },
   "Apollo Reborn": {
     "release_type": "stable",
-    "version": "1.15.11_4.0.1"
+    "version": "1.15.11_4.0.1",
+    "asset_pattern": "GLASS"
   },
   "Debrify": {
     "release_type": "prerelease",
@@ -33,7 +34,8 @@
   },
   "Lume": {
     "release_type": "stable",
-    "version": "3.0.0"
+    "version": "3.0.0",
+    "asset_pattern": "iOS"
   },
   "Nuvio": {
     "release_type": "stable",
@@ -45,7 +47,8 @@
   },
   "NeoFreeBird": {
     "release_type": "stable",
-    "version": "7.3.0"
+    "version": "7.3.0",
+    "asset_pattern": "sideloaded-Twitter"
   },
   "Osu": {
     "release_type": "any",
