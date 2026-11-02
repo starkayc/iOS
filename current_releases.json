@@ -47,8 +47,7 @@
   },
   "NeoFreeBird": {
     "release_type": "stable",
-    "version": "7.3.0",
-    "asset_pattern": "sideloaded-Twitter"
+    "version": "7.3.0"
   },
   "Osu": {
     "release_type": "any",
