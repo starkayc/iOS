@@ -53,8 +53,9 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
                 print(f"  ⚠ {name}: could not check (API error)")
             continue
 
-        value_key = "commit" if release_type == "prerelease" else "version"
-        new_recorded[name] = {"release_type": release_type, value_key: e["latest"]}
+        new_recorded[name] = lib.release_record(
+            e["source"], release_type, e["latest"]
+        )
 
         if e["changed"]:
             changes.append(f"  ↑ {name}: {e['recorded']} → {e['latest']}")

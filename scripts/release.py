@@ -13,7 +13,6 @@ point the whole pipeline at a fake network.
 """
 
 import json
-import re
 import zipfile
 from pathlib import Path
 from typing import Optional
@@ -24,48 +23,9 @@ import cli_common as diag
 import ipa
 
 
-def find_ipa_asset(release: dict, pattern: Optional[str] = None) -> Optional[dict]:
-    """Return the best .ipa asset from a GitHub release, or None.
-
-    When a release has multiple IPA variants (e.g. base, GLASS,
-    NOEXTENSIONS), the shortest name is usually the plain/default build.
-    Pass ``pattern`` to match a specific variant instead (e.g.
-    pattern="GLASS" matches *-GLASS.ipa but not *-GLASSICONS.ipa or
-    *-GLASS-NOEXTENSIONS.ipa).
-    """
-    ipa_assets = [
-        a for a in release.get("assets", [])
-        if a["name"].lower().endswith(".ipa")
-    ]
-    if not ipa_assets:
-        return None
-
-    if pattern:
-        pat = pattern.lower()
-
-        def _segment_count(asset: dict) -> int:
-            base = asset["name"].rsplit(".", 1)[0]
-            return len(re.split(r"[-.]", base))
-
-        matching = [
-            a for a in ipa_assets
-            if pat in re.split(r"[-.]", a["name"].lower().rsplit(".", 1)[0])
-        ]
-
-        if matching:
-            matching.sort(key=lambda a: (_segment_count(a), len(a["name"])))
-            return matching[0]
-
-        diag.warn(f"No IPA with segment '{pattern}', falling back to default")
-
-    ipa_assets.sort(key=lambda a: len(a["name"]))
-    return ipa_assets[0]
-
-
-
 def _pick_ipa_asset(release: dict, source: dict) -> tuple[Optional[dict], bool]:
     """The asset to download and whether it is a zipped IPA."""
-    asset = find_ipa_asset(release, source.get("asset_pattern"))
+    asset = lib.find_ipa_asset(release, source.get("asset_pattern"))
     if asset:
         return asset, False
     zipped = next(

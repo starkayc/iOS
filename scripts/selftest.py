@@ -632,12 +632,13 @@ def test_subtitle_never_repeats_the_description():
 
 
 def test_update_source_missing_asset():
-    print("\n── update_source: release without an IPA asset is skipped ──")
+    print("\n── update_source: release without an IPA asset is not tracked ──")
     tmp = Path(tempfile.mkdtemp())
     fake = build_fixture(tmp)
-    # Feather publishes v2.10.0 but ships no .ipa (like ppy/osu, which
-    # attaches the iOS build later or not at all).  The run must finish
-    # cleanly and leave Feather's recorded version alone.
+    # Feather publishes v2.10.0 but ships no .ipa (like ppy/osu's stable
+    # builds, which stopped attaching osu.iOS.ipa).  The newest release we
+    # can publish is still v2.9.0, so the run finishes cleanly, downloads
+    # nothing and leaves Feather's recorded version alone.
     seed_current_releases(tmp, feather="2.9.0")
     fake.repos["claration/Feather"]["releases"].insert(0, release(
         "v2.10.0", False, ("Feather-installer.exe", 1000, "https://up/nope")))
@@ -645,6 +646,7 @@ def test_update_source_missing_asset():
     fake.seed_asset("Ksign.pre-03a3a9c.ipa", 1000)
     fake.seed_asset("Nuvio-Enhanced.rel-0.5.1.ipa", 1000)
     fake.seed_asset("Ferrite.rel-0.7.4.ipa", 1000)
+    fake.seed_asset("Feather.rel-2.9.0.ipa", 1000)
 
     seed_repo_json(tmp, [
         app_entry("thewonderofyou.Feather", "Feather",
@@ -1136,11 +1138,128 @@ def test_asset_pattern_picks_the_variant():
              "browser_download_url": "https://up/icons"},
         ],
     }
-    picked = rel.find_ipa_asset(release_dict, "GLASS")
+    picked = lib.find_ipa_asset(release_dict, "GLASS")
     check(picked["name"] == "App-GLASS.ipa",
           f"the pattern picks its variant (got {picked['name']})")
-    check(rel.find_ipa_asset(release_dict, None)["name"] == "App.ipa",
+    check(lib.find_ipa_asset(release_dict, None)["name"] == "App.ipa",
           "without a pattern the shortest name wins")
+
+    # NeoFreeBird ships the same build for two app brandings.  The shorter
+    # X name used to win, so the pattern has to span both of its segments.
+    nfb = {
+        "tag_name": "v7.3.0",
+        "assets": [
+            {"name": "NeoFreeBird-sideloaded-Twitter_7.3.0_12.38.1.ipa",
+             "size": 1, "browser_download_url": "https://up/tw"},
+            {"name": "NeoFreeBird-sideloaded-X_7.3.0_12.38.1.ipa",
+             "size": 1, "browser_download_url": "https://up/x"},
+            {"name": "NeoFreeBird-trollstore-Twitter_7.3.0_12.38.1.tipa",
+             "size": 1, "browser_download_url": "https://up/tip"},
+        ],
+    }
+    picked = lib.find_ipa_asset(nfb, "sideloaded-Twitter")
+    check(picked["name"] == "NeoFreeBird-sideloaded-Twitter_7.3.0_12.38.1.ipa",
+          f"a two-segment pattern picks its build (got {picked['name']})")
+
+
+def test_any_channel_tracks_newest_publishable_release():
+    print("\n── latest_release_info: 'any' skips releases with no IPA ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    fake.add_repo("ppy/osu", "rhythm is just a *click* away!", "ppy", [
+        release("2026.1026.0-tachyon", True,
+                ("osu.iOS.ipa", 100, "https://up/osu"),
+                ("install.exe", 100, "https://up/exe")),
+        release("2026.1005.0-lazer", False, ("install.exe", 100, "https://up/exe")),
+        release("2026.921.0-lazer", False,
+                ("osu.iOS.ipa", 100, "https://up/osu")),
+    ])
+
+    info = lib.latest_release_info("ppy/osu", "any")
+    check(info["tag"] == "2026.1026.0-tachyon",
+          f"the newest publishable release wins (got {info['tag']})")
+    check(info["version"] == "2026.1026.0-tachyon",
+          "an 'any' release is recorded as a version, not a commit")
+    info = lib.latest_release_info("ppy/osu", "stable")
+    check(info["tag"] == "2026.921.0-lazer",
+          f"a channel falls back past an IPA-less release (got {info['tag']})")
+
+
+def test_any_channel_release_publishes_its_version():
+    print("\n── update_source: an 'any' app publishes the release version ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.SOURCES_JSON.write_text(json.dumps({"sources": [
+        {"name": "Osu", "repo": "ppy/osu", "release_type": "any"},
+    ]}, indent=2), encoding="utf-8")
+    lib.CURRENT_RELEASES_JSON.unlink(missing_ok=True)
+    fake.add_repo("ppy/osu", "rhythm is just a *click* away!", "ppy", [
+        release("2026.1026.0-tachyon", True,
+                ("osu.iOS.ipa", 100, "https://up/osu")),
+        release("2026.1005.0-lazer", False, ("install.exe", 100, "https://up/exe")),
+    ])
+    # osu! keeps CFBundleShortVersionString at 1.0 on every build, so only
+    # the tracked release version can tell AltStore an update exists.
+    fake.add_download(
+        "https://up/osu",
+        make_ipa("sh.ppy.osulazer", "1.0", "osu!", build="2026.1026.0"),
+    )
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the app was fetched")
+    apps = {
+        app["bundleIdentifier"]: app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(apps["sh.ppy.osulazer"]["version"] == "2026.1026.0-tachyon",
+          f"the release version is published, not the plist's 1.0 "
+          f"(got {apps['sh.ppy.osulazer']['version']!r})")
+
+
+def test_asset_pattern_change_refetches_the_variant():
+    print("\n── update_source: a pattern change re-fetches the same version ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.SOURCES_JSON.write_text(json.dumps({"sources": [
+        {"name": "NeoFreeBird", "repo": "NeoFreeBird/app",
+         "release_type": "stable", "asset_pattern": "sideloaded-Twitter",
+         "display_name": "Twitter"},
+    ]}, indent=2), encoding="utf-8")
+    fake.add_repo("NeoFreeBird/app", "A modified Twitter app", "NeoFreeBird", [
+        release("v7.3.0", False,
+                ("NeoFreeBird-sideloaded-Twitter_7.3.0_12.38.1.ipa",
+                 269779010, "https://up/tw"),
+                ("NeoFreeBird-sideloaded-X_7.3.0_12.38.1.ipa",
+                 273143491, "https://up/x")),
+    ])
+    fake.add_download("https://up/tw",
+                      make_ipa("com.atebits.Tweetie2", "12.38.1", "Twitter"))
+    fake.add_download("https://up/x",
+                      make_ipa("com.atebits.Tweetie2", "12.38.1", "X"))
+    # The recorded version is current and the wrong build is published, but
+    # the record predates asset_pattern, so this run has to fetch the right
+    # one instead of calling the app up to date.
+    lib.CURRENT_RELEASES_JSON.write_text(json.dumps({
+        "NeoFreeBird": {"release_type": "stable", "version": "7.3.0"},
+    }, indent=2), encoding="utf-8")
+    fake.seed_asset("NeoFreeBird.rel-7.3.0.ipa", 273143491)
+    seed_repo_json(tmp, [app_entry("com.atebits.Tweetie2", "X",
+                                   asset_url("NeoFreeBird.rel-7.3.0.ipa"))])
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the app was rebuilt")
+    check(fake.downloads == [("https://up/tw", "NeoFreeBird.rel-7.3.0.ipa")],
+          f"the Twitter build was fetched (got {fake.downloads})")
+    check(lib.load_current_releases()["NeoFreeBird"].get("asset_pattern")
+          == "sideloaded-Twitter", "the pattern is recorded for next time")
+    names = {
+        app["bundleIdentifier"]: app["name"]
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+    }
+    check(names["com.atebits.Tweetie2"] == "Twitter",
+          f"the entry is renamed (got {names['com.atebits.Tweetie2']!r})")
 
 
 def main():
@@ -1168,6 +1287,9 @@ def main():
     test_ipa_problem_detects_junk()
     test_write_json_is_atomic()
     test_asset_pattern_picks_the_variant()
+    test_any_channel_tracks_newest_publishable_release()
+    test_any_channel_release_publishes_its_version()
+    test_asset_pattern_change_refetches_the_variant()
     test_corrupt_upstream_ipa()
     test_per_app_failure_is_isolated()
     test_manual_drop_must_be_a_real_ipa()

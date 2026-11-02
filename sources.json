@@ -63,12 +63,13 @@
       "name": "NeoFreeBird",
       "repo": "NeoFreeBird/app",
       "release_type": "stable",
-      "asset_pattern": "sideloaded-Twitter"
+      "asset_pattern": "sideloaded-Twitter",
+      "display_name": "Twitter"
     },
     {
       "name": "Osu",
       "repo": "ppy/osu",
-      "release_type": "stable"
+      "release_type": "any"
     },
     {
       "name": "qBitControl",

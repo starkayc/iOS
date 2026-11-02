@@ -9,9 +9,10 @@ picks up manual release drops, records the new state in
 current_releases.json, and rebuilds repo.json through generate_repo.py.
 
 When nothing needs downloading, the script exits without touching
-repo.json, the release or git, so an unchanged run uploads nothing.  A
-release whose IPA asset is not attached yet, such as ppy/osu which ships
-it separately, is skipped rather than failed.  When a download fails, or
+repo.json, the release or git, so an unchanged run uploads nothing.  The
+release tracked is the newest one that carries an IPA, so an app whose
+newest release ships no IPA (ppy/osu's stable builds) keeps the version
+it already serves.  When a download fails, or
 the downloaded file is not a usable IPA, the recorded version stays
 untouched so the next run retries it, and the script exits non-zero and
 names the app.
@@ -90,7 +91,7 @@ def _fetch_one(
         "developer": developer,
         "display_name": source.get("display_name", ""),
     }
-    if entry["release_type"] == "stable":
+    if entry["release_type"] != "prerelease":
         # A build can keep CFBundleShortVersionString constant (osu! ships
         # 1.0 for every release) while its tag moves.  AltStore only offers an
         # update when the source's version is higher, so generate_repo gets
@@ -171,7 +172,6 @@ def update_source_report(
         name = e["name"]
         release_type = e["release_type"]
         info = e["info"]
-        value_key = "commit" if release_type == "prerelease" else "version"
         expected = e["expected_filename"]
 
         if info is None:
@@ -187,8 +187,9 @@ def update_source_report(
             and e["asset_in_release"]
             and lib.repo_json_references(expected, repo_assets)
         ):
-            new_recorded[name] = {"release_type": release_type,
-                                  value_key: e["latest"]}
+            new_recorded[name] = lib.release_record(
+                e["source"], release_type, e["latest"]
+            )
             print(f"  ✓ {name} up to date  ({e['latest']})")
             continue
 
@@ -213,8 +214,9 @@ def update_source_report(
             continue
 
         downloaded_any = True
-        new_recorded[name] = {"release_type": release_type,
-                              value_key: e["latest"]}
+        new_recorded[name] = lib.release_record(
+            e["source"], release_type, e["latest"]
+        )
         per_app[expected] = facts
 
     for asset_name in sorted(manual_candidates):

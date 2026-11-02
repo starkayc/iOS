@@ -11,7 +11,8 @@ Sections:
   - File naming: canonical names, versioned IPA file names
   - Config file I/O: sources.json, current_releases.json, custom meta
   - GitHub HTTP: github_api, download_file, request_bytes, _auth
-  - Release checking: latest_release_info, check_for_updates
+  - Release checking: find_ipa_asset, latest_release_info,
+    check_for_updates
 
 The release-asset side, which finds, fetches and publishes the IPAs, lives
 in release.py.  Anything that opens an IPA lives in ipa.py.
@@ -463,6 +464,83 @@ def download_file(
 
 
 
+_ASSET_SEPARATORS = re.compile(r"[-._]+")
+
+
+def _name_segments(name: str) -> list[str]:
+    """Split an asset name or pattern into lowercase segments.
+
+    >>> _name_segments("NeoFreeBird-sideloaded-Twitter_7.3.0.ipa")[:3]
+    ['neofreebird', 'sideloaded', 'twitter']
+    """
+    return [s for s in _ASSET_SEPARATORS.split(name.lower()) if s]
+
+
+def asset_matches_pattern(filename: str, pattern: str) -> bool:
+    """Whether ``filename`` carries every segment of ``pattern``, in order.
+
+    A pattern with a separator has to match consecutive segments, so
+    "sideloaded-Twitter" cannot be satisfied by the "sideloaded" half of
+    "NeoFreeBird-sideloaded-X".
+    """
+    want = _name_segments(pattern)
+    have = _name_segments(filename)
+    if not want:
+        return True
+    return any(
+        have[i:i + len(want)] == want
+        for i in range(len(have) - len(want) + 1)
+    )
+
+
+def find_ipa_asset(
+    release: dict, pattern: Optional[str] = None
+) -> Optional[dict]:
+    """Return the best .ipa asset from a GitHub release, or None.
+
+    When a release has multiple IPA variants (e.g. base, GLASS,
+    NOEXTENSIONS), the shortest name is usually the plain/default build.
+    Pass ``pattern`` to match a specific variant instead (e.g.
+    pattern="GLASS" matches *-GLASS.ipa but not *-GLASSICONS.ipa, and
+    "sideloaded-Twitter" does not match *-sideloaded-X*).
+
+    None means the release carries no .ipa at all; the caller may still
+    find a .ipa.zip.
+    """
+    ipa_assets = [
+        a for a in release.get("assets", [])
+        if a["name"].lower().endswith(".ipa")
+    ]
+    if not ipa_assets:
+        return None
+
+    if pattern:
+        # Rank by how many segments the name has beyond the pattern, so
+        # "App-GLASS.ipa" beats "App-GLASS-NOEXTENSIONS.ipa".
+        matching = [
+            a for a in ipa_assets
+            if asset_matches_pattern(a["name"], pattern)
+        ]
+        if matching:
+            matching.sort(
+                key=lambda a: (len(_name_segments(a["name"])), len(a["name"]))
+            )
+            return matching[0]
+
+        diag.warn(f"No IPA with segment '{pattern}', falling back to default")
+
+    ipa_assets.sort(key=lambda a: len(a["name"]))
+    return ipa_assets[0]
+
+
+def has_installable_asset(release: dict) -> bool:
+    """Whether a release carries an .ipa or a zipped .ipa."""
+    return any(
+        a["name"].lower().endswith((".ipa", ".ipa.zip"))
+        for a in release.get("assets", [])
+    )
+
+
 def version_from_tag(tag: str) -> str:
     """A release tag as a version string, minus its "v" prefix.
 
@@ -475,7 +553,13 @@ def version_from_tag(tag: str) -> str:
 def latest_release_info(
     repo: str, release_type: str, token: Optional[str] = None
 ) -> Optional[dict]:
-    """Return info about a repo's latest release, or None.
+    """Return info about a repo's latest publishable release, or None.
+
+    ``release_type`` picks the channel: "stable", "prerelease", or "any"
+    for either, newest first.  Only a release that carries an .ipa or an
+    .ipa.zip can be published, so the newest one that does wins.  ppy/osu
+    attaches osu.iOS.ipa to tachyon builds only; without this rule its
+    recorded version moves while the repo never does.
 
     The dict holds "tag", "published_at" and "release", the raw release
     dict, plus either "version" for a stable release, which is the tag
@@ -487,10 +571,13 @@ def latest_release_info(
         f"{API_BASE}/repos/{repo}/releases?per_page=100", token
     )
     if release_type == "prerelease":
-        target = next((r for r in releases if r.get("prerelease")), None)
+        candidates = [r for r in releases if r.get("prerelease")]
+    elif release_type == "any":
+        candidates = list(releases)
     else:
-        target = next((r for r in releases if not r.get("prerelease")), None)
+        candidates = [r for r in releases if not r.get("prerelease")]
 
+    target = next((r for r in candidates if has_installable_asset(r)), None)
     if not target:
         return None
 
@@ -592,7 +679,14 @@ def check_for_updates(token: Optional[str] = None) -> dict:
                 name, version=info["version"]
             )
 
-        entry["changed"] = entry["recorded"] != entry["latest"]
+        # A recorded pattern makes a variant switch a change, so the new
+        # build is fetched instead of the old one staying under the same
+        # version number.  A record without the key predates the field, so
+        # it counts as a mismatch and gets re-fetched once.
+        entry["changed"] = (
+            entry["recorded"] != entry["latest"]
+            or old.get("asset_pattern", "") != source.get("asset_pattern", "")
+        )
         entry["asset_in_release"] = any(
             github_asset_name(a) == github_asset_name(entry["expected_filename"])
             for a in release_assets
@@ -607,6 +701,15 @@ def check_for_updates(token: Optional[str] = None) -> dict:
         "any_changed": any_changed,
         "release_assets": release_assets,
     }
+
+
+def release_record(source: dict, release_type: str, latest: str) -> dict:
+    """The current_releases.json record for one app."""
+    key = "commit" if release_type == "prerelease" else "version"
+    record = {"release_type": release_type, key: latest}
+    if source.get("asset_pattern"):
+        record["asset_pattern"] = source["asset_pattern"]
+    return record
 
 
 def repo_json_asset_names() -> set[str]:
