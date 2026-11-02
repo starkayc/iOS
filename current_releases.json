@@ -9,8 +9,7 @@
   },
   "Apollo Reborn": {
     "release_type": "stable",
-    "version": "1.15.11_4.0.1",
-    "asset_pattern": "GLASS"
+    "version": "1.15.11_4.0.1"
   },
   "Debrify": {
     "release_type": "prerelease",
@@ -34,8 +33,7 @@
   },
   "Lume": {
     "release_type": "stable",
-    "version": "3.0.0",
-    "asset_pattern": "iOS"
+    "version": "3.0.0"
   },
   "Nuvio": {
     "release_type": "stable",
