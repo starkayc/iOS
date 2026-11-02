@@ -229,11 +229,12 @@ SHA_KSIGN = "03a3a9c1234567890123456789012345678901234"
 SHA_KSIGN_NEW = "0abc123456789012345678901234567890123456"
 
 
-def release(tag, prerelease, *assets):
+def release(tag, prerelease, *assets, body=""):
     return {
         "tag_name": tag,
         "prerelease": prerelease,
         "published_at": "2026-09-23T06:37:37Z",
+        "body": body,
         "assets": [
             {"name": n, "size": s, "browser_download_url": u}
             for n, s, u in assets

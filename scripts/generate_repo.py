@@ -16,9 +16,9 @@ add_custom_ipa.py, which downloads a single IPA.
 
 The fetch phase passes ``per_app``, a dict keyed by file name that holds
 what the fetch learned about each file (``date``, ``description``,
-``developer``, ``display_name``) and ``manual`` for a hand-dropped or
-custom-uploaded file.  A file with no entry there is scanned on its own
-metadata alone.
+``developer``, ``display_name``, ``changelog``) and ``manual`` for a
+hand-dropped or custom-uploaded file.  A file with no entry there is
+scanned on its own metadata alone.
 
 Usage:
     python scripts/generate_repo.py                 # scan ipas/ → repo.json
@@ -206,9 +206,13 @@ def generate_repo(
             "version": version_str,
             "buildVersion": meta["buildVersion"],
             "date": ipa_mtime.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "localizedDescription": "",
             "minOSVersion": meta["minOSVersion"],
         }
+        # A client prints "undefined" for an empty version description, so
+        # the field is only written when the release had notes.
+        changelog = facts.get("changelog", "")
+        if changelog:
+            version_obj["localizedDescription"] = changelog
 
         # Display name, in order of preference: the sources.json override,
         # then the file name without its (rel-…) or (pre-…) suffix for a

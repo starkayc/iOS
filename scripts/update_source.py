@@ -31,6 +31,25 @@ import ipa
 import release as rel
 from generate_repo import generate_repo
 
+# Release notes ship inside repo.json, so an enormous body is cut short
+# rather than carried whole.
+CHANGELOG_LIMIT = 4000
+
+
+def _changelog(release: dict) -> str:
+    """A release's notes, as the entry's "What's New" text.
+
+    Clients show the literal text "undefined" for a version description
+    that is empty, so generate_repo leaves the field out when this returns
+    "": a manual drop or a release without notes shows a blank section.
+    """
+    body = (release.get("body") or "").strip()
+    if len(body) <= CHANGELOG_LIMIT:
+        return body
+    # Cut on a line boundary so the notes don't end mid-sentence.
+    cut = body.rfind("\n", 0, CHANGELOG_LIMIT)
+    return body[:cut if cut > 0 else CHANGELOG_LIMIT].rstrip() + "…"
+
 
 def _repo_facts(repo: str, token: Optional[str]) -> tuple[str, str]:
     """A repo's About text and owner login (defaults for a new app)."""
@@ -90,6 +109,7 @@ def _fetch_one(
         "description": description,
         "developer": developer,
         "display_name": source.get("display_name", ""),
+        "changelog": _changelog(entry["info"]["release"]),
     }
     if entry["release_type"] != "prerelease":
         # A build can keep CFBundleShortVersionString constant (osu! ships

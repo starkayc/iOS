@@ -1279,6 +1279,44 @@ def test_asset_pattern_change_refetches_the_variant():
           f"a settled app is not fetched again (got {fake.downloads})")
 
 
+def test_release_notes_become_the_changelog():
+    print("\n── update_source: release notes fill the version changelog ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.8.0")
+
+    def feather_entry():
+        repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+        return next(
+            app for app in repo["apps"]
+            if app["bundleIdentifier"] == "thewonderofyou.Feather"
+        )
+
+    fake.repos["claration/Feather"]["releases"][0] = release(
+        "v2.9.0", False, ("Feather.ipa", 1000, "https://up/feather"),
+        body="  What's new in 2.9.0: faster installs.  ")
+    fake.add_download("https://up/feather",
+                      make_ipa("thewonderofyou.Feather", "2.9.0", "Feather"))
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    notes = feather_entry()["versions"][0].get("localizedDescription")
+    check(notes == "What's new in 2.9.0: faster installs.",
+          f"the release body becomes the changelog (got {notes!r})")
+
+    # A build with no notes must not carry the field at all: clients print
+    # the literal word "undefined" for an empty description.
+    fake.repos["claration/Feather"]["releases"][0] = release(
+        "v2.10.0", False, ("Feather.ipa", 1000, "https://up/feather2"))
+    fake.add_download("https://up/feather2",
+                      make_ipa("thewonderofyou.Feather", "2.10.0", "Feather"))
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check("localizedDescription" not in feather_entry()["versions"][0],
+          "a build without notes has no changelog field")
+
+
 def main():
     print("=" * 60)
     print("  AltStore pipeline selftest")
@@ -1301,6 +1339,7 @@ def main():
     test_subtitle_never_repeats_the_description()
     test_failed_download_keeps_state()
     test_failed_api_never_ingests_a_stale_asset()
+    test_release_notes_become_the_changelog()
     test_ipa_problem_detects_junk()
     test_write_json_is_atomic()
     test_asset_pattern_picks_the_variant()
