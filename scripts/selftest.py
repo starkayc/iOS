@@ -1268,6 +1268,16 @@ def test_asset_pattern_change_refetches_the_variant():
     check(names["com.atebits.Tweetie2"] == "Twitter",
           f"the entry is renamed (got {names['com.atebits.Tweetie2']!r})")
 
+    # The hourly check must keep the recorded pattern, or every update run
+    # would re-download the app for a variant it already serves.
+    run_check()
+    check(lib.load_current_releases()["NeoFreeBird"].get("asset_pattern")
+          == "sideloaded-Twitter", "check_releases keeps the recorded pattern")
+    fake.downloads.clear()
+    worked, failures = update_source_report()
+    check((worked, failures, fake.downloads) == (False, [], []),
+          f"a settled app is not fetched again (got {fake.downloads})")
+
 
 def main():
     print("=" * 60)

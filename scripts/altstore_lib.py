@@ -704,19 +704,29 @@ def check_for_updates(token: Optional[str] = None) -> dict:
 
 
 def release_record(
-    source: dict, release_type: str, latest: str, fetched: bool = False
+    source: dict,
+    release_type: str,
+    latest: str,
+    previous: Optional[dict] = None,
+    fetched: bool = False,
 ) -> dict:
     """The current_releases.json record for one app.
 
     ``fetched`` says the run really downloaded this variant, so the record
-    keeps its ``asset_pattern``.  check_releases tracks versions only: it
-    must not stamp the new pattern early, or update_source would find the
-    record current and keep serving the old build under the same version.
+    gets the configured ``asset_pattern``.  Without it the previous
+    pattern is carried over untouched: check_releases tracks versions
+    only.  Letting it stamp the new pattern early would make update_source
+    find the record current and keep serving the old build under the same
+    version; dropping it instead would re-fetch the app on every run.
     """
     key = "commit" if release_type == "prerelease" else "version"
     record = {"release_type": release_type, key: latest}
-    if fetched and source.get("asset_pattern"):
-        record["asset_pattern"] = source["asset_pattern"]
+    pattern = (
+        source.get("asset_pattern") if fetched
+        else (previous or {}).get("asset_pattern")
+    )
+    if pattern:
+        record["asset_pattern"] = pattern
     return record
 
 

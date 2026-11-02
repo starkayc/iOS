@@ -54,7 +54,8 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
             continue
 
         new_recorded[name] = lib.release_record(
-            e["source"], release_type, e["latest"]
+            e["source"], release_type, e["latest"],
+            previous=old_recorded.get(name),
         )
 
         if e["changed"]:
