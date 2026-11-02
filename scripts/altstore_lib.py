@@ -233,6 +233,10 @@ def altstore_category(plist_value: str) -> str:
     key = (plist_value or "").strip().lower()
     if key in APPLE_CATEGORY_MAP:
         return APPLE_CATEGORY_MAP[key]
+    # Apple also has game subcategories (action-games, card-games,
+    # music-games, …); AltStore has one games bucket for all of them.
+    if key.endswith("-games"):
+        return "games"
     if key in APPLE_CATEGORY_OTHER:
         return "other"
     return ""

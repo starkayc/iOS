@@ -15,7 +15,7 @@
       "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "social",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.0.1.ipa",
@@ -27,7 +27,26 @@
           "minOSVersion": "15.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.associated-domains",
+          "com.apple.developer.group-session",
+          "com.apple.developer.icloud-container-identifiers",
+          "com.apple.developer.ubiquity-kvstore-identifier",
+          "com.apple.developer.weatherkit",
+          "com.apple.security.application-groups",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSCameraUsageDescription": "Used to take photos to upload for sharing.",
+          "NSFaceIDUsageDescription": "Unlock Apollo when re-opening in order to prevent unauthorized access.",
+          "NSLocationWhenInUseUsageDescription": "Checked once to calculate sunset/sunrise times for the location.",
+          "NSMotionUsageDescription": "Detect rotations in Media Viewer and offer corresponding options.",
+          "NSPhotoLibraryAddUsageDescription": "Save media to photo library.",
+          "NSPhotoLibraryUsageDescription": "Used to save media or to select images to upload for sharing."
+        }
+      },
       "version": "4.0.1",
       "versionDate": "2026-10-30T01:24:25Z",
       "size": 129202414,
@@ -41,7 +60,7 @@
       "localizedDescription": "A modern, native IPTV player for Apple platforms.  Browse, search, and stream your Xtream Codes or M3U/M3U8 playlists with a clean SwiftUI interface — Live TV, Movies, and Series, enriched with metadata, EPG, and watch progress that follows you across your devices.",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-3.0.0.ipa",
@@ -53,7 +72,12 @@
           "minOSVersion": "18.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Lume needs access to your local network to find TVs and Cast devices, and to reach media servers, WebDAV shares and recording servers running on it."
+        }
+      },
       "version": "3.0.0",
       "versionDate": "2026-11-01T11:34:40Z",
       "size": 55830161,
@@ -67,7 +91,7 @@
       "localizedDescription": "A modified Twitter app, with branding reverts, BHTwitter and other QoL modifications.",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "social",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/NeoFreeBird.rel-7.3.0.ipa",
@@ -79,7 +103,41 @@
           "minOSVersion": "15.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.applesignin",
+          "com.apple.developer.associated-appclip-app-identifiers",
+          "com.apple.developer.associated-domains",
+          "com.apple.developer.devicecheck.appattest-environment",
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "com.apple.developer.networking.carrier-constrained.app-optimized",
+          "com.apple.developer.networking.carrier-constrained.appcategory",
+          "com.apple.developer.pass-type-identifiers",
+          "com.apple.developer.payment-pass-provisioning",
+          "com.apple.developer.siri",
+          "com.apple.developer.usernotifications.communication",
+          "com.apple.developer.usernotifications.filtering",
+          "com.apple.developer.usernotifications.time-sensitive",
+          "com.apple.security.application-groups",
+          "get-task-allow",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSCalendarsUsageDescription": "Add events to your calendar from X.",
+          "NSCameraUsageDescription": "Capture and post photos and videos from X.",
+          "NSContactsUsageDescription": "We will securely upload your contacts to our servers to help you connect with friends and suggest users to follow on X.",
+          "NSFaceIDUsageDescription": "Use FaceID to authenticate on X.",
+          "NSLocationUsageDescription": "Enjoy the X experience tailored to your location.",
+          "NSLocationWhenInUseUsageDescription": "Enables X to customize your experience based on your current location.",
+          "NSMicrophoneUsageDescription": "Capture and post videos with sound from X.",
+          "NSPhotoLibraryAddUsageDescription": "This lets you download photos and videos to your Photos.",
+          "NSPhotoLibraryUsageDescription": "Allow access to share photos from your camera roll.",
+          "NSSpeechRecognitionUsageDescription": "Going forward, whenever you choose to share captions on this device, Apple will provide the service. Doing so helps make sure people of all hearing abilities can access your content.",
+          "NSUserTrackingUsageDescription": "This helps X show you more relevant ads."
+        }
+      },
       "version": "12.38.1",
       "versionDate": "2026-10-28T18:16:07Z",
       "size": 269779010,
@@ -93,7 +151,7 @@
       "localizedDescription": "rhythm is just a *click* away!",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "games",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1026.0-tachyon.ipa",
@@ -105,7 +163,17 @@
           "minOSVersion": "15.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "beta-reports-active",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
+          "NSCameraUsageDescription": "We don't use the camera.",
+          "NSMicrophoneUsageDescription": "We don't use the microphone."
+        }
+      },
       "version": "2026.1026.0-tachyon",
       "versionDate": "2026-10-26T07:18:52Z",
       "size": 268717178,
@@ -131,7 +199,12 @@
           "minOSVersion": "15.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
       "version": "0.10.1.1",
       "versionDate": "2026-10-31T12:11:57Z",
       "size": 39763038,
@@ -145,7 +218,7 @@
       "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.6.ipa",
@@ -157,7 +230,13 @@
           "minOSVersion": "16.1"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
       "version": "0.6.6",
       "versionDate": "2026-10-30T23:18:42Z",
       "size": 73483082,
@@ -171,7 +250,7 @@
       "localizedDescription": "Official Nuvio Mobile Repository",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.6.ipa",
@@ -183,7 +262,12 @@
           "minOSVersion": "16.1"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
       "version": "0.6.6",
       "versionDate": "2026-10-31T02:59:46Z",
       "size": 68521101,
@@ -197,7 +281,7 @@
       "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "developer",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.0.ipa",
@@ -209,7 +293,14 @@
           "minOSVersion": "17.4"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "StikDebug needs access to devices on your local network so it can connect to the targets you add to the Device Library.",
+          "NSLocationAlwaysAndWhenInUseUsageDescription": "StikDebug uses location to stay running in the background and maintain your JIT connection.",
+          "NSLocationWhenInUseUsageDescription": "StikDebug uses location to stay running in the background and maintain your JIT connection."
+        }
+      },
       "version": "3.2.0",
       "versionDate": "2026-10-30T03:02:00Z",
       "size": 16818331,
@@ -261,7 +352,13 @@
           "minOSVersion": "27.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Roam Control uses the local network to securely pair with and control this iPhone through LocalDevVPN.",
+          "NSLocationWhenInUseUsageDescription": "Roam Control uses location updates to keep fixed and walking sessions running in the background, and to recenter on your real position after a session stops."
+        }
+      },
       "version": "0.9.9",
       "versionDate": "2026-10-20T19:33:03Z",
       "size": 4627321,
@@ -275,7 +372,7 @@
       "localizedDescription": "Manga reading app for iOS, iPadOS, and macOS",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Aidoku.rel-0.9-4.ipa",
@@ -317,7 +414,7 @@
       "localizedDescription": "",
       "subtitle": "",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "games",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Balatro.rel-1.0.1c.ipa",
@@ -328,7 +425,12 @@
           "minOSVersion": "7.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "get-task-allow"
+        ],
+        "privacy": {}
+      },
       "version": "1.0.1c",
       "versionDate": "2026-09-24T15:01:54Z",
       "size": 74445999,
@@ -342,7 +444,7 @@
       "localizedDescription": "Enhancing your Spotify experience on iOS",
       "subtitle": "Enhancing your Spotify experience on iOS",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/EeveeSpotifyReincarnated.rel-6.6.8_0.22.0_9.1.86.ipa",
@@ -353,7 +455,46 @@
           "minOSVersion": "15.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.applesignin",
+          "com.apple.developer.associated-domains",
+          "com.apple.developer.carplay-audio",
+          "com.apple.developer.declared-age-range",
+          "com.apple.developer.game-center",
+          "com.apple.developer.group-session",
+          "com.apple.developer.healthkit",
+          "com.apple.developer.healthkit.access",
+          "com.apple.developer.networking.multicast",
+          "com.apple.developer.networking.wifi-info",
+          "com.apple.developer.siri",
+          "com.apple.developer.storekit.custom-purchase-link.allowed-regions",
+          "com.apple.developer.ubiquity-kvstore-identifier",
+          "com.apple.developer.usernotifications.communication",
+          "com.apple.security.application-groups",
+          "get-task-allow",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSAppleMusicUsageDescription": "This will let you play your imported music on Spotify.",
+          "NSBluetoothAlwaysUsageDescription": "This lets you unlock new ways of interacting with other devices compatible with Spotify via Bluetooth.",
+          "NSCalendarsUsageDescription": "This lets Spotify view and add events to your calendar.",
+          "NSCalendarsWriteOnlyAccessUsageDescription": "This lets Spotify add events to your calendar.",
+          "NSCameraUsageDescription": "This lets you use your camera to scan or upload images.",
+          "NSContactsUsageDescription": "This lets Spotify access calendars you may have shared with your contacts.",
+          "NSFaceIDUsageDescription": "This lets you set access restrictions using Face ID.",
+          "NSHealthShareUsageDescription": "Spotify will use HealthKit data to provide personalised audio recommendations for your workouts.",
+          "NSHealthUpdateUsageDescription": "Spotify will use HealthKit data to provide personalised audio recommendations for your workouts.",
+          "NSLocalNetworkUsageDescription": "This lets you listen on different devices. Spotify will also get access to local audio files.",
+          "NSLocationWhenInUseUsageDescription": "Your location is used to improve your recommendations and experience on Spotify.",
+          "NSMicrophoneUsageDescription": "This lets you control Spotify using your voice.",
+          "NSMotionUsageDescription": "We will use this to understand which audio motivates you most.",
+          "NSPhotoLibraryAddUsageDescription": "This lets you save images to your Photo Library.",
+          "NSPhotoLibraryUsageDescription": "This lets you select images from your Photo Library.",
+          "NSUserTrackingUsageDescription": "Your data will be used to deliver personalized ads or content to you."
+        }
+      },
       "version": "9.1.86",
       "versionDate": "2026-10-01T01:53:12Z",
       "size": 139389791,
@@ -379,7 +520,13 @@
           "minOSVersion": "16.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "beta-reports-active",
+          "get-task-allow"
+        ],
+        "privacy": {}
+      },
       "version": "1.4.1",
       "versionDate": "2026-07-23T18:28:15Z",
       "size": 4777720,
@@ -393,7 +540,7 @@
       "localizedDescription": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
       "subtitle": "一个强大的 iOS 端 Minecraft Java 版启动器，基于 Amethyst iOS 进行深度重制，为 iOS 用户提供良好的体验。",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "games",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Amethyst.rel-5.1.0.ipa",
@@ -405,7 +552,20 @@
           "minOSVersion": "14.0"
         }
       ],
-      "appPermissions": {},
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "com.apple.private.memorystatus",
+          "com.apple.private.security.container-required",
+          "get-task-allow",
+          "jb.pmap_cs.custom_trust"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Air uses the local network to find and communicate with AltServer and LAN servers, and to enable multiplayer connectivity via Terracotta (compatible with HMCL/FCL/ZL2).",
+          "NSMicrophoneUsageDescription": "Air uses the microphone to enable support for voice chat mods."
+        }
+      },
       "version": "5.1.0",
       "versionDate": "2026-10-01T01:38:02Z",
       "size": 244024897,
@@ -445,7 +605,7 @@
       "localizedDescription": "A modular media player for iOS and macOS",
       "subtitle": "A modular media player for iOS and macOS",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Sulfur.rel-1.3.0.ipa",
@@ -497,7 +657,7 @@
       "localizedDescription": "A media search engine for iOS with debrid support",
       "subtitle": "A media search engine for iOS with debrid support",
       "tintColor": "3c94fc",
-      "category": "utilities",
+      "category": "entertainment",
       "versions": [
         {
           "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Ferrite.rel-0.7.4.ipa",

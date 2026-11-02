@@ -1407,6 +1407,8 @@ def test_category_comes_from_the_ipa():
     check(lib.altstore_category("public.app-category.productivity")
           == "other",
           "an Apple category AltStore lacks becomes other")
+    check(lib.altstore_category("public.app-category.music-games") == "games",
+          "a game subcategory becomes games")
 
     # A category declared by the build wins over a hand-set one, because
     # the build knows what it is.
