@@ -58,7 +58,15 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
         )
 
         if e["changed"]:
-            changes.append(f"  ↑ {name}: {e['recorded']} → {e['latest']}")
+            if e["recorded"] == e["latest"]:
+                # Same version, different variant: update_source re-fetches
+                # it, so this run only reports it.
+                pattern = e["source"].get("asset_pattern") or "default"
+                changes.append(f"  ↻ {name}: asset variant → {pattern}")
+            else:
+                changes.append(
+                    f"  ↑ {name}: {e['recorded']} → {e['latest']}"
+                )
         else:
             print(f"  ✓ {name}: {e['latest']}")
 

@@ -188,7 +188,7 @@ def update_source_report(
             and lib.repo_json_references(expected, repo_assets)
         ):
             new_recorded[name] = lib.release_record(
-                e["source"], release_type, e["latest"]
+                e["source"], release_type, e["latest"], fetched=True
             )
             print(f"  ✓ {name} up to date  ({e['latest']})")
             continue
@@ -215,7 +215,7 @@ def update_source_report(
 
         downloaded_any = True
         new_recorded[name] = lib.release_record(
-            e["source"], release_type, e["latest"]
+            e["source"], release_type, e["latest"], fetched=True
         )
         per_app[expected] = facts
 

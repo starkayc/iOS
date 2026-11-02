@@ -1247,6 +1247,13 @@ def test_asset_pattern_change_refetches_the_variant():
     seed_repo_json(tmp, [app_entry("com.atebits.Tweetie2", "X",
                                    asset_url("NeoFreeBird.rel-7.3.0.ipa"))])
 
+    # The hourly check runs first in CI and must not stamp the new pattern
+    # into the state, or the updater would call the app current and keep
+    # serving the old build.
+    run_check()
+    check("asset_pattern" not in lib.load_current_releases()["NeoFreeBird"],
+          "check_releases records versions, not an unfetched pattern")
+
     worked, failures = update_source_report()
     check(failures == [], f"nothing failed ({failures})")
     check(worked is True, "the app was rebuilt")
