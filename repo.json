@@ -8,6 +8,54 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "YTMusicUltimate",
+      "bundleIdentifier": "com.google.ios.youtubemusic",
+      "developerName": "",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.google.ios.youtubemusic.png",
+      "localizedDescription": "The best tweak for YouTube Music iOS.",
+      "subtitle": "The best tweak for YouTube Music iOS.",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/YTMusicUltimate.rel-2.4.1_1.0.3_9.44.2.ipa",
+          "size": 112484698,
+          "version": "9.44.2",
+          "buildVersion": "9.44.2",
+          "date": "2026-11-04T07:42:50Z",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.associated-domains",
+          "com.apple.developer.carplay-audio",
+          "com.apple.developer.coremedia.allow-alternate-video-decoder-selection",
+          "com.apple.developer.mediasetup",
+          "com.apple.developer.networking.multicast",
+          "com.apple.developer.networking.wifi-info",
+          "com.apple.developer.siri",
+          "com.apple.security.application-groups",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSBluetoothAlwaysUsageDescription": "YouTube Music uses Bluetooth to locate and connect to Chromecast and other devices.",
+          "NSBluetoothPeripheralUsageDescription": "YouTube Music uses Bluetooth to locate and connect to Chromecast and other devices.",
+          "NSCameraUsageDescription": "To take a profile picture, allow YouTube Music to access your camera.",
+          "NSContactsUsageDescription": "This will allow you to invite your family into your membership plan.",
+          "NSLocalNetworkUsageDescription": "Access to your network allows YouTube Music to discover and connect to devices such as your TV.",
+          "NSMicrophoneUsageDescription": "This lets you include audio with your videos.",
+          "NSPhotoLibraryAddUsageDescription": "To save images, allow YouTube Music to access your photo library.",
+          "NSPhotoLibraryUsageDescription": "To choose a profile picture, allow YouTube Music to access your photos."
+        }
+      },
+      "version": "9.44.2",
+      "versionDate": "2026-11-04T07:42:50Z",
+      "size": 112484698,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/YTMusicUltimate.rel-2.4.1_1.0.3_9.44.2.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
