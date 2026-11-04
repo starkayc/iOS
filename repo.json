@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "Official Nuvio Mobile Repository",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.7.ipa",
+          "size": 68798444,
+          "version": "0.6.7",
+          "buildVersion": "150",
+          "date": "2026-11-04T02:57:36Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• 9f18bfee feat(player): resize video beside watch party panel @tapframe\n• Fix addon ASS subtitles not rendering with libass on Android (#2507) @skoruppa\n• fix(ios): declare long-form video audio so playback is not shown as music (#2419) @WhiteGiso\n• locales: add and update Arabic settings translations (#2498) @aliabdoxd14\n• Add missing Polish translations (#2495) @skoruppa\n• Keep stream info and current stream marker with reused links (#2494) @skoruppa\n• i18n: harmonize French terminology with Nuvio TV (#2481) @SK-Gits\n• l10n: complete missing Italian translations (#2482) @WhiteGiso\n• Add mark as watched to continue watching menu (#2493) @skoruppa\n• fix(player): prevent auto failover loop and fix anime engine selection (#2467) @guuilp\n• feat(i18n): complete and update Turkish (tr) localization (#2472) @stuntsnakee\n• Fix line breaks in the Spanish P2P consent text (#2470) @IberianSoldierPC\n• Update Spanish mobile translations (#2468) @IberianSoldierPC\n• i18n(el): sync the Greek locale with 0.6.6 (settings realignment, chapters, subtitle appearance) (#2466) @nosvasedis\n• Update Bulgarian strings for clarity and accuracy after latest update (#2463) @viiktr\n• i18n(vi): update latest Vietnamese strings (#2460) @blueocean2308\n• feat(i18n): refine fr translations and align Nuvio Mobile with Nuvio TV (#2459) @SK-Gits\n• fix(i18n): pt-BR wording follow-up to #2435 (#2455) @jhojhocraazy\n• Skip button timer resets when chapters replace API intervals (#2457) @skoruppa\n• add video hash computation and subtitle extras parity with TV (#2450) @skoruppa\n• i18n(ar): complete the Arabic mobile translations (#2368) @abdulamalik\n• fix(ios): publish Now Playing only on playback changes (#2420) @WhiteGiso\n• fix(i18n): localize Episode N on remaining UI (#2254) @blueocean2308"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.7",
+      "versionDate": "2026-11-04T02:57:36Z",
+      "size": 68798444,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.7.ipa"
+    },
+    {
       "name": "Apollo",
       "bundleIdentifier": "com.christianselig.Apollo",
       "developerName": "Apollo-Reborn",
@@ -241,37 +272,6 @@
       "versionDate": "2026-10-30T23:18:42Z",
       "size": 73483082,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.6.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.6.ipa",
-          "size": 68521101,
-          "version": "0.6.6",
-          "buildVersion": "149",
-          "date": "2026-10-31T02:59:46Z",
-          "localizedDescription": "• Translation improvements and adjustments for Slovak language + added translated new strings files (#2448) @mmsw91\n• improve player badge codec detection and add filename matching (#2414) @skoruppa\n• Add intro, outro and recap skipping from MKV chapter titles (#2446) @skoruppa\n• feat(i18n): translate settings groups, subtitle appearance and ASS render modes (#2435) @jhojhocraazy\n• Update Vietnamese translations (#2441, #2411) @blueocean2308\n• Add subtitle customization with saved styles, custom font imports, appearance controls and a live preview, including fixes for font rendering, subtitle loading, track changes and style updates while paused. @tapframe\n• Updated Bulgarian translations (#2424) @viiktr\n• fix(ios): resume PiP right after Notification Center (#2418) @WhiteGiso\n• c7ff35f0 feat(settings): group settings and split playback pages @tapframe\n• 96061025 fix(ratings): show IMDb ratings with one decimal @tapframe\n• 2f0185ce feat(details): label unreleased episodes as unavailable @tapframe\n• 87795e97 fix(settings): save and restore the selected app icon @tapframe\n• Draw ASS subtitles onto video frames via setVideoEffects + ASS Render Mode setting (#2394) @skoruppa\n• 45af99c4 fix(player): skip drag handling while controls are locked @tapframe\n• fix(player): offline playback performance and reliability (#2383) @guuilp\n• feat(player): Auto engine selection and engine failover (#2192) @guuilp",
-          "minOSVersion": "16.1"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.6",
-      "versionDate": "2026-10-31T02:59:46Z",
-      "size": 68521101,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.6.ipa"
     },
     {
       "name": "StikDebug",
