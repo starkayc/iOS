@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.8.ipa",
+          "size": 68872061,
+          "version": "0.6.8",
+          "buildVersion": "151",
+          "date": "2026-11-05T18:26:56Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• 0403e6f6 fix(player): detach mpv surfaces on the playback thread @tapframe\n• 68c815b2 feat(streams): update blur @tapframe\n• b90454d7 feat(details): update blur @tapframe\n• fix(ios): keep an add-on subtitle selected before mpv loads the file (#2517) @skoruppa\n• sync ASS/SSA add-on subtitles drawn by libass (#2515) @skoruppa\n• fix(i18n): drop trailing period from two pt-BR descriptions (#2506) @jhojhocraazy\n• fix(player): stop Exo/libmpv auto-switch ping-pong on the same source (#2485) @halibiram\n• fix(player): resume a closed torrent stream at the stalled frame (#2479) @halibiram\n• feat(player): audio downmix and center mix on Android (#2456) @kernexshadow"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.8",
+      "versionDate": "2026-11-05T18:26:56Z",
+      "size": 68872061,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.8.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -642,37 +673,6 @@
       "versionDate": "2026-11-04T07:42:50Z",
       "size": 112484698,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/YTMusicUltimate.rel-2.4.1_1.0.3_9.44.2.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "Official Nuvio Mobile Repository",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.7.ipa",
-          "size": 68798444,
-          "version": "0.6.7",
-          "buildVersion": "150",
-          "date": "2026-11-04T02:57:36Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• 9f18bfee feat(player): resize video beside watch party panel @tapframe\n• Fix addon ASS subtitles not rendering with libass on Android (#2507) @skoruppa\n• fix(ios): declare long-form video audio so playback is not shown as music (#2419) @WhiteGiso\n• locales: add and update Arabic settings translations (#2498) @aliabdoxd14\n• Add missing Polish translations (#2495) @skoruppa\n• Keep stream info and current stream marker with reused links (#2494) @skoruppa\n• i18n: harmonize French terminology with Nuvio TV (#2481) @SK-Gits\n• l10n: complete missing Italian translations (#2482) @WhiteGiso\n• Add mark as watched to continue watching menu (#2493) @skoruppa\n• fix(player): prevent auto failover loop and fix anime engine selection (#2467) @guuilp\n• feat(i18n): complete and update Turkish (tr) localization (#2472) @stuntsnakee\n• Fix line breaks in the Spanish P2P consent text (#2470) @IberianSoldierPC\n• Update Spanish mobile translations (#2468) @IberianSoldierPC\n• i18n(el): sync the Greek locale with 0.6.6 (settings realignment, chapters, subtitle appearance) (#2466) @nosvasedis\n• Update Bulgarian strings for clarity and accuracy after latest update (#2463) @viiktr\n• i18n(vi): update latest Vietnamese strings (#2460) @blueocean2308\n• feat(i18n): refine fr translations and align Nuvio Mobile with Nuvio TV (#2459) @SK-Gits\n• fix(i18n): pt-BR wording follow-up to #2435 (#2455) @jhojhocraazy\n• Skip button timer resets when chapters replace API intervals (#2457) @skoruppa\n• add video hash computation and subtitle extras parity with TV (#2450) @skoruppa\n• i18n(ar): complete the Arabic mobile translations (#2368) @abdulamalik\n• fix(ios): publish Now Playing only on playback changes (#2420) @WhiteGiso\n• fix(i18n): localize Episode N on remaining UI (#2254) @blueocean2308"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.7",
-      "versionDate": "2026-11-04T02:57:36Z",
-      "size": 68798444,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.7.ipa"
     },
     {
       "name": "Apollo",
