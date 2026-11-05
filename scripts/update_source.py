@@ -203,7 +203,7 @@ def update_source_report(
     repo_assets = lib.repo_json_asset_names()
     downloaded_any = False
     failures: list[str] = []
-    # Every sources.json app owns files named "<stem>.rel|pre-….ipa".  An
+    # Every sources.json app owns files named "<stem>.rel|pre|nig-….ipa".  An
     # asset that carries one of these stems is an older version of a watched
     # app, never a manual drop, even when this run could not reach its API.
     expected_stems = {

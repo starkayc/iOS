@@ -115,13 +115,16 @@ def safe_stem(name: str) -> str:
 def sanitize_version(version: str) -> str:
     """Clean a release tag for use in file names.
 
-    Drops a leading "release" prefix and a trailing pre-release suffix:
-    "release-1.4.1" becomes "1.4.1", "0.5.1-beta" becomes "0.5.1",
+    Drops a leading "release" or "nightly" prefix and a trailing
+    pre-release suffix: "release-1.4.1" becomes "1.4.1",
+    "nightly-20261104" becomes "20261104", "0.5.1-beta" becomes "0.5.1",
     "2.0.0-rc.2" becomes "2.0.0", and "1.0" stays as it is.
     current_releases.json keeps the raw tag, so a move from beta to stable
     still counts as a change.  File names use this sanitized form.
     """
-    stripped = re.sub(r"^release[-_.]?", "", version, flags=re.IGNORECASE)
+    stripped = re.sub(
+        r"^(?:release|nightly)[-_.]?", "", version, flags=re.IGNORECASE
+    )
     cleaned = re.sub(
         r"[-_.]?(alpha|beta|rc|preview|pre)[-_.]?\d*$",
         "",
@@ -151,28 +154,52 @@ def ipa_stem(name: str) -> str:
     return safe_stem(canonical_filename(name))
 
 
+# The marker in a versioned file name, one per release channel.
+CHANNEL_PREFIX = {"stable": "rel", "prerelease": "pre", "nightly": "nig"}
+
+# A nightly build names its channel in the tag (ARMSX2: "nightly-20261104"),
+# which is what separates it from a plain beta tag like Ksign's "beta".
+_NIGHTLY_TAG = re.compile(r"nightly", re.IGNORECASE)
+
+
 def ipa_filename(
     name: str,
     version: Optional[str] = None,
     commit: Optional[str] = None,
+    release_type: Optional[str] = None,
 ) -> str:
     """Build the canonical IPA file name.
 
     Parentheses can't survive GitHub's release assets (the API rewrites
-    them to dots), so the separator is a dot:
+    them to dots), so the separator is a dot, and the marker names the
+    channel the build came from:
 
     Stable:      ipa_filename("Nuvio Enhanced", version="0.5.1-beta")
                  → "Nuvio-Enhanced.rel-0.5.1.ipa"
     Pre-release: ipa_filename("Ksign", commit="03a3a9c1234")
                  → "Ksign.pre-03a3a9c.ipa"
+    Nightly:     ipa_filename("ARMSX2", version="nightly-20261104")
+                 → "ARMSX2.nig-20261104.ipa"
     """
     stem = ipa_stem(name)
+    # "any" is a selection rule, not a channel, so it falls through to the
+    # build itself: a commit only exists for a prerelease, and a nightly
+    # names its channel in the tag whatever the source tracks.
+    channel = release_type if release_type in CHANNEL_PREFIX else (
+        "prerelease" if commit
+        else "nightly" if _NIGHTLY_TAG.search(version or "")
+        else "stable"
+    )
+    prefix = CHANNEL_PREFIX.get(channel, "rel")
     if commit:
-        return f"{stem}.pre-{commit[:7]}.ipa"
-    return f"{stem}.rel-{safe_stem(sanitize_version(version or '1.0'))}.ipa"
+        return f"{stem}.{prefix}-{commit[:7]}.ipa"
+    return (
+        f"{stem}.{prefix}-"
+        f"{safe_stem(sanitize_version(version or '1.0'))}.ipa"
+    )
 
 
-_IPA_NAME_RE = re.compile(r"^(.*)\.(rel|pre)-(.+)\.ipa$", re.IGNORECASE)
+_IPA_NAME_RE = re.compile(r"^(.*)\.(rel|pre|nig)-(.+)\.ipa$", re.IGNORECASE)
 
 
 def parse_ipa_filename(filename: str) -> tuple[str, str, str]:
@@ -180,6 +207,7 @@ def parse_ipa_filename(filename: str) -> tuple[str, str, str]:
 
     "Nuvio-Enhanced.rel-0.5.1.ipa" → ("Nuvio-Enhanced", "rel", "0.5.1")
     "Ksign.pre-03a3a9c.ipa"        → ("Ksign", "pre", "03a3a9c")
+    "ARMSX2.nig-20261104.ipa"      → ("ARMSX2", "nig", "20261104")
     "My App.ipa"                   → ("My App", "", "")
     """
     m = _IPA_NAME_RE.match(filename)
@@ -609,8 +637,9 @@ def latest_release_info(
 ) -> Optional[dict]:
     """Return info about a repo's latest publishable release, or None.
 
-    ``release_type`` picks the channel: "stable", "prerelease", or "any"
-    for either, newest first.  Only a release that carries an .ipa or an
+    ``release_type`` picks the channel: "stable", "prerelease",
+    "nightly" (a release whose tag names a nightly), or "any" for either,
+    newest first.  Only a release that carries an .ipa or an
     .ipa.zip can be published, so the newest one that does wins.  ppy/osu
     attaches osu.iOS.ipa to tachyon builds only; without this rule its
     recorded version moves while the repo never does.
@@ -624,7 +653,12 @@ def latest_release_info(
     releases = github_api(
         f"{API_BASE}/repos/{repo}/releases?per_page=100", token
     )
-    if release_type == "prerelease":
+    if release_type == "nightly":
+        candidates = [
+            r for r in releases
+            if _NIGHTLY_TAG.search(r.get("tag_name", ""))
+        ]
+    elif release_type == "prerelease":
         candidates = [r for r in releases if r.get("prerelease")]
     elif release_type == "any":
         candidates = list(releases)
@@ -730,7 +764,7 @@ def check_for_updates(token: Optional[str] = None) -> dict:
         else:
             entry["latest"] = info["version"]
             entry["expected_filename"] = ipa_filename(
-                name, version=info["version"]
+                name, version=info["version"], release_type=release_type
             )
 
         # A recorded pattern makes a variant switch a change, so the new

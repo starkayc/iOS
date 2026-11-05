@@ -103,6 +103,13 @@ def test_naming():
           == "Nuvio-Enhanced.rel-0.5.1.ipa", "stable filename (dot form)")
     check(lib.ipa_filename("Ksign", commit="03a3a9c1234")
           == "Ksign.pre-03a3a9c.ipa", "prerelease filename (dot form)")
+    check(lib.sanitize_version("nightly-20261104") == "20261104",
+          "sanitize drops a leading nightly prefix")
+    check(lib.ipa_filename("ARMSX2", version="nightly-20261104",
+                           release_type="nightly")
+          == "ARMSX2.nig-20261104.ipa", "nightly filename (dot form)")
+    check(lib.parse_ipa_filename("ARMSX2.nig-20261104.ipa")
+          == ("ARMSX2", "nig", "20261104"), "parse nightly filename")
     check(lib.parse_ipa_filename("Nuvio-Enhanced.rel-0.5.1.ipa")
           == ("Nuvio-Enhanced", "rel", "0.5.1"), "parse stable filename")
     check(lib.parse_ipa_filename("Ksign.pre-03a3a9c.ipa")
@@ -1193,6 +1200,51 @@ def test_any_channel_tracks_newest_publishable_release():
           f"a channel falls back past an IPA-less release (got {info['tag']})")
 
 
+def test_nightly_channel_publishes_nig_name():
+    print("\n── nightly tag: tracked as 'any', named nig ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.SOURCES_JSON.write_text(json.dumps({"sources": [
+        {"name": "ARMSX2", "repo": "ARMSX2/ARMSX2",
+         "release_type": "any"},
+    ]}, indent=2), encoding="utf-8")
+    lib.CURRENT_RELEASES_JSON.unlink(missing_ok=True)
+    fake.add_repo("ARMSX2/ARMSX2", "a PS2 emulator", "ARMSX2", [
+        # Like the real repo: stable tags ship no iOS build, so even an
+        # 'any' source lands on the nightly.
+        release("2.9.1", False, ("ARMSX2-macOS-arm64.tar.xz", 100, "https://up/tar")),
+        release("nightly-20261104", True,
+                ("ARMSX2-nightly-20261104-720f409f00-iOS-arm64.ipa", 100,
+                 "https://up/nightly")),
+    ])
+    fake.add_download(
+        "https://up/nightly",
+        make_ipa("com.armsx2.ios.nightly", "2.6.0", "ARMSX2 Nightly"),
+    )
+
+    info = lib.latest_release_info("ARMSX2/ARMSX2", "nightly")
+    check(info["tag"] == "nightly-20261104",
+          f"the nightly channel picks the nightly tag (got {info['tag']})")
+    info = lib.latest_release_info("ARMSX2/ARMSX2", "any")
+    check(info["tag"] == "nightly-20261104",
+          f"'any' picks it too (got {info['tag']})")
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the nightly build was fetched")
+    check((lib.IPAS_DIR / "ARMSX2.nig-20261104.ipa").exists(),
+          "the file is named .nig-, with the nightly prefix stripped")
+    app = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"][0]
+    check(app["downloadURL"].endswith("/ARMSX2.nig-20261104.ipa"),
+          f"repo.json points at the new name (got {app['downloadURL']})")
+    recorded = json.loads(
+        lib.CURRENT_RELEASES_JSON.read_text(encoding="utf-8")
+    )["ARMSX2"]
+    check(recorded == {"release_type": "any",
+                       "version": "nightly-20261104"},
+          f"the raw tag is recorded (got {recorded})")
+
+
 def test_any_channel_release_publishes_its_version():
     print("\n── update_source: an 'any' app publishes the release version ──")
     tmp = Path(tempfile.mkdtemp())
@@ -1543,6 +1595,7 @@ def main():
     test_write_json_is_atomic()
     test_asset_pattern_picks_the_variant()
     test_any_channel_tracks_newest_publishable_release()
+    test_nightly_channel_publishes_nig_name()
     test_any_channel_release_publishes_its_version()
     test_asset_pattern_change_refetches_the_variant()
     test_corrupt_upstream_ipa()
