@@ -6,7 +6,7 @@ name: Pipeline
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
   schedule:
     - cron: "23 * * * *"
@@ -82,12 +82,12 @@ jobs:
       pushed: ${{ steps.commit.outputs.pushed }}
 
     steps:
-      # ref: main, not github.sha: the check-releases job committed
+      # ref: master, not github.sha: the check-releases job committed
       # current_releases.json a moment ago and this job must see it.
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          ref: main
+          ref: master
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -133,7 +133,7 @@ jobs:
 
   pages:
     needs: update-source
-    # The push already rebuilds Pages (served from branch main), but the
+    # The push already rebuilds Pages (served from branch master), but the
     # Pages builder sometimes skips GITHUB_TOKEN pushes, so ask anyway.
     if: needs.update-source.outputs.pushed == 'true'
     runs-on: ubuntu-latest
