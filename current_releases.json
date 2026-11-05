@@ -32,6 +32,10 @@
     "release_type": "stable",
     "version": "1.8.6"
   },
+  "Dolphin": {
+    "release_type": "any",
+    "version": "5.0.0b6"
+  },
   "DukeX": {
     "release_type": "stable",
     "version": "1.0.2"
