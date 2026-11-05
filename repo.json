@@ -8,6 +8,40 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "DolphiniOS",
+      "bundleIdentifier": "me.oatmealdome.DolphiniOS-njb-patreon-beta",
+      "developerName": "OatmealDome",
+      "iconURL": "https://starkayc.github.io/iOS/icons/me.oatmealdome.DolphiniOS-njb-patreon-beta.png",
+      "localizedDescription": "Dolphin for iOS, reborn",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Dolphin.rel-5.0.0b6.ipa",
+          "size": 17963367,
+          "version": "5.0.0b6",
+          "buildVersion": "26",
+          "date": "2026-06-20T07:01:54Z",
+          "minOSVersion": "14.0",
+          "localizedDescription": "• Fixed JIT support on A13/A14/M1 devices running iOS 27 beta. (@CelloSerenity)\n• Fixed wrong app version number introduced in 5.0.0b5. (@CelloSerenity)\n\nThe next update will be sometime after the next official Dolphin release. It will include a core update.\n\nFull Changelog: https://github.com/OatmealDome/dolphin-ios/compare/v5.0.0b5...v5.0.0b6"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "DolphiniOS uses the local network to find and communicate with AltServer."
+        }
+      },
+      "version": "5.0.0b6",
+      "versionDate": "2026-06-20T07:01:54Z",
+      "size": 17963367,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Dolphin.rel-5.0.0b6.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
