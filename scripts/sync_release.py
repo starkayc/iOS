@@ -2,17 +2,6 @@
 """
 Release asset synchronizer.
 
-Makes the ipa-assets release exactly mirror ipas/*.ipa.  No shell word
-splitting and no gh fuzzy asset matching.  It does four things:
-
-  - creates the release if it doesn't exist
-  - uploads every ipas/*.ipa whose asset is missing or has a different size
-  - deletes .ipa assets with no matching file in ipas/, unless a
-    downloadURL in repo.json still references them (external apps)
-  - exits non-zero if the release doesn't match ipas/ afterwards
-
-The CI workflows run it after generate_repo.py or update_source.py.
-
 Usage:
     python scripts/sync_release.py [--token TOKEN] [--no-delete]
 """
@@ -30,11 +19,6 @@ def sync_release(
     no_delete: bool = False,
     client: Optional[rel.GitHubRelease] = None,
 ) -> int:
-    """Mirror ipas/*.ipa onto the release.  Returns an exit code.
-
-    A caller can pass its own ``client``, which the tests use to point the
-    sync at a fake API backend.
-    """
     lib.canonicalize_ipa_files(lib.IPAS_DIR)
 
     client = client or rel.GitHubRelease(token)
@@ -68,7 +52,8 @@ def sync_release(
             flush=True,
         )
         try:
-            client.upload_asset(name, path.read_bytes())
+            with open(path, "rb") as f:
+                client.upload_asset(name, f)
             print("done")
         except Exception as e:
             print(f"failed: {e}")

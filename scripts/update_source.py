@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 """
-Update source, workflow 2.
-
-Checks every sources.json app against current_releases.json and downloads
-only the apps whose version or commit changed, or whose versioned asset is
-missing from the ipa-assets release.  It applies bundle-ID overrides,
-picks up manual release drops, records the new state in
-current_releases.json, and rebuilds repo.json through generate_repo.py.
-
-When nothing needs downloading, the script exits without touching
-repo.json, the release or git, so an unchanged run uploads nothing.  The
-release tracked is the newest one that carries an IPA, so an app whose
-newest release ships no IPA (ppy/osu's stable builds) keeps the version
-it already serves.  When a download fails, or
-the downloaded file is not a usable IPA, the recorded version stays
-untouched so the next run retries it, and the script exits non-zero and
-names the app.
+Update source.
 
 Usage:
     python scripts/update_source.py [--github-token TOKEN] [--debug]
@@ -33,8 +18,6 @@ import ipa
 import release as rel
 from generate_repo import generate_repo
 
-# Release notes ship inside repo.json, so an enormous body is cut short
-# rather than carried whole.
 CHANGELOG_LIMIT = 4000
 
 # Release notes are written in Markdown, and neither AltStore nor Feather
@@ -45,9 +28,9 @@ _MD_IMAGE = re.compile(r"!\[([^\]]*)\]\([^)]*\)")
 _MD_LINK = re.compile(r"\[([^\]]+)\]\([^)]*\)")
 _MD_AUTOLINK = re.compile(r"<((?:https?|mailto):[^>\s]+)>")
 _MD_HEADING = re.compile(r"^[ \t]{0,3}#{1,6}[ \t]*", re.MULTILINE)
-# GitHub alert markers, e.g. "> [!TIP]".
 _MD_ALERT = re.compile(
-    r"^[ \t]*\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\][ \t]*$",
+    r"^[ \t]{0,3}(?:>[ \t]?)*\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]"
+    r"[ \t]*$",
     re.IGNORECASE | re.MULTILINE,
 )
 _MD_QUOTE = re.compile(r"^[ \t]{0,3}>[ \t]?", re.MULTILINE)
@@ -62,13 +45,6 @@ _MD_BLANK_RUN = re.compile(r"\n{3,}")
 
 
 def _markdown_as_text(body: str) -> str:
-    """Flatten release notes to the plain text clients actually show.
-
-    Headings keep their words, bullets become "• ", emphasis and inline
-    code lose their markers, links keep their label, and images and HTML
-    comments disappear.  Tables are left as they are: they are rare in
-    release notes and flattening them badly is worse than leaving them.
-    """
     text = _MD_COMMENT.sub("", body.replace("\r\n", "\n").replace("\r", "\n"))
     text = _MD_FENCE.sub("", text)
     text = _MD_IMAGE.sub(lambda m: m.group(1), text)
@@ -76,9 +52,8 @@ def _markdown_as_text(body: str) -> str:
     text = _MD_AUTOLINK.sub(lambda m: m.group(1), text)
     text = _MD_RULE.sub("", text)
     text = _MD_HEADING.sub("", text)
-    text = _MD_QUOTE.sub("", text)
-    # After the quote strip, because the real form is "> [!TIP]".
     text = _MD_ALERT.sub("", text)
+    text = _MD_QUOTE.sub("", text)
     text = _MD_BULLET.sub("• ", text)
     text = _MD_TASK.sub(
         lambda m: f"{m.group(1)} [{'x' if m.group(2).lower() == 'x' else ' '}] ",
@@ -97,22 +72,14 @@ def _markdown_as_text(body: str) -> str:
 
 
 def _changelog(release: dict) -> str:
-    """A release's notes, as the entry's "What's New" text.
-
-    Clients show the literal text "undefined" for a version description
-    that is empty, so generate_repo leaves the field out when this returns
-    "": a manual drop or a release without notes shows a blank section.
-    """
     body = _markdown_as_text(release.get("body") or "")
     if len(body) <= CHANGELOG_LIMIT:
         return body
-    # Cut on a line boundary so the notes don't end mid-sentence.
     cut = body.rfind("\n", 0, CHANGELOG_LIMIT)
     return body[:cut if cut > 0 else CHANGELOG_LIMIT].rstrip() + "…"
 
 
 def _repo_facts(repo: str, token: Optional[str]) -> tuple[str, str]:
-    """A repo's About text and owner login (defaults for a new app)."""
     try:
         info = lib.github_api(f"{lib.API_BASE}/repos/{repo}", token) or {}
     except Exception as ex:
@@ -143,27 +110,18 @@ def _apply_bundle_id(dest: Path, bundle_id: str) -> str:
 
 def _fetch_one(
     entry: dict, token: Optional[str], dest: Path
-) -> tuple[Optional[str], dict]:
-    """Fetch one app's IPA and apply its bundle-ID override.
-
-    Returns ``(problem, facts)``.  ``problem`` carries the same meaning as
-    in release.fetch_ipa_from_release.  None means the release has no IPA
-    asset yet, so skip it and retry next run.  An empty string means
-    ``dest`` is ready to publish.  Anything else is the reason it is not.
-    ``facts`` is what generate_repo needs to know about that file, and is
-    empty unless the fetch worked.
-    """
+) -> tuple[rel.FetchOutcome, dict]:
     source = entry["source"]
     description, developer = _repo_facts(entry["repo"], token)
-    problem = rel.fetch_ipa_from_release(
+    outcome = rel.fetch_ipa_from_release(
         entry["info"]["release"], source, dest, token
     )
-    if problem or problem is None:
-        return problem, {}
+    if outcome.missing or outcome.problem:
+        return outcome, {}
     if source.get("bundle_id_override"):
         problem = _apply_bundle_id(dest, source["bundle_id_override"])
         if problem:
-            return problem, {}
+            return rel.FetchOutcome(missing=False, problem=problem), {}
     facts = {
         "date": entry["info"]["published_at"],
         "description": description,
@@ -177,7 +135,7 @@ def _fetch_one(
         # update when the source's version is higher, so generate_repo gets
         # the tracked release version to compare against the plist's.
         facts["version"] = entry["latest"]
-    return "", facts
+    return rel.FetchOutcome(missing=False, problem=""), facts
 
 
 def update_source_report(
@@ -206,35 +164,22 @@ def update_source_report(
     repo_assets = lib.repo_json_asset_names()
     downloaded_any = False
     failures: list[str] = []
-    # Every sources.json app owns files named "<stem>.rel|pre|nig-….ipa".  An
-    # asset that carries one of these stems is an older version of a watched
-    # app, never a manual drop, even when this run could not reach its API.
     expected_stems = {
         lib.ipa_stem(e["source"]["name"]) for e in entries
     }
 
     def _keep_recorded(app_name: str) -> None:
-        """Leave the previously recorded version so the next run retries."""
         if app_name in old_recorded:
             new_recorded[app_name] = old_recorded[app_name]
         else:
             new_recorded.pop(app_name, None)
 
     def _defer(app_name: str, drop_file: Optional[Path] = None) -> None:
-        """Mark an app failed: keep its recorded version, drop its file.
-
-        The caller then ``continue``s, so the version is never recorded as
-        installed and the next run retries the app.
-        """
         failures.append(app_name)
         _keep_recorded(app_name)
         if drop_file is not None:
             drop_file.unlink(missing_ok=True)
 
-    # A manual drop exists only on the release until it is ingested.  List
-    # every candidate up front, so the download loop below only touches
-    # files that are not already on disk, not a watched app, and not yet
-    # referenced by repo.json.
     manual_candidates: set[str] = set()
     for name in release_assets:
         if not name.lower().endswith(".ipa"):
@@ -256,12 +201,9 @@ def update_source_report(
 
         if info is None:
             cli.error(f"{name}: could not determine the latest release")
-            _keep_recorded(name)
+            _defer(name)
             continue
 
-        # Skip only when the release holds the asset and the committed
-        # repo.json already points at it.  Otherwise rebuild the entry,
-        # which recovers from a name-scheme change or a failed run.
         if (
             not e["changed"]
             and e["asset_in_release"]
@@ -277,19 +219,16 @@ def update_source_report(
         print(f"  🔍 {name} — {reason}: {e['recorded']} → {e['latest']}")
 
         dest_path = lib.IPAS_DIR / expected
-        problem, facts = _fetch_one(e, token, dest_path)
-        if problem is None:
-            # A new version is published but no IPA is attached yet, so
-            # there is nothing to download.  Leave the recorded value and
-            # retry next run instead of failing the workflow.
+        outcome, facts = _fetch_one(e, token, dest_path)
+        if outcome.missing:
             cli.warn(
                 f"{name}: {info['release'].get('tag_name', '?')} has no "
                 ".ipa asset yet — skipping"
             )
             _keep_recorded(name)
             continue
-        if problem:
-            cli.error(f"{name}: {problem}")
+        if outcome.problem:
+            cli.error(f"{name}: {outcome.problem}")
             _defer(name, dest_path)
             continue
 
@@ -332,7 +271,6 @@ def update_source_report(
 
 
 def update_source(token: Optional[str] = None) -> bool:
-    """Return only the "did work" flag, for the tests that call it."""
     worked, _failures = update_source_report(token)
     return worked
 

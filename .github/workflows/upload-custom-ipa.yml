@@ -20,11 +20,13 @@ on:
         description: "Subtitle shown under the app name (optional — blank is fine)"
         required: false
         default: ""
+      developer:
+        description: "Developer name AltStore shows (optional)"
+        required: false
+        default: ""
 
-# Serialised with pipeline.yml: only one run may write repo.json,
-# current_releases.json and the ipa-assets release at a time.
 concurrency:
-  group: altstore-repo
+  group: altstore-source-write-lock
   cancel-in-progress: false
 
 jobs:
@@ -53,6 +55,7 @@ jobs:
           APP_URL: ${{ inputs.download_link }}
           APP_DESCRIPTION: ${{ inputs.localized_description }}
           APP_SUBTITLE: ${{ inputs.subtitle }}
+          APP_DEVELOPER: ${{ inputs.developer }}
         run: |
           python scripts/add_custom_ipa.py \
             --name="$APP_NAME" \
@@ -60,6 +63,7 @@ jobs:
             --url="$APP_URL" \
             --description="$APP_DESCRIPTION" \
             --subtitle="$APP_SUBTITLE" \
+            --developer="$APP_DEVELOPER" \
             --token="$GH_TOKEN"
 
       - name: Commit and push changes

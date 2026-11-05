@@ -1,21 +1,12 @@
 #!/usr/bin/env python3
 """
 Release assets: finding, fetching and publishing the IPAs on GitHub.
-
-This module owns everything that talks about a release asset rather than a
-raw request.  That is the ipa-assets client (list, upload, delete) and the
-fetch path that turns one asset into a usable file in ipas/.
-
-altstore_lib owns the low-level HTTP client, the paths and the naming
-rules.  This module calls into altstore_lib through the module object
-(``lib.download_file``, ``lib.request_bytes``), so the tests can still
-point the whole pipeline at a fake network.
 """
 
 import json
 import zipfile
 from pathlib import Path
-from typing import Optional
+from typing import BinaryIO, NamedTuple, Optional, Union
 from urllib.parse import quote
 
 import altstore_lib as lib
@@ -23,11 +14,15 @@ import cli_common as diag
 import ipa
 
 
-def _pick_ipa_asset(release: dict, source: dict) -> tuple[Optional[dict], bool]:
-    """The asset to download and whether it is a zipped IPA."""
+class FetchOutcome(NamedTuple):
+    missing: bool
+    problem: str
+
+
+def _pick_ipa_asset(release: dict, source: dict) -> Optional[dict]:
     asset = lib.find_ipa_asset(release, source.get("asset_pattern"))
     if asset:
-        return asset, False
+        return asset
     zipped = next(
         (
             a
@@ -38,11 +33,10 @@ def _pick_ipa_asset(release: dict, source: dict) -> tuple[Optional[dict], bool]:
     )
     if zipped is None:
         diag.debug(f"no .ipa asset in release {release.get('tag_name', '?')}")
-    return zipped, zipped is not None
+    return zipped
 
 
 def _extract_ipa(zip_path: Path, dest: Path, zip_name: str) -> str:
-    """Write the .ipa inside ``zip_path`` to ``dest``; "" when it worked."""
     with zipfile.ZipFile(zip_path) as zf:
         entry = next(
             (n for n in zf.namelist() if n.lower().endswith(".ipa")), None
@@ -55,11 +49,6 @@ def _extract_ipa(zip_path: Path, dest: Path, zip_name: str) -> str:
 
 
 def _gate(dest: Path) -> str:
-    """Drop ``dest`` unless it is a usable IPA; return the reason, or "".
-
-    This is the one place the ingest path judges an IPA, so a file that
-    fails the check never stays on disk for the next step to trip over.
-    """
     problem = ipa.ipa_problem(dest)
     if problem:
         dest.unlink(missing_ok=True)
@@ -72,12 +61,6 @@ def ingest_ipa(
     size: Optional[int] = None,
     token: Optional[str] = None,
 ) -> str:
-    """Download one IPA into ``dest``; "" on success, else the reason.
-
-    Every IPA that enters the repo comes through here: download it, run the
-    validity check, delete the file when it fails.  Callers report the
-    reason once.
-    """
     try:
         lib.download_file(url, dest, token, size)
     except Exception as ex:
@@ -90,17 +73,11 @@ def fetch_ipa_from_release(
     source: dict,
     dest: Path,
     token: Optional[str] = None,
-) -> Optional[str]:
-    """Write an app's IPA to ``dest`` and say whether it is usable.
-
-    None means the release has no IPA asset yet, so there is nothing to do
-    and the next run retries.  An empty string means ``dest`` holds a
-    usable IPA.  Anything else is the reason it failed, and the caller
-    reports it.  This function only prints progress.
-    """
-    asset, zipped = _pick_ipa_asset(release, source)
+) -> FetchOutcome:
+    asset = _pick_ipa_asset(release, source)
     if asset is None:
-        return None
+        return FetchOutcome(missing=True, problem="")
+    zipped = asset["name"].lower().endswith(".ipa.zip")
 
     url = asset["browser_download_url"]
     print(
@@ -115,10 +92,13 @@ def fetch_ipa_from_release(
         problem = ingest_ipa(url, dest, asset["size"], token)
     print("failed" if problem else "done")
     if not problem:
-        return ""
-    return (
-        f"{asset['name']} from release {release.get('tag_name', '?')}: "
-        f"{problem} (url: {url})"
+        return FetchOutcome(missing=False, problem="")
+    return FetchOutcome(
+        missing=False,
+        problem=(
+            f"{asset['name']} from release {release.get('tag_name', '?')}: "
+            f"{problem} (url: {url})"
+        ),
     )
 
 
@@ -126,7 +106,6 @@ def _ingest_zipped(
     url: str, dest: Path, size: Optional[int], zip_name: str,
     token: Optional[str],
 ) -> str:
-    """Ingest a release that ships its IPA inside a zip archive."""
     tmp_zip = dest.with_name(dest.name + ".zip")
     try:
         try:
@@ -144,8 +123,7 @@ class GitHubRelease:
     """Client for the asset level of the GitHub Releases API.
 
     It caches the release object and drops that cache after every mutation,
-    so a verification step always reads fresh state.  The tests swap in a
-    fake API backend by replacing the ``api`` method.
+    so a verification step always reads fresh state.
     """
 
     def __init__(self, token: str):
@@ -155,11 +133,10 @@ class GitHubRelease:
     def api(
         self,
         url: str,
-        data: Optional[bytes] = None,
+        data: Optional[Union[bytes, BinaryIO]] = None,
         method: Optional[str] = None,
         content_type: str = "application/octet-stream",
     ):
-        """Call the API; return the parsed JSON, or None for an empty body."""
         headers = {
             "Accept": "application/vnd.github+json",
             "User-Agent": "altstore-release-sync",
@@ -174,7 +151,6 @@ class GitHubRelease:
         return json.loads(raw) if raw else None
 
     def get_release(self) -> Optional[dict]:
-        """Return the release dict, or None if it doesn't exist yet."""
         if self._release is None:
             url = (
                 f"{lib.API_BASE}/repos/{lib.GITHUB_USER}/{lib.GITHUB_REPO}"
@@ -189,7 +165,6 @@ class GitHubRelease:
         return self._release
 
     def create_release(self) -> dict:
-        """Create the ipa-assets release and return it."""
         print(f"Creating release {lib.RELEASE_TAG} …")
         self._release = self.api(
             f"{lib.API_BASE}/repos/{lib.GITHUB_USER}/{lib.GITHUB_REPO}/releases",
@@ -214,7 +189,7 @@ class GitHubRelease:
         )
         self._release = None
 
-    def upload_asset(self, name: str, data: bytes) -> None:
+    def upload_asset(self, name: str, data: BinaryIO) -> None:
         """Upload an asset, replacing any existing asset of the same name.
 
         Same-name matching uses GitHub's sanitization, so a stale asset
@@ -234,5 +209,3 @@ class GitHubRelease:
         )
         self.api(url, data)
         self._release = None
-
-

@@ -1,12 +1,6 @@
 #!/usr/bin/env python3
 """
-Custom IPA uploader, workflow 3.
-
-Downloads a single IPA from a URL and names it with the canonical
-versioned scheme, so "Balatro" plus "1.0" becomes
-ipas/Balatro.rel-1.0.ipa.  Then it validates the file, rebuilds repo.json
-and syncs it to the ipa-assets release.  Every step fails loudly, so a bad
-link or an unreadable IPA cannot leave an orphaned release asset behind.
+Custom IPA uploader.
 
 Usage:
     python scripts/add_custom_ipa.py \
@@ -35,7 +29,6 @@ def run_custom_upload(
     token: Optional[str] = None,
     developer: str = "",
 ) -> int:
-    """Download the IPA, validate it, rebuild repo.json and sync the release."""
     filename = lib.ipa_filename(name, version=version)
     lib.IPAS_DIR.mkdir(exist_ok=True)
     dest = lib.IPAS_DIR / filename
@@ -80,10 +73,6 @@ def run_custom_upload(
         )
         return 1
 
-    # Upload to the ipa-assets release.  This run never deletes other apps'
-    # assets, because its checkout can lag behind the other workflows.
-    # Stale-asset cleanup belongs to the update-source workflow, where
-    # repo.json is freshly generated.
     return sync_release(
         token or "",
         no_delete=True,

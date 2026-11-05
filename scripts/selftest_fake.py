@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
 Fake GitHub backend and shared fixtures for selftest.py.
-
-This module stays apart from the tests, so selftest.py reads as a list of
-cases.  ``build_fixture`` points the whole pipeline at a temp directory and
-at this fake network, then returns the fake so a test can break one thing
-in it.
 """
 
 import io
@@ -28,8 +23,6 @@ PNG_MAGIC = b"\x89PNG\r\n\x1a\n"
 
 
 class FakeReleaseFactory:
-    """Builds the real client wired to the fake sync server."""
-
     def __init__(self, fake):
         self.fake = fake
 
@@ -91,13 +84,11 @@ def macho_with_entitlements(entitlements: dict) -> bytes:
 
 
 def png_chunk(ctype: bytes, data: bytes) -> bytes:
-    """One PNG chunk: length, type, payload, CRC."""
     return (struct.pack(">I", len(data)) + ctype + data
             + struct.pack(">I", zlib.crc32(ctype + data) & 0xFFFFFFFF))
 
 
 def png_chunks(data: bytes) -> dict:
-    """{chunk type: first payload} of a PNG."""
     out: dict[bytes, bytes] = {}
     pos = 8
     while pos + 8 <= len(data):
@@ -109,11 +100,6 @@ def png_chunks(data: bytes) -> dict:
 
 
 def crushed_icon_png() -> bytes:
-    """An Apple-crushed (CgBI) 4-bit indexed PNG, 4x2 pixels.
-
-    Sub-byte depth is where a row is *not* width * bytes-per-pixel, and the
-    palette is where an indexed icon's red/blue swap has to happen.
-    """
     width, height, bit_depth = 4, 2, 4
     ihdr = struct.pack(">IIBBBBB", width, height, bit_depth, 3, 0, 0, 0)
     co = zlib.compressobj(9, zlib.DEFLATED, -15)  # raw deflate, as CgBI has
@@ -126,7 +112,6 @@ def crushed_icon_png() -> bytes:
 
 
 def plain_png() -> bytes:
-    """A tiny ordinary PNG (nothing to uncrush)."""
     ihdr = struct.pack(">IIBBBBB", 1, 1, 8, 6, 0, 0, 0)
     return (PNG_MAGIC + png_chunk(b"IHDR", ihdr)
             + png_chunk(b"IDAT", zlib.compress(b"\x00\x00\x00\x00\x00"))
@@ -134,7 +119,6 @@ def plain_png() -> bytes:
 
 
 def make_ipa_with_icon(bundle_id="com.test.icon", version="1.0") -> bytes:
-    """An IPA whose Info.plist names an icon that is really in the bundle."""
     info = {
         "CFBundleIdentifier": bundle_id,
         "CFBundleDisplayName": "Icon",
@@ -157,14 +141,6 @@ def make_ipa_with_icon(bundle_id="com.test.icon", version="1.0") -> bytes:
 
 
 class FakeGitHub:
-    """Stateful stand-in for the GitHub REST API and file downloads.
-
-    ``api`` serves repo info, release lists, commit lookups and the
-    ipa-assets release.  ``download`` serves bytes from download_store.
-    ``assets`` is the ipa-assets release's asset table.  Uploads store names
-    the way GitHub does, with unsafe characters replaced by dots.
-    """
-
     def __init__(self):
         self.repos = {}
         self.commits = {}
@@ -206,7 +182,9 @@ class FakeGitHub:
             }
         if "/releases?per_page=100" in url:
             repo = url.split("/repos/", 1)[1].split("/releases", 1)[0]
-            return self.repos[repo]["releases"]
+            releases = self.repos[repo]["releases"]
+            page = int(url.split("&page=", 1)[1]) if "&page=" in url else 1
+            return releases[(page - 1) * 100:page * 100]
         if "/commits/" in url:
             repo = url.split("/repos/", 1)[1].split("/commits/", 1)[0]
             tag = unquote(url.rsplit("/commits/", 1)[1])
@@ -240,8 +218,9 @@ class FakeGitHub:
             stored = lib.github_asset_name(name)
             self.assets.pop(stored, None)
             self.next_id += 1
+            payload = data.read() if hasattr(data, "read") else data
             self.assets[stored] = {
-                "id": self.next_id, "name": stored, "size": len(data),
+                "id": self.next_id, "name": stored, "size": len(payload),
                 "updated_at": "2026-09-24T12:00:00Z",
             }
             return {"id": self.next_id, "name": stored, "state": "uploaded"}
@@ -273,11 +252,6 @@ def release(tag, prerelease, *assets, body=""):
 
 
 def build_fixture(tmp: Path, feather_tag="v2.9.0", ksign_sha=SHA_KSIGN):
-    """Point the pipeline at a temp directory and set up a fake GitHub.
-
-    Four sources are configured: Feather and Ferrite as stable apps, Ksign
-    as a prerelease app, and Nuvio Enhanced with a bundle-ID override.
-    """
     sources = tmp / "sources.json"
     sources.write_text(json.dumps({"sources": [
         {"name": "Feather", "repo": "claration/Feather", "release_type": "stable"},
@@ -346,7 +320,6 @@ def seed_current_releases(tmp: Path, feather="2.9.0",
 
 
 def seed_repo_json(tmp: Path, apps: list[dict]):
-    """Write a minimal repo.json with the given apps."""
     path = tmp / "repo.json"
     path.write_text(json.dumps({"apps": apps}, indent=2), encoding="utf-8")
 
@@ -385,14 +358,6 @@ def asset_url(filename):
 
 def seed_up_to_date(fake, tmp, feather="2.9.0", ksign="03a3a9c",
                     ferrite="0.7.4", missing=()):
-    """Record every app as current and publish what it points at.
-
-    Seeds current_releases.json, the release asset and the repo.json entry
-    for each app, so a test only has to break the one app it cares about.
-    The rest are skipped as up to date.  ``missing`` leaves that app's
-    release asset out, which makes the run re-fetch it while the committed
-    repo.json entry stays, the way a real one would.
-    """
     seed_current_releases(tmp, feather=feather, ksign=ksign, ferrite=ferrite)
     published = {
         "Ksign": ("nya.asami.ksign", f"Ksign.pre-{ksign}.ipa"),

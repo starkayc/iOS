@@ -2,24 +2,6 @@
 """
 AltStore Source Generator, repo.json builder.
 
-Scans the ipas/ folder for .ipa files, reads the metadata of each one
-(bundle ID, version, icon and the rest), and generates or updates
-repo.json.
-
-Fields a human set on an existing repo.json entry stay put: descriptions,
-subtitles, developer names and tint colors.  Apps that point at an external
-download URL, so their file is not in ipas/, are kept as-is.
-
-Downloading IPAs from GitHub is not this module's job.  See update_source.py,
-which fetches changed apps and then calls generate_repo, and
-add_custom_ipa.py, which downloads a single IPA.
-
-The fetch phase passes ``per_app``, a dict keyed by file name that holds
-what the fetch learned about each file (``date``, ``description``,
-``developer``, ``display_name``, ``changelog``) and ``manual`` for a
-hand-dropped or custom-uploaded file.  A file with no entry there is
-scanned on its own metadata alone.
-
 Usage:
     python scripts/generate_repo.py                 # scan ipas/ → repo.json
     python scripts/generate_repo.py --dry-run       # show changes, don't write
@@ -43,17 +25,10 @@ COMPARED_ENTRY = PRESERVED_IF_SET + (
     "iconURL", "downloadURL", "category", "appPermissions",
 )
 
-# AltStore shows the subtitle on one line under the app's name.
 SUBTITLE_LIMIT = 60
 
 
 def short_subtitle(text: str, limit: int = SUBTITLE_LIMIT) -> str:
-    """A one-line subtitle cut from an app's description.
-
-    An empty subtitle leaves a visible gap in the Browse list, so a
-    description that fits is used whole and a longer one is cut on a word
-    boundary.  A hand-set subtitle still wins over this.
-    """
     line = " ".join((text or "").split())
     if len(line) <= limit:
         return line.rstrip(".")
@@ -65,7 +40,6 @@ COMPARED_VERSION = ("version", "buildVersion", "size", "minOSVersion")
 
 
 def load_existing_repo() -> Optional[dict]:
-    """Load the current repo.json, or None if it doesn't exist."""
     if lib.REPO_JSON.exists():
         with open(lib.REPO_JSON, encoding="utf-8") as f:
             return json.load(f)
@@ -73,20 +47,17 @@ def load_existing_repo() -> Optional[dict]:
 
 
 def index_by_bundle_id(repo: Optional[dict]) -> dict[str, dict]:
-    """Build {bundleIdentifier: app_entry} from an existing repo.json."""
     if not repo:
         return {}
     return {app["bundleIdentifier"]: app for app in repo.get("apps", [])}
 
 
-def prune_stale_icons(repo: dict) -> None:
-    """Delete icons/ files the new repo.json no longer points at.
+def _subtitle_copies_description(old: dict) -> bool:
+    return old.get("subtitle") == old.get("localizedDescription")
 
-    placeholder.png stays, because it is the fallback for an app without an
-    icon.  Without this, a renamed bundle ID or a dropped app leaves its
-    icon in the repo forever.
-    """
-    keep = {"placeholder.png"}
+
+def prune_stale_icons(repo: dict) -> None:
+    keep = {lib.PLACEHOLDER_ICON}
     keep.update(
         unquote(url.rsplit("/", 1)[-1]) for url in
         (a.get("iconURL", "") for a in repo["apps"]) if url
@@ -189,13 +160,9 @@ def generate_repo(
         if icon_filename:
             icon_url = f"{lib.PAGES_BASE}/icons/{lib.url_encode_path(icon_filename)}"
         else:
-            icon_url = f"{lib.PAGES_BASE}/icons/placeholder.png"
+            icon_url = f"{lib.PAGES_BASE}/icons/{lib.PLACEHOLDER_ICON}"
 
-        # IPA size and download URL.  The binaries come from GitHub Releases
-        # rather than Pages, which would serve a Git-LFS pointer instead of
-        # the IPA.  The local file name is canonical: the workflow uploads
-        # fetched files under it, and it downloads a manual drop by its asset
-        # name, so the two always match.
+        # Pages would serve a Git-LFS pointer instead of the IPA.
         ipa_size = ipa_path.stat().st_size
         safe_ipa_name = lib.url_encode_path(ipa_path.name)
         download_url = f"{lib.RELEASE_BASE}/{safe_ipa_name}"
@@ -210,11 +177,8 @@ def generate_repo(
                 ipa_path.stat().st_mtime, tz=timezone.utc
             )
 
-        # Build the version object.  ``version`` is what AltStore compares to
-        # the installed app.  An upstream build can keep
-        # CFBundleShortVersionString constant, as osu! does with 1.0 on every
-        # release, while its tag moves.  When the tracked release version is
-        # the newer of the two, it wins.
+        # An upstream build can keep CFBundleShortVersionString constant,
+        # as osu! does with 1.0 on every release, while its tag moves.
         version_str = meta["version"]
         release_version = facts.get("version", "")
         if release_version and lib.parse_version_tuple(
@@ -235,9 +199,6 @@ def generate_repo(
         if changelog:
             version_obj["localizedDescription"] = changelog
 
-        # Display name, in order of preference: the sources.json override,
-        # then the file name without its (rel-…) or (pre-…) suffix for a
-        # manual or custom file, then the IPA's own display name.
         custom_entry = custom_meta.get(ipa_path.name, {})
         override = facts.get("display_name", "")
         default_name = override or (
@@ -246,9 +207,6 @@ def generate_repo(
             else meta["name"]
         )
 
-        # Permissions come from the bundle.  A build with no readable
-        # signature declares nothing, so keep what the entry already says
-        # instead of blanking a declaration someone made.
         permissions = meta.get("permissions") or {}
         if not (permissions.get("entitlements") or permissions.get("privacy")):
             permissions = (old or {}).get("appPermissions") or {}
@@ -256,6 +214,11 @@ def generate_repo(
         description = (
             custom_entry.get("description") or facts.get("description", "")
         )
+        subtitle = (
+            custom_entry.get("subtitle", "") or short_subtitle(description)
+        )
+        if subtitle == description:
+            subtitle = ""
         app_entry = {
             "name": default_name,
             "bundleIdentifier": bundle_id,
@@ -265,13 +228,7 @@ def generate_repo(
             ),
             "iconURL": icon_url,
             "localizedDescription": description,
-            # No description fallback here.  AltStore shows the subtitle
-            # under the name and the description below it, so putting the
-            # About text in both prints it twice.  A derived one-liner is
-            # short enough to read as a tagline instead.
-            "subtitle": (
-                custom_entry.get("subtitle", "") or short_subtitle(description)
-            ),
+            "subtitle": subtitle,
             "tintColor": lib.SOURCE_TINT_COLOR,
             "category": (
                 lib.altstore_category(meta.get("category", ""))
@@ -280,7 +237,6 @@ def generate_repo(
             ),
             "versions": [version_obj],
             "appPermissions": permissions,
-            # Top-level convenience fields (AltStore uses these too).
             "version": version_str,
             "versionDate": ipa_mtime.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "size": ipa_size,
@@ -292,11 +248,7 @@ def generate_repo(
                 if key in old:
                     app_entry[key] = old[key]
             for key in PRESERVED_IF_SET:
-                # An older run copied the description into the subtitle.
-                # Keeping it would preserve the duplicate forever.
-                if key == "subtitle" and old.get(key) == old.get(
-                    "localizedDescription"
-                ):
+                if key == "subtitle" and _subtitle_copies_description(old):
                     continue
                 app_entry[key] = old.get(key) or app_entry[key]
 
@@ -312,12 +264,6 @@ def generate_repo(
                 f"{version_str}"
             )
         else:
-            # The version string is unchanged, but a rebuild can still move
-            # the binary (build number, size, minOSVersion) or other
-            # metadata, so compare the generated entry field by field.  The
-            # date is deliberately left out, because it falls back to the
-            # file mtime when no release date is known and would churn on
-            # every run.
             old_ver0 = (old.get("versions") or [{}])[0]
             changed_fields = [
                 key

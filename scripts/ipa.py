@@ -1,14 +1,6 @@
 #!/usr/bin/env python3
 """
 Everything that opens an IPA (a zip archive with Payload/*.app/ inside).
-
-Kept apart from altstore_lib: that module owns the paths, the naming rules
-and the GitHub API, this one owns bytes-in-a-zip.  Nothing here reaches the
-network, and the one thing imported from altstore_lib is its file-name
-rule (altstore_lib never imports this module, so the two can't cycle).
-
-``ipa_problem`` is the single gate for "is this a usable IPA".  Every IPA
-that enters the repo goes through it before anything else touches it.
 """
 
 import os
@@ -25,12 +17,6 @@ from altstore_lib import safe_stem
 
 
 def ipa_problem(path: Path) -> str:
-    """Say why ``path`` is not a usable IPA, or "" when it is one.
-
-    An IPA is a zip archive holding ``Payload/*.app/``.  The check covers
-    the magic bytes, the archive index, the bundle and its Info.plist,
-    because every entry the pipeline publishes is built from that plist.
-    """
     if not path.exists():
         return "file is missing"
     with open(path, "rb") as f:
@@ -79,12 +65,6 @@ def find_app_bundle(zf: zipfile.ZipFile) -> Optional[str]:
 
 
 def extract_info_plist(zf: zipfile.ZipFile, app_dir: str) -> Optional[dict]:
-    """Read and parse the app bundle's Info.plist, or None when unusable.
-
-    A malformed plist raises out of plistlib.  This is the one place that
-    decides a plist is unreadable, and callers read None the same way as a
-    missing plist.
-    """
     plist_path = app_dir + "Info.plist"
     if plist_path not in zf.namelist():
         return None
@@ -96,7 +76,6 @@ def extract_info_plist(zf: zipfile.ZipFile, app_dir: str) -> Optional[dict]:
 
 
 def find_icon_files(info: dict, zf: zipfile.ZipFile, app_dir: str) -> list[str]:
-    """Return the icon file paths inside the IPA, smallest file first."""
     candidates: set[str] = set()
 
     bundle_icons = info.get("CFBundleIcons", {})
@@ -141,8 +120,7 @@ def find_icon_files(info: dict, zf: zipfile.ZipFile, app_dir: str) -> list[str]:
     return [p for _, p in found]
 
 
-# Entitlements AltStore requires the source to list.
-_REQUIRED_ENTITLEMENTS = {
+_OMITTED_ENTITLEMENTS = {
     "application-identifier",
     "com.apple.developer.team-identifier",
 }
@@ -159,10 +137,9 @@ _CSSLOT_ENTITLEMENTS = 5
 def _read_entitlements(reader, size: int) -> dict:
     """The entitlements plist out of a Mach-O's code signature.
 
-    ``reader(offset, length)`` returns bytes from the binary.  A fat
-    binary holds one slice per architecture; the first slice that carries
-    a signature wins.  {} means unsigned, or signed with the DER-encoded
-    entitlements modern iOS also allows, which this does not decode.
+    ``reader(offset, length)`` returns bytes from the binary.  {} means
+    unsigned, or signed with the DER-encoded entitlements modern iOS also
+    allows, which this does not decode.
     """
     head = reader(0, min(size, 65536))
     if len(head) < 8:
@@ -188,7 +165,6 @@ def _read_entitlements(reader, size: int) -> dict:
 
 
 def _slice_entitlements(reader, base: int, length: int) -> dict:
-    """Entitlements of one Mach-O slice, or {}."""
     head = reader(base, min(length, 65536))
     if len(head) < 28:
         return {}
@@ -214,7 +190,6 @@ def _slice_entitlements(reader, base: int, length: int) -> dict:
 
 
 def _signature_entitlements(reader, offset: int, size: int) -> dict:
-    """Entitlements blob out of a code signature SuperBlob, or {}."""
     blob = reader(offset, min(size, 4 << 20))
     if len(blob) < 12:
         return {}
@@ -265,7 +240,6 @@ def _profile_entitlements(zf: zipfile.ZipFile, app_dir: str) -> dict:
 
 
 def _bundle_dirs(zf: zipfile.ZipFile, app_dir: str) -> list[str]:
-    """The app bundle and every extension bundle inside it."""
     dirs = [app_dir]
     for name in zf.namelist():
         if not name.startswith(app_dir):
@@ -282,12 +256,8 @@ def _bundle_dirs(zf: zipfile.ZipFile, app_dir: str) -> list[str]:
 def extract_permissions(zf: zipfile.ZipFile, app_dir: str) -> dict:
     """The appPermissions object for an IPA: entitlements and privacy keys.
 
-    AltStore compares this against the IPA it downloads and refuses an
-    install when the two disagree, so it has to be exact: the entitlements
-    come from the code signature (or the provisioning profile when the
-    signature is unreadable), and the privacy keys from every Info.plist,
-    extensions included.  The two entitlements every app carries are left
-    out, which is what AltStore asks for.
+    AltStore refuses an install when this disagrees with the IPA it
+    downloads.
     """
     entitlements: set[str] = set()
     privacy: dict[str, str] = {}
@@ -310,7 +280,7 @@ def extract_permissions(zf: zipfile.ZipFile, app_dir: str) -> dict:
 
             signed = _read_entitlements(read, entry.file_size)
         for key in signed or _profile_entitlements(zf, bundle):
-            if key not in _REQUIRED_ENTITLEMENTS:
+            if key not in _OMITTED_ENTITLEMENTS:
                 entitlements.add(key)
 
     return {
@@ -374,7 +344,7 @@ def patch_bundle_id(ipa_path: Path, new_bundle_id: str) -> bool:
     AltStore re-signs apps on install, so a second bundle ID lets two
     builds of the same app coexist in one source (e.g. "Nuvio" and
     "Nuvio Enhanced").  The plist keeps its original format and the zip is
-    rebuilt in place.  Running it a second time changes nothing.
+    rebuilt in place.
     """
     with zipfile.ZipFile(ipa_path, "r") as zf:
         app_dir = find_app_bundle(zf)
@@ -398,9 +368,8 @@ def patch_bundle_id(ipa_path: Path, new_bundle_id: str) -> bool:
         info, fmt=plistlib.FMT_BINARY if is_binary else plistlib.FMT_XML
     )
 
-    # Rebuild the zip with the patched plist.  The new archive goes to a
-    # temp file first, because Windows can't replace a file that still has
-    # a handle open.
+    # The new archive goes to a temp file first, because Windows can't
+    # replace a file that still has a handle open.
     tmp_path = ipa_path.with_suffix(".ipa.patched")
     with zipfile.ZipFile(ipa_path, "r") as zin, zipfile.ZipFile(
         tmp_path, "w"
@@ -424,8 +393,6 @@ def _uncrush_png(data: bytes) -> bytes:
 
     iOS apps often ship "crushed" PNGs that have their red and blue colour
     channels swapped and use raw deflate instead of zlib-wrapped deflate.
-    This function reverses both transforms so the result is a valid PNG
-    that any image viewer can open.
     """
     if data[:8] != b"\x89PNG\r\n\x1a\n":
         return data
@@ -457,7 +424,6 @@ def _uncrush_png(data: bytes) -> bytes:
     bit_depth = ihdr[8]
     color_type = ihdr[9]
 
-    # Bytes per pixel (PNG spec: ceil(bits_per_pixel / 8), min 1).
     samples_per_pixel = {0: 1, 2: 3, 3: 1, 4: 2, 6: 4}.get(color_type, 1)
     bits_per_pixel = samples_per_pixel * bit_depth
     bpp = max(1, (bits_per_pixel + 7) // 8)
@@ -470,8 +436,8 @@ def _uncrush_png(data: bytes) -> bytes:
     except zlib.error:
         return data
 
-    # The row length is the real pixel bytes per row.  For an indexed or
-    # grey image under 8 bits deep, that is not width * bpp.
+    # For an indexed or grey image under 8 bits deep, the row length is
+    # not width * bpp.
     stride = (width * bits_per_pixel + 7) // 8 + 1
     prev_row: Optional[bytearray] = None
     rows: list[bytearray] = []
@@ -504,8 +470,6 @@ def _uncrush_png(data: bytes) -> bytes:
                 pr = left if pa <= pb and pa <= pc else up if pb <= pc else up_left
                 row[i] = (row[i] + pr) & 0xFF
 
-        # Swap R ↔ B for RGB / RGBA images (Apple stores as BGRA).  Only
-        # the 8-bit-per-channel case is a plain byte swap.
         if color_type in (2, 6) and bit_depth == 8:
             for p in range(0, len(row) - bpp + 1, bpp):
                 row[p], row[p + 2] = row[p + 2], row[p]
@@ -513,7 +477,6 @@ def _uncrush_png(data: bytes) -> bytes:
         rows.append(row)
         prev_row = row
 
-    # For indexed images, swap red and blue in the PLTE palette instead.
     if color_type == 3:
         for ctype, cdata in chunks:
             if ctype == b"PLTE":
@@ -553,20 +516,12 @@ def extract_icon(
     bundle_id: str,
     icons_dir: Path,
 ) -> Optional[str]:
-    """Extract the largest icon from the IPA, uncrush it if needed, and
-    save it to icons/.
-
-    Returns the output filename (e.g. 'com.example.app.png') on success,
-    or None if no suitable icon was found.
-    """
     if not icon_paths:
         print("    No icon candidates found")
         return None
 
     best = icon_paths[-1]
     ext = os.path.splitext(best)[1] or ".png"
-    # The bundle ID is an untrusted Info.plist field that reaches the file
-    # system here, so it goes through the shared file-name rule.
     output_name = f"{safe_stem(bundle_id)}{ext}"
     output_path = icons_dir / output_name
 

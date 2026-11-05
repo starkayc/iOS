@@ -1,7 +1,5 @@
 name: Pipeline
 
-# One run does the whole chain, in order:
-#   test > check releases > update AltStore source > pages build
 # Jobs, not separate workflows: a push made with GITHUB_TOKEN never
 # starts another workflow run, so chaining across files did not fire.
 
@@ -11,14 +9,11 @@ on:
       - main
   pull_request:
   schedule:
-    # Hourly at minute 23 (off-minute to avoid the :00/:30 stampede).
     - cron: "23 * * * *"
   workflow_dispatch:
 
-# Shared with upload-custom-ipa.yml: only one run may write repo.json,
-# current_releases.json and the ipa-assets release at a time.
 concurrency:
-  group: altstore-repo
+  group: altstore-source-write-lock
   cancel-in-progress: false
 
 jobs:
@@ -106,22 +101,21 @@ jobs:
         run: python scripts/update_source.py --github-token="$GH_TOKEN"
 
       - name: Sync IPA Assets release
+        id: sync
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPDATE_OUTCOME: ${{ steps.update.outcome }}
         run: |
-          # Deterministic sync: creates the release if needed, uploads
-          # every ipas/*.ipa (missing or size-changed), deletes stale
-          # .ipa assets (exact-name API matching — no shell word
-          # splitting, no gh fuzzy matching), and fails if the release
-          # doesn't match ipas/ afterwards.  When the update step failed,
-          # --no-delete keeps every asset it might still need.
-          python scripts/sync_release.py --token="$GH_TOKEN" \
-            ${{ steps.update.outcome != 'success' && '--no-delete' || '' }}
+          extra=""
+          if [ "$UPDATE_OUTCOME" != success ]; then extra=--no-delete; fi
+          python scripts/sync_release.py --token="$GH_TOKEN" $extra
 
+      # A failed upload must not publish the pointer: repo.json would name
+      # an asset that never landed and every client's update would 404.
       - name: Commit and push changes
         id: commit
-        if: always()
+        if: always() && steps.sync.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -145,7 +139,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pages: write
-    # A refused request must not mark the run red; the push deployed it.
     continue-on-error: true
 
     steps:

@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 """
-Release checker, workflow 1.
-
-Compares every sources.json app against current_releases.json. When a
-stable app's version tag changes, or a prerelease app's commit moves, this
-script writes current_releases.json. The workflow commits that file, and
-the next scheduled update-source run picks the change up.
-
-If nothing changed, nothing is written and the job exits cleanly.
+Release checker.
 
 Usage:
     python scripts/check_releases.py [--token TOKEN] [--dry-run]
@@ -22,12 +15,6 @@ import cli_common as cli
 
 
 def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
-    """Compare sources.json against current_releases.json.
-
-    Writes current_releases.json when anything changed, unless --dry-run
-    is set.  Always returns 0; the workflow decides whether to commit by
-    looking at the git diff.
-    """
     print("=" * 60)
     print("  Release Checker")
     print("=" * 60)
@@ -41,13 +28,14 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
     old_recorded = lib.load_current_releases()
     new_recorded: dict[str, dict] = {}
     changes: list[str] = []
+    unchecked = 0
 
     for e in entries:
         name = e["name"]
         release_type = e["release_type"]
 
         if e["info"] is None:
-            # An API error keeps the old value, so we don't lose track.
+            unchecked += 1
             if name in old_recorded:
                 new_recorded[name] = old_recorded[name]
                 print(f"  ⚠ {name}: could not check (API error)")
@@ -60,8 +48,6 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
 
         if e["changed"]:
             if e["recorded"] == e["latest"]:
-                # Same version, different variant: update_source re-fetches
-                # it, so this run only reports it.
                 pattern = e["source"].get("asset_pattern") or "default"
                 changes.append(f"  ↻ {name}: asset variant → {pattern}")
             else:
@@ -70,6 +56,10 @@ def run_check(token: Optional[str] = None, dry_run: bool = False) -> int:
                 )
         else:
             print(f"  ✓ {name}: {e['latest']}")
+
+    if entries and unchecked == len(entries):
+        print("\n✗ No app could be checked — see the errors above.\n")
+        return 1
 
     if not changes:
         print("\n✓ No version changes.\n")

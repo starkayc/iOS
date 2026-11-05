@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 """
 Shared library for the AltStore source pipeline.
-
-Every script imports this module as ``import altstore_lib as lib`` and
-reaches the constants through the module object, so a test can point the
-whole pipeline at a temp directory by patching ``lib``.
-
-Sections:
-  - Paths and source-level metadata
-  - File naming: canonical names, versioned IPA file names
-  - Config file I/O: sources.json, current_releases.json, custom meta
-  - GitHub HTTP: github_api, download_file, request_bytes, _auth
-  - Release checking: find_ipa_asset, latest_release_info,
-    check_for_updates
-
-The release-asset side, which finds, fetches and publishes the IPAs, lives
-in release.py.  Anything that opens an IPA lives in ipa.py.
 """
 
 import http.client
@@ -26,7 +11,7 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Optional
+from typing import BinaryIO, Optional, Union
 from urllib.parse import quote, unquote, urlsplit
 
 import cli_common as diag
@@ -35,6 +20,7 @@ import cli_common as diag
 REPO_ROOT = Path(__file__).resolve().parent.parent
 IPAS_DIR = REPO_ROOT / "ipas"
 ICONS_DIR = REPO_ROOT / "icons"
+PLACEHOLDER_ICON = "placeholder.png"
 REPO_JSON = REPO_ROOT / "repo.json"
 SOURCES_JSON = REPO_ROOT / "sources.json"
 CURRENT_RELEASES_JSON = REPO_ROOT / "current_releases.json"
@@ -119,8 +105,6 @@ def sanitize_version(version: str) -> str:
     pre-release suffix: "release-1.4.1" becomes "1.4.1",
     "nightly-20261104" becomes "20261104", "0.5.1-beta" becomes "0.5.1",
     "2.0.0-rc.2" becomes "2.0.0", and "1.0" stays as it is.
-    current_releases.json keeps the raw tag, so a move from beta to stable
-    still counts as a change.  File names use this sanitized form.
     """
     stripped = re.sub(
         r"^(?:release|nightly)[-_.]?", "", version, flags=re.IGNORECASE
@@ -150,16 +134,24 @@ def github_asset_name(name: str) -> str:
 
 
 def ipa_stem(name: str) -> str:
-    """The versioned file name's stem for a source app name."""
     return safe_stem(canonical_filename(name))
 
 
-# The marker in a versioned file name, one per release channel.
 CHANNEL_PREFIX = {"stable": "rel", "prerelease": "pre", "nightly": "nig"}
 
-# A nightly build names its channel in the tag (ARMSX2: "nightly-20261104"),
-# which is what separates it from a plain beta tag like Ksign's "beta".
 _NIGHTLY_TAG = re.compile(r"nightly", re.IGNORECASE)
+
+
+def _channel_for_build(
+    release_type: Optional[str], commit: Optional[str], version: Optional[str]
+) -> str:
+    if release_type in CHANNEL_PREFIX:
+        return str(release_type)
+    if commit:
+        return "prerelease"
+    if _NIGHTLY_TAG.search(version or ""):
+        return "nightly"
+    return "stable"
 
 
 def ipa_filename(
@@ -182,14 +174,7 @@ def ipa_filename(
                  → "ARMSX2.nig-20261104.ipa"
     """
     stem = ipa_stem(name)
-    # "any" is a selection rule, not a channel, so it falls through to the
-    # build itself: a commit only exists for a prerelease, and a nightly
-    # names its channel in the tag whatever the source tracks.
-    channel = release_type if release_type in CHANNEL_PREFIX else (
-        "prerelease" if commit
-        else "nightly" if _NIGHTLY_TAG.search(version or "")
-        else "stable"
-    )
+    channel = _channel_for_build(release_type, commit, version)
     prefix = CHANNEL_PREFIX[channel]
     if commit:
         return f"{stem}.{prefix}-{commit[:7]}.ipa"
@@ -271,7 +256,6 @@ def altstore_category(plist_value: str) -> str:
 
 
 def canonicalize_ipa_files(ipas_dir: Path) -> None:
-    """Rename any .ipa in the folder, swapping spaces for dashes."""
     for p in sorted(ipas_dir.glob("*.ipa")):
         canonical = canonical_filename(p.name)
         if canonical == p.name:
@@ -285,7 +269,6 @@ def canonicalize_ipa_files(ipas_dir: Path) -> None:
 
 
 def _load_json(path: Path, default):
-    """Parse a JSON state file, returning ``default`` when it is missing."""
     if not path.exists():
         return default
     with open(path, encoding="utf-8") as f:
@@ -293,22 +276,14 @@ def _load_json(path: Path, default):
 
 
 def load_sources() -> list[dict]:
-    """Return the sources.json source entries ([] if missing)."""
     return _load_json(SOURCES_JSON, {}).get("sources", [])
 
 
 def load_current_releases() -> dict:
-    """Return current_releases.json ({} if missing)."""
     return _load_json(CURRENT_RELEASES_JSON, {})
 
 
 def write_json(path: Path, data) -> None:
-    """Write a JSON state file atomically.
-
-    The data goes to ``<path>.part`` and is renamed into place, so a crash,
-    a kill or a timeout mid-write leaves the previous file intact.  The
-    workflows commit these files, including on a failed run.
-    """
     tmp = Path(str(path) + ".part")
     try:
         with open(tmp, "w", encoding="utf-8") as f:
@@ -323,17 +298,11 @@ def write_json(path: Path, data) -> None:
 
 
 def save_current_releases(data: dict) -> None:
-    """Write current_releases.json."""
     write_json(CURRENT_RELEASES_JSON, data)
 
 
 def load_custom_meta() -> dict:
-    """Return the custom-IPA sidecar {filename: {description, subtitle}}.
-
-    The sidecar lives at ipas/.custom_meta.json and is written by
-    add_custom_ipa.py.  The path resolves at call time, so a test can point
-    IPAS_DIR at a temp directory.
-    """
+    """Return the custom-IPA sidecar {filename: {description, subtitle}}."""
     return _load_json(IPAS_DIR / ".custom_meta.json", {})
 
 
@@ -342,13 +311,7 @@ UPLOADS_BASE = "https://uploads.github.com"
 
 
 class GitHubError(RuntimeError):
-    """A failed GitHub request, with the HTTP status and response body.
-
-    ``status`` holds the HTTP status code, or None for a network-level
-    error, and ``body`` holds the response body, cut to 500 characters.
-    GitHub puts the real reason in that body, so the error message keeps
-    it.
-    """
+    """A failed GitHub request, with the HTTP status and response body."""
 
     def __init__(self, message: str, status: Optional[int] = None,
                  body: str = ""):
@@ -358,7 +321,6 @@ class GitHubError(RuntimeError):
 
 
 def _content_length(resp) -> Optional[int]:
-    """The response's Content-Length as an int, or None if absent/unusable."""
     try:
         return int(resp.headers.get("Content-Length"))
     except (AttributeError, TypeError, ValueError):
@@ -366,7 +328,6 @@ def _content_length(resp) -> Optional[int]:
 
 
 def _stream_to(resp, dest: Path) -> int:
-    """Write a response body to ``dest``; return how many bytes arrived."""
     written = 0
     with open(dest, "wb") as f:
         while True:
@@ -379,11 +340,10 @@ def _stream_to(resp, dest: Path) -> int:
 
 
 class _Retryable(Exception):
-    """The op wants the same request tried again (a body that came up short)."""
+    pass
 
 
 def _http_error(url: str, e: urllib.error.HTTPError) -> GitHubError:
-    """A GitHubError built from an HTTPError, with GitHub's reason attached."""
     body = ""
     try:
         body = e.read().decode("utf-8", "replace").strip()
@@ -397,21 +357,11 @@ def _http_error(url: str, e: urllib.error.HTTPError) -> GitHubError:
 
 
 def _retry(op, url: str, retries: int = 3):
-    """Run ``op()`` until it returns, retrying only transient failures.
-
-    A client error (4xx) is raised at once with GitHub's response body
-    attached, because retrying it wastes time and hides the real message.
-    A server error (5xx), a network or timeout error, an incomplete body
-    (``http.client.HTTPException``, meaning a response that ends before its
-    Content-Length) and a ``_Retryable`` raised by the op are all retried
-    with a linear backoff.
-    """
     last_err: Optional[GitHubError] = None
     for attempt in range(1, retries + 1):
         try:
             return op()
         except urllib.error.HTTPError as e:
-            # HTTPError is a subclass of URLError, so handle it first.
             err = _http_error(url, e)
             if 400 <= e.code < 500:
                 raise err
@@ -434,15 +384,17 @@ def _retry(op, url: str, retries: int = 3):
 def request_bytes(
     url: str,
     headers: dict,
-    data: Optional[bytes] = None,
+    data: Optional[Union[bytes, BinaryIO]] = None,
     method: Optional[str] = None,
     timeout: int = 30,
 ) -> Optional[bytes]:
-    """Send a request and return its body (retries transient failures)."""
-
     def op() -> bytes:
+        body = data
+        if hasattr(body, "seek"):
+            headers["Content-Length"] = str(body.seek(0, 2))
+            body.seek(0)
         req = urllib.request.Request(
-            url, data=data, headers=headers, method=method
+            url, data=body, headers=headers, method=method
         )
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             return resp.read()
@@ -466,7 +418,6 @@ def _auth(token: Optional[str], url: str) -> dict:
 
 
 def _is_github_host(url: str) -> bool:
-    """Whether ``url`` points at GitHub (asset download hosts included)."""
     host = urlsplit(url).hostname or ""
     return host == "github.com" or host.endswith(
         (".github.com", ".githubusercontent.com")
@@ -490,13 +441,10 @@ class _SafeRedirect(urllib.request.HTTPRedirectHandler):
         return new_req
 
 
-# urlopen() goes through the module-level opener, so installing ours here
-# is what makes the rule above apply to every request in the process.
 urllib.request.install_opener(urllib.request.build_opener(_SafeRedirect))
 
 
 def github_api(url: str, token: Optional[str] = None):
-    """Call the GitHub API and return parsed JSON (retries transient errors)."""
     headers = {
         "Accept": "application/vnd.github+json",
         "User-Agent": "altstore-source-generator",
@@ -574,6 +522,10 @@ def asset_matches_pattern(filename: str, pattern: str) -> bool:
     )
 
 
+def _asset_rank(asset: dict) -> tuple[int, int]:
+    return len(_name_segments(asset["name"])), len(asset["name"])
+
+
 def find_ipa_asset(
     release: dict, pattern: Optional[str] = None
 ) -> Optional[dict]:
@@ -584,9 +536,6 @@ def find_ipa_asset(
     Pass ``pattern`` to match a specific variant instead (e.g.
     pattern="GLASS" matches *-GLASS.ipa but not *-GLASSICONS.ipa, and
     "sideloaded-Twitter" does not match *-sideloaded-X*).
-
-    None means the release carries no .ipa at all; the caller may still
-    find a .ipa.zip.
     """
     ipa_assets = [
         a for a in release.get("assets", [])
@@ -596,16 +545,12 @@ def find_ipa_asset(
         return None
 
     if pattern:
-        # Rank by how many segments the name has beyond the pattern, so
-        # "App-GLASS.ipa" beats "App-GLASS-NOEXTENSIONS.ipa".
         matching = [
             a for a in ipa_assets
             if asset_matches_pattern(a["name"], pattern)
         ]
         if matching:
-            matching.sort(
-                key=lambda a: (len(_name_segments(a["name"])), len(a["name"]))
-            )
+            matching.sort(key=_asset_rank)
             return matching[0]
 
         diag.warn(f"No IPA with segment '{pattern}', falling back to default")
@@ -615,7 +560,6 @@ def find_ipa_asset(
 
 
 def has_installable_asset(release: dict) -> bool:
-    """Whether a release carries an .ipa or a zipped .ipa."""
     return any(
         a["name"].lower().endswith((".ipa", ".ipa.zip"))
         for a in release.get("assets", [])
@@ -623,12 +567,19 @@ def has_installable_asset(release: dict) -> bool:
 
 
 def version_from_tag(tag: str) -> str:
-    """A release tag as a version string, minus its "v" prefix.
-
-    Only a leading "v" followed by a digit is dropped, so "version-2.0"
-    keeps its name (str.lstrip("v") would eat into it).
-    """
+    """A release tag as a version string, minus its "v" prefix."""
     return re.sub(r"^v(?=\d)", "", tag)
+
+
+def _release_pages(repo: str, token: Optional[str]):
+    page = 1
+    while True:
+        url = f"{API_BASE}/repos/{repo}/releases?per_page=100&page={page}"
+        releases = github_api(url, token) or []
+        yield from releases
+        if len(releases) < 100:
+            return
+        page += 1
 
 
 def latest_release_info(
@@ -648,23 +599,27 @@ def latest_release_info(
     without a leading "v", or "commit" for a prerelease, which is the
     first 7 characters of the sha of the tag.  A tag like "beta" moves and
     a sha does not, so prereleases track the sha.
-    """
-    releases = github_api(
-        f"{API_BASE}/repos/{repo}/releases?per_page=100", token
-    )
-    if release_type == "nightly":
-        candidates = [
-            r for r in releases
-            if _NIGHTLY_TAG.search(r.get("tag_name", ""))
-        ]
-    elif release_type == "prerelease":
-        candidates = [r for r in releases if r.get("prerelease")]
-    elif release_type == "any":
-        candidates = list(releases)
-    else:
-        candidates = [r for r in releases if not r.get("prerelease")]
 
-    target = next((r for r in candidates if has_installable_asset(r)), None)
+    A repo with more than 100 releases that mostly carry no IPA pushes the
+    last installable one off page one, so the walk goes page by page.
+    """
+
+    def wanted(r: dict) -> bool:
+        if release_type == "nightly":
+            return bool(_NIGHTLY_TAG.search(r.get("tag_name", "")))
+        if release_type == "prerelease":
+            return bool(r.get("prerelease"))
+        if release_type == "any":
+            return True
+        return not r.get("prerelease")
+
+    target = next(
+        (
+            r for r in _release_pages(repo, token)
+            if wanted(r) and has_installable_asset(r)
+        ),
+        None,
+    )
     if not target:
         return None
 
@@ -766,10 +721,6 @@ def check_for_updates(token: Optional[str] = None) -> dict:
                 name, version=info["version"], release_type=release_type
             )
 
-        # A recorded pattern makes a variant switch a change, so the new
-        # build is fetched instead of the old one staying under the same
-        # version number.  A record without the key predates the field, so
-        # it counts as a mismatch and gets re-fetched once.
         entry["changed"] = (
             entry["recorded"] != entry["latest"]
             or old.get("asset_pattern", "") != source.get("asset_pattern", "")
@@ -841,14 +792,7 @@ def repo_json_asset_names() -> set[str]:
 def repo_json_references(
     filename: str, asset_names: Optional[set[str]] = None
 ) -> bool:
-    """Whether any downloadURL in repo.json points at this asset name.
-
-    Names are compared with GitHub's sanitization applied, so a URL that
-    references "Feather(rel-2.9.0).ipa" still counts as a reference to the
-    stored asset "Feather.rel-2.9.0.ipa".  Pass ``asset_names`` from
-    repo_json_asset_names when checking many apps, so repo.json is read
-    once for the whole run instead of once per app.
-    """
+    """Whether any downloadURL in repo.json points at this asset name."""
     if asset_names is None:
         asset_names = repo_json_asset_names()
     san = github_asset_name(filename)
@@ -856,7 +800,6 @@ def repo_json_references(
 
 
 def get_token(flag: Optional[str]) -> Optional[str]:
-    """Resolve a GitHub token from a flag, the environment, or a file."""
     token = flag or os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     if token:
         return token
