@@ -8,6 +8,562 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2 Nightly",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.rel-nightly-20261104.ipa",
+          "size": 40568716,
+          "version": "2.6.0-nightly.20261104.1113",
+          "buildVersion": "260",
+          "date": "2026-11-04T11:52:04Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• Android: graphics problem reports take a savestate by default\n• Android: problem reports scrub the app's own /data paths\n• Android: problem report takes the save state first and stops the game when the dump's frames are recorded\n• GS dump: say where a requested dump is, so the caller can act when its frames are recorded\n• Android: a crash report says which driver the crashed run actually opened\n• Android: problem reports fill in the game's CRC\n• Android: problem reports name the build's commit without the driver report\n• Android: a crash report that fails to build keeps its Not sent line\n• Android: crash startup work runs once per process\n• Android: problem report screens go back a step, ask before deleting, and keep their work off the main thread\n• Android: problem report capture takes the save state after the dump, refreshes the logs, and can be given up on\n• Android: report uploads retry for real, wait for Wi-Fi, can be stopped and no longer trust the clock\n• Android: ask about a crash only when one happened in front of the user\n• Android: problem reports no longer carry the RetroAchievements user, network addresses or file:// paths\n• Android: \"Report a problem\" flow, My reports, and their entry points\n• Android: collect, arm the crash marker, and upload problem reports\n• Android: problem report core, with unit tests\n• Android: JNI calls for the problem report\n• tests: pass the cold-stub test's asm one pointer instead of eight operands\n• SPU2: V_Core::ReadInput returns silence for core 0 in bypass mode\n• IopLagControl.h: include <cstddef> and spell std::size_t\n• Android: the IOP thread starts on where the performance tier is two or three cores\n• Linux: no ordered thread pin when the performance tier cannot hold EE, GS and VU1\n• IOP thread: on by default where the performance tier is two or three cores (Qt and SDL)\n• IOP thread: the GS split counts the IOP thread only where it will run\n• GameDB: IOP thread for the two Korean Shadow of the Colossus releases\n• IOP thread: say in the settings text when it is on, and that the game database turns it on\n• Android: move the stored lag of 24576 to one frame once\n• IOP thread: move a saved lag of 24576 to one frame once (Qt and SDL)\n• IOP thread: Threaded needs a performance tier of at least two cores\n• IOP thread: Threaded on a host whose performance tier is narrower than the threads\n• IOP thread: keep an unpinned IOP thread off the performance tier when the tier is too narrow\n• IOP thread: the lag bound setting defaults to one frame\n• IOP thread: add the SPU2 auto-DMA stream rule to the default set\n• IOP thread: default to one rule, idle with a request out; tests for the lag rules\n• IOP thread: lag rules that tighten a large lag bound while the EE waits on the IOP…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "2.6.0-nightly.20261104.1113",
+      "versionDate": "2026-11-04T11:52:04Z",
+      "size": 40568716,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.rel-nightly-20261104.ipa"
+    },
+    {
+      "name": "AirCard-iOS",
+      "bundleIdentifier": "com.mak5er.aircard",
+      "developerName": "Mak5er",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.mak5er.aircard.png",
+      "localizedDescription": "Apple Wallet card skins and lock screen passcode themes on iOS 27.",
+      "subtitle": "Apple Wallet card skins and lock screen passcode themes on…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/AirCard.rel-1.3.2.ipa",
+          "size": 4638147,
+          "version": "1.3.2",
+          "buildVersion": "1.3.2",
+          "date": "2026-10-04T12:22:53Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "What's Changed in v1.3.2 🚀\n\nThis update brings full feature parity with AirCard macOS v1.2.6, restores robust card discovery across all iOS versions, introduces automatic bank/network recognition with custom card nicknames, delivers an ultra-fast tunnel cache (0.02s connections), and completely resolves wallpaper flashing for Collections and Mercury wallpapers.\n\n💳 Wallet Card Discovery & Bank Identification\n• Universal Wallet Log Parser: Ported the proven WalletScanParser from AirCard macOS. Captures cards from Dashboard loading (...): for SOO+, passIDs[InSession], passIDs[global], and modern JSON NFC activations (\"identifier\": \"HEX\").\n• Automatic Bank & Network Detection: Recognizes Visa, Mastercard, American Express, UnionPay, Discover, and JCB via applet AIDs during selection.\n• Card Nicknames (Rename): Added a direct Rename button (✏️) so you can give your cards friendly names like \"Monobank\", \"Salary Card\", or \"Revolut\", safely persisted in app settings.\n• 28-Character Fallback Token Matcher: Restores dependable card discovery on devices where standard log patterns are redacted.\n\n⚡ Ultra-Fast Tunnel Routing (from 10s to 0.02s!)\n• Working Route Caching: rust-core now caches the active RSD connection route (LAST_WORKING_ROUTE), eliminating repeated port and interface scanning.\n• RSD-First Priority: Connects directly via RemoteXPC on port 49152, bypassing slow Lockdown retries and broken pipes on iOS 18+.\n• Eliminated Loopback Policy Drops: Removed local loopback attempts that caused policy drop control channel errors.\n\n🖼 Wallpapers (.tendies) — Collections & Mercury Fixes\n• Dual Injection on iOS 18+: Wallpapers are now injected into both their primary bundle (com.apple.WallpaperKit.CollectionsPoster or com.apple.MercuryPoster) and the modern iOS 18+ application container (com.apple.Posters.CollectionsPosterApp / com.apple.Posters.MercuryPosterApp).\n• Metadata Synchronization: Fixed a critical issue where Wallpaper.plist's numeric identifier was randomized out-of-sync with suggestionMetadata.plist (7400.DYNAMIC), causing wallpapers like Windows 11 to vanish from the Lock Screen gallery.\n• Mercury Wallpaper Support: Added recognition for mercury-descriptors container folders and registered com.apple.Posters.MercuryPosterApp in PersistedPosterContainerBundleIdentifiers.\n• NeoSpring Respring: Instant springboard reload to apply wallpaper preferences immediately.\n\n🧪 Quality & Testing\n• All 24 unit tests passing (TendiesEngineTests, WalletScanParserTests, CardPhotoCropTests, CardPhotoPickerTests).\n\nFull Changelog: https://github.com/Mak5er/AirCard-iOS/compare/v1.3.1...v1.3.2"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "AirCard-iOS advertises an on-device pairing service so this iPhone can pair with itself, and connects to the local lockdown daemon to run the exploit.",
+          "NSPhotoLibraryUsageDescription": "AirCard-iOS needs photo access to apply custom card skins and passcode themes."
+        }
+      },
+      "version": "1.3.2",
+      "versionDate": "2026-10-04T12:22:53Z",
+      "size": 4638147,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/AirCard.rel-1.3.2.ipa"
+    },
+    {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.630.ipa",
+          "size": 185317150,
+          "version": "0.1.630",
+          "buildVersion": "630",
+          "date": "2026-11-04T09:45:25Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nThis build brings everything since 0.1.626: a large round of fixes from the logs you sent with Send Log and from Discord reports, a look of your own for touch controls, and the fix for Rockstar's new launcher.\n\nRockstar Games Launcher update (3 November): Rockstar's new launcher (1.0.110) needs a Windows file BCD gives only on request (tbs.dll), so Red Dead Redemption 2, GTA V and the other Rockstar games stopped with \"Unable to launch game, please try reinstalling the game\". Their recommended settings now include it, also in the online list that 0.1.600 and later builds read. If your game still shows the box, use Reset to Recommended on its page (see below), or add env.MADEIRA_OPTIN_DLLS = tbs to its config.\n\nNew\n\n• Your own look for touch controls: in the touch editor, a selected control has a Look tab (the paintbrush). Pick its shape (Standard, Circle, Square, or Rectangle with a width-to-height slider) and give it your own text, for example \"INV\" on an inventory key; the text is drawn as large as it fits inside the control. The look is saved with the layout and travels in shared layouts; a control without one looks as before.\n• Helper memory takes more: with Helper memory on, BCD now keeps taking memory from the helper while the device has room (it no longer stops at BCD's own memory warning), counts free and reusable pages, and can be used without the swap file. env.MADEIRA_POOL_MORE = 0 in a game's config brings back the previous behaviour. Thanks to rtmtree for these changes.\n• Atomic operations on shared code memory: games stopped when they used certain atomic instructions (lock-free counters and compare-and-swap) on memory BCD keeps writable through a second mapping; the log said [store-undecoded]. BCD now carries them out (in the last days: Jetboard Joust, ReSkate, Tomb Raider, CrossCode, BeamNG.drive, GTA IV, S.T.A.L.K.E.R., Minecraft Java Edition, GeoGuessr, Cuphead and others).\n• Long sessions with many threads: BCD's tables of threads (512 entries) and their entry slots (1,024) were never given back, so a session that started thousands of threads failed with a crash or a frozen game (Fallout: New Vegas after a long play, Messiah, NARUTO SHIPPUDEN: Ultimate Ninja STORM 3, FINAL FANTASY VII's launcher). The places of threads that ended are now reused; sessions with fewer threads run exactly as before.\n\nMessages and hints\n\nText only; none of these changes a setting.\n\n• JIT: when StikDebug was attached long before Play and no longer answered, the message says so: quit BCD, open it, tap Enable JIT and start the game within half a minute. A copy of BCD that cannot get JIT at all (no get-task-allow) is told at the first library screen.\n• Phones with a 2.3 GB memory limit: a large game's page shows the memory note and the graphics hint.\n• BCD Dock: clearer texts when Steam starts no copy-protection job for a game, when Steam's offline start cannot find the game's folder, and when Steam still counts your account as playing elsewhere.\n• Settings: a game's Windows version option says that newer games refuse XP and Vista (GTA V stops); the helper memory test says it cannot run inside LiveContainer; the in-game menu's pointer and controller notes point to Mouse-look and to XInput.\n• Steam Cloud: offline, on a device where no Steam game was started online yet, the cloud message adds that Steam may refuse the start: start it once online.\n• Auto-tune results no longer pop up while a game is running, and a result that only repeats what the running game already has is not shown.\n\nFixes and improvements…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.630",
+      "versionDate": "2026-11-04T09:45:25Z",
+      "size": 185317150,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.630.ipa"
+    },
+    {
+      "name": "Doer",
+      "bundleIdentifier": "com.naine.doer",
+      "developerName": "moliango",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.naine.doer.png",
+      "localizedDescription": "",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.6.ipa",
+          "size": 28095758,
+          "version": "1.8.6",
+          "buildVersion": "43",
+          "date": "2026-10-10T08:03:04Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.5.3...v1.8.6"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSCameraUsageDescription": "用于在站内聊天中拍照并发送图片",
+          "NSMicrophoneUsageDescription": "用于在回复中录制语音消息",
+          "NSPhotoLibraryAddUsageDescription": "用于保存话题分享图片到相册",
+          "NSSpeechRecognitionUsageDescription": "用于将按住说话的录音转成中文文字"
+        }
+      },
+      "version": "1.8.6",
+      "versionDate": "2026-10-10T08:03:04Z",
+      "size": 28095758,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.6.ipa"
+    },
+    {
+      "name": "DukeX",
+      "bundleIdentifier": "com.mafty.dukex",
+      "developerName": "MaftyManicEMU",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.mafty.dukex.png",
+      "localizedDescription": "Xbox Emulation on iOS",
+      "subtitle": "Xbox Emulation on iOS",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/DukeX.rel-1.0.2.ipa",
+          "size": 20345841,
+          "version": "1.0.2",
+          "buildVersion": "102",
+          "date": "2026-06-30T12:21:27Z",
+          "minOSVersion": "16.0",
+          "localizedDescription": "DukeX v1.0.2 - Expanding the Xbox Experience\n\nDukeX v1.0.2 is our biggest step yet toward preserving the full original Xbox\nexperience, not just the games. This release introduces the first native macOS\nbuild, expands XB.Live integration, and brings richer community features to both\niOS and macOS.\n\nWhat's New\n\n• Native macOS release: DukeX is now available as a Mac Catalyst desktop build\npackaged with a nested Xemu fork, pairing desktop Xemu compatibility with the\nDukeX interface.\n• XB.Live Rich Presence and playtime tracking: friends can see what you are\nplaying while DukeX tracks supported playtime sessions.\n• XB.Live messaging: threaded conversations, friend messaging, unread\nindicators, supported game invites, and existing Xbox inbox support now live\ninside DukeX.\n• XB.Live social expansion: friend requests, friend management, online presence,\nand deeper community integration are available from the Profile experience.\n• Activity Feed: XB.Live news, friend online status, friend achievement unlocks,\nand community updates now appear in a continuously refreshed timeline.\n• Controller Landscape Mode: on iOS, compatible controllers can switch DukeX\ninto a controller-first browsing and launch experience.\n• Expanded AirPlay and external display support: big-screen play is more\nreliable across supported display configurations.\n\nImprovements\n\n• Improved achievements with Games, Apps, and Cores grouping plus updated\nartwork handling for XB.Live Core, DukeX Core, and special test titles.\n• Improved game tile spacing and cover handling across iOS and macOS.\n• Improved XB.Live cloud-save sync metadata with console identity v2,\ncontent-hash dedupe, and server-assisted cross-console restore handling.\n• Fixed achievement progress rounding so time-based achievements do not show\n100% before they are actually complete.\n\nAvailability\n\n• iOS: install DukeX.v1.0.2.ipa through StikStore, SideStore, or another\nsupported sideloading workflow.\n• macOS: install DukeX.macOS.v1.0.2.dmg by dragging DukeX to Applications.\n• Hardware requirements on iOS remain Apple A14 Bionic or Apple M1 hardware or\nnewer.\n• iOS 16.0 or later is supported, with iOS 16 support remaining experimental.\n\nImportant\n\nDukeX does not include Xbox system files, game images, BIOS files, copyrighted\ncontent, signing certificates, or user games. Users must provide their own\nlegally obtained files. DukeX is intended for legitimate emulation,\npreservation, testing, and personal library use."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSMicrophoneUsageDescription": "DukeX can use the microphone to test Xbox Live Communicator support.",
+          "NSMotionUsageDescription": "DukeX can use device tilt to subtly move animated theme backgrounds.",
+          "NSCameraUsageDescription": "DukeX can use the front camera to test Xbox Video Chat camera peripheral emulation.",
+          "NSBluetoothPeripheralUsageDescription": "DukeX uses Bluetooth to read connected game controller battery information.",
+          "NSBluetoothAlwaysUsageDescription": "DukeX uses Bluetooth to read connected game controller battery information."
+        }
+      },
+      "version": "1.0.2",
+      "versionDate": "2026-06-30T12:21:27Z",
+      "size": 20345841,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/DukeX.rel-1.0.2.ipa"
+    },
+    {
+      "name": "Fathom",
+      "bundleIdentifier": "app.fathom.emulator",
+      "developerName": "Leviidev",
+      "iconURL": "https://starkayc.github.io/iOS/icons/app.fathom.emulator.png",
+      "localizedDescription": "PC Emulator for iOS",
+      "subtitle": "PC Emulator for iOS",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Fathom.rel-1.0.0.ipa",
+          "size": 1175175,
+          "version": "1.0.0",
+          "buildVersion": "1",
+          "date": "2026-09-14T23:13:23Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "An x86-64 PC emulator for iOS, running guest code on FEXCore.\n\n2048 and tic tac toe both run. Add them from the Library tab and play with the on-screen arrow keys.\n\nDownloads\n• Fathom.ipa - the app, unsigned, for sideloading. Needs StikDebug attached for JIT.\n• tictactoe - arrows move, Enter places, against a minimax bot that cannot be beaten.\n• play2048 - arrows slide the board.\n\nCopy the two game binaries into Fathom's Programs folder, or import them from the Library tab."
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.0.0",
+      "versionDate": "2026-09-14T23:13:23Z",
+      "size": 1175175,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Fathom.rel-1.0.0.ipa"
+    },
+    {
+      "name": "Husk",
+      "bundleIdentifier": "com.husk.app",
+      "developerName": "Leviidev",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.husk.app.png",
+      "localizedDescription": "Run Android on iOS. Natively or Emulated.",
+      "subtitle": "Run Android on iOS. Natively or Emulated",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Husk.rel-3.4.ipa",
+          "size": 142303569,
+          "version": "3.4",
+          "buildVersion": "149",
+          "date": "2026-11-05T03:33:53Z",
+          "minOSVersion": "15.5",
+          "localizedDescription": "What's new?\n\n3.4 is a compatibility release. About 97% of the 472 F-Droid apps we test now run, up from 85%. On the 169 Play Store apps we test, about 90% run, not counting apps with anti-tamper or fraud protection, which Husk doesn't try to bypass. All of these numbers are from testing on a Mac.\n\nMore Android apps\n• Microsoft Word opens (Excel and PowerPoint share its libraries)\n• Slack, Gmail, Teams, Deezer, Flipboard and Picsart get past the crashes that stopped them\n• More engines and frameworks start: React Native's new architecture, Qt 6 / QML, and apps using JavaScriptCore\n• libGDX and other OpenGL apps draw again (3.3 broke these)\n• Apps that keep secrets in Android's secure key store work better\n• Apps with big bundled databases open\n• UPnP and network discovery apps can start\n• Apps that declare their launch screen in a split APK can start\n\nLooks better\n• Rounded buttons are proper pills instead of ellipses\n• Toolbars, window backgrounds and more color formats behave like they do on a phone\n\nLess \"out of memory\"\n• Fewer OutOfMemoryError: pthread_create crashes on installs without extended address space\n• Unity games use less address space on sideloaded installs, and keep their frame rate up\n• New in Settings -> Performance: see whether Increased Memory Limit and Extended Address Space are on for your install\n\nAlso\n• Japanese, thanks to @Yuki-1018\n• Fixed Husk crashing when importing a .p12, or at launch with one saved on iOS 27 (#220)\n• The Remove and Uninstall dialogs open next to their buttons on iPad (#218)\n• Winlator's Settings page no longer crashes\n• Husk builds with Xcode 27 and the iOS 27 SDK\n\nKnown Issues\n• Without JIT, Minecraft, some Flutter apps and some LÖVE games can fail. Use StikJIT for those for now\n• Browsers (Firefox, Brave, Opera) don't run yet because they need separate helper processes\n• Husk's Java runtime still has no garbage collector, so big apps can run out of memory in long sessions (#191)\n• Touch doesn't work yet in Godot 3 games (#200)\n• Apps with anti-tamper still won't run, and neither will apps that need Google Play services or a Google account\n• Winlator containers don't run\n• Full Android is still slow. Use the translation layer for games\n\nThanks\nThanks to @BartolomeoRusso9, @Dey410 and @Yuki-1018 for their pull requests, and to everyone who sent logs. Crash reports are what made this release possible ❤️\n\nLinks\n• Website: https://itslevii.dev"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "dynamic-codesigning",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Husk uses the local network to pair with this iPhone for JIT, without a computer."
+        }
+      },
+      "version": "3.4",
+      "versionDate": "2026-11-05T03:33:53Z",
+      "size": 142303569,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Husk.rel-3.4.ipa"
+    },
+    {
+      "name": "LSX4",
+      "bundleIdentifier": "com.llayerlinux.LSX4RuntimeProbe",
+      "developerName": "lpfoj",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.llayerlinux.LSX4RuntimeProbe.png",
+      "localizedDescription": "The first working open-source PlayStation 4/5 emulator for Android & iOS",
+      "subtitle": "The first working open-source PlayStation 4/5 emulator for…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/LSX4.rel-ios-jit-128.9775.ipa",
+          "size": 76905447,
+          "version": "128.9775",
+          "buildVersion": "128.9775",
+          "date": "2026-11-02T21:44:50Z",
+          "minOSVersion": "12.0",
+          "localizedDescription": "Download IPA · IPA + English instructions\n\n• Optimizations for Bloodborne and The Last of Us.\n• Added FSR upscaling.\n• Other minor improvements.\n\nInstallation guide\n\niOS 26+ · JIT. Update using the same Apple Account and bundle ID. Keep Remove App Extensions OFF in Sideloadly."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Локальное соединение на iPhone для подготовки JIT через LocalDevVPN."
+        }
+      },
+      "version": "128.9775",
+      "versionDate": "2026-11-02T21:44:50Z",
+      "size": 76905447,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/LSX4.rel-ios-jit-128.9775.ipa"
+    },
+    {
+      "name": "Mangayomi",
+      "bundleIdentifier": "com.kodjodevf.mangayomi",
+      "developerName": "kodjodevf",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.kodjodevf.mangayomi.png",
+      "localizedDescription": "Free and open source application for reading manga, novels, and watching animes available on Android, iOS, macOS, Linux and Windows",
+      "subtitle": "Free and open source application for reading manga, novels…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.95.ipa",
+          "size": 115450399,
+          "version": "0.9.95",
+          "buildVersion": "128",
+          "date": "2026-11-01T15:17:25Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "Why 0.9.95 and not 1.0.0?\n\nThis release has almost everything planned for 1.0.0: a new design, a rebuilt player and hundreds of fixes. But so much has changed that it needs testing on more devices and libraries than we can cover ourselves.\n\nSo 0.9.95 is the last step before 1.0.0. The goal now is stability, not new features. If something breaks or looks wrong, please open an issue with your device and app version. 1.0.0 will come once this version has proven solid.\n\nHighlights\n\n• Shiori, a new design for the whole app: every screen has been redrawn on one design system, with new navigation, transitions and an ergonomic pass throughout (#1077).\n• A rebuilt video player: new controls on phone, desktop and TV, plus video filters, audio delay, and volume, brightness and fit kept between episodes.\n• A tracker with no account: follow your status, progress, score and dates on the device alone (#1121).\n• Work that keeps going on Android: downloads, library updates, restores and syncs continue in the background, under one notification (#1092).\n• More control over downloads and updates: download ahead while reading, download new chapters automatically, and choose which series a library update skips (#1091).\n\nBefore updating: this is a large release that also touches how your library is stored, so make a backup first (More > Backup and restore).\n\nReader\n\n• Zoom with Ctrl (⌘ on macOS) and the mouse wheel; the wheel alone moves a zoomed page.\n• With \"Navigate to pan\" on, tall pages are read row by row before the page turns.\n• Split tall images into slices in webtoon mode.\n• Choose which chapters next and previous skip: read, filtered or duplicate.\n• Rebind the reader's keyboard shortcuts.\n• Separate icons for crop borders on and off.\n• Pages and zooms follow your finger more closely, and the webtoon strip glides after a fling.\n• Decoded images now have a memory limit, so long chapters no longer keep growing in memory.\n• Fixed: lost decoded pages for the next chapter when closing the reader, and chapter list rows with a scanlator failing to lay out.\n\nVideo player\n\n• New controls on phone, desktop and TV, with episodes reachable from the top bar and lock and skip under the timeline on mobile.\n• Video filters: brightness, contrast, saturation, gamma and hue, kept for the next episodes. Gamma is hidden where the video output cannot apply it.\n• Audio delay: from -5 to +5 seconds.\n• Remember volume and brightness between episodes, and keep the fit from one episode to the next.\n• New \"Turn subtitles on\" switch, so episodes can start without subtitles.\n• \"Use my subtitle style\" now really gives the default style back when turned off.\n• VAAPI and VDPAU hardware decoding on Linux.\n• Rebind the player's keyboard shortcuts.\n• Fixed: a freeze in the player's event handling, crashes when chapter marks change, previous and next buttons on mobile, and controls under the camera cutout in landscape.\n\nLibrary and browsing\n\n• Swipe sideways to switch between Manga, Anime and Novels, in the library and in Browse.\n• Select everything between two entries, in the library and in chapter lists.\n• Skip completed series, series with unread chapters or series not started in library updates. The categories' \"Skip updates\" option now takes effect too.\n• The Updates badge counts what was found since you last opened Updates, and clears when you visit.\n• Hidden media types are respected everywhere: Browse, Updates, History and the tracker library.\n• Browse remembers the Sources or Extensions page picked for each media.\n• Recommendation cards use the available space and no longer show HTML tags.\n• Fixed: opening Updates and History with orphan chapters, and an empty random entry.\n\nDownloads\n\n• Download the next 2, 3, 5 or 10 unread chapters while reading.\n• Download new chapters after a library update.\n• \"Delete download after reading\" can remove a chapter 1 to 4 back instead, and keeps bookmarked chapters.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.associated-domains",
+          "com.apple.security.application-groups",
+          "get-task-allow",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSDocumentUsageDescription": "Mangayomi needs access to your files to create and restore backups.",
+          "NSFaceIDUsageDescription": "Mangayomi needs to authenticate using Face ID.",
+          "NSPhotoLibraryUsageDescription": "Mangayomi needs access to your photo library to save and restore backups."
+        }
+      },
+      "version": "0.9.95",
+      "versionDate": "2026-11-01T15:17:25Z",
+      "size": 115450399,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.95.ipa"
+    },
+    {
+      "name": "MiniWatts",
+      "bundleIdentifier": "org.zhaohe.MiniWatts",
+      "developerName": "ResistanceTo",
+      "iconURL": "https://starkayc.github.io/iOS/icons/org.zhaohe.MiniWatts.png",
+      "localizedDescription": "An iPhone battery, charging and thermal instrument built on private iOS APIs — real charger watts, what actually reaches the cell, all 30 temperature sensors, and the USB-PD handshake.",
+      "subtitle": "An iPhone battery, charging and thermal instrument built on…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/MiniWatts.rel-1.6.0.ipa",
+          "size": 3332420,
+          "version": "1.6.0",
+          "buildVersion": "21",
+          "date": "2026-10-27T03:11:13Z",
+          "minOSVersion": "17.0",
+          "localizedDescription": "Unsigned build — sign it with your own Apple ID before installing.\nhttps://github.com/ResistanceTo/MiniWatts#install\n\n改进\n\n• iPhone 18 Pro 高功率充电时会提示读数可能只有一半。 在 iPhone 18 Pro 系列上用有线充电、协商功率超过 30 W 时，表盘旁会显示\"可能只读到一半\"，功率页和适配器页也会说明原因：这种情况下输入和电芯两侧的传感器都可能只测到一半功率。数值本身不做修正。\n• 新增\"电量核对\"。 充电时，App 会把电量上升的速度换算成功率，和电芯传感器在同一段时间里测到的功率对比。如果电量涨得明显比传感器测到的快（1.6 倍以上），表盘旁会显示\"读数偏低\"，并给出两边的数值；如果两边一致，会显示核对通过，上面那条\"可能只读到一半\"的提示也会隐藏。电量要上涨至少 3% 才能给出结果，通常需要几分钟。\n• 传感器按 SMC key 识别，重复的读数会合并。 iOS 27 上每个传感器都会出现两份，以前只取第一份，现在取两份的平均值；发热页的列表里每个传感器也只出现一次。发热页和原始数据会在传感器名旁边标出 key（比如电池温度偏高的那个是 TG0B）。\n• 电池能量按机型给默认值。 iPhone 18 Pro Max 为 21.75 Wh，iPhone 17 Pro Max 为 19.7 Wh，其他机型仍是 15 Wh。设置 → 电池能量 里会显示本机型的额定值，点\"使用\"即可填入。已经手动设置过的值保持不变。\n• 原始数据新增\"Derived power checks\"一节。 这一节记录半功率提示是否生效，以及电量核对的结果。\n\n修复\n\n• 适配器：iPhone 18 Pro 高功率充电时，读数偏低不再被误判成线材或接口的问题；在无法确认读数完整时，不计算线路电阻和电流利用率。\n\n注意\n\n• iPhone 18 Pro 高功率充电时，完整的输入功率仍然读不到：另一路充电电流没有可读的传感器。这个版本只能提示和核对，不能补上缺失的功率；这段时间的充电记录里的能量统计也仍然偏低。\n• \"电量核对\"还没有在 iPhone 18 Pro 上验证过。如果你有这台手机，请在 45 W 充电、电量上涨几个百分点之后，从 设置 → 原始数据 复制导出并反馈。\n• 如果你的机型不在上面的列表里，请在 设置 → 电池能量 里填入正确的数值，否则电量核对可能一直给不出结论。\n• 部分发现来自 ChargeSpeed 作者在 iPhone 18 Pro Max 上的实测。\n\nImprovements\n\n• The iPhone 18 Pro now warns when a reading may be half. On an iPhone 18 Pro model charging by cable on a profile above 30 W, the dial shows \"may read half\", and the Power and Adapter pages explain why: in that mode both the input and the cell sensors can see only half the power. The numbers themselves are not corrected.\n• New battery level check. While charging, the app turns the battery level's rise into watts and compares it with what the cell sensors measured over the same stretch. If the level rises much faster (1.6× or more), the dial shows \"reading low\" with both figures; if they agree, the check says so and the \"may read half\" warning is hidden. It needs at least a 3% rise, usually a few minutes.\n• Sensors are identified by SMC key, and duplicate copies are merged. iOS 27 publishes every sensor twice. The app used to take the first copy; it now averages the two, and each sensor appears once on the Thermal page. The Thermal page and Raw data show the key beside the name (the battery sensor that runs hot is TG0B).\n• Battery energy defaults by model. 21.75 Wh for the iPhone 18 Pro Max, 19.7 Wh for the iPhone 17 Pro Max, 15 Wh otherwise. Settings → Battery energy shows your model's rating with a \"Use\" button. A value you set yourself is kept.\n• Raw data gains a \"Derived power checks\" section, recording whether the half-reading warning applies and the battery level check's result.\n\nFixes\n\n• Adapter: on an iPhone 18 Pro at high power, a low reading is no longer blamed on the cable or plugs; path resistance and current utilisation are not worked out while the reading may be incomplete.\n\nNotes\n\n• On an iPhone 18 Pro at high power the full input still cannot be read: the second charging path has no readable sensor. This version can warn and cross-check, not fill in the missing power, and energy totals recorded during that time are still low.\n• The battery level check has not been verified on an iPhone 18 Pro. If you have one, charge at 45 W, let the level rise a few percent, then copy the dump from Settings → Raw data and report it.\n• If your model is not in the list above, set Settings → Battery energy to its rating, or the level check may never reach a verdict.\n• Some of these findings come from measurements by ChargeSpeed's author on an iPhone 18 Pro Max.\n\nFull Changelog: https://github.com/ResistanceTo/MiniWatts/compare/v1.5.1...v1.6.0"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.6.0",
+      "versionDate": "2026-10-27T03:11:13Z",
+      "size": 3332420,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/MiniWatts.rel-1.6.0.ipa"
+    },
+    {
+      "name": "Musly",
+      "bundleIdentifier": "com.dddevid.musly",
+      "developerName": "dddevid",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.dddevid.musly.png",
+      "localizedDescription": "A beautiful Flutter music streaming client for Subsonic-compatible servers with a modern Apple Music-inspired UI.",
+      "subtitle": "A beautiful Flutter music streaming client for…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Musly.rel-2.0.3.ipa",
+          "size": 14317899,
+          "version": "2.0.3",
+          "buildVersion": "8",
+          "date": "2026-10-18T18:19:33Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "🎉 Musly v2.0.3\n\n📦 Downloads\n\nAndroid:\n• app-release.apk (universal APK for all devices)\n\niOS:\n• musly-ios.ipa (sideload with AltStore, Sideloadly, or similar — not signed, iOS 15.0+)\n\nWindows:\n• musly-setup.exe (setup installer, run to install Musly)\n• musly-windows.zip (portable version, extract and run)\n\nmacOS:\n• musly-macos.dmg (drag Musly.app to Applications — not notarized)\n\nLinux:\n• *.deb (Debian, Ubuntu, Linux Mint)\n• *.rpm (Fedora, RHEL, openSUSE)\n• *.pkg.tar.zst (Arch Linux, Manjaro)\n• *.AppImage (Universal AppImage for any distro)\n• *.flatpak (Flatpak standalone bundle)\n• *.snap (Snap package)\n• *.tar.gz (portable standalone tarball)\n\nTizen Smart TV:\n• *.tpk (Native version for Tizen 4.0+ / 2018 or newer TVs)\n\n📝 Changelog\nSee CHANGELOG.md\n\n🌍 Translations\nContribute translations at Crowdin"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSAppleMusicUsageDescription": "Musly needs access to your music library to browse and play your songs.",
+          "NSBluetoothAlwaysUsageDescription": "Musly uses Bluetooth to send song information and album artwork to your connected audio devices (car stereo, headphones, speakers).",
+          "NSBluetoothPeripheralUsageDescription": "Musly uses Bluetooth to connect to audio devices and display current playing music information.",
+          "NSDocumentsFolderUsageDescription": "Musly needs access to your files to import local music tracks.",
+          "NSLocalNetworkUsageDescription": "Musly uses the local network to discover and connect to Google Cast devices.",
+          "NSMicrophoneUsageDescription": "Musly requires microphone access for certain audio features.",
+          "NSPhotoLibraryAddUsageDescription": "Musly needs permission to save album artwork to your photo library.",
+          "NSPhotoLibraryUsageDescription": "Musly needs access to your photo library to set custom album artwork."
+        }
+      },
+      "version": "2.0.3",
+      "versionDate": "2026-10-18T18:19:33Z",
+      "size": 14317899,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Musly.rel-2.0.3.ipa"
+    },
+    {
+      "name": "Opaline",
+      "bundleIdentifier": "com.verback.YTLite",
+      "developerName": "verback2308",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.verback.YTLite.png",
+      "localizedDescription": "A lightweight, privacy-focused YouTube client for iOS built entirely with UIKit. No ads, no tracking, no dependencies.",
+      "subtitle": "A lightweight, privacy-focused YouTube client for iOS built…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Opaline.rel-1.12.0.ipa",
+          "size": 6685919,
+          "version": "1.12.0",
+          "buildVersion": "600",
+          "date": "2026-09-10T02:02:27Z",
+          "minOSVersion": "12.0",
+          "localizedDescription": "New\n\n• Hold anywhere on the video to seek (#116). Press and hold on the picture, then drag sideways. The seek bar follows your finger and the video jumps where you let go, so you no longer have to hit the thin bar at the bottom. The taps you already know still work: the sides seek, the middle pauses.\n• Search inside a channel (#117). Channel pages have a magnifier now, and whatever you type there searches that channel only. YouTube serves no filters for this kind of search, so there are none in the app either.\n• Get a downloaded video out of the app (#115). The menu on a downloaded video has a new \"Save to Files\" row that hands the file to the usual iOS share sheet, so it can go to Files, Photos, AirDrop or another app. It is named after the video, and only the video leaves: subtitles, comments and the saved page stay where they were.\n• Clear the whole search history at once (#121). The last row under Recent searches wipes the list, and it asks first.\n\nFixes\n\n• The mini player no longer sits on top of the tab bar (#118). Tapping a tab behind the collapsed player switches to that tab instead of reopening the video.\n• Stereo no longer gets spatialized on AirPods (#119). Ordinary two-channel sound was being turned into a fake surround field that moved when you turned your head. Video that really is multichannel still spatializes.\n• The \"...\" menu stops closing on its own (#128). It was reacting to the device being tilted or put down, which made it look random when you held the phone in your hand.\n\nAlso\n\n• If your device is older than Opaline supports, the README now points at a downport for iOS 9 by another developer, which runs on the iPad 2, iPad 3, iPad mini and iPhone 4S (#125)."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSPhotoLibraryAddUsageDescription": "This lets you save a downloaded video to your photo library."
+        }
+      },
+      "version": "1.12.0",
+      "versionDate": "2026-09-10T02:02:27Z",
+      "size": 6685919,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Opaline.rel-1.12.0.ipa"
+    },
+    {
+      "name": "OpenParsec",
+      "bundleIdentifier": "com.aigch.OpenParsec",
+      "developerName": "hugeBlack",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.aigch.OpenParsec.png",
+      "localizedDescription": "An open-source Parsec client for iOS/iPadOS. This repo implements mouse & keyboard & touch screen support.",
+      "subtitle": "An open-source Parsec client for iOS/iPadOS. This repo…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-1.4.0.ipa",
+          "size": 4358332,
+          "version": "1.4.0",
+          "buildVersion": "218",
+          "date": "2026-10-08T16:07:29Z",
+          "minOSVersion": "14.0",
+          "localizedDescription": "Welcome! This is the first versioned release of everything thats been on our nightly since 1.3.0 in may, future releases will be tagged and published this way going forward:\n\nstreaming\n• pauses in the background instead of disconnecting, and reconnects on its own after a drop or a lock (#66, #80, #109)\n• pip recovers when its display layer fails, thanks @alantangok (#108)\n• audio buffer and race fixes, memcpy clamp from #70 thanks @2extndd (#85, #110)\n• connecting no longer kills music thats playing, it mixes instead, plus a status overlay (#86)\n\ninput\n• touchpad style cursor and crisp zoom, thanks @rebelancap (#78)\n• zoom viewport stays above the keyboard, thanks @alantangok (#107)\n• direct mode and keyboard fixes (#81, #87)\n• external pointer fixes and left alt no longer sent as win, thanks @jobsgonnawork (#91)\n• option key as command setting (#94)\n\napp\n• login fixes, saved login readable after first unlock (#89, #111)\n• fixes from live testing: screen stays awake while streaming, says when the session expired or the host didnt approve, names the host its reconnecting to, cursor and zoom fixes (#105)\n• reconnect memory leak and version string fixes from #70, thanks @2extndd (#84)\n• error reporting and logging (#77, #90)\n• safety fixes and cleanups (#82, #83)\n• every nightly has its own build number now so altstore shows it as an update (#112, #95 )\n\nExpect a 2.0 release in the coming weeks with lots more improvements! Thank you for your support!\n\nGenerated by GitHub\n\nWhat's Changed\n• Significantly optimized the sound latency performance by @xiaoxuhuanxiang in https://github.com/hugeBlack/OpenParsec/pull/3\n• Create altstore.json by @Somiona in https://github.com/hugeBlack/OpenParsec/pull/15\n• Fix AltStore .json by @yodaluca23 in https://github.com/hugeBlack/OpenParsec/pull/20\n• ci: upgrade deprecated upload artifact action by @underw8 in https://github.com/hugeBlack/OpenParsec/pull/26\n• New Features with General UI and Performance Improvements by @danieltarazona in https://github.com/hugeBlack/OpenParsec/pull/41\n• Fix fullwidth Unicode characters not passing through virtual keyboard by @Add1ct1ve in https://github.com/hugeBlack/OpenParsec/pull/49\n• Move zoom reset on rotate by @studiobloom in https://github.com/hugeBlack/OpenParsec/pull/55\n• Implement #58 by @studiobloom in https://github.com/hugeBlack/OpenParsec/pull/60\n• Added Picture in Picture by @naive17 in https://github.com/hugeBlack/OpenParsec/pull/62\n• fix crash sites and cleanup by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/63\n• keyboard remap and key repeat for hardware keyboards by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/64\n• reduce battery drain by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/65\n• 少映射了幾個全形字符 by @TwhomeGH in https://github.com/hugeBlack/OpenParsec/pull/68\n• Touchpad-style cursor control and crisp zoom by @rebelancap in https://github.com/hugeBlack/OpenParsec/pull/78\n• pause on background instead of disconnecting by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/66\n• Auto reconnect and stuck input fix by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/80\n• Direct mode fix by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/81\n• small cleanups by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/82\n• log sdk binary version and stream status by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/77\n• Safety fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/83\n• taking fixes from #70 by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/84\n• Audio buffer fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/85\n• Session status and audio session exclusivity by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/86\n• Keyboard fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/87…"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.4.0",
+      "versionDate": "2026-10-08T16:07:29Z",
+      "size": 4358332,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-1.4.0.ipa"
+    },
+    {
+      "name": "PSX3IOS",
+      "bundleIdentifier": "com.miguel.psx3ios",
+      "developerName": "xmiguel911x",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.miguel.psx3ios.png",
+      "localizedDescription": "A PlayStation 3 emulator for iPhone and iPad, built on RPCS3. Beta.",
+      "subtitle": "A PlayStation 3 emulator for iPhone and iPad, built on…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/PSX3IOS.rel-0.2.7.ipa",
+          "size": 67644766,
+          "version": "0.2.7-beta",
+          "buildVersion": "202609022211",
+          "date": "2026-09-01T12:12:58Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "Various improvements added, jit fixed A15 iOS 17.0 TrollStore Go to settings, JIT mode detected, and leave it on automatic, and bugs fixed"
+        }
+      ],
+      "appPermissions": {},
+      "version": "0.2.7-beta",
+      "versionDate": "2026-09-01T12:12:58Z",
+      "size": 67644766,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/PSX3IOS.rel-0.2.7.ipa"
+    },
+    {
+      "name": "RewindBox",
+      "bundleIdentifier": "com.neogamelab.neostation",
+      "developerName": "TarbleFR",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.neogamelab.neostation.png",
+      "localizedDescription": "RewindBox 0.0.10 — independent iPhone/iPad emulation frontend forked from NeoStation, with embedded Libretro, MeloNX (Switch), Dolphin, ARMSX2 and RPCS3, HD textures, cheats and customizable controls.",
+      "subtitle": "RewindBox 0.0.10 — independent iPhone/iPad emulation…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.10.ipa",
+          "size": 188063063,
+          "version": "0.0.10",
+          "buildVersion": "559",
+          "date": "2026-10-26T23:06:26Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "RewindBox 0.0.10 — Build 559\n\nEverything since 0.0.9-fix.1 (Build 530).\n\nInterface\n• Refined Liquid Glass interface: one-line main header, a new \"NeoStation\" style (solid accent pill, matte surfaces, no blur), a working Interface preview with Apply/Revert, and floating side-menu bubbles in Settings and Scraper.\n• New options in 12 languages: status bar items, accent colour, controller focus style, LB/RB glyphs and side-menu panel.\n• ROM folder changes saved in quick succession no longer fail.\n\nNintendo Switch (embedded MeloNX)\n• Backend threading is now on by default, as in the standalone MeloNX app, with a per-game switch.\n• Game FPS is shown in the RAM overlay.\n• In-game MoltenVK choice: the standalone MeloNX app's own MoltenVK is the default; RewindBox's version remains available and is used automatically if the other fails to load.\n• New \"Emulation priority\" option in the in-game menu (default unchanged). The screen no longer auto-locks during a game.\n• Closing a game after a GPU teardown error no longer leaves the app stuck on \"closing\": the session is stopped safely and explained.\n• Imports report completion without a full library rescan, updates are matched to the installed base game, audio playback starts correctly on the Apple backend, and pipeline compilation errors are handled without breaking later draws.\n• A per-second performance line in the app log helps troubleshooting.\n\nPlayStation 3 (RPCS3)\n• PS3 disc images (.iso) in your library folder now launch through RPCS3: RewindBox reads the disc, offers to install it into RPCS3 (with its .dkey/.key file) and boots it. Renamed or removed images stay in sync, and the original can optionally be deleted after installation.\n• The God of War III profile is now actually applied; an old custom configuration previously disabled it silently.\n• Engine improvements:\n• SPU code already in the cache loads without rebuilding the LLVM pass pipeline.\n• GPU copies that fully overwrite their destination no longer read the old contents back.\n• Fewer redundant texture hashes, plus a new experimental \"Texture validation per FIFO batch\" setting (automatic for God of War III only).\n• Faster lookup of identical vertex shaders, fewer copies during synchronous shader compilation, fewer redundant pipeline builds, and shader-cache writes moved off the RSX thread.\n• Less CPU spent waiting for the GPU, and faster JIT cache writes.\n• Public ARMSX3 fixes: SPU warm-up order, PKG path containment, debug SELF decryption, in-memory savestate files, cellSaveData SDK 2.6 limit.\n• ISO mounts are preserved when restoring a savestate.\n• New experimental \"MoltenVK Asynchronous Submits\" setting (off by default).\n• Additional bounded diagnostics (timeline, GPU waits, read-back origins, optimization counters) to measure performance.\n\nThe first launch of each PS3 game rebuilds its SPU cache once; the PPU cache is kept.\n\nTesting status\nThese changes passed automated native, sanitizer, ARM64 and packaging checks. FPS, stutter and memory gains on iPhone have not been measured yet. Please report results with your logs.\n\nDownload\nRewindBox-Build559.ipa — SHA-256 f16c2a3529537bfbaa933972ed63f6ce96bb2a9ca176f1e2d1726dcd7896480d.\nAd-hoc signed: re-sign it with SideStore or AltStore before installing. Requires iOS 18.0 or later.\n\nVersion note: IPA build number 559; the internal app version remains 0.0.8.\n\nNo firmware, keys, BIOS or game files are bundled."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-debugging-memory-limit",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "NeoStation connects to this iPhone's LocalDevVPN Remote Pairing endpoint to enable JIT.",
+          "NSMotionUsageDescription": "RewindBox uses device motion to simulate Wii Remote shakes while you play.",
+          "NSPhotoLibraryAddUsageDescription": "Save the game recordings you choose to your photo library."
+        }
+      },
+      "version": "0.0.10",
+      "versionDate": "2026-10-26T23:06:26Z",
+      "size": 188063063,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.10.ipa"
+    },
+    {
+      "name": "SceneBox",
+      "bundleIdentifier": "app.scenebox.SceneBox",
+      "developerName": "donbytyqi",
+      "iconURL": "https://starkayc.github.io/iOS/icons/app.scenebox.SceneBox.png",
+      "localizedDescription": "",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/SceneBox.rel-1.0.4.ipa",
+          "size": 30593765,
+          "version": "1.0.4",
+          "buildVersion": "4",
+          "date": "2026-09-23T15:44:54Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "Important: accounts now need your own Firebase project\n\nSceneBox no longer connects to a shared Firebase project. Sign-in, profiles and sync between devices now run on a free Firebase project that you create and own. Your data stays in your own account, not mine.\n\n• Guest mode still works without any setup. Everything is kept on the device.\n• To sign in, tap Connect Firebase on the sign-in screen and import the GoogleService-Info.plist from your Firebase project (on Apple TV, type in the values). Step-by-step guide and the security rules: https://github.com/donbytyqi/scenebox#firebase-setup\n• Accounts made on the old shared project don't carry over. Create a new account on your own project.\n• Profile photos need Firebase Storage, which requires Google's Blaze plan (it has a free tier). Everything else works on the free Spark plan.\n\nNew\n\n• Support SceneBox page in Settings, for anyone who wants to donate.\n\nFixes\n\n• Downloading a second episode from a season pack works now. Before, every episode of a pack counted as the same download, so you had to delete the finished one before the next would start. (#9)\n• Apple TV: Trakt lists open when you click them. (#10)\n• Mac: signing in works on the unsigned build. macOS doesn't let unsigned apps use the Keychain, so the app keeps your sign-in session and any API keys you enter in a file inside its own sandbox container instead (readable only by your user account).\n\nStill open\n\n• A few people report that on iPhone the app closes shortly after a stream starts buffering. I can't reproduce it on the simulator or on Mac. If it hits you, please share the crash log: Settings > Privacy & Security > Analytics & Improvements > Analytics Data, look for a file starting with SceneBox, and attach it to the issue. Also say which iPhone and what you were playing (torrent or debrid, resolution). 1.0.2 doesn't have this problem if you need a fallback.\n• Apple TV install failing in Sideloadly with \"ApplicationVerificationFailed / Invalid file\" on tvOS 26.6 (#8). The tvOS build is packaged exactly like 1.0.2 and passes Apple's bundle verification here, so this needs the full Sideloadly log: the \"Invalid file\" line names the file it choked on. Please paste that on the issue. Sideloadly also has known trouble with tvOS 26.4 and later (pairing), so try the latest Sideloadly first.\n\nImportant: this release is NOT signed. You have to allow it yourself.\n\nNothing here is signed with an Apple developer account and the Mac app is not notarized. macOS and iOS will refuse to open it until you explicitly allow it. This is expected, it's not broken.\n\nMac:\n\n1. Open the dmg and drag SceneBox to Applications.\n2. Open SceneBox. macOS will say it \"could not verify\" the app or that it's from an unidentified developer. Press Done (not Move to Trash).\n3. Go to System Settings > Privacy & Security, scroll down to Security and press \"Open Anyway\" next to SceneBox, then confirm.\n4. From then on it opens normally.\n\nIf you'd rather skip the dialog, run this in Terminal after copying the app to Applications:\n\nxattr -dr com.apple.quarantine /Applications/SceneBox.app\n\nIf you had an older signed version installed, delete it first.\n\niPhone/iPad: the ipa isn't signed, you sign it yourself with Sideloadly, AltStore, SideStore, Feather or ESign with your own Apple ID. Free Apple ID = resign every 7 days (AltStore/SideStore do it for you), paid dev account = one year.\n\nApple TV: Sideloadly works over Wi-Fi. On the TV go to Settings > Remotes and Devices > Remote App and Devices so it shows up, then pick it in Sideloadly."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "SceneBox connects directly to peers over your local network and the internet to stream and download."
+        }
+      },
+      "version": "1.0.4",
+      "versionDate": "2026-09-23T15:44:54Z",
+      "size": 30593765,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/SceneBox.rel-1.0.4.ipa"
+    },
+    {
+      "name": "Tsumiru",
+      "bundleIdentifier": "com.suwayomi.tachideskSorayomi",
+      "developerName": "Suwayomi",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.suwayomi.tachideskSorayomi.png",
+      "localizedDescription": "A manga and webtoon reader for your Suwayomi server",
+      "subtitle": "A manga and webtoon reader for your Suwayomi server",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Tsumiru.rel-1.6.4.ipa",
+          "size": 17154795,
+          "version": "1.6.4",
+          "buildVersion": "5005",
+          "date": "2026-11-02T05:46:16Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "A manga and webtoon reader for your Suwayomi server.\n\n✨ New Features\n\n• Added MangaBaka tracking for servers that support it (@aaronbamblett)\n• Let Linux windows shrink to phone size, switching to the phone layout (@aaronbamblett)\n\n🚀 Improvements\n\n• Showed the number of extension updates on the Extensions tab (@aaronbamblett)\n• Gave desktop pages one consistent layout, with a single row top bar and content clear of the scrollbar (@aaronbamblett)\n• Gave Linux windows rounded corners and GNOME style window buttons (@aaronbamblett)\n• Showed the full sidebar from 1000 pixels wide and gave its toggle a panel icon (@aaronbamblett)\n• Made Manga Grid Size set the smallest a cover can be, so the grid fits as many columns as the window allows (@aaronbamblett)\n• Gave source names their own row on desktop Browse cards and fit the cards to narrow windows (@aaronbamblett)\n• Collapsed the Library sort, filter and display buttons into one button in narrow desktop windows (@aaronbamblett)\n• Cleaned up onboarding on desktop so the logo shows once and Skip and Next stay in place (@aaronbamblett)\n\n🧩 Fixes\n\n• Fixed chapters with a single page never being marked read (@aaronbamblett)\n• Fixed Simple Login sign-in on the latest Suwayomi server (@aaronbamblett)\n• Fixed restoring a backup or installing an extension from a file with Basic Auth on the latest Suwayomi server (@aaronbamblett)\n• Fixed reader pages not loading on macOS (@aaronbamblett)\n• Fixed the Mac app signing you out after a denied or missed keychain prompt (@aaronbamblett)\n• Fixed Restore Backup greying out backup files on Android (@aaronbamblett)\n• Fixed tracker sign-in in the web app, including when it is hosted under a subpath (@aaronbamblett)\n• Fixed MyAnimeList, Bangumi and MangaUpdates series landing in the wrong groups with By track status (@aaronbamblett)\n• Fixed long press page actions not opening in paged reading modes, including Save spread in double page view (@aaronbamblett)\n• Stopped long strip marking the previous chapter read when it loads above the current one (@aaronbamblett)\n• Stopped opening a read chapter resetting its saved page (@aaronbamblett)\n• Showed a loading indicator on long strip pages and stopped pages jumping while they load (@aaronbamblett)\n• Fixed double page view jumping back a page when a wide page loads (@aaronbamblett)\n• Fixed hidden categories missing from the library category filter (@aaronbamblett)\n• Stopped mouse drags switching Library categories and tabs on desktop (@aaronbamblett)\n• Stopped the Updates and History scrollbar jumping while scrolling on desktop (@aaronbamblett)\n• Stopped desktop toolbars overflowing in narrow windows (@aaronbamblett)\n• Hid Lock to portrait on devices where it can't work (@aaronbamblett)\n\nThanks to our Weblate translators: Constantin Piber for German, Kisnov for Catalan and Andrei Stepanov for Russian.\n\nInstall\n\nYou'll need a running Suwayomi server. See Getting started.\n\nMobile\n\nAndroid: download the universal APK below and open it to install. Smaller APKs for specific chip types are also attached.\n\niOS: the …-ios.ipa below is unsigned and has to be sideloaded. Add https://tsumiru.app/apps.json as a source in SideStore or AltStore to install it and get later releases as updates.\n\n<details>\n<summary>Which sideloading tool should I use?</summary>\n\n• SideStore signs and refreshes the app on the device itself, with no computer needed after setup. Best for most people.\n• AltStore expires every 7 days and only refreshes while a computer running AltServer is switched on and on the same Wi-Fi as your phone.\n• TrollStore installs permanently with no expiry, but only works on older iPhones and iOS versions with the required vulnerability.\n\nWith SideStore or AltStore the app is re-signed periodically, which those tools automate. There is no App Store build.\n</details>\n\nDesktop\n\nWindows: download …-windows-x64.zip, extract it anywhere, and run tsumiru.exe.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Find and connect to your Suwayomi server on your local network.",
+          "NSPhotoLibraryAddUsageDescription": "Save manga pages to your photo library.",
+          "NSPhotoLibraryUsageDescription": "Save manga pages to your photo library."
+        }
+      },
+      "version": "1.6.4",
+      "versionDate": "2026-11-02T05:46:16Z",
+      "size": 17154795,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Tsumiru.rel-1.6.4.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
