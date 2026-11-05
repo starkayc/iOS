@@ -18,7 +18,7 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.rel-nightly-20261104.ipa",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261104.ipa",
           "size": 40568716,
           "version": "2.6.0-nightly.20261104.1113",
           "buildVersion": "260",
@@ -37,7 +37,7 @@
       "version": "2.6.0-nightly.20261104.1113",
       "versionDate": "2026-11-04T11:52:04Z",
       "size": 40568716,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.rel-nightly-20261104.ipa"
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261104.ipa"
     },
     {
       "name": "AirCard-iOS",
