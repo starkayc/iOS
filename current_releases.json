@@ -3,6 +3,10 @@
     "release_type": "stable",
     "version": "0.9-4"
   },
+  "AirCard": {
+    "release_type": "stable",
+    "version": "1.3.2"
+  },
   "Amethyst": {
     "release_type": "stable",
     "version": "5.1.0"
@@ -12,9 +16,29 @@
     "version": "1.15.11_4.0.1",
     "asset_pattern": "GLASS"
   },
+  "ARMSX2": {
+    "release_type": "any",
+    "version": "nightly-20261104"
+  },
+  "BCD": {
+    "release_type": "any",
+    "version": "0.1.630"
+  },
   "Debrify": {
     "release_type": "prerelease",
     "commit": "62067b4"
+  },
+  "Doer": {
+    "release_type": "stable",
+    "version": "1.8.6"
+  },
+  "DukeX": {
+    "release_type": "stable",
+    "version": "1.0.2"
+  },
+  "Fathom": {
+    "release_type": "stable",
+    "version": "1.0.0"
   },
   "Feather": {
     "release_type": "stable",
@@ -28,14 +52,39 @@
     "release_type": "prerelease",
     "commit": "52f5e96"
   },
+  "Husk": {
+    "release_type": "stable",
+    "version": "3.4"
+  },
   "Ksign": {
     "release_type": "prerelease",
     "commit": "c14dedc"
+  },
+  "LSX4": {
+    "release_type": "stable",
+    "version": "ios-jit-128.9775"
   },
   "Lume": {
     "release_type": "stable",
     "version": "3.0.0",
     "asset_pattern": "iOS"
+  },
+  "Mangayomi": {
+    "release_type": "stable",
+    "version": "0.9.95"
+  },
+  "MiniWatts": {
+    "release_type": "stable",
+    "version": "1.6.0"
+  },
+  "Musly": {
+    "release_type": "stable",
+    "version": "2.0.3"
+  },
+  "NeoFreeBird": {
+    "release_type": "stable",
+    "version": "7.3.0",
+    "asset_pattern": "sideloaded-Twitter"
   },
   "Nuvio": {
     "release_type": "stable",
@@ -45,29 +94,44 @@
     "release_type": "stable",
     "version": "0.6.7-beta"
   },
-  "NeoFreeBird": {
+  "Opaline": {
     "release_type": "stable",
-    "version": "7.3.0",
-    "asset_pattern": "sideloaded-Twitter"
+    "version": "1.12.0"
+  },
+  "OpenParsec": {
+    "release_type": "stable",
+    "version": "1.4.0"
   },
   "Osu": {
     "release_type": "any",
     "version": "2026.1026.0-tachyon"
   },
+  "PSX3IOS": {
+    "release_type": "any",
+    "version": "0.2.7-beta"
+  },
   "qBitControl": {
     "release_type": "stable",
     "version": "release-1.4.1"
+  },
+  "RewindBox": {
+    "release_type": "stable",
+    "version": "0.0.10"
   },
   "Roam Control": {
     "release_type": "stable",
     "version": "0.9.9"
   },
+  "SceneBox": {
+    "release_type": "stable",
+    "version": "1.0.4"
+  },
   "StikDebug": {
     "release_type": "stable",
     "version": "3.2.0"
   },
-  "Sulfur": {
+  "Tsumiru": {
     "release_type": "stable",
-    "version": "1.3.0"
+    "version": "1.6.4"
   }
 }
