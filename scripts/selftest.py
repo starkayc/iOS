@@ -361,6 +361,29 @@ def test_check_releases_all_fail():
           f"every unreadable app is a failure ({failures})")
 
 
+def test_channel_with_nothing_publishable_is_not_a_failure():
+    print("\n── update_source: a channel with no IPA yet is skipped, not failed ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.SOURCES_JSON.write_text(json.dumps({"sources": [
+        {"name": "Dolphin", "repo": "OatmealDome/dolphin-ios",
+         "release_type": "stable"},
+    ]}, indent=2), encoding="utf-8")
+    fake.add_repo("OatmealDome/dolphin-ios", "a GameCube emulator",
+                  "OatmealDome", [
+        release("v5.0.0b6", True,
+                ("Non-Jailbroken.ipa", 1000, "https://up/nope")),
+    ])
+    lib.CURRENT_RELEASES_JSON.unlink(missing_ok=True)
+    seed_repo_json(tmp, [])
+
+    worked, failures = update_source_report()
+    check(failures == [],
+          f"a stable channel with only prereleases is not a failure "
+          f"(got {failures})")
+    check(worked is False, "and it publishes nothing")
+
+
 def test_release_pages_walk_past_page_one():
     print("\n── latest_release_info: an IPA beyond page one is found ──")
     releases = [
@@ -1670,6 +1693,7 @@ def main():
     test_prune_stale_icons()
     test_check_releases()
     test_check_releases_all_fail()
+    test_channel_with_nothing_publishable_is_not_a_failure()
     test_update_source_unchanged()
     test_update_source_missing_asset()
     test_fetch_outcome_states()

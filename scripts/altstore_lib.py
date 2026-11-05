@@ -692,6 +692,7 @@ def check_for_updates(token: Optional[str] = None) -> dict:
             "repo": repo,
             "release_type": release_type,
             "info": None,
+            "api_error": "",
             "recorded": old.get("commit") if release_type == "prerelease"
             else old.get("version"),
             "latest": None,
@@ -704,6 +705,7 @@ def check_for_updates(token: Optional[str] = None) -> dict:
         try:
             info = latest_release_info(repo, release_type, token)
         except Exception as e:
+            entry["api_error"] = str(e)
             diag.error(f"{name}: API error: {e}")
         entry["info"] = info
         if info is None:

@@ -45,7 +45,7 @@
     {
       "name": "Dolphin",
       "repo": "OatmealDome/dolphin-ios",
-      "release_type": "stable"
+      "release_type": "any"
     },
     {
       "name": "DukeX",
