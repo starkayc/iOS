@@ -692,7 +692,6 @@ def check_for_updates(token: Optional[str] = None) -> dict:
             "repo": repo,
             "release_type": release_type,
             "info": None,
-            "api_error": "",
             "recorded": old.get("commit") if release_type == "prerelease"
             else old.get("version"),
             "latest": None,

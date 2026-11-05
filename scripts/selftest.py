@@ -374,8 +374,6 @@ def test_channel_with_nothing_publishable_is_not_a_failure():
         release("v5.0.0b6", True,
                 ("Non-Jailbroken.ipa", 1000, "https://up/nope")),
     ])
-    lib.CURRENT_RELEASES_JSON.unlink(missing_ok=True)
-    seed_repo_json(tmp, [])
 
     worked, failures = update_source_report()
     check(failures == [],

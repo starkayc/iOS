@@ -201,9 +201,8 @@ def update_source_report(
 
         if info is None:
             cli.error(f"{name}: could not determine the latest release")
-            # A channel with nothing publishable is not a failure; only an
-            # API error is, because that leaves the app unread, not skipped.
-            if e["api_error"]:
+            # An unread app is a failure; an empty channel is a skip.
+            if e.get("api_error"):
                 _defer(name)
             else:
                 _keep_recorded(name)
