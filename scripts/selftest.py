@@ -1362,6 +1362,9 @@ def test_nightly_channel_publishes_nig_name():
     app = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"][0]
     check(app["downloadURL"].endswith("/ARMSX2.nig-20261104.ipa"),
           f"repo.json points at the new name (got {app['downloadURL']})")
+    check(app["version"] == "20261104",
+          f"the version is the tag's date, not the plist's 2.6.0-nightly "
+          f"string (got {app['version']!r})")
     recorded = json.loads(
         lib.CURRENT_RELEASES_JSON.read_text(encoding="utf-8")
     )["ARMSX2"]
@@ -1398,6 +1401,35 @@ def test_any_channel_release_publishes_its_version():
     check(apps["sh.ppy.osulazer"]["version"] == "2026.1026.0-tachyon",
           f"the release version is published, not the plist's 1.0 "
           f"(got {apps['sh.ppy.osulazer']['version']!r})")
+
+
+def test_prerelease_suffix_stays_out_of_the_version():
+    print("\n── a -beta tag publishes its bare version ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    lib.SOURCES_JSON.write_text(json.dumps({"sources": [
+        {"name": "PSX3IOS", "repo": "xmiguel911x/PSX3IOS",
+         "release_type": "any"},
+    ]}, indent=2), encoding="utf-8")
+    lib.CURRENT_RELEASES_JSON.unlink(missing_ok=True)
+    fake.add_repo("xmiguel911x/PSX3IOS", "a PS3 emulator", "xmiguel911x", [
+        release("v0.2.7-beta", True,
+                ("PSX3IOS-beta.0.2.7-unsigned.ipa", 100, "https://up/psx")),
+    ])
+    fake.add_download(
+        "https://up/psx",
+        make_ipa("com.miguel.psx3ios", "0.2.7-beta", "PSX3IOS"),
+    )
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is True, "the beta build was fetched")
+    app = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"][0]
+    check(app["downloadURL"].endswith("/PSX3IOS.rel-0.2.7.ipa"),
+          f"the file name drops the suffix (got {app['downloadURL']})")
+    check(app["version"] == "0.2.7"
+          and app["versions"][0]["version"] == "0.2.7",
+          f"the version drops it too (got {app['version']!r})")
 
 
 def test_asset_pattern_change_refetches_the_variant():
@@ -1719,6 +1751,7 @@ def main():
     test_any_channel_tracks_newest_publishable_release()
     test_nightly_channel_publishes_nig_name()
     test_any_channel_release_publishes_its_version()
+    test_prerelease_suffix_stays_out_of_the_version()
     test_asset_pattern_change_refetches_the_variant()
     test_corrupt_upstream_ipa()
     test_per_app_failure_is_isolated()

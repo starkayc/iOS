@@ -179,8 +179,11 @@ def generate_repo(
 
         # An upstream build can keep CFBundleShortVersionString constant,
         # as osu! does with 1.0 on every release, while its tag moves.
-        version_str = meta["version"]
-        release_version = facts.get("version", "")
+        # Both sides are sanitized first: a "nightly-" prefix or a "-beta"
+        # suffix labels the build, not the version a client compares, so
+        # the published version matches the version in the file name.
+        version_str = lib.sanitize_version(meta["version"])
+        release_version = lib.sanitize_version(facts.get("version", ""))
         if release_version and lib.parse_version_tuple(
             release_version
         ) > lib.parse_version_tuple(version_str):
