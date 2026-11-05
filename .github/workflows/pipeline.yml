@@ -2,10 +2,8 @@ name: Pipeline
 
 # One run does the whole chain, in order:
 #   test > check releases > update AltStore source > pages build
-# Jobs, not separate workflows: a push made with GITHUB_TOKEN does not
-# start another workflow run, so chaining check-releases -> update-source
-# across files never fired.  Inside one run the jobs just depend on each
-# other and no trigger is involved.
+# Jobs, not separate workflows: a push made with GITHUB_TOKEN never
+# starts another workflow run, so chaining across files did not fire.
 
 on:
   push:
@@ -141,16 +139,13 @@ jobs:
 
   pages:
     needs: update-source
-    # Pages is served from the main branch, so the push normally rebuilds
-    # it.  This asks for a build anyway: a push made with GITHUB_TOKEN is
-    # sometimes skipped by the Pages builder, and a duplicate build is
-    # harmless.
+    # The push already rebuilds Pages (served from branch main), but the
+    # Pages builder sometimes skips GITHUB_TOKEN pushes, so ask anyway.
     if: needs.update-source.outputs.pushed == 'true'
     runs-on: ubuntu-latest
     permissions:
       pages: write
-    # The push already rebuilds Pages; a failed request here must not mark
-    # the run red.
+    # A refused request must not mark the run red; the push deployed it.
     continue-on-error: true
 
     steps:
@@ -158,9 +153,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -fsS -X POST \
+          curl -sS -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${{ github.repository }}/pages/builds" \
-            | python -c 'import json,sys; b=json.load(sys.stdin); print("Pages build queued:", b.get("status"), b.get("url", ""))'
+            -o /dev/null -w 'pages build request: %{http_code}\n' \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
