@@ -50,7 +50,6 @@ from update_source import (  # noqa: E402
 from selftest_fake import (  # noqa: E402
     FakeGitHub,
     FakeReleaseFactory,
-    SHA_KSIGN,
     SHA_KSIGN_NEW,
     app_entry,
     asset_url,
@@ -73,7 +72,6 @@ _RealDownloadFile = lib.download_file  # keep before any patching
 _RealGitHubRelease = rel.GitHubRelease  # ditto, the tests replace it
 
 
-
 PASS = 0
 
 
@@ -85,7 +83,6 @@ def check(cond, msg):
     else:
         print(f"  ✗ FAIL: {msg}")
         raise AssertionError(msg)
-
 
 
 def test_naming():
@@ -974,7 +971,7 @@ def test_write_json_is_atomic():
     tmp = Path(tempfile.mkdtemp())
     target = tmp / "state.json"
     lib.write_json(target, {"a": 1})
-    check(json.loads(target.read_text()) ["a"] == 1, "writes the file")
+    check(json.loads(target.read_text())["a"] == 1, "writes the file")
     try:
         lib.write_json(target, {"b": object()})
         check(False, "a non-serialisable value should raise")

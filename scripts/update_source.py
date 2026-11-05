@@ -80,7 +80,10 @@ def _markdown_as_text(body: str) -> str:
     # After the quote strip, because the real form is "> [!TIP]".
     text = _MD_ALERT.sub("", text)
     text = _MD_BULLET.sub("• ", text)
-    text = _MD_TASK.sub(lambda m: f"{m.group(1)} [{'x' if m.group(2).lower() == 'x' else ' '}] ", text)
+    text = _MD_TASK.sub(
+        lambda m: f"{m.group(1)} [{'x' if m.group(2).lower() == 'x' else ' '}] ",
+        text,
+    )
     text = _MD_STRONG.sub(lambda m: m.group(2), text)
     text = _MD_STRIKE.sub(lambda m: m.group(1), text)
     text = _MD_EM_STAR.sub(lambda m: m.group(1), text)

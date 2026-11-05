@@ -190,7 +190,7 @@ def ipa_filename(
         else "nightly" if _NIGHTLY_TAG.search(version or "")
         else "stable"
     )
-    prefix = CHANNEL_PREFIX.get(channel, "rel")
+    prefix = CHANNEL_PREFIX[channel]
     if commit:
         return f"{stem}.{prefix}-{commit[:7]}.ipa"
     return (
@@ -543,7 +543,6 @@ def download_file(
 
     diag.debug(f"downloading {url} → {dest.name}")
     _retry(op, url)
-
 
 
 _ASSET_SEPARATORS = re.compile(r"[-._]+")

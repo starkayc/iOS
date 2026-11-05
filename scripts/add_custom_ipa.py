@@ -15,7 +15,6 @@ Usage:
         [--token TOKEN] [--debug]
 """
 
-import json
 import sys
 from typing import Optional
 
@@ -115,7 +114,9 @@ if __name__ == "__main__":
     parser = cli.make_parser(__doc__)
     parser.add_argument("--name", required=True, help="app name, e.g. Balatro")
     parser.add_argument("--version", required=True, help="version, e.g. 1.0")
-    parser.add_argument("--url", required=True, help="direct download link to the .ipa")
+    parser.add_argument(
+        "--url", required=True, help="direct download link to the .ipa"
+    )
     parser.add_argument("--description", default="", help="AltStore description")
     parser.add_argument("--subtitle", default="", help="AltStore subtitle")
     parser.add_argument(

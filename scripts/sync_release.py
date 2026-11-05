@@ -83,7 +83,7 @@ def sync_release(
         if san in referenced_san:
             print(
                 f"  ⚠ {name}: referenced by repo.json but not in ipas/ — "
-                f"keeping (external app)"
+                "keeping (external app)"
             )
             continue
         if no_delete:

@@ -55,7 +55,6 @@ def ipa_problem(path: Path) -> str:
     return ""
 
 
-
 def find_app_bundle(zf: zipfile.ZipFile) -> Optional[str]:
     """Return the first .app/ directory inside Payload/.
 
@@ -129,13 +128,14 @@ def find_icon_files(info: dict, zf: zipfile.ZipFile, app_dir: str) -> list[str]:
     if not found:
         for full_path in all_files:
             fname = os.path.basename(full_path).lower()
+            if not full_path.lower().endswith((".png", ".jpg", ".jpeg")):
+                continue
             if any(
                 keyword in fname
                 for keyword in ("appicon", "icon", "app_icon")
             ):
-                if full_path.lower().endswith((".png", ".jpg", ".jpeg")):
-                    info_entry = zf.getinfo(full_path)
-                    found.append((info_entry.file_size, full_path))
+                info_entry = zf.getinfo(full_path)
+                found.append((info_entry.file_size, full_path))
 
     found.sort(key=lambda x: x[0])
     return [p for _, p in found]
@@ -560,7 +560,7 @@ def extract_icon(
     or None if no suitable icon was found.
     """
     if not icon_paths:
-        print(f"    No icon candidates found")
+        print("    No icon candidates found")
         return None
 
     best = icon_paths[-1]

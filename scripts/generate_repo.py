@@ -59,6 +59,8 @@ def short_subtitle(text: str, limit: int = SUBTITLE_LIMIT) -> str:
         return line.rstrip(".")
     cut = line.rfind(" ", 0, limit)
     return line[:cut if cut > 0 else limit].rstrip(" ,;:-") + "…"
+
+
 COMPARED_VERSION = ("version", "buildVersion", "size", "minOSVersion")
 
 
@@ -365,7 +367,7 @@ def generate_repo(
     }
 
     if dry_run:
-        print(f"\n── DRY RUN — would write repo.json ──")
+        print("\n── DRY RUN — would write repo.json ──")
         print(json.dumps(repo, indent=2, ensure_ascii=False))
         print(f"\n  {len(changes)} change(s):")
         for c in changes:

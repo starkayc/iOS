@@ -159,7 +159,7 @@ class GitHubRelease:
         method: Optional[str] = None,
         content_type: str = "application/octet-stream",
     ):
-        """Call the GitHub API and return the parsed JSON, or None for an empty body."""
+        """Call the API; return the parsed JSON, or None for an empty body."""
         headers = {
             "Accept": "application/vnd.github+json",
             "User-Agent": "altstore-release-sync",
