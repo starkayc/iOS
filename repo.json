@@ -8,7 +8,7 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "ARMSX2 Nightly",
+      "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
       "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",

@@ -24,7 +24,8 @@
     {
       "name": "ARMSX2",
       "repo": "ARMSX2/ARMSX2",
-      "release_type": "any"
+      "release_type": "any",
+      "display_name": "ARMSX2"
     },
     {
       "name": "BCD",
