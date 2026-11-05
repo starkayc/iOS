@@ -6,6 +6,11 @@
       "release_type": "stable"
     },
     {
+      "name": "AirCard",
+      "repo": "Mak5er/AirCard-iOS",
+      "release_type": "stable"
+    },
+    {
       "name": "Amethyst",
       "repo": "herbrine8403/Amethyst-iOS-MyRemastered",
       "release_type": "stable"
@@ -17,9 +22,39 @@
       "asset_pattern": "GLASS"
     },
     {
+      "name": "ARMSX2",
+      "repo": "ARMSX2/ARMSX2",
+      "release_type": "any"
+    },
+    {
+      "name": "BCD",
+      "repo": "thebcd69/bcd-games",
+      "release_type": "any"
+    },
+    {
       "name": "Debrify",
       "repo": "varunsalian/debrify",
       "release_type": "prerelease"
+    },
+    {
+      "name": "Doer",
+      "repo": "moliango/doer",
+      "release_type": "stable"
+    },
+    {
+      "name": "Dolphin",
+      "repo": "OatmealDome/dolphin-ios",
+      "release_type": "stable"
+    },
+    {
+      "name": "DukeX",
+      "repo": "MaftyManicEMU/DukeX",
+      "release_type": "stable"
+    },
+    {
+      "name": "Fathom",
+      "repo": "Leviidev/Fathom",
+      "release_type": "stable"
     },
     {
       "name": "Feather",
@@ -37,15 +72,47 @@
       "release_type": "prerelease"
     },
     {
+      "name": "Husk",
+      "repo": "Leviidev/Husk",
+      "release_type": "stable"
+    },
+    {
       "name": "Ksign",
       "repo": "Nyasami/Ksign",
       "release_type": "prerelease"
+    },
+    {
+      "name": "LSX4",
+      "repo": "lpfoj/lsx4",
+      "release_type": "stable"
     },
     {
       "name": "Lume",
       "repo": "bilipp/lume",
       "release_type": "stable",
       "asset_pattern": "iOS"
+    },
+    {
+      "name": "Mangayomi",
+      "repo": "kodjodevf/mangayomi",
+      "release_type": "stable"
+    },
+    {
+      "name": "MiniWatts",
+      "repo": "ResistanceTo/MiniWatts",
+      "release_type": "stable"
+    },
+    {
+      "name": "Musly",
+      "repo": "dddevid/Musly",
+      "release_type": "stable"
+    },
+    {
+      "name": "NeoFreeBird",
+      "repo": "NeoFreeBird/app",
+      "release_type": "stable",
+      "asset_pattern": "sideloaded-Twitter",
+      "display_name": "Twitter"
     },
     {
       "name": "Nuvio",
@@ -60,15 +127,23 @@
       "display_name": "Nuvio Enhanced"
     },
     {
-      "name": "NeoFreeBird",
-      "repo": "NeoFreeBird/app",
-      "release_type": "stable",
-      "asset_pattern": "sideloaded-Twitter",
-      "display_name": "Twitter"
+      "name": "Opaline",
+      "repo": "verback2308/Opaline",
+      "release_type": "stable"
+    },
+    {
+      "name": "OpenParsec",
+      "repo": "hugeBlack/OpenParsec",
+      "release_type": "stable"
     },
     {
       "name": "Osu",
       "repo": "ppy/osu",
+      "release_type": "any"
+    },
+    {
+      "name": "PSX3IOS",
+      "repo": "xmiguel911x/PSX3IOS",
       "release_type": "any"
     },
     {
@@ -77,8 +152,18 @@
       "release_type": "stable"
     },
     {
+      "name": "RewindBox",
+      "repo": "TarbleFR/RewindBox",
+      "release_type": "stable"
+    },
+    {
       "name": "Roam Control",
       "repo": "seanhowarthdev/Roam-Control",
+      "release_type": "stable"
+    },
+    {
+      "name": "SceneBox",
+      "repo": "donbytyqi/scenebox",
       "release_type": "stable"
     },
     {
@@ -87,8 +172,8 @@
       "release_type": "stable"
     },
     {
-      "name": "Sulfur",
-      "repo": "cranci1/Sora",
+      "name": "Tsumiru",
+      "repo": "Suwayomi/Suwayomi-Tsumiru",
       "release_type": "stable"
     }
   ]
