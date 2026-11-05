@@ -1,0 +1,166 @@
+name: Pipeline
+
+# One run does the whole chain, in order:
+#   test > check releases > update AltStore source > pages build
+# Jobs, not separate workflows: a push made with GITHUB_TOKEN does not
+# start another workflow run, so chaining check-releases -> update-source
+# across files never fired.  Inside one run the jobs just depend on each
+# other and no trigger is involved.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    # Hourly at minute 23 (off-minute to avoid the :00/:30 stampede).
+    - cron: "23 * * * *"
+  workflow_dispatch:
+
+# Shared with upload-custom-ipa.yml: only one run may write repo.json,
+# current_releases.json and the ipa-assets release at a time.
+concurrency:
+  group: altstore-repo
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Byte-compile all scripts
+        run: python -m compileall -q scripts
+
+      - name: Run pipeline selftest
+        run: python scripts/selftest.py
+
+  check-releases:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Check for updates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/check_releases.py --token="$GH_TOKEN"
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add current_releases.json
+
+          if git diff --cached --quiet; then
+            echo "No version changes."
+            exit 0
+          fi
+
+          git commit -m "chore: update current releases" -m "Automated update from GitHub Actions."
+          bash scripts/ci_push.sh
+
+  update-source:
+    needs: check-releases
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      pushed: ${{ steps.commit.outputs.pushed }}
+
+    steps:
+      # ref: main, not github.sha: the check-releases job committed
+      # current_releases.json a moment ago and this job must see it.
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Update source (fetch changed apps)
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/update_source.py --github-token="$GH_TOKEN"
+
+      - name: Sync IPA Assets release
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Deterministic sync: creates the release if needed, uploads
+          # every ipas/*.ipa (missing or size-changed), deletes stale
+          # .ipa assets (exact-name API matching — no shell word
+          # splitting, no gh fuzzy matching), and fails if the release
+          # doesn't match ipas/ afterwards.  When the update step failed,
+          # --no-delete keeps every asset it might still need.
+          python scripts/sync_release.py --token="$GH_TOKEN" \
+            ${{ steps.update.outcome != 'success' && '--no-delete' || '' }}
+
+      - name: Commit and push changes
+        id: commit
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add repo.json icons/ current_releases.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update AltStore source" -m "Automated update from GitHub Actions."
+          bash scripts/ci_push.sh
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+  pages:
+    needs: update-source
+    # Pages is served from the main branch, so the push normally rebuilds
+    # it.  This asks for a build anyway: a push made with GITHUB_TOKEN is
+    # sometimes skipped by the Pages builder, and a duplicate build is
+    # harmless.
+    if: needs.update-source.outputs.pushed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+    # The push already rebuilds Pages; a failed request here must not mark
+    # the run red.
+    continue-on-error: true
+
+    steps:
+      - name: Trigger Pages build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds" \
+            | python -c 'import json,sys; b=json.load(sys.stdin); print("Pages build queued:", b.get("status"), b.get("url", ""))'
