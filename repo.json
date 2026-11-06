@@ -8,6 +8,38 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.8.ipa",
+          "size": 74022517,
+          "version": "0.6.8",
+          "buildVersion": "151",
+          "date": "2026-11-05T22:56:54Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• fix(ios): stop the skip ahead after Control Centre / Notification Centre (#311) @luqmanfadlli\n• feat(livetv): Live TV revamp with Channels, Guide, Sports and On Demand tabs, recents/favorites/category chips, grid view and collapsible search @luqmanfadlli\n• fix(autosync): keep AutoSync reachable behind the Cast-aware controller @luqmanfadlli\n• fix(wetrakr): show watched badge for completed shows and stop rewatch pushes @luqmanfadlli\n• ref(setting): move Private Viewing from Player Interface to Tracking @luqmanfadlli\n• fix(simkl): sign related-title requests and log Simkl failures @luqmanfadlli\n• fix(ios): apply video output presets when the player opens @luqmanfadlli\n• fix(settings): fix plugin settings failing to open @luqmanfadlli\n• feat(ios): show text subtitles in Picture in Picture and the mini player @luqmanfadlli\n• fix(subtitles): restore pre-blur sizing and render outline blur natively on iOS @luqmanfadlli\n• fix(ios): fix temporary HLS playlist write; clear safe deprecations @luqmanfadlli\n• feat(subtitles): outline blur for subtitles (#307) @3l-franco\n• fix(player): fix VC-1 content only playing audio (#309) @chrisk325\n• fix(player): detach mpv surfaces on the playback thread @tapframe\n• feat(streams): update blur @tapframe\n• feat(details): update blur @tapframe\n• fix(ios): keep an add-on subtitle selected before mpv loads the file (#2517) @skoruppa\n• feat(autosync): sync ASS/SSA add-on subtitles drawn by libass (#2515) @skoruppa\n• fix(i18n): drop trailing period from two pt-BR descriptions (#2506) @jhojhocraazy\n• fix(player): stop Exo/libmpv auto-switch ping-pong on the same source (#2485) @halibiram\n• fix(player): resume a closed torrent stream at the stalled frame (#2479) @halibiram\n• feat(player): audio delay, amplification, downmix and center mix on Android (#2456) @kernexshadow"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.8",
+      "versionDate": "2026-11-05T22:56:54Z",
+      "size": 74022517,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.8.ipa"
+    },
+    {
       "name": "DolphiniOS",
       "bundleIdentifier": "me.oatmealdome.DolphiniOS-njb-patreon-beta",
       "developerName": "OatmealDome",
@@ -627,38 +659,6 @@
       "versionDate": "2026-11-02T05:46:16Z",
       "size": 17154795,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Tsumiru.rel-1.6.4.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.7.ipa",
-          "size": 73724661,
-          "version": "0.6.7",
-          "buildVersion": "150",
-          "date": "2026-11-04T12:31:13Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• fix(ios): use the Compose sheet while Glass UI is on @luqmanfadlli\n• fix(ios): align profile insight frosted hero @luqmanfadlli\n• fix(ios): open the photo picker after the native sheet closes @luqmanfadlli\n• fix(party): join form on a glass card over the app background @luqmanfadlli\n• fix(profile-insight): frosted hero and glass watch time card over the app background @luqmanfadlli\n• fix(ios): never draw the app background in the gate overlay above the native tab bar @luqmanfadlli\n• fix(glass-ui): dim the full extended header band so headers no longer look boxed @luqmanfadlli\n• fix(glass-ui): brighter secondary and muted text over the app background @luqmanfadlli\n• fix(glass-ui): headers pin at the very top and span the full width; Search keeps Discover in its fixed header @luqmanfadlli\n• feat(glass-ui): soft text shadow for readability over the app background @luqmanfadlli\n• fix(home): keep the solid dynamic background when Dynamic Background is on @luqmanfadlli\n• fix(livetv): drop last watched card and pin title, search and filters @luqmanfadlli\n• fix(search,library): one continuous header band, pinned cloud toolbar and search, cleaner calendar icon @luqmanfadlli\n• feat(glass-ui): app background lives under Glass UI, edge-to-edge frosted headers, stronger dim @luqmanfadlli\n• feat(library): calendar popup uses Glass UI @luqmanfadlli\n• fix(settings): landscape sidebar scrolls, starts higher on phones and turns to glass @luqmanfadlli\n• fix(profile-insight): drop the profile backdrop and use a glass-ready card @luqmanfadlli\n• feat(appearance): experimental Glass UI with dark, balanced and vivid presets @luqmanfadlli\n• feat(appearance): app-wide background from gallery or URL, drawn once behind every screen @luqmanfadlli\n• feat(settings): move dynamic background and catalog accent to Layout > Home @luqmanfadlli\n• fix(subtitle) track naming regression introduced after merging upstream (#290) @chrisk325\n• feat(player): resize video beside watch party panel @tapframe\n• Fix addon ASS subtitles not rendering with libass on Android (#2507) @skoruppa\n• fix(ios): declare long-form video audio so playback is not shown as music (#2419) @WhiteGiso\n• locales: add and update Arabic settings translations (#2498) @aliabdoxd14\n• Add missing Polish translations (#2495) @skoruppa\n• Keep stream info and current stream marker with reused links (#2494) @skoruppa\n• i18n: harmonize French terminology with Nuvio TV (#2481) @SK-Gits\n• l10n: complete missing Italian translations (#2482) @WhiteGiso\n• Add mark as watched to continue watching menu (#2493) @skoruppa\n• fix(player): prevent auto failover loop and fix anime engine selection (#2467) @guuilp\n• feat(i18n): complete and update Turkish (tr) localization (#2472) @stuntsnakee\n• Fix line breaks in the Spanish P2P consent text (#2470) @IberianSoldierPC\n• Update Spanish mobile translations (#2468) @IberianSoldierPC\n• i18n(el): sync the Greek locale with 0.6.6 (settings realignment, chapters, subtitle appearance) (#2466) @nosvasedis\n• Update Bulgarian strings for clarity and accuracy after latest update (#2463) @viiktr\n• i18n(vi): update latest Vietnamese strings (#2460) @blueocean2308\n• feat(i18n): refine fr translations and align Nuvio Mobile with Nuvio TV (#2459) @SK-Gits\n• fix(i18n): pt-BR wording follow-up to #2435 (#2455) @jhojhocraazy\n• Skip button timer resets when chapters replace API intervals (#2457) @skoruppa\n• add video hash computation and subtitle extras parity with TV (#2450) @skoruppa\n• i18n(ar): complete the Arabic mobile translations (#2368) @abdulamalik\n• fix(ios): publish Now Playing only on playback changes (#2420) @WhiteGiso\n• fix(i18n): localize Episode N on remaining UI (#2254) @blueocean2308"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.7",
-      "versionDate": "2026-11-04T12:31:13Z",
-      "size": 73724661,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.7.ipa"
     },
     {
       "name": "YTMusicUltimate",
