@@ -8,6 +8,74 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261106.ipa",
+          "size": 40577893,
+          "version": "20261106",
+          "buildVersion": "260",
+          "date": "2026-11-06T15:32:28Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• Android: regenerate the PGO profile on the GS span source\n• GS/HW: a target takes the destination-alpha loop only after more than 64 such draws in a frame\n• GS/Vulkan: the Adreno 613's destination-alpha loop leaves only the targets it reads uncompressed\n• GS/Vulkan: on the Adreno 613 destination-alpha draws read the target in the pass\n• GS: with draw buffering off, the draw's environment is copied once\n• GS: sprite pair layouts enter the two-pass kick kernel, autoflush included\n• GS/SW: build only the colour table entry a row's span reads\n• GS/HW: copy road kernels read the texture a block at a time and write the frame a block row at a time\n• GS/TC: a block grid per target in place of the dirty rectangle lists\n• Android: Auto hides the on-screen controls for a connected pad only on a handheld\n• Android: ask again whether a gamepad is attached when the activity is created\n• GS/HW: compute this draw's cover test before the CPU sprite verdict\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261104...afd93842f99be9ea8d5730a9d20f1222f1b40cd8"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261106",
+      "versionDate": "2026-11-06T15:32:28Z",
+      "size": 40577893,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261106.ipa"
+    },
+    {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.634.ipa",
+          "size": 193977007,
+          "version": "0.1.634",
+          "buildVersion": "634",
+          "date": "2026-11-06T17:53:12Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nThis build brings everything since 0.1.630: OpenGL games, Steam Workshop and game versions, downloads from a PC on your network, an itch.io store, GOG and Epic improvements, an experimental EA store, the fixes for Rockstar's two Social Club updates of 3 and 4 November, Red Dead Redemption 2 with less memory, and new fixes from the logs you sent with Send Log.\n\nRockstar Social Club updates (3 and 4 November): after Rockstar updated Social Club (2.4.0.296, then 2.4.0.302), the Rockstar Games Launcher stayed a gray window and Red Dead Redemption 2, GTA V and GTA IV could not start. BCD supports both versions now. If your game still shows a gray launcher, use Reset to Recommended on its page (see below).\n\nNew\n\n• OpenGL games: a game that draws with OpenGL can now run. On the game's page, Direct3D › OpenGL chooses Desktop OpenGL (through Vulkan on Metal) or OpenGL ES; it is off unless chosen, and Settings › Graphics says where to find it. Recommended settings turn it on for The Binding of Isaac: Rebirth, Mewgenics, DOOM 3: BFG Edition, Darkest Dungeon, Battle Brothers, Jetboard Joust and Stardew Valley (Desktop OpenGL) and Balatro (OpenGL ES), and Auto-tune turns it on after the failures that need it (no OpenGL context, GameMaker's OpenGL runner, LÖVE games). LÖVE games get a LuaJIT that runs here. Compressed textures of desktop OpenGL games no longer draw black on devices whose graphics chip cannot read them directly.\n• Steam game versions: for a game with beta branches, Options › Version on its page lists the public build and the betas (a protected beta after its code is entered). The choice applies to the next download, update or repair, or at once.\n• Steam Workshop: Options › Steam › Steam Workshop on a game's page, and a Workshop button on the Library's Steam chip, show your subscribed items, Browse and search, and each item's card. Subscribing, unsubscribing and removing files ask first.\n• Downloads from a PC on your network: Settings › Accounts › Steam › Downloads from a PC on this network (off by default) takes a game from a PC signed in to the same Steam account on the same network first, and the rest from Steam's servers. Downloads says where the data comes from.\n• itch.io: sign in with your itch.io API key in Settings › Accounts › itch.io. BCD lists the games you bought or claimed, your collections and the free games you add with Find a game, and installs their Windows downloads (zip and 7z).\n• GOG:\n• DLC you own installs with the game;\n• an installed game's page offers Update when a newer build or missing DLC is found, and Repair, which checks every installed file against the build;\n• a game's redistributables (for example older Visual C++ runtimes) download with it and install once at its first start; Repair adds them to a game installed before;\n• a game's install script writes its registry values before the first start.\n• Epic cloud saves: on a game's page, Cloud saves › Turn on (it asks first). A newer cloud save comes down, after a backup of the local one; Sync now sends this device's newer saves up. Off until you turn it on for a game.\n• EA games (experimental, off): Settings › Accounts › EA games (experimental) › Use EA games in BCD signs in to your EA account, lists your PC games, downloads them and starts them without the EA app. Off, BCD never contacts EA.\n• Keep running in the background (off by default): Settings › Memory & performance › In the background sets how many minutes a game and a download keep running after BCD leaves the screen, and whether sound plays on.\n• 'Look like this GPU' has a GeForce GTX 1060 6GB.\n\nFixes and improvements…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.634",
+      "versionDate": "2026-11-06T17:53:12Z",
+      "size": 193977007,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.634.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -105,38 +173,6 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.8.ipa"
     },
     {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261104.ipa",
-          "size": 40568716,
-          "version": "20261104",
-          "buildVersion": "260",
-          "date": "2026-11-04T11:52:04Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• Android: graphics problem reports take a savestate by default\n• Android: problem reports scrub the app's own /data paths\n• Android: problem report takes the save state first and stops the game when the dump's frames are recorded\n• GS dump: say where a requested dump is, so the caller can act when its frames are recorded\n• Android: a crash report says which driver the crashed run actually opened\n• Android: problem reports fill in the game's CRC\n• Android: problem reports name the build's commit without the driver report\n• Android: a crash report that fails to build keeps its Not sent line\n• Android: crash startup work runs once per process\n• Android: problem report screens go back a step, ask before deleting, and keep their work off the main thread\n• Android: problem report capture takes the save state after the dump, refreshes the logs, and can be given up on\n• Android: report uploads retry for real, wait for Wi-Fi, can be stopped and no longer trust the clock\n• Android: ask about a crash only when one happened in front of the user\n• Android: problem reports no longer carry the RetroAchievements user, network addresses or file:// paths\n• Android: \"Report a problem\" flow, My reports, and their entry points\n• Android: collect, arm the crash marker, and upload problem reports\n• Android: problem report core, with unit tests\n• Android: JNI calls for the problem report\n• tests: pass the cold-stub test's asm one pointer instead of eight operands\n• SPU2: V_Core::ReadInput returns silence for core 0 in bypass mode\n• IopLagControl.h: include <cstddef> and spell std::size_t\n• Android: the IOP thread starts on where the performance tier is two or three cores\n• Linux: no ordered thread pin when the performance tier cannot hold EE, GS and VU1\n• IOP thread: on by default where the performance tier is two or three cores (Qt and SDL)\n• IOP thread: the GS split counts the IOP thread only where it will run\n• GameDB: IOP thread for the two Korean Shadow of the Colossus releases\n• IOP thread: say in the settings text when it is on, and that the game database turns it on\n• Android: move the stored lag of 24576 to one frame once\n• IOP thread: move a saved lag of 24576 to one frame once (Qt and SDL)\n• IOP thread: Threaded needs a performance tier of at least two cores\n• IOP thread: Threaded on a host whose performance tier is narrower than the threads\n• IOP thread: keep an unpinned IOP thread off the performance tier when the tier is too narrow\n• IOP thread: the lag bound setting defaults to one frame\n• IOP thread: add the SPU2 auto-DMA stream rule to the default set\n• IOP thread: default to one rule, idle with a request out; tests for the lag rules\n• IOP thread: lag rules that tighten a large lag bound while the EE waits on the IOP…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261104",
-      "versionDate": "2026-11-04T11:52:04Z",
-      "size": 40568716,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261104.ipa"
-    },
-    {
       "name": "AirCard-iOS",
       "bundleIdentifier": "com.mak5er.aircard",
       "developerName": "Mak5er",
@@ -167,42 +203,6 @@
       "versionDate": "2026-10-04T12:22:53Z",
       "size": 4638147,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/AirCard.rel-1.3.2.ipa"
-    },
-    {
-      "name": "BCD",
-      "bundleIdentifier": "com.thebcd69.bcd",
-      "developerName": "thebcd69",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
-      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
-      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.630.ipa",
-          "size": 185317150,
-          "version": "0.1.630",
-          "buildVersion": "630",
-          "date": "2026-11-04T09:45:25Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nThis build brings everything since 0.1.626: a large round of fixes from the logs you sent with Send Log and from Discord reports, a look of your own for touch controls, and the fix for Rockstar's new launcher.\n\nRockstar Games Launcher update (3 November): Rockstar's new launcher (1.0.110) needs a Windows file BCD gives only on request (tbs.dll), so Red Dead Redemption 2, GTA V and the other Rockstar games stopped with \"Unable to launch game, please try reinstalling the game\". Their recommended settings now include it, also in the online list that 0.1.600 and later builds read. If your game still shows the box, use Reset to Recommended on its page (see below), or add env.MADEIRA_OPTIN_DLLS = tbs to its config.\n\nNew\n\n• Your own look for touch controls: in the touch editor, a selected control has a Look tab (the paintbrush). Pick its shape (Standard, Circle, Square, or Rectangle with a width-to-height slider) and give it your own text, for example \"INV\" on an inventory key; the text is drawn as large as it fits inside the control. The look is saved with the layout and travels in shared layouts; a control without one looks as before.\n• Helper memory takes more: with Helper memory on, BCD now keeps taking memory from the helper while the device has room (it no longer stops at BCD's own memory warning), counts free and reusable pages, and can be used without the swap file. env.MADEIRA_POOL_MORE = 0 in a game's config brings back the previous behaviour. Thanks to rtmtree for these changes.\n• Atomic operations on shared code memory: games stopped when they used certain atomic instructions (lock-free counters and compare-and-swap) on memory BCD keeps writable through a second mapping; the log said [store-undecoded]. BCD now carries them out (in the last days: Jetboard Joust, ReSkate, Tomb Raider, CrossCode, BeamNG.drive, GTA IV, S.T.A.L.K.E.R., Minecraft Java Edition, GeoGuessr, Cuphead and others).\n• Long sessions with many threads: BCD's tables of threads (512 entries) and their entry slots (1,024) were never given back, so a session that started thousands of threads failed with a crash or a frozen game (Fallout: New Vegas after a long play, Messiah, NARUTO SHIPPUDEN: Ultimate Ninja STORM 3, FINAL FANTASY VII's launcher). The places of threads that ended are now reused; sessions with fewer threads run exactly as before.\n\nMessages and hints\n\nText only; none of these changes a setting.\n\n• JIT: when StikDebug was attached long before Play and no longer answered, the message says so: quit BCD, open it, tap Enable JIT and start the game within half a minute. A copy of BCD that cannot get JIT at all (no get-task-allow) is told at the first library screen.\n• Phones with a 2.3 GB memory limit: a large game's page shows the memory note and the graphics hint.\n• BCD Dock: clearer texts when Steam starts no copy-protection job for a game, when Steam's offline start cannot find the game's folder, and when Steam still counts your account as playing elsewhere.\n• Settings: a game's Windows version option says that newer games refuse XP and Vista (GTA V stops); the helper memory test says it cannot run inside LiveContainer; the in-game menu's pointer and controller notes point to Mouse-look and to XInput.\n• Steam Cloud: offline, on a device where no Steam game was started online yet, the cloud message adds that Steam may refuse the start: start it once online.\n• Auto-tune results no longer pop up while a game is running, and a result that only repeats what the running game already has is not shown.\n\nFixes and improvements…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer.",
-          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
-        }
-      },
-      "version": "0.1.630",
-      "versionDate": "2026-11-04T09:45:25Z",
-      "size": 185317150,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.630.ipa"
     },
     {
       "name": "Doer",
