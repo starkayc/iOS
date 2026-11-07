@@ -8,6 +8,41 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "LSX4",
+      "bundleIdentifier": "com.llayerlinux.LSX4RuntimeProbe",
+      "developerName": "lpfoj",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.llayerlinux.LSX4RuntimeProbe.png",
+      "localizedDescription": "The first working open-source PlayStation 4/5 emulator for Android & iOS",
+      "subtitle": "The first working open-source PlayStation 4/5 emulator for…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/LSX4.rel-ios-jit-128.9921.ipa",
+          "size": 77015899,
+          "version": "128.9921",
+          "buildVersion": "128.9921",
+          "date": "2026-11-07T19:01:52Z",
+          "minOSVersion": "12.0",
+          "localizedDescription": "Download IPA · IPA + English instructions\n\n• Added Cinematic, an additional way to browse your game library with a horizontal row and full-screen artwork for the selected game.\n• Major performance optimizations and presets for demanding games, including God of War III Remastered and The Last of Us Remastered.\n• Improved upscaling, including a 720p output option for The Last of Us Remastered when using its 544p preset.\n\nInstallation guide\n\niOS 26+ · JIT. Update using the same signing account and bundle ID. Keep app extensions enabled when signing."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Локальное соединение на iPhone для подготовки JIT через LocalDevVPN."
+        }
+      },
+      "version": "128.9921",
+      "versionDate": "2026-11-07T19:01:52Z",
+      "size": 77015899,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/LSX4.rel-ios-jit-128.9921.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -453,41 +488,6 @@
       "versionDate": "2026-11-05T03:33:53Z",
       "size": 142303569,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Husk.rel-3.4.ipa"
-    },
-    {
-      "name": "LSX4",
-      "bundleIdentifier": "com.llayerlinux.LSX4RuntimeProbe",
-      "developerName": "lpfoj",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.llayerlinux.LSX4RuntimeProbe.png",
-      "localizedDescription": "The first working open-source PlayStation 4/5 emulator for Android & iOS",
-      "subtitle": "The first working open-source PlayStation 4/5 emulator for…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/LSX4.rel-ios-jit-128.9775.ipa",
-          "size": 76905447,
-          "version": "128.9775",
-          "buildVersion": "128.9775",
-          "date": "2026-11-02T21:44:50Z",
-          "minOSVersion": "12.0",
-          "localizedDescription": "Download IPA · IPA + English instructions\n\n• Optimizations for Bloodborne and The Last of Us.\n• Added FSR upscaling.\n• Other minor improvements.\n\nInstallation guide\n\niOS 26+ · JIT. Update using the same Apple Account and bundle ID. Keep Remove App Extensions OFF in Sideloadly."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Локальное соединение на iPhone для подготовки JIT через LocalDevVPN."
-        }
-      },
-      "version": "128.9775",
-      "versionDate": "2026-11-02T21:44:50Z",
-      "size": 76905447,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/LSX4.rel-ios-jit-128.9775.ipa"
     },
     {
       "name": "Mangayomi",
