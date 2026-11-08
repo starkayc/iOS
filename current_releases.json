@@ -26,7 +26,7 @@
   },
   "Debrify": {
     "release_type": "prerelease",
-    "commit": "62067b4"
+    "commit": "98bebe8"
   },
   "Doer": {
     "release_type": "stable",
@@ -92,7 +92,7 @@
   },
   "Nuvio": {
     "release_type": "stable",
-    "version": "0.6.9-beta"
+    "version": "0.6.10-beta"
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
