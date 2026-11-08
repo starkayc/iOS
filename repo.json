@@ -8,6 +8,68 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-98bebe8.ipa",
+          "size": 39657040,
+          "version": "0.10.2.1",
+          "buildVersion": "58",
+          "date": "2026-11-08T08:30:52Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📱 iPhone Duo and iPad\n• Added iPhone Duo support: the app now fills the inner screen instead of sitting in a centred window, and keeps your place when you fold, unfold or rotate.\n• The floating navigation button no longer covers page controls on iPad, the unfolded Duo and phones in landscape (search fields, the Addons filters, the Settings header and back button, Discover's Source picker).\n• The empty IPTV screen scrolls instead of clipping on short screens.\n\n▶️ Player\n• The seek bar shows the time under your pointer while you hover or drag it.\n• Tap the duration to switch between total time and time left.\n• New Icons only option in Playback settings hides the labels on the player's buttons.\n• The seek row is evenly spaced, and the player shows the addon's name instead of a long code under the title.\n\n🎬 Subtitles\n• Added a Light grey subtitle colour.\n\n📺 IPTV and Multi-view\n• Multi-view has a way back on Mac, iPhone, iPad and desktops (a back button, and Escape on a keyboard).\n• The sound always moves to the tile you pick, even one still connecting. OK gives a tile the sound; hold OK for its options.\n• The note shown when a tile switches to another version of a channel fades after a few seconds.\n• The remote lands somewhere sensible after every action across the IPTV screens.\n\n⚽ Sports\n• The board fills in as each league answers instead of waiting for the slowest, with a loading bar and placeholder cards.\n• Times follow your device's 12- or 24-hour setting.\n\n🧩 Addons and trackers\n• AIOMetadata anime finds sources and tracker matches again, with stricter checks before an episode takes an IMDb ID.\n• A Simkl refresh no longer stops the player from opening.\n\n📡 TV remote fixes\n• Remote's Send everything can be finished with the remote, and UP and DOWN leave its options.\n• The import prompt's Import button is reachable with the remote.\n• Jellyfin and Emby grids keep focus after you open and leave a folder.\n\n⚙️ Other fixes\n• On phones, the lifted Up Next card no longer covers the season pill on detail pages.\n• Desktop: a preferences file left unreadable by a crash is repaired before the app reads it."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.10.2.1",
+      "versionDate": "2026-11-08T08:30:52Z",
+      "size": 39657040,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-98bebe8.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.10.ipa",
+          "size": 69752091,
+          "version": "0.6.10",
+          "buildVersion": "153",
+          "date": "2026-11-08T08:36:48Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• c1dfd989 fix(player): start playback service as a normal service first (NUVIO-MOBILE-D9 NUVIO-MOBILE-9E NUVIO-MOBILE-9M NUVIO-MOBILE-PC) @tapframe\n• 6ad2d9ba fix(player): cap buffer start times at the min buffer (NUVIO-MOBILE-1VH) @tapframe\n• 81dc761e fix(player): guard caption setting reads (NUVIO-MOBILE-25M) @tapframe\n• d534d14e fix(network): treat SSL setup errors as failed requests (NUVIO-MOBILE-254 NUVIO-MOBILE-3N) @tapframe\n• 8172e682 fix(watched): copy unsynced keys before saving (NUVIO-MOBILE-260) @tapframe\n• i18n: add French translation for ratings strings (#2562) @SK-Gits\n• i18n(el): sync the Greek locale with 0.6.9 (playback audio, downmix, ratings) (#2561) @nosvasedis\n• i18n(he): translate party strings into Hebrew (#2557) @haveAnIssue\n• i18n(he): translate servers strings into Hebrew (#2556) @haveAnIssue\n• i18n(he): translate pip strings into Hebrew (#2555) @haveAnIssue\n• i18n(he): translate autosync strings into Hebrew (#2553) @haveAnIssue\n• i18n(he): translate mdblist strings into Hebrew (#2552) @haveAnIssue\n• i18n(he): translate ratings strings into Hebrew (#2551) @haveAnIssue\n• Update Japanese translation (#2559) @Joe00011\n• i18n(vi): translate ratings strings into Vietnamese (#2550) @blueocean2308\n• 82ca7d11 fix(player): reset addon subtitles only when the source changes @tapframe\n• feat(autosync): shared engine, enable on iOS (#2535) @skoruppa\n• fix(mdblist): remap anime episodes between addon and TMDB numbering (TV parity) (#2516) @kernexshadow"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.10",
+      "versionDate": "2026-11-08T08:36:48Z",
+      "size": 69752091,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.10.ipa"
+    },
+    {
       "name": "LSX4",
       "bundleIdentifier": "com.llayerlinux.LSX4RuntimeProbe",
       "developerName": "lpfoj",
@@ -257,37 +319,6 @@
       "versionDate": "2026-11-06T23:21:17Z",
       "size": 74751741,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.9.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.9.ipa",
-          "size": 69322992,
-          "version": "0.6.9",
-          "buildVersion": "152",
-          "date": "2026-11-06T21:19:10Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• ff522ec9 fix(i18n): add Tamil to iOS @tapframe\n• fix(skip-intro): drop open-ended Anime-Skip segments and prefer AniSkip (#2539) @skoruppa\n• fix(player): leave edge swipes to the back gesture and lock tablets to landscape (#2542) @skoruppa\n• 2f9f4ae6 feat(settings): add ratings source picker @tapframe\n• 9c26a7cf feat(details): add star ratings for titles and episodes @tapframe\n• 1255999d feat(mdblist): sync and save ratings @tapframe\n• 6982ec7d feat(simkl): save and read title ratings @tapframe\n• 32298713 feat(tracking): add rating source setting @tapframe\n• d816059e feat(streams): make chips see-through over backdrops @tapframe\n• 9877adfc feat(details): fade tablet artwork into the cinematic backdrop @tapframe\n• 5cf73ccc feat(details): show the cinematic backdrop behind the floating header @tapframe\n• f6ac2840 feat(details): make buttons and chips see-through over backdrops @tapframe\n• i18n: add French strings for audio downmix, amplification and delay (#2532) @SK-Gits\n• fix(player): allow playback during calls with ExoPlayer (#2531) @sap6\n• i18n(vi): update translations for strings.xml and autosync_toast_strings.xml (#2530) @blueocean2308\n• fix(i18n): update Bengali (বাংলা) localization and sync missing strings (#2529) @TanvirSdq\n• feat(i18n): add Tamil language support and UI localization (#2528) @vijay3695\n• Fix Arabic page-title wrapping in shared screen header (#2063) @i7xre"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.9",
-      "versionDate": "2026-11-06T21:19:10Z",
-      "size": 69322992,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.9.ipa"
     },
     {
       "name": "BCD",
@@ -912,37 +943,6 @@
       "versionDate": "2026-10-26T07:18:52Z",
       "size": 268717178,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1026.0-tachyon.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-62067b4.ipa",
-          "size": 39763038,
-          "version": "0.10.1.1",
-          "buildVersion": "57",
-          "date": "2026-10-31T12:11:57Z",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n⚽ Sports\n• Added a Sports board to IPTV, available as a Quick access shelf and on the Spotlight Home Sports shelf.\n• Covers 47 leagues across football, cricket, basketball, American football, hockey, baseball, rugby, tennis, golf, motorsport and combat sports, with day grids and a league picker. Choose leagues under IPTV settings → Sports & leagues.\n• Matches each fixture to your IPTV channels: guide listings, event streams named for the match (e.g. \"CRICKET 03: Bangladesh vs West Indies\"), live golf tour coverage, cricket listings by country code (e.g. \"RSA v AUS\") and listed broadcasters.\n• Avoids women's, youth and \"A\" team streams for men's fixtures, other sports, replays, highlights and streams dated another day.\n• Cards show when a channel's coverage starts (e.g. \"Eurosport from 13:30\"), and live cricket shows the match state such as Stumps or Lunch.\n\n📺 IPTV\n• Added Multi-view: watch several live channels at once in a grid. Add or remove channels from the channel actions (not available on Apple TV).\n• When a device can't decode another 4K stream, a multi-view tile switches to another version of the same channel.\n• IPTV now keeps the shelf you are on across reloads.\n\n⏺️ Recordings\n• Added Recording location & timing: choose where recordings are saved, and start early or keep recording after the end.\n• Added network share (SMB) support: copy recordings to a NAS or another computer, or record straight to the share on Android and desktop. Recording continues on the device if the share drops.\n• The Recordings page lists and plays recordings on your share. A new share copies recordings made from setup onward, with an option to copy earlier ones.\n• Android TV boxes without a system folder picker can now save recordings to a USB drive or SD card.\n\n🔎 Sources and addons\n• Added Search sources (Settings → Engines) to choose which IPTV playlists and media servers title search uses.\n• Added addon auto-update: Stremio addons refresh in the background when a new version is published. Toggle it from the Addon Hub menu.\n\n▶️ Playback\n• Added Mark earlier episodes watched to the episode options.\n• iPhone and iPad: added Now Playing controls on the lock screen, Control Centre and AirPods, and a Swipe to seek toggle in Playback settings.\n\n⚙️ Settings and fixes\n• Added a Storage Usage page showing what Debrify keeps on disk.\n• Spotlight collection folders on phones open on their rows again instead of a single merged shelf.\n• Messages with an action button hide on their own again.\n• Extensive internal restructuring of Search, Sources, Settings, IPTV, recordings and the player launcher, with added safeguards around profile switching.\n• iOS 15 and macOS 12 are now the minimum supported versions.",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.10.1.1",
-      "versionDate": "2026-10-31T12:11:57Z",
-      "size": 39763038,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-62067b4.ipa"
     },
     {
       "name": "Ksign",
