@@ -8,6 +8,39 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "StikDebug",
+      "bundleIdentifier": "com.stik.stikdebug",
+      "developerName": "StikDebug",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
+      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
+      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+…",
+      "tintColor": "3c94fc",
+      "category": "developer",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.2.ipa",
+          "size": 16924687,
+          "version": "3.2.2",
+          "buildVersion": "1",
+          "date": "2026-11-08T22:05:57Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "• Fix Utsuro, Henge, and \"MeloCafe\"\n\nFull Changelog: https://github.com/StikDebug/StikDebug/compare/3.2.1...3.2.2"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "StikDebug needs access to devices on your local network so it can connect to the targets you add to the Device Library.",
+          "NSLocationAlwaysAndWhenInUseUsageDescription": "StikDebug uses location to stay running in the background and maintain your JIT connection.",
+          "NSLocationWhenInUseUsageDescription": "StikDebug uses location to stay running in the background and maintain your JIT connection."
+        }
+      },
+      "version": "3.2.2",
+      "versionDate": "2026-11-08T22:05:57Z",
+      "size": 16924687,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.2.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -194,39 +227,6 @@
       "versionDate": "2026-11-07T08:08:32Z",
       "size": 3374224,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/MiniWatts.rel-1.7.0.ipa"
-    },
-    {
-      "name": "StikDebug",
-      "bundleIdentifier": "com.stik.stikdebug",
-      "developerName": "StikDebug",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.stik.stikdebug.png",
-      "localizedDescription": "An on-device debugger/JIT enabler for iOS versions 17.4+, powered by idevice.",
-      "subtitle": "An on-device debugger/JIT enabler for iOS versions 17.4+…",
-      "tintColor": "3c94fc",
-      "category": "developer",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.1.ipa",
-          "size": 16924629,
-          "version": "3.2.1",
-          "buildVersion": "1",
-          "date": "2026-11-07T05:15:03Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "• More error cleanup\n• Chinese (Simplified) localization\n• Kill processes via name via url scheme\n• FYI- StikDebug now requires Xcode 27+\n\nWhat's Changed\n• Added Chinese localization by @jlj1102 in https://github.com/StikDebug/StikDebug/pull/494\n\nNew Contributors\n• @jlj1102 made their first contribution in https://github.com/StikDebug/StikDebug/pull/494\n\nFull Changelog: https://github.com/StikDebug/StikDebug/compare/3.2.0...3.2.1"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "StikDebug needs access to devices on your local network so it can connect to the targets you add to the Device Library.",
-          "NSLocationAlwaysAndWhenInUseUsageDescription": "StikDebug uses location to stay running in the background and maintain your JIT connection.",
-          "NSLocationWhenInUseUsageDescription": "StikDebug uses location to stay running in the background and maintain your JIT connection."
-        }
-      },
-      "version": "3.2.1",
-      "versionDate": "2026-11-07T05:15:03Z",
-      "size": 16924629,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.1.ipa"
     },
     {
       "name": "Twitter",
