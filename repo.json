@@ -8,6 +8,38 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.10.ipa",
+          "size": 75207354,
+          "version": "0.6.10",
+          "buildVersion": "153",
+          "date": "2026-11-09T07:10:24Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• perf(ios): memory optimization long sessions and 4K HDR/DV playback @luqmanfadlli\n• feat(player): add Anime4K 2x upscaler and line sharpener for ExoPlayer and mpv (#337) @chrisk325\n• fix(ios): detach the mpv metal layer before destroying mpv (#336) @luqmanfadlli\n• fix(player): start playback service as a normal service first (NUVIO-MOBILE-D9 NUVIO-MOBILE-9E NUVIO-MOBILE-9M NUVIO-MOBILE-PC) @tapframe\n• fix(player): cap buffer start times at the min buffer (NUVIO-MOBILE-1VH) @tapframe\n• fix(player): guard caption setting reads (NUVIO-MOBILE-25M) @tapframe\n• fix(network): treat SSL setup errors as failed requests (NUVIO-MOBILE-254 NUVIO-MOBILE-3N) @tapframe\n• fix(watched): copy unsynced keys before saving (NUVIO-MOBILE-260) @tapframe\n• i18n: add French translation for ratings strings (#2562) @SK-Gits\n• i18n(el): sync the Greek locale with 0.6.9 (playback audio, downmix, ratings) (#2561) @nosvasedis\n• i18n(he): translate party strings into Hebrew (#2557) @haveAnIssue\n• i18n(he): translate servers strings into Hebrew (#2556) @haveAnIssue\n• i18n(he): translate pip strings into Hebrew (#2555) @haveAnIssue\n• i18n(he): translate autosync strings into Hebrew (#2553) @haveAnIssue\n• i18n(he): translate mdblist strings into Hebrew (#2552) @haveAnIssue\n• i18n(he): translate ratings strings into Hebrew (#2551) @haveAnIssue\n• Update Japanese translation (#2559) @Joe00011\n• i18n(vi): translate ratings strings into Vietnamese (#2550) @blueocean2308\n• fix(player): reset addon subtitles only when the source changes @tapframe\n• feat(autosync): shared engine, enable on iOS (#2535) @skoruppa\n• fix(mdblist): remap anime episodes between addon and TMDB numbering (TV parity) (#2516) @kernexshadow"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.10",
+      "versionDate": "2026-11-09T07:10:24Z",
+      "size": 75207354,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.10.ipa"
+    },
+    {
       "name": "StikDebug",
       "bundleIdentifier": "com.stik.stikdebug",
       "developerName": "StikDebug",
@@ -287,38 +319,6 @@
       "versionDate": "2026-11-06T21:49:13Z",
       "size": 273601732,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/NeoFreeBird.rel-7.3.1.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.9.ipa",
-          "size": 74751741,
-          "version": "0.6.9",
-          "buildVersion": "152",
-          "date": "2026-11-06T23:21:17Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• fix(details): restore glass floating header in cinematic mode after upstream merge @luqmanfadlli\n• fix(ratings): restore enhanced in-app ratings on upstream merge @luqmanfadlli\n• fix(ios): keep the app background while the player is parked in PiP @luqmanfadlli\n• feat(search): Discover header with a search action that reveals the search box @luqmanfadlli\n• feat(library): hide the cloud library search box behind a search action @luqmanfadlli\n• fix(livetv): match the Live TV header offset to the other tab headers @luqmanfadlli\n• fix(ios): let the collection folder draw under the native navigation bar so Glass UI shows through @luqmanfadlli\n• fix(ui): opt in to experimental shelf cache window @luqmanfadlli\n• perf(ui): smoother scrolling on home, shelves and grids (#330) @chrisk325\n• feat(hero): smart horizontal framing for cropped backdrops (#323) @chrisk325\n• fix(player): read mpv cache-speed as INT64 so the loading speed shows on libmpv and iOS @luqmanfadlli\n• feat(player): options to hide the control glass backgrounds and the skip buttons (#266) @luqmanfadlli\n• perf(details): open movie and show details faster (#34) (#322) @chrisk325\n• i18n(id): bring Bahasa Indonesia up to date with the English strings @luqmanfadlli\n• feat(livetv): include matching categories in Live TV search results (#321) @chrisk325\n• feat(player): show the download speed on the loading screen @luqmanfadlli\n• fix(tmdb): title logo falls back across app language, English and original language @luqmanfadlli\n• fix(player): harden the player title logo (#313 follow-up) @luqmanfadlli\n• Feature/ add optional player logo title (#313) @jeff25steve\n• adjust blur after upstream merge (#316) @chrisk325\n• fix(details): blend hero artwork smoothly into the cinematic backdrop (#317) @chrisk325\n• fix(i18n): add Tamil to iOS @tapframe\n• fix(skip-intro): drop open-ended Anime-Skip segments and prefer AniSkip (#2539) @skoruppa\n• fix(player): leave edge swipes to the back gesture and lock tablets to landscape (#2542) @skoruppa\n• feat(settings): add ratings source picker @tapframe\n• feat(details): add star ratings for titles and episodes @tapframe\n• feat(mdblist): sync and save ratings @tapframe\n• feat(simkl): save and read title ratings @tapframe\n• feat(tracking): add rating source setting @tapframe\n• feat(streams): make chips see-through over backdrops @tapframe\n• feat(details): fade tablet artwork into the cinematic backdrop @tapframe\n• feat(details): show the cinematic backdrop behind the floating header @tapframe\n• feat(details): make buttons and chips see-through over backdrops @tapframe\n• i18n: add French strings for audio downmix, amplification and delay (#2532) @SK-Gits\n• fix(player): allow playback during calls with ExoPlayer (#2531) @sap6\n• i18n(vi): update translations for strings.xml and autosync_toast_strings.xml (#2530) @blueocean2308\n• fix(i18n): update Bengali (বাংলা) localization and sync missing strings (#2529) @TanvirSdq\n• feat(i18n): add Tamil language support and UI localization (#2528) @vijay3695\n• Fix Arabic page-title wrapping in shared screen header (#2063) @i7xre"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.9",
-      "versionDate": "2026-11-06T23:21:17Z",
-      "size": 74751741,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.9.ipa"
     },
     {
       "name": "BCD",
