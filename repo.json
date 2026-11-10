@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.11.ipa",
+          "size": 69784598,
+          "version": "0.6.11",
+          "buildVersion": "154",
+          "date": "2026-11-10T01:28:12Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• 9c2d0902 fix(mdblist): reuse progress and watched lists until a remap changes them @tapframe\n• daa966d3 fix(auth): stay signed in when session refresh fails @tapframe\n• fix(player): center opening overlay backdrop on tall screens (#2585) @yvngjoon\n• f004557c fix(player): show mpv error details on the error screen @tapframe\n• fix(autosync): allow AutoSync without a preferred language, enable forced subs and AutoSync by default (#2578) @skoruppa\n• feat(hero): smart horizontal framing for cropped backdrops (#2538) @skoruppa\n• Add and update Bulgarian strings in strings.xml (#2576) @viiktr\n• i18n: harmonize French wording with Nuvio TV (#2575) @SK-Gits\n• fix(autosync): search further when a restored subtitle does not fit (#2537) @skoruppa"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.11",
+      "versionDate": "2026-11-10T01:28:12Z",
+      "size": 69784598,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.11.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -134,37 +165,6 @@
       "versionDate": "2026-11-08T08:30:52Z",
       "size": 39657040,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-98bebe8.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.10.ipa",
-          "size": 69752091,
-          "version": "0.6.10",
-          "buildVersion": "153",
-          "date": "2026-11-08T08:36:48Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• c1dfd989 fix(player): start playback service as a normal service first (NUVIO-MOBILE-D9 NUVIO-MOBILE-9E NUVIO-MOBILE-9M NUVIO-MOBILE-PC) @tapframe\n• 6ad2d9ba fix(player): cap buffer start times at the min buffer (NUVIO-MOBILE-1VH) @tapframe\n• 81dc761e fix(player): guard caption setting reads (NUVIO-MOBILE-25M) @tapframe\n• d534d14e fix(network): treat SSL setup errors as failed requests (NUVIO-MOBILE-254 NUVIO-MOBILE-3N) @tapframe\n• 8172e682 fix(watched): copy unsynced keys before saving (NUVIO-MOBILE-260) @tapframe\n• i18n: add French translation for ratings strings (#2562) @SK-Gits\n• i18n(el): sync the Greek locale with 0.6.9 (playback audio, downmix, ratings) (#2561) @nosvasedis\n• i18n(he): translate party strings into Hebrew (#2557) @haveAnIssue\n• i18n(he): translate servers strings into Hebrew (#2556) @haveAnIssue\n• i18n(he): translate pip strings into Hebrew (#2555) @haveAnIssue\n• i18n(he): translate autosync strings into Hebrew (#2553) @haveAnIssue\n• i18n(he): translate mdblist strings into Hebrew (#2552) @haveAnIssue\n• i18n(he): translate ratings strings into Hebrew (#2551) @haveAnIssue\n• Update Japanese translation (#2559) @Joe00011\n• i18n(vi): translate ratings strings into Vietnamese (#2550) @blueocean2308\n• 82ca7d11 fix(player): reset addon subtitles only when the source changes @tapframe\n• feat(autosync): shared engine, enable on iOS (#2535) @skoruppa\n• fix(mdblist): remap anime episodes between addon and TMDB numbering (TV parity) (#2516) @kernexshadow"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.10",
-      "versionDate": "2026-11-08T08:36:48Z",
-      "size": 69752091,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.10.ipa"
     },
     {
       "name": "LSX4",
