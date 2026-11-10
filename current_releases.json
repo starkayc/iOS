@@ -96,7 +96,7 @@
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
-    "version": "0.6.10-beta"
+    "version": "0.6.11-beta"
   },
   "Opaline": {
     "release_type": "stable",
@@ -108,7 +108,7 @@
   },
   "Osu": {
     "release_type": "any",
-    "version": "2026.1026.0-tachyon"
+    "version": "2026.1110.0-tachyon"
   },
   "PSX3IOS": {
     "release_type": "any",
