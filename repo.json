@@ -8,6 +8,44 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "RewindBox",
+      "bundleIdentifier": "com.neogamelab.neostation",
+      "developerName": "TarbleFR",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.neogamelab.neostation.png",
+      "localizedDescription": "RewindBox 0.0.10 — independent iPhone/iPad emulation frontend forked from NeoStation, with embedded Libretro, MeloNX (Switch), Dolphin, ARMSX2 and RPCS3, HD textures, cheats and customizable controls.",
+      "subtitle": "RewindBox 0.0.10 — independent iPhone/iPad emulation…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.11.ipa",
+          "size": 267033667,
+          "version": "0.0.11",
+          "buildVersion": "721",
+          "date": "2026-11-10T19:41:55Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "RewindBox 0.0.11 — Build 721\n\nEverything since RewindBox 0.0.10 (Build 559), brought together in one update.\n\n🎮 PlayStation 3 — RPCS3\n\n• Assassin’s Creed: audio mixing corrections prevent audio periods from being discarded during waits.\n• Reduced redundant rendering interruptions and repeated graphics work, including changes to Vulkan/MoltenVK.\n• Improved texture caching to reuse more previously calculated results.\n• Black Ops II: corrections to SPU synchronization, memory reservations and waits involved in stalls.\n• Black Ops II: earlier submission of pending occlusion results, with a separate bounded budget, targets waits on the game’s main CPU threads.\n• Corrected short active-wait timing on iPhones with a 1 GHz system counter and adjusted the BO2 writer-lock wait path.\n• Assassin’s Creed: corrected an atomic SPU write that could overwrite a newer main-CPU value during game exit.\n• Improved SPU program preparation and cache reuse to reduce recompilation during gameplay.\n• God of War III: removed the unintended 30 FPS limit and reduced unnecessary texture validation.\n• God of War III v1.00: the optional MLAA bypass now applies on a fresh boot as well.\n• Assassin’s Creed IV and Dynasty Warriors 6: corrected game profiles to use the LLVM PPU recompiler.\n• Corrected texture coherence, partial graphics commands and CPU/GPU synchronization paths.\n• More reliable retention of mounted ISO images.\n• Corrected JIT memory reservation when the usual address range is unavailable, including on certain iOS beta versions.\n• Repositioned the Menu and Performance buttons to better respect touch controls and safe areas.\n• Expanded per-game settings and diagnostic tools to identify the causes of stalls more precisely.\n\n🕹️ Nintendo Switch — MeloNX\n\n• Support for the keyboard requested by games, plus touch access to L3/R3.\n• Corrected controller handling during sessions and when returning to the interface.\n• First-frame and GPU-transfer corrections targeting black screens at launch.\n• Graphics ordering corrections targeting stale frames, flickering and rendering artifacts.\n• Corrected shader resource declarations and compilation paths that could prevent parts of a scene from rendering.\n• JIT corrections covering branches, translation-block boundaries and register-state preservation.\n• Fewer repeated allocations, improved texture reuse and release of resources no longer needed.\n• Improved memory-pressure handling and cleanup of resources retained after closing a session.\n• More durable shader and pipeline caches: saves during gameplay and on pause, background loading and improved reuse between sessions.\n• Preparation of previously encountered graphics variants to reduce their reconstruction during gameplay.\n• Reduced redundant graphics-resource updates and improved sharing of Metal libraries between compilation workers.\n• Hogwarts Legacy corrections covering texture copies and handling of certain invalid graphics values.\n• Failure to start the iOS audio engine no longer directly aborts the application.\n• Compilation cancellation during teardown addresses sessions stuck on “closing,” including the SSBU path.\n• Corrected a MoltenVK presentation ownership race: an in-flight presentation retains the drawable it needs.\n• Added a fragmentation guard to avoid unnecessary blocking memory cleanup, targeting pauses reproduced from Super Smash Bros. Ultimate logs.\n\n🎨 Skins and touch controls\n\n• Added GameCube Pocket, Wii Pocket and PS2 Pocket skins.\n• Added Pocket — Original variants for GameCube, Wii and PS2 while keeping the existing designs.\n• Added Switch Pocket, available through Skins in the Switch playlist menu.\n• Portrait and landscape layouts, with orientation locking where supported by the selected skin and engine.\n• Corrected offsets between the drawn buttons and their touch areas.\n• Corrected rectangular press highlights, pressed states and analog-stick geometry.\n• GameCube/Wii analog sticks now move as a complete circle, including the C-stick.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-debugging-memory-limit",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "NeoStation connects to this iPhone's LocalDevVPN Remote Pairing endpoint to enable JIT.",
+          "NSMotionUsageDescription": "RewindBox uses device motion to simulate Wii Remote shakes while you play.",
+          "NSPhotoLibraryAddUsageDescription": "Save the game recordings you choose to your photo library."
+        }
+      },
+      "version": "0.0.11",
+      "versionDate": "2026-11-10T19:41:55Z",
+      "size": 267033667,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.11.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -750,44 +788,6 @@
       "versionDate": "2026-09-01T12:12:58Z",
       "size": 67644766,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/PSX3IOS.rel-0.2.7.ipa"
-    },
-    {
-      "name": "RewindBox",
-      "bundleIdentifier": "com.neogamelab.neostation",
-      "developerName": "TarbleFR",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.neogamelab.neostation.png",
-      "localizedDescription": "RewindBox 0.0.10 — independent iPhone/iPad emulation frontend forked from NeoStation, with embedded Libretro, MeloNX (Switch), Dolphin, ARMSX2 and RPCS3, HD textures, cheats and customizable controls.",
-      "subtitle": "RewindBox 0.0.10 — independent iPhone/iPad emulation…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.10.ipa",
-          "size": 188063063,
-          "version": "0.0.10",
-          "buildVersion": "559",
-          "date": "2026-10-26T23:06:26Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "RewindBox 0.0.10 — Build 559\n\nEverything since 0.0.9-fix.1 (Build 530).\n\nInterface\n• Refined Liquid Glass interface: one-line main header, a new \"NeoStation\" style (solid accent pill, matte surfaces, no blur), a working Interface preview with Apply/Revert, and floating side-menu bubbles in Settings and Scraper.\n• New options in 12 languages: status bar items, accent colour, controller focus style, LB/RB glyphs and side-menu panel.\n• ROM folder changes saved in quick succession no longer fail.\n\nNintendo Switch (embedded MeloNX)\n• Backend threading is now on by default, as in the standalone MeloNX app, with a per-game switch.\n• Game FPS is shown in the RAM overlay.\n• In-game MoltenVK choice: the standalone MeloNX app's own MoltenVK is the default; RewindBox's version remains available and is used automatically if the other fails to load.\n• New \"Emulation priority\" option in the in-game menu (default unchanged). The screen no longer auto-locks during a game.\n• Closing a game after a GPU teardown error no longer leaves the app stuck on \"closing\": the session is stopped safely and explained.\n• Imports report completion without a full library rescan, updates are matched to the installed base game, audio playback starts correctly on the Apple backend, and pipeline compilation errors are handled without breaking later draws.\n• A per-second performance line in the app log helps troubleshooting.\n\nPlayStation 3 (RPCS3)\n• PS3 disc images (.iso) in your library folder now launch through RPCS3: RewindBox reads the disc, offers to install it into RPCS3 (with its .dkey/.key file) and boots it. Renamed or removed images stay in sync, and the original can optionally be deleted after installation.\n• The God of War III profile is now actually applied; an old custom configuration previously disabled it silently.\n• Engine improvements:\n• SPU code already in the cache loads without rebuilding the LLVM pass pipeline.\n• GPU copies that fully overwrite their destination no longer read the old contents back.\n• Fewer redundant texture hashes, plus a new experimental \"Texture validation per FIFO batch\" setting (automatic for God of War III only).\n• Faster lookup of identical vertex shaders, fewer copies during synchronous shader compilation, fewer redundant pipeline builds, and shader-cache writes moved off the RSX thread.\n• Less CPU spent waiting for the GPU, and faster JIT cache writes.\n• Public ARMSX3 fixes: SPU warm-up order, PKG path containment, debug SELF decryption, in-memory savestate files, cellSaveData SDK 2.6 limit.\n• ISO mounts are preserved when restoring a savestate.\n• New experimental \"MoltenVK Asynchronous Submits\" setting (off by default).\n• Additional bounded diagnostics (timeline, GPU waits, read-back origins, optimization counters) to measure performance.\n\nThe first launch of each PS3 game rebuilds its SPU cache once; the PPU cache is kept.\n\nTesting status\nThese changes passed automated native, sanitizer, ARM64 and packaging checks. FPS, stutter and memory gains on iPhone have not been measured yet. Please report results with your logs.\n\nDownload\nRewindBox-Build559.ipa — SHA-256 f16c2a3529537bfbaa933972ed63f6ce96bb2a9ca176f1e2d1726dcd7896480d.\nAd-hoc signed: re-sign it with SideStore or AltStore before installing. Requires iOS 18.0 or later.\n\nVersion note: IPA build number 559; the internal app version remains 0.0.8.\n\nNo firmware, keys, BIOS or game files are bundled."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-debugging-memory-limit",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "NeoStation connects to this iPhone's LocalDevVPN Remote Pairing endpoint to enable JIT.",
-          "NSMotionUsageDescription": "RewindBox uses device motion to simulate Wii Remote shakes while you play.",
-          "NSPhotoLibraryAddUsageDescription": "Save the game recordings you choose to your photo library."
-        }
-      },
-      "version": "0.0.10",
-      "versionDate": "2026-10-26T23:06:26Z",
-      "size": 188063063,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.10.ipa"
     },
     {
       "name": "SceneBox",
