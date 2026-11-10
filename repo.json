@@ -8,6 +8,74 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.11.ipa",
+          "size": 75222351,
+          "version": "0.6.11",
+          "buildVersion": "154",
+          "date": "2026-11-10T08:54:47Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• feature/subtitle shadow outline blur (#356) @3l-franco\n• perf(ios): free more app memory before playback on iPhones @luqmanfadlli\n• perf(ios): lighter mpv setup under the iPhone jetsam limit @luqmanfadlli\n• fix(mdblist): reuse progress and watched lists until a remap changes them @tapframe\n• fix(auth): stay signed in when session refresh fails @tapframe\n• fix(player): center opening overlay backdrop on tall screens (#2585) @yvngjoon\n• fix(player): show mpv error details on the error screen @tapframe\n• fix(autosync): allow AutoSync without a preferred language, enable forced subs and AutoSync by default (#2578) @skoruppa\n• feat(hero): smart horizontal framing for cropped backdrops (#2538) @skoruppa\n• Add and update Bulgarian strings in strings.xml (#2576) @viiktr\n• i18n: harmonize French wording with Nuvio TV (#2575) @SK-Gits\n• fix(autosync): search further when a restored subtitle does not fit (#2537) @skoruppa"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.11",
+      "versionDate": "2026-11-10T08:54:47Z",
+      "size": 75222351,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.11.ipa"
+    },
+    {
+      "name": "osu!",
+      "bundleIdentifier": "sh.ppy.osulazer",
+      "developerName": "ppy",
+      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
+      "localizedDescription": "rhythm is just a *click* away!",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1110.0-tachyon.ipa",
+          "size": 268963187,
+          "version": "2026.1110.0-tachyon",
+          "buildVersion": "2026.1110.0",
+          "date": "2026-11-10T07:28:17Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "What's Changed\n• Adjust beatmap offset adjustment UI to be more user friendly by @peppy in https://github.com/ppy/osu/pull/39073\n• Add perfect indicator for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39077\n• Add support for encoding/decoding health graph to/from replays by @bdach in https://github.com/ppy/osu/pull/39078\n• Fix uneven spacing in audio offset settings by @diquoks in https://github.com/ppy/osu/pull/39079\n• Add localisation support to missed string on beatmap attributes display by @diquoks in https://github.com/ppy/osu/pull/39087\n• Add sheared button with icon variant by @LiquidPL in https://github.com/ppy/osu/pull/39085\n• Privatize ScreenQueue state handler by @LiquidPL in https://github.com/ppy/osu/pull/39074\n• Add health graph for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39081\n• Add matchmaking queue status bar component by @LiquidPL in https://github.com/ppy/osu/pull/39083\n• Add grade component for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39089\n• Fix playfield dim from slider tracking being applied late in Flashlight mod if multiple sliders are present on screen by @bdach in https://github.com/ppy/osu/pull/39088\n• Add retry / watch replay button components for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39091\n• Add online ranking button for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39096\n• Update framework by @peppy in https://github.com/ppy/osu/pull/39104\n• 👷 Migrate to Sentry.io by @ThePooN in https://github.com/ppy/osu/pull/39097\n• Add first pass at new solo results screen layout by @bdach in https://github.com/ppy/osu/pull/39098\n• Fix markdown footnote links not showing correct number by @Joehuu in https://github.com/ppy/osu/pull/39121\n• Fix skin editor components moving randomly when flipping by @Joehuu in https://github.com/ppy/osu/pull/39119\n• Refactor TotalPlayTime display and add web localisation support by @diquoks in https://github.com/ppy/osu/pull/39095\n• Refactor remaining multiplayer tests to use MultiplayerTestScene by @LiquidPL in https://github.com/ppy/osu/pull/39100\n• Allow filtering tags in UserTagControl by @LiquidPL in https://github.com/ppy/osu/pull/38912\n• Ensure right footer buttons don't conflict with overlay content by @LiquidPL in https://github.com/ppy/osu/pull/39116\n• Add ranked play division badges by @LiquidPL in https://github.com/ppy/osu/pull/38989\n• Do not attempt to initiate spectator flow when playing custom rulesets by @bdach in https://github.com/ppy/osu/pull/39138\n• Allow more granular control over permissible operations on skinnables by @bdach in https://github.com/ppy/osu/pull/39128\n• Add localisation support to recently added notifications by @diquoks in https://github.com/ppy/osu/pull/39130\n• Add screen footer shim component for argon results screen design by @bdach in https://github.com/ppy/osu/pull/39146\n\nFull Changelog: https://github.com/ppy/osu/compare/2026.1026.0-tachyon...2026.1110.0-tachyon"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "beta-reports-active",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
+          "NSCameraUsageDescription": "We don't use the camera.",
+          "NSMicrophoneUsageDescription": "We don't use the microphone."
+        }
+      },
+      "version": "2026.1110.0-tachyon",
+      "versionDate": "2026-11-10T07:28:17Z",
+      "size": 268963187,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1110.0-tachyon.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
@@ -37,38 +105,6 @@
       "versionDate": "2026-11-10T01:28:12Z",
       "size": 69784598,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.11.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.10.ipa",
-          "size": 75207354,
-          "version": "0.6.10",
-          "buildVersion": "153",
-          "date": "2026-11-09T07:10:24Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• perf(ios): memory optimization long sessions and 4K HDR/DV playback @luqmanfadlli\n• feat(player): add Anime4K 2x upscaler and line sharpener for ExoPlayer and mpv (#337) @chrisk325\n• fix(ios): detach the mpv metal layer before destroying mpv (#336) @luqmanfadlli\n• fix(player): start playback service as a normal service first (NUVIO-MOBILE-D9 NUVIO-MOBILE-9E NUVIO-MOBILE-9M NUVIO-MOBILE-PC) @tapframe\n• fix(player): cap buffer start times at the min buffer (NUVIO-MOBILE-1VH) @tapframe\n• fix(player): guard caption setting reads (NUVIO-MOBILE-25M) @tapframe\n• fix(network): treat SSL setup errors as failed requests (NUVIO-MOBILE-254 NUVIO-MOBILE-3N) @tapframe\n• fix(watched): copy unsynced keys before saving (NUVIO-MOBILE-260) @tapframe\n• i18n: add French translation for ratings strings (#2562) @SK-Gits\n• i18n(el): sync the Greek locale with 0.6.9 (playback audio, downmix, ratings) (#2561) @nosvasedis\n• i18n(he): translate party strings into Hebrew (#2557) @haveAnIssue\n• i18n(he): translate servers strings into Hebrew (#2556) @haveAnIssue\n• i18n(he): translate pip strings into Hebrew (#2555) @haveAnIssue\n• i18n(he): translate autosync strings into Hebrew (#2553) @haveAnIssue\n• i18n(he): translate mdblist strings into Hebrew (#2552) @haveAnIssue\n• i18n(he): translate ratings strings into Hebrew (#2551) @haveAnIssue\n• Update Japanese translation (#2559) @Joe00011\n• i18n(vi): translate ratings strings into Vietnamese (#2550) @blueocean2308\n• fix(player): reset addon subtitles only when the source changes @tapframe\n• feat(autosync): shared engine, enable on iOS (#2535) @skoruppa\n• fix(mdblist): remap anime episodes between addon and TMDB numbering (TV parity) (#2516) @kernexshadow"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.10",
-      "versionDate": "2026-11-09T07:10:24Z",
-      "size": 75207354,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.10.ipa"
     },
     {
       "name": "StikDebug",
@@ -907,42 +943,6 @@
       "versionDate": "2026-11-01T11:34:40Z",
       "size": 55830161,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Lume.rel-3.0.0.ipa"
-    },
-    {
-      "name": "osu!",
-      "bundleIdentifier": "sh.ppy.osulazer",
-      "developerName": "ppy",
-      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
-      "localizedDescription": "rhythm is just a *click* away!",
-      "subtitle": "rhythm is just a *click* away!",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1026.0-tachyon.ipa",
-          "size": 268717178,
-          "version": "2026.1026.0-tachyon",
-          "buildVersion": "2026.1026.0",
-          "date": "2026-10-26T07:18:52Z",
-          "localizedDescription": "What's Changed\n• Allow manipulation of global footer content at any time from a screen by @bdach in https://github.com/ppy/osu/pull/39026\n• Add score rank display for argon results screen design by @bdach in https://github.com/ppy/osu/pull/39020\n• Use CoreCLR runtime on Android by @smoogipoo in https://github.com/ppy/osu/pull/39029\n• Add background overlay component for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39036\n• Allow screens to specify buttons to show on the right end of the global footer by @bdach in https://github.com/ppy/osu/pull/39035\n• Fix some cases where playlist close footer button shouldn't be visible by @Joehuu in https://github.com/ppy/osu/pull/38913\n• Add score attribute text skinnable component by @bdach in https://github.com/ppy/osu/pull/39052\n• Add español (Latinoamérica) language and update names in line with web by @Joehuu in https://github.com/ppy/osu/pull/39063\n• Include rank and sigma in matchmaking lobby status model by @LiquidPL in https://github.com/ppy/osu/pull/39009\n• Fix crash when resizing selection in certain configurations by @bdach in https://github.com/ppy/osu/pull/39060\n• Add dynamic 'hit' SFX to ranked play score screen based on context by @nekodex in https://github.com/ppy/osu/pull/39039\n• Add ranking panel element for legacy results screen design by @bdach in https://github.com/ppy/osu/pull/39061\n• fix: not update starDifficultyBindable immediately in computeStarRating() to avoid flicker by @hesitling in https://github.com/ppy/osu/pull/37204\n• Adjust ranked queue visualisation for new design by @LiquidPL in https://github.com/ppy/osu/pull/38995\n\nFull Changelog: https://github.com/ppy/osu/compare/2026.1013.0-tachyon...2026.1026.0-tachyon",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "beta-reports-active",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
-          "NSCameraUsageDescription": "We don't use the camera.",
-          "NSMicrophoneUsageDescription": "We don't use the microphone."
-        }
-      },
-      "version": "2026.1026.0-tachyon",
-      "versionDate": "2026-10-26T07:18:52Z",
-      "size": 268717178,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1026.0-tachyon.ipa"
     },
     {
       "name": "Ksign",
