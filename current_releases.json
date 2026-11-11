@@ -18,11 +18,11 @@
   },
   "ARMSX2": {
     "release_type": "any",
-    "version": "nightly-20261108"
+    "version": "nightly-20261111"
   },
   "BCD": {
     "release_type": "any",
-    "version": "0.1.634"
+    "version": "0.1.653"
   },
   "Debrify": {
     "release_type": "prerelease",
