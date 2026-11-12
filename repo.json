@@ -8,6 +8,38 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261112.ipa",
+          "size": 40658081,
+          "version": "20261112",
+          "buildVersion": "260",
+          "date": "2026-11-12T11:58:10Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• IOP thread: hold the lag bound tight for 196,608 cycles after every SIF transfer the EE starts\n• GS/Vulkan: a run's texture set is a fixed array of 32, without a variable descriptor count\n• Android: Auto picks Vulkan on the Bifrost arch 7 parts\n• DriverPacks: offer malisx2 on every Mali of its four arches\n• Android: Auto picks Vulkan on every Mali Valhall v10 part\n• Offer malisx2 on every Mali of arch 7, 9, 10 and 11\n• GPU Drivers pages: name both pack families, pass the session to the setup offer\n• DriverPacks: a malisx2 feed for Mali GPUs on Arm's kbase driver\n• Android: Auto picks Vulkan on the Mali-G610 and G710\n• Android: Vulkan is the default renderer instead of Auto\n• Offer malisx2 on the Mali-G610 and G710 (Valhall v10)\n• GS/Vulkan: VkResultToString names VK_ERROR_FRAGMENTED_POOL and VK_ERROR_OUT_OF_POOL_MEMORY\n• Android: tell a user on Qualcomm's own GPU driver to get a Turnip driver\n• GS/Vulkan: the run machine stops when an empty descriptor pool refuses a set\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261111...c25493a20285dc126a950d2d61826987a566a306"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261112",
+      "versionDate": "2026-11-12T11:58:10Z",
+      "size": 40658081,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261112.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
@@ -37,38 +69,6 @@
       "versionDate": "2026-11-12T00:37:11Z",
       "size": 69852349,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.12.ipa"
-    },
-    {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261111.ipa",
-          "size": 40652510,
-          "version": "20261111",
-          "buildVersion": "260",
-          "date": "2026-11-11T07:21:22Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• Android: regenerate the PGO profile on the source with the GS runs build\n• tests: the block hasher's unaligned update stays inside the test memory\n• GS: comments that named removed gsrunner switches, and an include they needed\n• GS/Vulkan: the run machine's development log goes\n• GS/TC: the lean path's mode switch and check halves go\n• gsrunner: the burst memo's switches and statistics line go\n• gsrunner: the readback lane's statistics, trace and switches go\n• gsrunner: the kick's two check modes go\n• GS/Vulkan: the run machine sleeps where runs do not form\n• GS: the vertex buffer grows in 64-bit sizes and fails loudly past a ceiling\n• GS: a reset of the draw buffers frees the buffers it replaces\n• GS/SW: a draw whose frame and Z buffers share pages is not split between workers\n• GS/SW: a texture is not refilled while a queued draw still reads it\n• GS/Vulkan: a run that holds a large draw keeps one state for all its draws\n• GS/Vulkan: a draw that cannot open a run is primed before it is classified\n• GS/Vulkan: the stencil counter resolve pipeline takes blend constants and line width dynamic\n• GS/Vulkan: the run pipeline declares its dynamic state through AddCachedDynamicState\n• GS/Vulkan: the stencil counter resolve pipeline takes blend constants and line width dynamic\n• GS/Vulkan: a run opens at the second of two consecutive draws that share its fixed state\n• GS/Vulkan: a draw with a vertex-selector bit runs never take is refused first, with the pixel-shader check\n• gsrunner: -kick-convert-check runs the kick's old conversion pass beside the new one\n• GS: the kick kernel converts a job in stretches, with nothing tested per vertex\n• GS/Vulkan: the stencil counter resolve pipeline keeps blend constants and line width dynamic\n• GS/Vulkan: the run machine's rings are made by the first draw that would join a run\n• GS/Vulkan: a draw that continues a run still counts toward the readback in-pass kick\n• gsrunner: -kick-decide-check runs the kick's wide decision beside the four-wide one\n• GS: the kick kernel decides on raw 16-bit coordinates, both axes in one lane\n• tests: block identities over held depth words are those of the words\n• GS: choose the block identity by timing the candidates once, on the first use\n• GS/HW: keep the palette's hash while the renderer's palette has not been rewritten\n• GS/CLUT: the palette's alpha range with one LD4 per 16 entries on ARM64\n• tests: pin the alpha range of an expanded palette\n• GS/HW: take a level's block identities in one call, and combine them with AES\n• GS/HW: a CPU clear of whole pages gives their blocks the identity of what it wrote\n• GS/HW: key every texture lookup that names nothing by the identities of its blocks…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261111",
-      "versionDate": "2026-11-11T07:21:22Z",
-      "size": 40652510,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261111.ipa"
     },
     {
       "name": "BCD",
