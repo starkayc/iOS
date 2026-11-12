@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.12.ipa",
+          "size": 69852349,
+          "version": "0.6.12",
+          "buildVersion": "155",
+          "date": "2026-11-12T00:37:11Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• feat(player): chapters setting for every engine, chapters on iOS and a chapter title toggle (#2609) @skoruppa\n• fix(collections): respect \"Show catalog type\" in folders (#2608) @skoruppa\n• fix(player): show the real cause of playback errors, like NuvioTV (#2607) @skoruppa\n• fix(player): use the audio clock when mpv video time drops to 0 (#2605) @skoruppa\n• fix(player): add an SPS/PPS init segment to HLS streams that lack them (#2606) @skoruppa\n• fix(player): decode DASH MIME query hints before detection (#2600) @retrocodes12\n• i18n(vi): update latest Vietnamese strings (#2601) @blueocean2308\n• fix(streams): keep tokenized links for reuse and refresh expired saved links (#2598) @skoruppa\n• i18n: add French string for signed-out notice (#2593) @SK-Gits\n• Update Dutch (nl) strings and reorder Dutch in Settings (#2592) @mronion212"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.12",
+      "versionDate": "2026-11-12T00:37:11Z",
+      "size": 69852349,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.12.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -180,37 +211,6 @@
       "versionDate": "2026-11-10T07:28:17Z",
       "size": 268963187,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1110.0-tachyon.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.11.ipa",
-          "size": 69784598,
-          "version": "0.6.11",
-          "buildVersion": "154",
-          "date": "2026-11-10T01:28:12Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• 9c2d0902 fix(mdblist): reuse progress and watched lists until a remap changes them @tapframe\n• daa966d3 fix(auth): stay signed in when session refresh fails @tapframe\n• fix(player): center opening overlay backdrop on tall screens (#2585) @yvngjoon\n• f004557c fix(player): show mpv error details on the error screen @tapframe\n• fix(autosync): allow AutoSync without a preferred language, enable forced subs and AutoSync by default (#2578) @skoruppa\n• feat(hero): smart horizontal framing for cropped backdrops (#2538) @skoruppa\n• Add and update Bulgarian strings in strings.xml (#2576) @viiktr\n• i18n: harmonize French wording with Nuvio TV (#2575) @SK-Gits\n• fix(autosync): search further when a restored subtitle does not fit (#2537) @skoruppa"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.11",
-      "versionDate": "2026-11-10T01:28:12Z",
-      "size": 69784598,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.11.ipa"
     },
     {
       "name": "StikDebug",
