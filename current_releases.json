@@ -18,7 +18,7 @@
   },
   "ARMSX2": {
     "release_type": "any",
-    "version": "nightly-20261112"
+    "version": "nightly-20261113"
   },
   "BCD": {
     "release_type": "any",
@@ -96,7 +96,7 @@
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
-    "version": "0.6.11-beta"
+    "version": "0.6.12-beta"
   },
   "Opaline": {
     "release_type": "stable",
@@ -104,7 +104,7 @@
   },
   "OpenParsec": {
     "release_type": "stable",
-    "version": "1.4.0"
+    "version": "2.0.0"
   },
   "Osu": {
     "release_type": "any",
