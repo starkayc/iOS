@@ -18,13 +18,13 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261112.ipa",
-          "size": 40658081,
-          "version": "20261112",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261113.ipa",
+          "size": 40715589,
+          "version": "20261113",
           "buildVersion": "260",
-          "date": "2026-11-12T11:58:10Z",
+          "date": "2026-11-13T04:53:50Z",
           "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• IOP thread: hold the lag bound tight for 196,608 cycles after every SIF transfer the EE starts\n• GS/Vulkan: a run's texture set is a fixed array of 32, without a variable descriptor count\n• Android: Auto picks Vulkan on the Bifrost arch 7 parts\n• DriverPacks: offer malisx2 on every Mali of its four arches\n• Android: Auto picks Vulkan on every Mali Valhall v10 part\n• Offer malisx2 on every Mali of arch 7, 9, 10 and 11\n• GPU Drivers pages: name both pack families, pass the session to the setup offer\n• DriverPacks: a malisx2 feed for Mali GPUs on Arm's kbase driver\n• Android: Auto picks Vulkan on the Mali-G610 and G710\n• Android: Vulkan is the default renderer instead of Auto\n• Offer malisx2 on the Mali-G610 and G710 (Valhall v10)\n• GS/Vulkan: VkResultToString names VK_ERROR_FRAGMENTED_POOL and VK_ERROR_OUT_OF_POOL_MEMORY\n• Android: tell a user on Qualcomm's own GPU driver to get a Turnip driver\n• GS/Vulkan: the run machine stops when an empty descriptor pool refuses a set\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261111...c25493a20285dc126a950d2d61826987a566a306"
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• microVU0: compute the VU1 register window's address at run time\n• Tests: a persisted VU0 program that uses the window onto VU1's registers\n• Android: link the core with emulated TLS when the minimum API is below 29\n• iOS: give the layout editor and the manifest skin their own views\n• iOS: split the patch and skin library stores by their own sections\n• iOS: split navigation and gameplay views into one file per view\n• iOS: split the controls and skin files along their types\n• iOS: split the dynamic backgrounds into one file per background\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261112...37ed35b88fe9a0164369c8042f2c9aa707e33667"
         }
       ],
       "appPermissions": {
@@ -34,10 +34,68 @@
           "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
         }
       },
-      "version": "20261112",
-      "versionDate": "2026-11-12T11:58:10Z",
-      "size": 40658081,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261112.ipa"
+      "version": "20261113",
+      "versionDate": "2026-11-13T04:53:50Z",
+      "size": 40715589,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261113.ipa"
+    },
+    {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.12.ipa",
+          "size": 75372046,
+          "version": "0.6.12",
+          "buildVersion": "155",
+          "date": "2026-11-13T01:28:27Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• fix(subtitles): config export/import and profile removal for device subtitle prefs @luqmanfadlli\n• feat(player): restore HLS quality chooser for Live TV @luqmanfadlli\n• Significantly increase anime line sharpener strength (#375) @chrisk325\n• fix imdb button not appearing on discord rpc (#373) @chrisk325\n• feat(player): isolate subtitle preferences per device (#369) @3l-franco\n• fix live tv buffering endlessly and black screen on some streams (#366) @chrisk325\n• raw bluray files compatibility for exoplayer (#362) @chrisk325\n• migrate simkl oauth v1 to v2 (#359) @chrisk325\n• feat(player): chapters setting for every engine, chapters on iOS and a chapter title toggle (#2609) @skoruppa\n• fix(collections): respect \"Show catalog type\" in folders (#2608) @skoruppa\n• fix(player): show the real cause of playback errors, like NuvioTV (#2607) @skoruppa\n• fix(player): use the audio clock when mpv video time drops to 0 (#2605) @skoruppa\n• fix(player): add an SPS/PPS init segment to HLS streams that lack them (#2606) @skoruppa\n• fix(player): decode DASH MIME query hints before detection (#2600) @retrocodes12\n• i18n(vi): update latest Vietnamese strings (#2601) @blueocean2308\n• fix(streams): keep tokenized links for reuse and refresh expired saved links (#2598) @skoruppa\n• i18n: add French string for signed-out notice (#2593) @SK-Gits\n• Update Dutch (nl) strings and reorder Dutch in Settings (#2592) @mronion212"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.12",
+      "versionDate": "2026-11-13T01:28:27Z",
+      "size": 75372046,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.12.ipa"
+    },
+    {
+      "name": "OpenParsec",
+      "bundleIdentifier": "com.aigch.OpenParsec",
+      "developerName": "hugeBlack",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.aigch.OpenParsec.png",
+      "localizedDescription": "An open-source Parsec client for iOS/iPadOS. This repo implements mouse & keyboard & touch screen support.",
+      "subtitle": "An open-source Parsec client for iOS/iPadOS. This repo…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-2.0.0.ipa",
+          "size": 4445097,
+          "version": "2.0.0",
+          "buildVersion": "262",
+          "date": "2026-11-13T07:02:53Z",
+          "minOSVersion": "14.0",
+          "localizedDescription": "Welcome to OpenParsec v2.0.0!\n\nThis is the release promised back in 1.4.0, with everything that's been on the nightly since october.\n\nWe now have a Metal renderer, streams that hold and reconnect by themselves, new connecting screens,reworked settings, and other control-related improvements.\n\nBefore you update:\n• auto reconnect is now switched on by default, see settings > developer for additional settings\n• everyone is now on the new Metal renderer. OpenGL is remains optional as a fallback\\\n• this is the last release for ios 14. it runs with some rough edges but remains functional. Future releases will be pinned, and we plan to require ios 15 starting from the next release. A seperate branch for iOS 14 will be created for backporting fixes as maintainer time allows\n\nstreaming\n• metal renderer, now the default (#118)\n• 120hz on ProMotion iphones (#118)\n• the stream stays connected in the background for as long as ios allows, and reconnects when you're back (#138)\n• the last frame stays up when the stream drops (#138)\n• auto reconnect waits for the network to come back, and reconnects right away on a wifi/cellular switch (#138)\n• resolution, bitrate and constant frame rate survive a reconnect (#119)\n\ninput\n• smoother trackpad scrolling, thanks @alantangok (#97)\n• reverse scrolling works for trackpad and mouse, thanks @MoustacheOff (#116)\n• menu edge swipe setting, thanks @alantangok (#100)\n• left edge swipe brings back a hidden menu button (#120)\n• show menu button off no longer hides the keyboard button (#120)\n• mouse side buttons (#120)\n• drag handle in direct mode when the keyboard covers the picture, three finger tap hides the keyboard (#120)\n• the next controller takes over when the active one disconnects (#120)\n\napp\n• settings rework, and settings open from the stream menu (#119, #129)\n• bitrate, constant frame rate and pinch to zoom are settings that carry over between streams (#119)\n• touch mode in the stream menu (#129)\n• connecting and reconnect screens match and show a live connection log (#130)\n• says right away when there's no network, retries once if the host doesn't answer (#117)\n• last host card stays after a disconnect, reconnect from the app icon (#117)\n• host list refresh no longer blocks the screen, long press a host to copy its name (#113)\n• new readme, contributing guide and issue templates (#139)\n\nThanks to everyone for making bug reports on nightly builds, and thank you for your support!\n\nGenerated by GitHub\n\nWhat's Changed\n• host list UX by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/113\n• Preserve fractional GCMouse scroll deltas by @alantangok in https://github.com/hugeBlack/OpenParsec/pull/97\n• Add opt-in iPad menu edge swipe by @alantangok in https://github.com/hugeBlack/OpenParsec/pull/100\n• last host reconnect optimization  by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/117\n• METAL RENDERER!!! by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/118\n• settings rework by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/119\n• input and keyboard fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/120\n• token on altstore release fetch by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/127\n• Stream guards by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/128\n• Stream menu by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/129\n• Connect screens by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/130\n• fix: honor Reverse Scroll Direction for trackpad/mouse scrolling by @MoustacheOff in https://github.com/hugeBlack/OpenParsec/pull/116\n• Stream resume by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/138\n• prep 2.0 release by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/139\n\nNew Contributors\n• @alantangok made their first contribution in https://github.com/hugeBlack/OpenParsec/pull/97…"
+        }
+      ],
+      "appPermissions": {},
+      "version": "2.0.0",
+      "versionDate": "2026-11-13T07:02:53Z",
+      "size": 4445097,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-2.0.0.ipa"
     },
     {
       "name": "Nuvio",
@@ -143,38 +201,6 @@
       "versionDate": "2026-11-10T19:41:55Z",
       "size": 267033667,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RewindBox.rel-0.0.11.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.11.ipa",
-          "size": 75222351,
-          "version": "0.6.11",
-          "buildVersion": "154",
-          "date": "2026-11-10T08:54:47Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• feature/subtitle shadow outline blur (#356) @3l-franco\n• perf(ios): free more app memory before playback on iPhones @luqmanfadlli\n• perf(ios): lighter mpv setup under the iPhone jetsam limit @luqmanfadlli\n• fix(mdblist): reuse progress and watched lists until a remap changes them @tapframe\n• fix(auth): stay signed in when session refresh fails @tapframe\n• fix(player): center opening overlay backdrop on tall screens (#2585) @yvngjoon\n• fix(player): show mpv error details on the error screen @tapframe\n• fix(autosync): allow AutoSync without a preferred language, enable forced subs and AutoSync by default (#2578) @skoruppa\n• feat(hero): smart horizontal framing for cropped backdrops (#2538) @skoruppa\n• Add and update Bulgarian strings in strings.xml (#2576) @viiktr\n• i18n: harmonize French wording with Nuvio TV (#2575) @SK-Gits\n• fix(autosync): search further when a restored subtitle does not fit (#2537) @skoruppa"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.11",
-      "versionDate": "2026-11-10T08:54:47Z",
-      "size": 75222351,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.11.ipa"
     },
     {
       "name": "osu!",
@@ -736,32 +762,6 @@
       "versionDate": "2026-09-10T02:02:27Z",
       "size": 6685919,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Opaline.rel-1.12.0.ipa"
-    },
-    {
-      "name": "OpenParsec",
-      "bundleIdentifier": "com.aigch.OpenParsec",
-      "developerName": "hugeBlack",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.aigch.OpenParsec.png",
-      "localizedDescription": "An open-source Parsec client for iOS/iPadOS. This repo implements mouse & keyboard & touch screen support.",
-      "subtitle": "An open-source Parsec client for iOS/iPadOS. This repo…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-1.4.0.ipa",
-          "size": 4358332,
-          "version": "1.4.0",
-          "buildVersion": "218",
-          "date": "2026-10-08T16:07:29Z",
-          "minOSVersion": "14.0",
-          "localizedDescription": "Welcome! This is the first versioned release of everything thats been on our nightly since 1.3.0 in may, future releases will be tagged and published this way going forward:\n\nstreaming\n• pauses in the background instead of disconnecting, and reconnects on its own after a drop or a lock (#66, #80, #109)\n• pip recovers when its display layer fails, thanks @alantangok (#108)\n• audio buffer and race fixes, memcpy clamp from #70 thanks @2extndd (#85, #110)\n• connecting no longer kills music thats playing, it mixes instead, plus a status overlay (#86)\n\ninput\n• touchpad style cursor and crisp zoom, thanks @rebelancap (#78)\n• zoom viewport stays above the keyboard, thanks @alantangok (#107)\n• direct mode and keyboard fixes (#81, #87)\n• external pointer fixes and left alt no longer sent as win, thanks @jobsgonnawork (#91)\n• option key as command setting (#94)\n\napp\n• login fixes, saved login readable after first unlock (#89, #111)\n• fixes from live testing: screen stays awake while streaming, says when the session expired or the host didnt approve, names the host its reconnecting to, cursor and zoom fixes (#105)\n• reconnect memory leak and version string fixes from #70, thanks @2extndd (#84)\n• error reporting and logging (#77, #90)\n• safety fixes and cleanups (#82, #83)\n• every nightly has its own build number now so altstore shows it as an update (#112, #95 )\n\nExpect a 2.0 release in the coming weeks with lots more improvements! Thank you for your support!\n\nGenerated by GitHub\n\nWhat's Changed\n• Significantly optimized the sound latency performance by @xiaoxuhuanxiang in https://github.com/hugeBlack/OpenParsec/pull/3\n• Create altstore.json by @Somiona in https://github.com/hugeBlack/OpenParsec/pull/15\n• Fix AltStore .json by @yodaluca23 in https://github.com/hugeBlack/OpenParsec/pull/20\n• ci: upgrade deprecated upload artifact action by @underw8 in https://github.com/hugeBlack/OpenParsec/pull/26\n• New Features with General UI and Performance Improvements by @danieltarazona in https://github.com/hugeBlack/OpenParsec/pull/41\n• Fix fullwidth Unicode characters not passing through virtual keyboard by @Add1ct1ve in https://github.com/hugeBlack/OpenParsec/pull/49\n• Move zoom reset on rotate by @studiobloom in https://github.com/hugeBlack/OpenParsec/pull/55\n• Implement #58 by @studiobloom in https://github.com/hugeBlack/OpenParsec/pull/60\n• Added Picture in Picture by @naive17 in https://github.com/hugeBlack/OpenParsec/pull/62\n• fix crash sites and cleanup by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/63\n• keyboard remap and key repeat for hardware keyboards by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/64\n• reduce battery drain by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/65\n• 少映射了幾個全形字符 by @TwhomeGH in https://github.com/hugeBlack/OpenParsec/pull/68\n• Touchpad-style cursor control and crisp zoom by @rebelancap in https://github.com/hugeBlack/OpenParsec/pull/78\n• pause on background instead of disconnecting by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/66\n• Auto reconnect and stuck input fix by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/80\n• Direct mode fix by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/81\n• small cleanups by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/82\n• log sdk binary version and stream status by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/77\n• Safety fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/83\n• taking fixes from #70 by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/84\n• Audio buffer fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/85\n• Session status and audio session exclusivity by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/86\n• Keyboard fixes by @SandiyosDev in https://github.com/hugeBlack/OpenParsec/pull/87…"
-        }
-      ],
-      "appPermissions": {},
-      "version": "1.4.0",
-      "versionDate": "2026-10-08T16:07:29Z",
-      "size": 4358332,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-1.4.0.ipa"
     },
     {
       "name": "PSX3IOS",
