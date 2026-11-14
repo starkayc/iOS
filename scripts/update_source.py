@@ -138,6 +138,13 @@ def _fetch_one(
     return rel.FetchOutcome(missing=False, problem=""), facts
 
 
+def _published_stems(repo_assets: set[str]) -> set[str]:
+    return {
+        lib.parse_ipa_filename(lib.canonical_filename(n))[0]
+        for n in repo_assets
+    }
+
+
 def update_source_report(
     token: Optional[str] = None,
 ) -> tuple[bool, list[str]]:
@@ -180,6 +187,8 @@ def update_source_report(
         if drop_file is not None:
             drop_file.unlink(missing_ok=True)
 
+    published_stems = _published_stems(repo_assets)
+
     manual_candidates: set[str] = set()
     for name in release_assets:
         if not name.lower().endswith(".ipa"):
@@ -187,9 +196,8 @@ def update_source_report(
         local_name = lib.canonical_filename(name)
         if (lib.IPAS_DIR / local_name).exists():
             continue
-        if lib.parse_ipa_filename(local_name)[0] in expected_stems:
-            continue
-        if lib.repo_json_references(local_name, repo_assets):
+        stem = lib.parse_ipa_filename(local_name)[0]
+        if stem in expected_stems or stem in published_stems:
             continue
         manual_candidates.add(name)
 

@@ -1177,6 +1177,47 @@ def test_referenced_manual_drop_is_not_refetched():
           "the referenced asset was left off disk")
 
 
+def test_stale_asset_does_not_replace_referenced_version():
+    print("\n── update_source: an old build of a referenced app is not re-adopted ──")
+    tmp = Path(tempfile.mkdtemp())
+    fake = build_fixture(tmp)
+    seed_up_to_date(fake, tmp, feather="2.9.0")
+    old_name = "EeveeSpotifyReincarnated.rel-6.6.8_9.1.86.ipa"
+    new_name = "EeveeSpotifyReincarnated.rel-7.0.1_9.2.0.ipa"
+    fake.seed_asset(old_name, 4096)
+    fake.seed_asset(new_name, 4096)
+    fake.add_download(asset_url(old_name),
+                      make_ipa("com.spotify.client", "9.1.86", "Spotify"))
+    fake.add_download(asset_url(new_name),
+                      make_ipa("com.spotify.client", "9.2.0", "Spotify"))
+    repo = json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))
+    repo["apps"].append(
+        app_entry("com.spotify.client", "EeveeSpotifyReincarnated",
+                  asset_url(new_name))
+    )
+    lib.REPO_JSON.write_text(json.dumps(repo, indent=2), encoding="utf-8")
+
+    worked, failures = update_source_report()
+    check(failures == [], f"nothing failed ({failures})")
+    check(worked is False, "no rebuild was needed")
+    check(fake.downloads == [],
+          f"the stale old build was not re-downloaded (got {fake.downloads})")
+    spotify = next(
+        app
+        for app in json.loads(lib.REPO_JSON.read_text(encoding="utf-8"))["apps"]
+        if app["bundleIdentifier"] == "com.spotify.client"
+    )
+    check(spotify["downloadURL"].endswith(new_name),
+          f"repo.json still points at the new build "
+          f"(got {spotify['downloadURL']})")
+
+    real = rel.GitHubRelease("test")
+    real.api = fake.sync_api
+    check(sr.sync_release("test", client=real) == 0, "sync_release exited 0")
+    check(new_name in fake.assets, "the referenced build was kept")
+    check(old_name not in fake.assets, "the stale build was deleted")
+
+
 def test_sync_no_delete_uploads_but_deletes_nothing():
     print("\n── sync_release: --no-delete uploads but never deletes ──")
     tmp = Path(tempfile.mkdtemp())
@@ -1758,6 +1799,7 @@ def main():
     test_manual_drop_must_be_a_real_ipa()
     test_manual_drop_name_matches_stored_asset()
     test_referenced_manual_drop_is_not_refetched()
+    test_stale_asset_does_not_replace_referenced_version()
     test_sync_no_delete_uploads_but_deletes_nothing()
     test_display_name_override_renames_existing_app()
     test_human_fields_survive_rebuild()
