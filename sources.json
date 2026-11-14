@@ -83,6 +83,11 @@
       "release_type": "prerelease"
     },
     {
+      "name": "Ketamine",
+      "repo": "Nouvborne/Ketamine",
+      "release_type": "stable"
+    },
+    {
       "name": "LSX4",
       "repo": "lpfoj/lsx4",
       "release_type": "stable"
@@ -148,6 +153,11 @@
       "release_type": "any"
     },
     {
+      "name": "Palladium",
+      "repo": "tfourj/Palladium",
+      "release_type": "stable"
+    },
+    {
       "name": "qBitControl",
       "repo": "Michael-128/qBitControl",
       "release_type": "stable"
@@ -163,6 +173,11 @@
       "release_type": "stable"
     },
     {
+      "name": "RyukSign",
+      "repo": "faroukbmiled/RyukSign",
+      "release_type": "stable"
+    },
+    {
       "name": "SceneBox",
       "repo": "donbytyqi/scenebox",
       "release_type": "stable"
@@ -175,6 +190,11 @@
     {
       "name": "Tsumiru",
       "repo": "Suwayomi/Suwayomi-Tsumiru",
+      "release_type": "stable"
+    },
+    {
+      "name": "WQFiles",
+      "repo": "kolbicz/WQFiles",
       "release_type": "stable"
     }
   ]
