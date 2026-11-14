@@ -79,7 +79,7 @@
   },
   "Mangayomi": {
     "release_type": "stable",
-    "version": "0.9.95"
+    "version": "0.9.96"
   },
   "MiniWatts": {
     "release_type": "stable",
@@ -152,6 +152,6 @@
   },
   "WQFiles": {
     "release_type": "stable",
-    "version": "0.9.7"
+    "version": "0.9.8"
   }
 }
