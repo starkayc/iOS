@@ -8,6 +8,100 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261114.ipa",
+          "size": 40717380,
+          "version": "20261114",
+          "buildVersion": "260",
+          "date": "2026-11-14T15:41:20Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• macOS: a refused notarization is not a build failure\n• arm64: the crash post-mortem's microVU readers are Linux only\n• GameDB: Stuntman and Driv3r run the EE at Exact clamping\n• arm64: a SIGILL gets the crash post-mortem too\n• arm64: the crash post-mortem names where the lr points\n• arm64: the crash post-mortem's VU microcode comes from the program's copy\n• arm64: the crash post-mortem names the library a pc outside the JIT is in\n• arm64: the crash post-mortem shows the VU microcode at the fault block\n• arm64: the crash post-mortem names the microVU block that holds the pc\n• LSFG: rebuild the swap chain before the acquire, and make it FIFO\n• microVU: don't finish VU1 through a dispatcher that does not exist\n• Tests: a second boot after a VM that stopped with VU1 busy\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261113...6d9511e29e3e00d5ab78899f5292b967ab850ddb"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261114",
+      "versionDate": "2026-11-14T15:41:20Z",
+      "size": 40717380,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261114.ipa"
+    },
+    {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-1c2c296.ipa",
+          "size": 39701355,
+          "version": "0.10.3.1",
+          "buildVersion": "59",
+          "date": "2026-11-14T15:10:01Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n▶️ Player\n• Sources are no longer rejected at startup over errors that don't stop playback, such as a missing audio device or a subtitle that fails to load. On the last alpha this made every source fail for some users on iOS.\n• A video whose address contains \"subtitle\" is still rejected when it genuinely fails to open.\n\n🍎 Mac\n• No more keychain password prompt after every update. The device key now lives in the app's own storage. You'll be asked one last time after installing this build.\n\n📺 IPTV and Multi-view\n• Titles tagged with a double bar, such as NL ║ Schitt's Creek, now match their series and movies.\n• On a TV with an air-mouse remote, search in the Spotlight style works again: clicking a letter on the Debrify keyboard types it, and the system keyboard no longer closes itself.\n• Leaving multi-view puts the cursor back on the channel that had the sound.\n\n⚽ Sports\n• Kick-off reminders on Android and iOS phones and tablets.\n\n🔍 Search\n• The built-in scrapers now run for anime catalogs, not just movies and series.\n\n🎬 Detail page\n• Trivia, goof and quote cards open to show the full text. Press OK on a card, or tap it.\n\n🛠 Diagnostics\n• The exported log now records what each source search did and where a stuck loading screen stalled, with no titles or IDs."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.10.3.1",
+      "versionDate": "2026-11-14T15:10:01Z",
+      "size": 39701355,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-1c2c296.ipa"
+    },
+    {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.7.ipa",
+          "size": 814659,
+          "version": "0.9.7",
+          "buildVersion": "87",
+          "date": "2026-11-14T14:17:48Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user).\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.7\n\nNew\n\n• New design (#43): a redesigned start screen and tabs.\n• Home: container cards, tools, favorites and the startup check with a Quick Check button.\n• Tabs: Home, Apps, Clean and Backups. Backups holds App Backups, File Backups and Recently Deleted.\n• Settings opens from the gear button.\n• On iPhone the tab bar sits at the bottom and hides inside folders. On iPad it sits at the top and stays.\n• Classic design: turn off Settings → New Design to get the previous start screen back. It switches right away and is remembered.\n\nChanged\n\n• Translations for the new screens in all languages.\n\nFixed\n\n• Classic design: folders opened from the start screen now show their title in your language instead of English.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian). Thanks to everyone who sent Logs and ideas. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 0a88b3ed7fd05bf63c5ddde51bb3825330543f69624f7c05e98001ef28c8e94b"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {}
+      },
+      "version": "0.9.7",
+      "versionDate": "2026-11-14T14:17:48Z",
+      "size": 814659,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.7.ipa"
+    },
+    {
       "name": "BCD",
       "bundleIdentifier": "com.thebcd69.bcd",
       "developerName": "thebcd69",
@@ -177,69 +271,6 @@
       "versionDate": "2026-11-13T08:37:33Z",
       "size": 21967290,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.0.0.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.6.ipa",
-          "size": 780279,
-          "version": "0.9.6",
-          "buildVersion": "81",
-          "date": "2026-11-13T12:49:20Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user).\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.6\n\nNew\n\n• Search Inside Folders… (••• menu): finds names in all subfolders, with progress and Stop.\n• Largest Files (••• menu): the 100 biggest files below a folder, to see where storage goes.\n• Get Info (long-press): path, kind, size (folders counted), dates, owner, permissions, inode and a file's SHA-256. Tap a row to copy it.\n• Duplicate and Copy to Folder… (long-press): copy files and folders, also into other apps' data, like Move.\n• Favorites: add a folder from its ••• menu; they're listed under Tools.\n• Reopen Last Folder (#41): WQ Files starts in the folder you were in. It's a switch on the start screen.\n• Check for Updates (#41): a note on the start screen when a new version is out.\n• What's sent: WQ Files reads the public release list on GitHub at most twice a day and sends nothing about your device. This is its only network access.\n• Turning it off: use the switch on the start screen.\n• Open ZIP files by tapping them (#41): Extract and Open unpacks it next to itself and opens the folder. Open as File shows the file as before.\n• Thai (#52).\n\nChanged\n\n• SQLite save writes through SQLite itself, which takes care of the database's journal and WAL files, so a save is safer if WQ Files is closed midway.\n• App restore copies and checks the backup in a private folder first, and installs exactly what was checked.\n• Replace All when importing only replaces the file versions shown in the question; a file that changed meanwhile is imported under a new name.\n• Turkish and Thai: clearer wording.\n\nFixed\n\n• App names and some app folders missing on some devices (e.g. iOS 26.1): when the app database uses a layout WQ Files doesn't know, it now works out where names and folders are from the database itself, and remembers it for that iOS version. App identities, which decide where backups go, still only come from the app's own folder tag or a known layout. WQ Files also uses the newest database file when iOS keeps an old one, and the Log lists them.\n• App backups could come out empty when WQ Files didn't have access to the app's folder yet; it worked on the second or third try. Backup now fails with \"try again\" instead, and an empty backup is never restored (restoring one would empty the app's data).\n\nCredit\n\nSandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian). Thanks to everyone who sent Logs and ideas. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: d15feaf0fb82dd754b78de3a0e9d210db0cc1ebd83748dd1980e922d2183c2c6"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {}
-      },
-      "version": "0.9.6",
-      "versionDate": "2026-11-13T12:49:20Z",
-      "size": 780279,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.6.ipa"
-    },
-    {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261113.ipa",
-          "size": 40715589,
-          "version": "20261113",
-          "buildVersion": "260",
-          "date": "2026-11-13T04:53:50Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• microVU0: compute the VU1 register window's address at run time\n• Tests: a persisted VU0 program that uses the window onto VU1's registers\n• Android: link the core with emulated TLS when the minimum API is below 29\n• iOS: give the layout editor and the manifest skin their own views\n• iOS: split the patch and skin library stores by their own sections\n• iOS: split navigation and gameplay views into one file per view\n• iOS: split the controls and skin files along their types\n• iOS: split the dynamic backgrounds into one file per background\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261112...37ed35b88fe9a0164369c8042f2c9aa707e33667"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261113",
-      "versionDate": "2026-11-13T04:53:50Z",
-      "size": 40715589,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261113.ipa"
     },
     {
       "name": "Nuvio Enhanced",
@@ -436,37 +467,6 @@
       "versionDate": "2026-11-08T22:05:57Z",
       "size": 16924687,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/StikDebug.rel-3.2.2.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-98bebe8.ipa",
-          "size": 39657040,
-          "version": "0.10.2.1",
-          "buildVersion": "58",
-          "date": "2026-11-08T08:30:52Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📱 iPhone Duo and iPad\n• Added iPhone Duo support: the app now fills the inner screen instead of sitting in a centred window, and keeps your place when you fold, unfold or rotate.\n• The floating navigation button no longer covers page controls on iPad, the unfolded Duo and phones in landscape (search fields, the Addons filters, the Settings header and back button, Discover's Source picker).\n• The empty IPTV screen scrolls instead of clipping on short screens.\n\n▶️ Player\n• The seek bar shows the time under your pointer while you hover or drag it.\n• Tap the duration to switch between total time and time left.\n• New Icons only option in Playback settings hides the labels on the player's buttons.\n• The seek row is evenly spaced, and the player shows the addon's name instead of a long code under the title.\n\n🎬 Subtitles\n• Added a Light grey subtitle colour.\n\n📺 IPTV and Multi-view\n• Multi-view has a way back on Mac, iPhone, iPad and desktops (a back button, and Escape on a keyboard).\n• The sound always moves to the tile you pick, even one still connecting. OK gives a tile the sound; hold OK for its options.\n• The note shown when a tile switches to another version of a channel fades after a few seconds.\n• The remote lands somewhere sensible after every action across the IPTV screens.\n\n⚽ Sports\n• The board fills in as each league answers instead of waiting for the slowest, with a loading bar and placeholder cards.\n• Times follow your device's 12- or 24-hour setting.\n\n🧩 Addons and trackers\n• AIOMetadata anime finds sources and tracker matches again, with stricter checks before an episode takes an IMDb ID.\n• A Simkl refresh no longer stops the player from opening.\n\n📡 TV remote fixes\n• Remote's Send everything can be finished with the remote, and UP and DOWN leave its options.\n• The import prompt's Import button is reachable with the remote.\n• Jellyfin and Emby grids keep focus after you open and leave a folder.\n\n⚙️ Other fixes\n• On phones, the lifted Up Next card no longer covers the season pill on detail pages.\n• Desktop: a preferences file left unreadable by a crash is repaired before the app reads it."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.10.2.1",
-      "versionDate": "2026-11-08T08:30:52Z",
-      "size": 39657040,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-98bebe8.ipa"
     },
     {
       "name": "LSX4",
