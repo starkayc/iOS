@@ -8,6 +8,42 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.659.ipa",
+          "size": 195294280,
+          "version": "0.1.659",
+          "buildVersion": "659",
+          "date": "2026-11-14T07:55:11Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nThis build brings The Last of Us Part I, frame generation (with your own copy of Lossless Scaling, with Apple's MetalFX, and an Apple VideoToolbox experiment), live upscaling, BCD's built-in JIT helper inside LiveContainer, and a set of new controls, store and settings features. Everything new is off until you turn it on, except the fixes.\n\nThe Last of Us Part I\n\nThe Last of Us Part I now runs on BCD. It was tested on an iPhone with 12 GB of memory (A19 Pro); devices with less memory are not tested.\n\n• Before you start: on the game's page, Options › Recommended settings › Reset to Recommended. The recommended settings carry everything below, and the game starts at 30 FPS.\n• Set the game's own graphics to the lowest and AMD FSR to Performance. This is required: in the game's own graphics settings, choose the lowest preset for everything, and set AMD FSR to Performance. BCD reminds you once, before the first start, as it does for the other demanding games.\n• First start: the game builds its shaders in the main menu, about 20 minutes the first time. Let it finish in the menu, then quit and start the game again. Later starts read them back from BCD's shader cache in about a minute and a half.\n• Fixed for this game, and for any Direct3D 12 game that does the same:\n• No lighting, dark and wrong colours, characters not drawn. The game clears its lighting work through a typed buffer view with four different values, and BCD wrote the first value into every word. Each value now goes into its own channel of every element, as Direct3D 12 does.\n• Closed by iOS as the first level loaded. The game creates about 126,000 pipelines at every start and draws under 1 % of them, and BCD kept a compiled shader library for each, 2.8 GB in all. With the recommended settings, a pipeline's libraries wait in BCD's shader cache until it is first drawn: peak memory went from 8.1 GB to 5.7 GB.\n• Hundreds of thousands of needless exceptions. Every indirect draw cost an exception on iOS (6,000 to 15,000 a second in play), because BCD read the clock the Windows way. BCD now reads the CPU's own counter.\n• Frame generation: the recommended settings turn on Lossless Scaling frame generation (2×) for this game. It works when you own Lossless Scaling on Steam and have set it up once (see below). Without it, the game runs as before.\n• How it plays: on an iPhone with an A19 Pro, with the game held at 30 FPS and Lossless Scaling frame generation on, it plays at 60 FPS for the first few minutes, then at about 40 FPS once the phone warms up.\n\nNew\n\n• Frame generation with your own copy of Lossless Scaling (experimental): adds one to three frames between the game's own, for Direct3D 11 and Direct3D 12 games. No motion vectors and no help from the game are needed.\n• Setup, once: sign in to Steam in BCD, then Settings › Graphics › Lossless Scaling › Check my purchase and download from Steam.\n• Use: on a game's page, Display › Lossless Scaling frame generation: 2×, 3× or 4×. The in-game menu shows its state and changes it while you play.\n• Lossless Scaling is not part of BCD. BCD asks Steam whether your account owns it, downloads it with your account, and keeps the file sealed on this device. A game reads only the frame generation shaders from it, and they are removed when the game ends. The purchase is checked again every week; Remove it from this device deletes everything.\n• Live MetalFX frame generation and upscaling (experimental): a game's page has Display › Live upscaling and frame generation.\n• Frame generation: runs at the game's own resolution, before the picture is enlarged, so it costs less. You can turn it on and off from the in-game menu while you play. It pauses by itself while the GPU is too busy for it. iOS 26 or later.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.659",
+      "versionDate": "2026-11-14T07:55:11Z",
+      "size": 195294280,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.659.ipa"
+    },
+    {
       "name": "Apollo",
       "bundleIdentifier": "com.christianselig.Apollo",
       "developerName": "Apollo-Reborn",
@@ -293,42 +329,6 @@
       "versionDate": "2026-11-12T00:37:11Z",
       "size": 69852349,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.12.ipa"
-    },
-    {
-      "name": "BCD",
-      "bundleIdentifier": "com.thebcd69.bcd",
-      "developerName": "thebcd69",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
-      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
-      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.653.ipa",
-          "size": 194520705,
-          "version": "0.1.653",
-          "buildVersion": "653",
-          "date": "2026-11-11T11:52:43Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nThis build brings everything since 0.1.634: external drives, Windows Vulkan for 64-bit games (experimental, per game), Ubisoft Connect with Far Cry 3 and Far Cry 4, a native interface for the foldable iPhone (experimental), colour profiles, many Direct3D 9, 11 and 12 fixes, Steam (BCD Dock) fixes, recommended settings for 60 more games and over 150 new Auto-tune rules.\n\nNew\n\n• New icon: BCD has a new app icon by Mila (mudcatpot), with versions for iOS's dark and tinted home screens. Thank you, Mila!\n• External drives: Settings › Storage › External drives › Add a drive or folder adds a drive (a USB-C SSD or a stick) or a folder on it; you can add several. Each drive appears in Windows as C:\\External\\<name> and as a drive letter.\n• Find games adds the games on a drive to your library, and the drive's Steam libraries are found by themselves: their games start through BCD Dock like any other Steam game.\n• A Steam game's page offers External drive for a new install (Steam installs in the same settings picks the default place), and Steam updates and repairs a game in the library it lives in.\n• Location › Move to on a game's page moves a Steam game, or a game you added from Files, between the device and a drive: it copies the game, checks the copy, then deletes the original. The game keeps its settings, Workshop items and launch options.\n• Before a download, files already on the disk are checked once, so a repaired or moved game is not downloaded again.\n• The earlier External SSD folder becomes a drive by itself, with its games and their settings. If it does not open at the first start, BCD tries again at the next start or at Play.\n• Reconnect opens a drive again after it was unplugged; Remove forgets it.\n• Windows Vulkan (experimental, 64-bit games): a game's page has Direct3D › Vulkan (experimental). With it, a 64-bit game that draws with Vulkan gets Vulkan through MoltenVK (vulkan = moltenvk). Off by default; turn it on per game.\n• Ubisoft Connect, Far Cry 3 and Far Cry 4:\n• Ubisoft Connect no longer stops right after its start.\n• Its built-in browser runs with fewer processes, so it fits.\n• Its installer is not run again for every Ubisoft game once the launcher is installed.\n• A game started through it gets the settings the launcher needs for that session only.\n• Far Cry 3 and Far Cry 4 have recommended settings.\n• Foldable iPhone (experimental): Settings › Graphics › Foldable iPhone has two switches, both off by default and both changing nothing on other iPhones and iPads.\n• Duo enhancements gives BCD a native interface with Liquid Glass, system tabs and a sidebar, search in the Library and controller navigation. The Windows desktop's Start, Open and Stop sit on Home, and downloads resume when the desktop runs in the background.\n• Foldable iPhone support starts a game you add at a resolution shaped like the inner display, and the touch controls follow the screen when you fold or unfold the phone.\n• Installed directly, iOS shows BCD in a small window on the inner display; inside LiveContainer it fills the screen. Both switches apply from the next start of BCD.\n• Colour profiles: Settings › Appearance picks BCD's colours. The default look is unchanged.\n• Xbox 360 controller identity: Controls › Controller API › Xbox 360 controller (XInput + device) on a game's page keeps the XInput pad and also lists it as an Xbox 360 controller, for a game that shows no controller otherwise (Far Cry 4).\n• Aim with a stick: an aim zone can drive the right stick instead of the mouse (Aim mode › The finger moves › The right stick on a game's page), for a game that ignores the mouse while a controller is in use (NieR).\n\nFixes and improvements…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
-          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
-        }
-      },
-      "version": "0.1.653",
-      "versionDate": "2026-11-11T11:52:43Z",
-      "size": 194520705,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.653.ipa"
     },
     {
       "name": "RewindBox",
