@@ -64,6 +64,10 @@
     "release_type": "prerelease",
     "commit": "c14dedc"
   },
+  "Ketamine": {
+    "release_type": "stable",
+    "version": "1.2.1"
+  },
   "LSX4": {
     "release_type": "stable",
     "version": "ios-jit-128.9934"
@@ -114,6 +118,10 @@
     "release_type": "any",
     "version": "0.2.7-beta"
   },
+  "Palladium": {
+    "release_type": "stable",
+    "version": "1.5.1"
+  },
   "qBitControl": {
     "release_type": "stable",
     "version": "release-1.4.1"
@@ -126,6 +134,10 @@
     "release_type": "stable",
     "version": "0.9.9"
   },
+  "RyukSign": {
+    "release_type": "stable",
+    "version": "4.0.0"
+  },
   "SceneBox": {
     "release_type": "stable",
     "version": "1.0.4"
@@ -137,5 +149,9 @@
   "Tsumiru": {
     "release_type": "stable",
     "version": "1.6.5"
+  },
+  "WQFiles": {
+    "release_type": "stable",
+    "version": "0.9.6"
   }
 }
