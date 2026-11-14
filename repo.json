@@ -8,6 +8,51 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Apollo",
+      "bundleIdentifier": "com.christianselig.Apollo",
+      "developerName": "Apollo-Reborn",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
+      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
+      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys…",
+      "tintColor": "3c94fc",
+      "category": "social",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.1.0.ipa",
+          "size": 129416970,
+          "version": "4.1.0",
+          "buildVersion": "304",
+          "date": "2026-11-14T03:22:21Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "Features\n\n• Add a Subreddit Switcher choice of Classic or Modern under Interface → Display & Navigation: Classic brings back Apollo's original Favorites popup for title taps and Posts tab holds, and Modern keeps the search sheet (#1604: @IllIIllIllIllII)\n• Classic is the default on regular iPhones, so updating from 4.0.x brings the popup back; Modern is the default on iPhone Duo\n• Modern now opens with the keyboard up and starts loading your pick right away, and on the iPhone Duo holding the Posts tab opens the switcher from the side rail and when unfolded\n• Add Jump Button Navigation so the comment jump button can step through comments posted since your last visit instead of top-level threads; press and hold to go back one (#1506: @IllIIllIllIllII)\n• Choose Threads (default) or New Comments under Settings → General below Jump Button Position, or from a post's ••• menu; the button shows a NEW label in that mode\n• Add Tint Tab Bar Icons to give unselected tab icons a muted shade of your theme's accent, on the classic and Liquid Glass tab bars and the iPhone Duo side rail (#1684: @IllIIllIllIllII, @AcornElf)\n• Add Accent Navigation Buttons on Liquid Glass to draw Back, toolbar and menu buttons in your theme's accent; titles stay neutral\n• Both are off by default under Settings → Appearance → Theme Manager → Options\n• Add Unread Badges under Interface to show the Inbox's unread count as a small dot on the tab bar and on the Inbox's Notifications and Chat tabs, and to color unread badges with your theme's accent instead of red (#1680: @icpryde, @AcornElf)\n• Compact Dot on Tab Bar, Compact Dot in Inbox (shown while modern Chat is on) and Theme Color are each off by default\n• Show Hidden & Deleted in Apollo's own post and comment lists, so results follow your post size, thumbnails, text size, themes, swipe actions and menus, and open their threads like anywhere else (#1485: @IllIIllIllIllII)\n• Items keep their Hidden, Removed or Deleted label, removed posts keep their saved title and media, and the Posts tab has its own Compact Posts / Large Thumbnails button\n• Add a Spelling setting under Interface → Display & Navigation: Apollo Reborn's screens now use American spelling to match Apollo, and choosing British changes the whole app's spelling to British (#1648: @IllIIllIllIllII)\n• Posts, comments, usernames and subreddit names keep the spelling they were written with\n• Add All+ to blend NSFW posts back into r/all by Reddit's own hot ranking, the way old Reddit's r/all showed them (#1472: @nnastasi)\n• Off by default: turn on Show NSFW in r/all under Posts & Feeds → All+; it applies to the Hot, Best and Rising sorts, and an optional NSFW boost slider moves them higher\n• Make swipes on the open iPhone Duo follow your finger: Back within a pane, closing a thread, opening and closing the subreddit list and leaving a profile, with a forward swipe to bring a closed thread or profile back (#1656: @IllIIllIllIllII)\n• With Disable Left Swipes on, swipe right anywhere in a pane to go Back, folded or unfolded, while galleries and carousels keep their own swipes (#1476: @nnastasi)\n• Turning Split View on or off no longer squashes post and comment text or makes the title bar jump, and sideways drags no longer open posts or start the text loupe\n• Add a draggable divider between the feed and thread in the open iPhone Duo's landscape split view: hold the grip and drag to resize, and Apollo remembers your width (#1672: @IllIIllIllIllII)\n• It snaps near ⅓, 40%, 50% and 60%; double-tap the grip to return to 50/50\n• Use the Focused feed layout in open portrait on the iPhone Duo too, and switch layouts from feeds and threads opened in Inbox, Account and Search (#1682, #1652: @IllIIllIllIllII)\n• Tall images, galleries and videos now fill the Focused column instead of half its width…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "aps-environment",
+          "com.apple.developer.associated-domains",
+          "com.apple.developer.group-session",
+          "com.apple.developer.icloud-container-identifiers",
+          "com.apple.developer.ubiquity-kvstore-identifier",
+          "com.apple.developer.weatherkit",
+          "com.apple.security.application-groups",
+          "keychain-access-groups"
+        ],
+        "privacy": {
+          "NSCameraUsageDescription": "Used to take photos to upload for sharing.",
+          "NSFaceIDUsageDescription": "Unlock Apollo when re-opening in order to prevent unauthorized access.",
+          "NSLocationWhenInUseUsageDescription": "Checked once to calculate sunset/sunrise times for the location.",
+          "NSMotionUsageDescription": "Detect rotations in Media Viewer and offer corresponding options.",
+          "NSPhotoLibraryAddUsageDescription": "Save media to photo library.",
+          "NSPhotoLibraryUsageDescription": "Used to save media or to select images to upload for sharing."
+        }
+      },
+      "version": "4.1.0",
+      "versionDate": "2026-11-14T03:22:21Z",
+      "size": 129416970,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.1.0.ipa"
+    },
+    {
       "name": "Ketamine",
       "bundleIdentifier": "uk.nouvborne.ketamine",
       "developerName": "Nouvborne",
@@ -988,51 +1033,6 @@
       "versionDate": "2026-11-04T07:42:50Z",
       "size": 112484698,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/YTMusicUltimate.rel-2.4.1_1.0.3_9.44.2.ipa"
-    },
-    {
-      "name": "Apollo",
-      "bundleIdentifier": "com.christianselig.Apollo",
-      "developerName": "Apollo-Reborn",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.christianselig.Apollo.png",
-      "localizedDescription": "iOS tweak for Apollo Reddit app - use your own API keys, unlocked Ultra features, and other enhancements",
-      "subtitle": "iOS tweak for Apollo Reddit app - use your own API keys…",
-      "tintColor": "3c94fc",
-      "category": "social",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.0.1.ipa",
-          "size": 129202414,
-          "version": "4.0.1",
-          "buildVersion": "303",
-          "date": "2026-10-30T01:24:25Z",
-          "localizedDescription": "Performance\n\n• Send fewer Reddit requests on API-Key-Free accounts by not repeating link preview lookups for sites that block previews and by briefly reusing the Inbox's reply lookups, so ordinary reading reaches Reddit's rate limit later (#1579: @icpryde)\n• New replies, and anything you post or edit, still refresh right away\n\nFixes\n\n• Fix multi-photo posts showing a reddit.com link and 0 photos since Reddit began marking their photos as failed, so the gallery, feed carousel, media viewer, Save All and Gallery View show them again (#1589: @icpryde)\n• Covers galleries posted from Apollo with Reddit as the Media Upload Host and from other apps; they show as square cards in the feed\n• Fix API-Key-Free search showing \"Error searching\" or \"Error loading subreddits\" for post search, searching within a subreddit or multireddit, and subreddit search (#1557: @DeltAndy123)\n• Fix All Posts (r/all) showing \"Couldn't load posts\" on API-Key-Free accounts, for every sort and with Exclude Subscriptions (#1570: @icpryde)\n• All Posts has another way in before Old Reddit, and if Reddit blocks another API-Key-Free read, a route update can work around it without an app update (#1594: @DeltAndy123)\n• Open the feed you chose to start on again at launch by turning Restore Reading Session off by default; it moves to Posts & Feeds → Feed (#1511: @IllIIllIllIllII)\n• A choice you changed yourself in 4.0.0 is kept, so turn it back on there if you relied on the 4.0.0 default\n• Fix a crash when opening a post or comment link while Reddit is rate-limiting requests, most often right after returning to Apollo; the usual \"Error loading comments\" banner shows instead (#1572: @icpryde)\n• Fix the home screen icon turning into iOS's generic grid after installing or updating Apollo with an alternate icon selected (#1554: @icpryde)\n• Apollo re-applies your icon once on the first launch after the update, so iOS shows its \"You have changed the icon\" alert; tapping the selected icon again under App Icon also redraws it\n• Open a tapped Inbox reply or comment link directly on that comment, without the post flashing, gliding and snapping into place, and keep your place when returning from a pushed page (#1584: @icpryde)\n• Show the Unrecoverable label on deleted comments the archive can't restore, instead of a thin, cut-off red strip with only the age showing (#1578: @icpryde)\n• Load Live Interactive Posts for accounts set to old Reddit, instead of spinning on \"Loading interactive post…\", and make the ✕ and ••• buttons work in an interactive post's expanded view (#1553: @icpryde)\n• Report from the ••• menu opens and closes properly, and feed cards return to their compact size after closing\n• Keep sign-in, Badge Book trophies and API-Key-Free backup reads working for accounts Old Reddit turns away (#1553: @icpryde)\n• The API-Key-Free sign-in sheet no longer offers Switch to Old Reddit\n• Open a just-posted video post with its video playing from the \"Posted! Tap to view.\" banner, instead of a still image (#1413: @icpryde)\n• The banner now waits until Reddit finishes processing the video, so it can appear a few seconds later; applies to videos uploaded with Media Upload Host set to Reddit\n• Stop the media post composer jumping when you pick a flair or photo with a title that wraps onto two or more lines (#1571: @icpryde)\n• Open the subreddit switcher with the keyboard down, so your favorites stay visible until you tap the search field (#1564: @IllIIllIllIllII)\n• Stop the rows Apollo Reborn adds to the classic (non-Liquid Glass) post ••• menu turning green on subreddits you moderate; they follow your theme again, and Remove from Recently Read is red (#1566: @IllIIllIllIllII)…",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "aps-environment",
-          "com.apple.developer.associated-domains",
-          "com.apple.developer.group-session",
-          "com.apple.developer.icloud-container-identifiers",
-          "com.apple.developer.ubiquity-kvstore-identifier",
-          "com.apple.developer.weatherkit",
-          "com.apple.security.application-groups",
-          "keychain-access-groups"
-        ],
-        "privacy": {
-          "NSCameraUsageDescription": "Used to take photos to upload for sharing.",
-          "NSFaceIDUsageDescription": "Unlock Apollo when re-opening in order to prevent unauthorized access.",
-          "NSLocationWhenInUseUsageDescription": "Checked once to calculate sunset/sunrise times for the location.",
-          "NSMotionUsageDescription": "Detect rotations in Media Viewer and offer corresponding options.",
-          "NSPhotoLibraryAddUsageDescription": "Save media to photo library.",
-          "NSPhotoLibraryUsageDescription": "Used to save media or to select images to upload for sharing."
-        }
-      },
-      "version": "4.0.1",
-      "versionDate": "2026-10-30T01:24:25Z",
-      "size": 129202414,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Apollo-Reborn.rel-1.15.11_4.0.1.ipa"
     },
     {
       "name": "Lume",
