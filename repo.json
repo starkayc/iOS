@@ -8,6 +8,205 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.665.ipa",
+          "size": 222775641,
+          "version": "0.1.665",
+          "buildVersion": "665",
+          "date": "2026-11-15T15:07:37Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nRed Dead Redemption 2\n\n• No processor time lost on exceptions. RDR2 asks Windows for the time tens of thousands of times a second, and every one of those calls used to take an exception that BCD caught and answered: about 20,000 a second through the tick count, and up to about 18,000 more through timer calls in the game's own process, which Rockstar's launcher starts. Both now run as plain calls, so a performance core no longer goes to exceptions and iOS has less reason to lower the processor clock.\n• Rockstar's launcher off the fast cores sooner. The launcher, its Social Club helper and its service move to the efficiency cores one second after the game starts drawing instead of after a minute, leaving the performance cores and the power budget to the game.\n• New recommended settings. BCD's own diagnostics sample less and its helper threads run on the efficiency cores; the game gets a larger memory pool, the swap file for game data only and faster Direct3D 12 paths. These settings held 30 FPS on a 12 GB iPhone. On the game's page use Options › Recommended settings › Reset to Recommended to get them.\n\nThe two time fixes help GTA V and every other 64-bit game too (below); the sooner launcher move and the new settings are RDR2's own.\n\nAlso in this build\n\nVulkan for 32-bit programs, GOG games of the older download kind, a newer Steam client for the games that need it, and a long list of fixes from testers' logs. Everything new is off until you turn it on, except the fixes.\n\nFaster\n\n• 64-bit games no longer pay for asking the time. Windows programs read the tick count from a shared page at a fixed address that iOS does not allow, so every GetTickCount and GetTickCount64 call cost an exception that BCD caught and answered. Red Dead Redemption 2 asks about 20,000 times a second, enough to keep a performance core busy and make iOS lower the CPU clock sooner. BCD's 64-bit kernel32 now reads the same page directly: the same values, no exception. On for every 64-bit program; env.MADEIRA_USD_DIRECT = 0 restores the old path.\n• Games started by a launcher stop taking exceptions on library calls: a program that another program starts (RDR2 and GTA V Enhanced from Rockstar's launcher, Social Club's helper) now calls between Windows' own libraries directly, as the first program always did. Before, each such call took an exception, for example every timer call through timeGetTime: up to about 18,000 a second in RDR2. Together with the tick count fix above, RDR2 no longer spends a performance core on exceptions. env.MADEIRA_AUX_IAT_HEAL_CHILD = 0 turns it off.\n• Direct3D 12 sampler cache: identical samplers are created once. On by default; sampler-cache = 0 turns it off.\n• Time zones: a program that asks for the local time no longer makes Windows look up the time zone each time.\n• Thread registers: a program that reads its threads' registers often (a garbage collector, a profiler) no longer makes BCD read its settings files each time.\n\nNew\n\n• Vulkan for 32-bit programs: the same vulkan = moltenvk line that gives a 64-bit game Vulkan now works for 32-bit games too.\n• GOG: older downloads. A GOG game that only has GOG's older kind of download (Return to Castle Wolfenstein, the Quake games) now installs, updates and repairs in BCD's GOG downloader, with the same pause, resume and progress as the others.\n• BCD Dock: newer Steam client (September 2026). Some games ask for a newer Steam interface than the January 2026 client has (Grim Dawn, Hades II, Enshrouded). Settings › BCD Dock › Newer Steam client installs the September 2026 client. BCD renames the old client folder (nothing is deleted) and moves your games, saves and settings into the new one. Off by default.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.665",
+      "versionDate": "2026-11-15T15:07:37Z",
+      "size": 222775641,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.665.ipa"
+    },
+    {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ee541bc.ipa",
+          "size": 39706694,
+          "version": "0.10.4.1",
+          "buildVersion": "60",
+          "date": "2026-11-15T12:33:14Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n🏠 Home\n• New \"Airing soon\" row. It lists the coming week's episodes of the shows you follow, using your Trakt, Simkl or MDBList calendar. Each show gets one card for its next episode, labelled Today, Tomorrow or the day name. Turn it on in Settings > Home rows > Upcoming.\n• The Calendar tab keeps its shows when a tracker has a brief connection problem, instead of going blank.\n• After switching profiles, the Calendar no longer shows the previous profile's shows.\n\n▶️ Sources and Player\n• Play a source in the other player, just once. Long-press a source (hold OK on a TV) and choose Play in external player or Play in Debrify player. Your default player doesn't change, and the next episode uses it again.\n• The Portuguese filter now finds dubbed releases (DUBLADO, NACIONAL, Dual Áudio, 🇧🇷 / 🇵🇹 flags), not just subtitled ones. Releases marked LEGENDADO count as subtitled unless they also have a Portuguese audio track.\n• A release whose description says \"Multi Audio\" now passes a language filter for a language it names.\n• The source menu scrolls, so all its actions fit on a phone in landscape.\n\n🎬 Detail page\n• Rotten Tomatoes score next to IMDb (e.g. \"RT 93%\") on movie pages, the classic series page and the Showcase series style. It needs an MDBList key.\n\n📺 IPTV\n• Jump to a channel number now works in Favorites and custom lists on Android TV. Before, it showed \"Select a provider before jumping by channel number\". After a jump, channel up/down still goes through the whole list."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.10.4.1",
+      "versionDate": "2026-11-15T12:33:14Z",
+      "size": 39706694,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ee541bc.ipa"
+    },
+    {
+      "name": "Doer",
+      "bundleIdentifier": "com.naine.doer",
+      "developerName": "moliango",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.naine.doer.png",
+      "localizedDescription": "",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.7.ipa",
+          "size": 28409295,
+          "version": "1.8.7",
+          "buildVersion": "44",
+          "date": "2026-11-15T13:11:40Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.6...v1.8.7"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSCameraUsageDescription": "用于在站内聊天中拍照并发送图片",
+          "NSMicrophoneUsageDescription": "用于在回复中录制语音消息",
+          "NSPhotoLibraryAddUsageDescription": "用于保存话题分享图片到相册",
+          "NSSpeechRecognitionUsageDescription": "用于将按住说话的录音转成中文文字"
+        }
+      },
+      "version": "1.8.7",
+      "versionDate": "2026-11-15T13:11:40Z",
+      "size": 28409295,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.7.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.13.ipa",
+          "size": 69922480,
+          "version": "0.6.13",
+          "buildVersion": "156",
+          "date": "2026-11-15T09:36:16Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• i18n: add French strings and align birth and death wording (#2664) @SK-Gits\n• i18n(vi): update latest Vietnamese strings (#2622) @blueocean2308\n• perf: smoother cold start and home on Android (#2652) @skoruppa\n• fix(home): show hero only after its source catalogs load (#2651) @skoruppa\n• feat(player): basic keyboard support (#2633) @skoruppa\n• fix(cw): dismiss a next up show by its content id, as on TV (#2632) @skoruppa\n• feat(cw): choose what selecting a Continue Watching item opens (#2630) @skoruppa\n• Translation improvements and adjustments for Slovak language (#2625) @mmsw91\n• i18n: add French strings for chapter title setting (#2621) @SK-Gits\n• feat(player): fall back to the next matching source on failure (#2612) @skoruppa\n• fix(player): show each start-up step on the loading screen, like NuvioTV (#2611) @skoruppa"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "0.6.13",
+      "versionDate": "2026-11-15T09:36:16Z",
+      "size": 69922480,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.13.ipa"
+    },
+    {
+      "name": "osu!",
+      "bundleIdentifier": "sh.ppy.osulazer",
+      "developerName": "ppy",
+      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
+      "localizedDescription": "rhythm is just a *click* away!",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1115.0-lazer.ipa",
+          "size": 269007098,
+          "version": "2026.1115.0-lazer",
+          "buildVersion": "2026.1115.0",
+          "date": "2026-11-15T11:27:22Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "What's Changed\n• Fix radians/degrees mismatch in static storyboard rotation commands decode and encode by @logisticalissue in https://github.com/ppy/osu/pull/38877\n• Prevent /watch command from spectating the local user by @LiquidPL in https://github.com/ppy/osu/pull/38870\n• Fix ConfirmExitDialog localisation by @diquoks in https://github.com/ppy/osu/pull/38858\n• fix InspectCode scripts after nvika removal by @wakka810 in https://github.com/ppy/osu/pull/38857\n• Fix transform scale when key is pressed on legacy counter by @tsunyoku in https://github.com/ppy/osu/pull/38865\n• Avoid Velopack restart for package managed installs by @wakka810 in https://github.com/ppy/osu/pull/38856\n• Allow searching settings by hint text by @Joehuu in https://github.com/ppy/osu/pull/38881\n• Encode all colours from beatmap skin into the .osu by @bdach in https://github.com/ppy/osu/pull/38828\n• Update SFX for the final results screen of ranked play by @nekodex in https://github.com/ppy/osu/pull/38850\n• Fix storyboard loops being shifted on saves due to relative time in encoder by @logisticalissue in https://github.com/ppy/osu/pull/38895\n• Add \"notifications\" as a search term for alerts and privacy section by @Joehuu in https://github.com/ppy/osu/pull/38892\n• Add Opacity setting to SkinnableSprite by @stanriders in https://github.com/ppy/osu/pull/38821\n• Clamp object positions to [0, 512] during parsing by @bdach in https://github.com/ppy/osu/pull/38844\n• Allow uploading screenshots using Shift + F12 by @LiquidPL in https://github.com/ppy/osu/pull/36133\n• Adjust LegacyKeyCounterDisplay sprites alignment to match stable by @unststable81 in https://github.com/ppy/osu/pull/38875\n• Warn users when screenshot uploads are rate limited by @LiquidPL in https://github.com/ppy/osu/pull/38922\n• Fix context menus potentially going offscreen in multiplayer and playlists by @khoaphhh in https://github.com/ppy/osu/pull/38901\n• Update style of extended details on profile page by @diquoks in https://github.com/ppy/osu/pull/38196\n• Remove FavouriteButton's tooltip when it's disabled by @diquoks in https://github.com/ppy/osu/pull/38706\n• Make pressing ESC first deselect any placement tool by @LittleEndu in https://github.com/ppy/osu/pull/38921\n• Fix panel flash for time signatures not fitting power-of-two rate by @logisticalissue in https://github.com/ppy/osu/pull/38827\n• Refactor UserCoverBackground to be used with other models by @LiquidPL in https://github.com/ppy/osu/pull/36277\n• Fix input subsections leaving content rendering even when collapsed by @peppy in https://github.com/ppy/osu/pull/38949\n• Fix iOS build by @bdach in https://github.com/ppy/osu/pull/38952\n• Fix game not always respecting user's no-video download preference by @peppy in https://github.com/ppy/osu/pull/38948\n• Keep width of markers on legacy bar hit error meter constant regardless of scale by @bdach in https://github.com/ppy/osu/pull/38953\n• Fix blocking windows key not working with SDL3 raw keyboard by @Susko3 in https://github.com/ppy/osu/pull/35727\n• Fix duplicate test runs by @smoogipoo in https://github.com/ppy/osu/pull/38955\n• Fix screenshot rate limit error handling not working as expected by @peppy in https://github.com/ppy/osu/pull/38960\n• Adjust WebSocketChannel logic to avoid crashes by @bdach in https://github.com/ppy/osu/pull/38962\n• Fix CI test report step failing by @bdach in https://github.com/ppy/osu/pull/38964\n• Extend IScoreInfo interface to cover all baseline properties of score by @bdach in https://github.com/ppy/osu/pull/38961\n• Display active user counts in channel listing by @peppy in https://github.com/ppy/osu/pull/38959\n• Fix iOS hard crash on startup on iOS 27 devices by @peppy in https://github.com/ppy/osu/pull/38966\n• Add WebSocket messages for beatmap data and user activity by @tsunyoku in https://github.com/ppy/osu/pull/38071\n• Change tablet x and y offset precision to 0.01 by @C6JW in https://github.com/ppy/osu/pull/38718…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "beta-reports-active",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
+          "NSCameraUsageDescription": "We don't use the camera.",
+          "NSMicrophoneUsageDescription": "We don't use the microphone."
+        }
+      },
+      "version": "2026.1115.0-lazer",
+      "versionDate": "2026-11-15T11:27:22Z",
+      "size": 269007098,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1115.0-lazer.ipa"
+    },
+    {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.10.ipa",
+          "size": 1918805,
+          "version": "0.9.10",
+          "buildVersion": "90",
+          "date": "2026-11-15T17:14:15Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user); see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.10\n\nFixes\n\n• Missing apps: some installed apps didn't appear in Apps, App Data or Extension Data (on iOS 26.5, for example UC Browser; 279 instead of 295 apps). Folders that the app database names but couldn't be paired with an app were left out. They are listed now and get their name from the folder itself.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), buraakkcayir (Turkish review). Thanks to everyone who sent Logs and screenshots. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 1df859a827e589a9a1668b3bd3e3966b69eedf3e9a56a84e6f041183295adda9"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {}
+      },
+      "version": "0.9.10",
+      "versionDate": "2026-11-15T17:14:15Z",
+      "size": 1918805,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.10.ipa"
+    },
+    {
       "name": "Nuvio Enhanced",
       "bundleIdentifier": "com.nuvio.enhancedmedia",
       "developerName": "luqmanfadlli",
@@ -38,42 +237,6 @@
       "versionDate": "2026-11-15T02:58:11Z",
       "size": 75471987,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.13.ipa"
-    },
-    {
-      "name": "osu!",
-      "bundleIdentifier": "sh.ppy.osulazer",
-      "developerName": "ppy",
-      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
-      "localizedDescription": "rhythm is just a *click* away!",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1114.0-tachyon.ipa",
-          "size": 269005613,
-          "version": "2026.1114.0-tachyon",
-          "buildVersion": "2026.1114.0",
-          "date": "2026-11-15T06:50:39Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "What's Changed\n• Update team API model and add request by @LiquidPL in https://github.com/ppy/osu/pull/39148\n• Show effect points data in editor compose screen by @Hiviexd in https://github.com/ppy/osu/pull/38905\n• Adjust username colours in chat by @bdach in https://github.com/ppy/osu/pull/39153\n• Dismiss config-persisted search criteria in freestyle select screen by @bdach in https://github.com/ppy/osu/pull/38795\n• Change automatic cursor size adjust to be linear at higher CS values by @peppy in https://github.com/ppy/osu/pull/39155\n• Add beatmap info panel for extended results views by @bdach in https://github.com/ppy/osu/pull/39156\n• Ensure room is joined before pushing matchmaking screen by @LiquidPL in https://github.com/ppy/osu/pull/39034\n• Add model for storing matchmaking user stats by @LiquidPL in https://github.com/ppy/osu/pull/39151\n• Fix replay settings overlay keeping keyboard focus after collapsing by @SevenSec114 in https://github.com/ppy/osu/pull/38898\n• Add drum touch size setting for osu!taiko by @tf2mandeokyi in https://github.com/ppy/osu/pull/34924\n• Add ellipsis to remaining menu items and buttons that open a dialog/overlay/url by @Joehuu in https://github.com/ppy/osu/pull/38914\n• Fix hotkey displays not changing their text on keymap change by @diquoks in https://github.com/ppy/osu/pull/39158\n• Add player info panel for extended results views by @bdach in https://github.com/ppy/osu/pull/39167\n• Fix terminology of \"temporarily showing all\" header when viewing difficulties of a single beatmap by @Joehuu in https://github.com/ppy/osu/pull/39166\n• Fix editing retro base skin causing duplicated skin name by @peppy in https://github.com/ppy/osu/pull/39165\n• Fix skin.ini not able to override settings under some scenarios by @peppy in https://github.com/ppy/osu/pull/39175\n• Add score info panel for extended score statistics view by @bdach in https://github.com/ppy/osu/pull/39174\n• Change priority of dynamic 'hit' SFX on ranked play results screen by @nekodex in https://github.com/ppy/osu/pull/39171\n\nNew Contributors\n• @tf2mandeokyi made their first contribution in https://github.com/ppy/osu/pull/34924\n\nFull Changelog: https://github.com/ppy/osu/compare/2026.1110.0-tachyon...2026.1114.0-tachyon"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "beta-reports-active",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
-          "NSCameraUsageDescription": "We don't use the camera.",
-          "NSMicrophoneUsageDescription": "We don't use the microphone."
-        }
-      },
-      "version": "2026.1114.0-tachyon",
-      "versionDate": "2026-11-15T06:50:39Z",
-      "size": 269005613,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1114.0-tachyon.ipa"
     },
     {
       "name": "EeveeSpotifyReincarnated",
@@ -180,37 +343,6 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.96.ipa"
     },
     {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.8.ipa",
-          "size": 817121,
-          "version": "0.9.8",
-          "buildVersion": "88",
-          "date": "2026-11-14T18:14:23Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user).\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.8\n\nNew\n\n• Reset Access Cache in Settings: under Settings → Troubleshooting, in both designs. Until now it only appeared on the startup check screen when sandbox access failed, so it couldn't be reached after Continue Anyway or when access broke later. It puts WQ Files' own cache folder in the App Group back; nothing is deleted.\n\nChanged\n\n• Clearer Log when access is blocked: when the access cache can't be repaired automatically, the Log now says why and what it found (swap marker, preserved Caches folder, what Caches is now) and points to Reset Access Cache. The same failure is logged once instead of for every folder.\n• Translations for the new texts in all languages.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), buraakkcayir (Turkish review). Thanks to everyone who sent Logs and ideas. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 7459ded30f5aa740a49060e1497ddf7eafa7b0152290b8104d336338de9a050c"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {}
-      },
-      "version": "0.9.8",
-      "versionDate": "2026-11-14T18:14:23Z",
-      "size": 817121,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.8.ipa"
-    },
-    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -241,73 +373,6 @@
       "versionDate": "2026-11-14T15:41:20Z",
       "size": 40717380,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261114.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-1c2c296.ipa",
-          "size": 39701355,
-          "version": "0.10.3.1",
-          "buildVersion": "59",
-          "date": "2026-11-14T15:10:01Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n▶️ Player\n• Sources are no longer rejected at startup over errors that don't stop playback, such as a missing audio device or a subtitle that fails to load. On the last alpha this made every source fail for some users on iOS.\n• A video whose address contains \"subtitle\" is still rejected when it genuinely fails to open.\n\n🍎 Mac\n• No more keychain password prompt after every update. The device key now lives in the app's own storage. You'll be asked one last time after installing this build.\n\n📺 IPTV and Multi-view\n• Titles tagged with a double bar, such as NL ║ Schitt's Creek, now match their series and movies.\n• On a TV with an air-mouse remote, search in the Spotlight style works again: clicking a letter on the Debrify keyboard types it, and the system keyboard no longer closes itself.\n• Leaving multi-view puts the cursor back on the channel that had the sound.\n\n⚽ Sports\n• Kick-off reminders on Android and iOS phones and tablets.\n\n🔍 Search\n• The built-in scrapers now run for anime catalogs, not just movies and series.\n\n🎬 Detail page\n• Trivia, goof and quote cards open to show the full text. Press OK on a card, or tap it.\n\n🛠 Diagnostics\n• The exported log now records what each source search did and where a stuck loading screen stalled, with no titles or IDs."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.10.3.1",
-      "versionDate": "2026-11-14T15:10:01Z",
-      "size": 39701355,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-1c2c296.ipa"
-    },
-    {
-      "name": "BCD",
-      "bundleIdentifier": "com.thebcd69.bcd",
-      "developerName": "thebcd69",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
-      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
-      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.659.ipa",
-          "size": 195294280,
-          "version": "0.1.659",
-          "buildVersion": "659",
-          "date": "2026-11-14T07:55:11Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nThis build brings The Last of Us Part I, frame generation (with your own copy of Lossless Scaling, with Apple's MetalFX, and an Apple VideoToolbox experiment), live upscaling, BCD's built-in JIT helper inside LiveContainer, and a set of new controls, store and settings features. Everything new is off until you turn it on, except the fixes.\n\nThe Last of Us Part I\n\nThe Last of Us Part I now runs on BCD. It was tested on an iPhone with 12 GB of memory (A19 Pro); devices with less memory are not tested.\n\n• Before you start: on the game's page, Options › Recommended settings › Reset to Recommended. The recommended settings carry everything below, and the game starts at 30 FPS.\n• Set the game's own graphics to the lowest and AMD FSR to Performance. This is required: in the game's own graphics settings, choose the lowest preset for everything, and set AMD FSR to Performance. BCD reminds you once, before the first start, as it does for the other demanding games.\n• First start: the game builds its shaders in the main menu, about 20 minutes the first time. Let it finish in the menu, then quit and start the game again. Later starts read them back from BCD's shader cache in about a minute and a half.\n• Fixed for this game, and for any Direct3D 12 game that does the same:\n• No lighting, dark and wrong colours, characters not drawn. The game clears its lighting work through a typed buffer view with four different values, and BCD wrote the first value into every word. Each value now goes into its own channel of every element, as Direct3D 12 does.\n• Closed by iOS as the first level loaded. The game creates about 126,000 pipelines at every start and draws under 1 % of them, and BCD kept a compiled shader library for each, 2.8 GB in all. With the recommended settings, a pipeline's libraries wait in BCD's shader cache until it is first drawn: peak memory went from 8.1 GB to 5.7 GB.\n• Hundreds of thousands of needless exceptions. Every indirect draw cost an exception on iOS (6,000 to 15,000 a second in play), because BCD read the clock the Windows way. BCD now reads the CPU's own counter.\n• Frame generation: the recommended settings turn on Lossless Scaling frame generation (2×) for this game. It works when you own Lossless Scaling on Steam and have set it up once (see below). Without it, the game runs as before.\n• How it plays: on an iPhone with an A19 Pro, with the game held at 30 FPS and Lossless Scaling frame generation on, it plays at 60 FPS for the first few minutes, then at about 40 FPS once the phone warms up.\n\nNew\n\n• Frame generation with your own copy of Lossless Scaling (experimental): adds one to three frames between the game's own, for Direct3D 11 and Direct3D 12 games. No motion vectors and no help from the game are needed.\n• Setup, once: sign in to Steam in BCD, then Settings › Graphics › Lossless Scaling › Check my purchase and download from Steam.\n• Use: on a game's page, Display › Lossless Scaling frame generation: 2×, 3× or 4×. The in-game menu shows its state and changes it while you play.\n• Lossless Scaling is not part of BCD. BCD asks Steam whether your account owns it, downloads it with your account, and keeps the file sealed on this device. A game reads only the frame generation shaders from it, and they are removed when the game ends. The purchase is checked again every week; Remove it from this device deletes everything.\n• Live MetalFX frame generation and upscaling (experimental): a game's page has Display › Live upscaling and frame generation.\n• Frame generation: runs at the game's own resolution, before the picture is enlarged, so it costs less. You can turn it on and off from the in-game menu while you play. It pauses by itself while the GPU is too busy for it. iOS 26 or later.…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
-          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
-        }
-      },
-      "version": "0.1.659",
-      "versionDate": "2026-11-14T07:55:11Z",
-      "size": 195294280,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.659.ipa"
     },
     {
       "name": "Apollo",
@@ -469,37 +534,6 @@
       "versionDate": "2026-11-13T07:02:53Z",
       "size": 4445097,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/OpenParsec.rel-2.0.0.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.12.ipa",
-          "size": 69852349,
-          "version": "0.6.12",
-          "buildVersion": "155",
-          "date": "2026-11-12T00:37:11Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• feat(player): chapters setting for every engine, chapters on iOS and a chapter title toggle (#2609) @skoruppa\n• fix(collections): respect \"Show catalog type\" in folders (#2608) @skoruppa\n• fix(player): show the real cause of playback errors, like NuvioTV (#2607) @skoruppa\n• fix(player): use the audio clock when mpv video time drops to 0 (#2605) @skoruppa\n• fix(player): add an SPS/PPS init segment to HLS streams that lack them (#2606) @skoruppa\n• fix(player): decode DASH MIME query hints before detection (#2600) @retrocodes12\n• i18n(vi): update latest Vietnamese strings (#2601) @blueocean2308\n• fix(streams): keep tokenized links for reuse and refresh expired saved links (#2598) @skoruppa\n• i18n: add French string for signed-out notice (#2593) @SK-Gits\n• Update Dutch (nl) strings and reorder Dutch in Settings (#2592) @mronion212"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.12",
-      "versionDate": "2026-11-12T00:37:11Z",
-      "size": 69852349,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.12.ipa"
     },
     {
       "name": "RewindBox",
@@ -791,40 +825,6 @@
       "versionDate": "2026-10-04T12:22:53Z",
       "size": 4638147,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/AirCard.rel-1.3.2.ipa"
-    },
-    {
-      "name": "Doer",
-      "bundleIdentifier": "com.naine.doer",
-      "developerName": "moliango",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.naine.doer.png",
-      "localizedDescription": "",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.6.ipa",
-          "size": 28095758,
-          "version": "1.8.6",
-          "buildVersion": "43",
-          "date": "2026-10-10T08:03:04Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.5.3...v1.8.6"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSCameraUsageDescription": "用于在站内聊天中拍照并发送图片",
-          "NSMicrophoneUsageDescription": "用于在回复中录制语音消息",
-          "NSPhotoLibraryAddUsageDescription": "用于保存话题分享图片到相册",
-          "NSSpeechRecognitionUsageDescription": "用于将按住说话的录音转成中文文字"
-        }
-      },
-      "version": "1.8.6",
-      "versionDate": "2026-10-10T08:03:04Z",
-      "size": 28095758,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.6.ipa"
     },
     {
       "name": "DukeX",
