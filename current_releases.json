@@ -22,15 +22,15 @@
   },
   "BCD": {
     "release_type": "any",
-    "version": "0.1.659"
+    "version": "0.1.665"
   },
   "Debrify": {
     "release_type": "prerelease",
-    "commit": "1c2c296"
+    "commit": "ee541bc"
   },
   "Doer": {
     "release_type": "stable",
-    "version": "1.8.6"
+    "version": "1.8.7"
   },
   "Dolphin": {
     "release_type": "any",
@@ -96,7 +96,7 @@
   },
   "Nuvio": {
     "release_type": "stable",
-    "version": "0.6.12-beta"
+    "version": "0.6.13-beta"
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
@@ -112,7 +112,7 @@
   },
   "Osu": {
     "release_type": "any",
-    "version": "2026.1114.0-tachyon"
+    "version": "2026.1115.0-lazer"
   },
   "PSX3IOS": {
     "release_type": "any",
@@ -152,6 +152,6 @@
   },
   "WQFiles": {
     "release_type": "stable",
-    "version": "0.9.8"
+    "version": "0.9.10"
   }
 }
