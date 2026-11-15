@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.0.ipa",
+          "size": 69922744,
+          "version": "1.0.0",
+          "buildVersion": "157",
+          "date": "2026-11-15T18:28:31Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "Nuvio 1.0.0\n\nThank you to everyone who has contributed to the project, tested the betas, and supported us along the way.\n\nThis is the first stable release. It has the same features and fixes as 0.6.13-beta.\n\nOn Android, choose Stable in Settings → About → Update channel for fewer updates and a more stable build. Choose Beta for frequent updates, with possible breaking changes. If you were already on a beta build, you stay on Beta until you switch."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "1.0.0",
+      "versionDate": "2026-11-15T18:28:31Z",
+      "size": 69922744,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.0.ipa"
+    },
+    {
       "name": "BCD",
       "bundleIdentifier": "com.thebcd69.bcd",
       "developerName": "thebcd69",
@@ -107,37 +138,6 @@
       "versionDate": "2026-11-15T13:11:40Z",
       "size": 28409295,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.7.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.13.ipa",
-          "size": 69922480,
-          "version": "0.6.13",
-          "buildVersion": "156",
-          "date": "2026-11-15T09:36:16Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• i18n: add French strings and align birth and death wording (#2664) @SK-Gits\n• i18n(vi): update latest Vietnamese strings (#2622) @blueocean2308\n• perf: smoother cold start and home on Android (#2652) @skoruppa\n• fix(home): show hero only after its source catalogs load (#2651) @skoruppa\n• feat(player): basic keyboard support (#2633) @skoruppa\n• fix(cw): dismiss a next up show by its content id, as on TV (#2632) @skoruppa\n• feat(cw): choose what selecting a Continue Watching item opens (#2630) @skoruppa\n• Translation improvements and adjustments for Slovak language (#2625) @mmsw91\n• i18n: add French strings for chapter title setting (#2621) @SK-Gits\n• feat(player): fall back to the next matching source on failure (#2612) @skoruppa\n• fix(player): show each start-up step on the loading screen, like NuvioTV (#2611) @skoruppa"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.13",
-      "versionDate": "2026-11-15T09:36:16Z",
-      "size": 69922480,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-0.6.13.ipa"
     },
     {
       "name": "osu!",
