@@ -30,7 +30,7 @@
   },
   "Doer": {
     "release_type": "stable",
-    "version": "1.8.7"
+    "version": "1.8.8"
   },
   "Dolphin": {
     "release_type": "any",
@@ -100,7 +100,7 @@
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
-    "version": "0.6.13-beta"
+    "version": "1.0.0"
   },
   "Opaline": {
     "release_type": "stable",
