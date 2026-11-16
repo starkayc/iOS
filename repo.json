@@ -8,6 +8,72 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Doer",
+      "bundleIdentifier": "com.naine.doer",
+      "developerName": "moliango",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.naine.doer.png",
+      "localizedDescription": "",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.8.ipa",
+          "size": 28479268,
+          "version": "1.8.8",
+          "buildVersion": "46",
+          "date": "2026-11-16T07:28:33Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.7.1...v1.8.8"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSCameraUsageDescription": "用于在站内聊天中拍照并发送图片",
+          "NSMicrophoneUsageDescription": "用于在回复中录制语音消息",
+          "NSPhotoLibraryAddUsageDescription": "用于保存话题分享图片到相册",
+          "NSSpeechRecognitionUsageDescription": "用于将按住说话的录音转成中文文字"
+        }
+      },
+      "version": "1.8.8",
+      "versionDate": "2026-11-16T07:28:33Z",
+      "size": 28479268,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.8.ipa"
+    },
+    {
+      "name": "Nuvio Enhanced",
+      "bundleIdentifier": "com.nuvio.enhancedmedia",
+      "developerName": "luqmanfadlli",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
+      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
+      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-1.0.0.ipa",
+          "size": 75485382,
+          "version": "1.0.0",
+          "buildVersion": "157",
+          "date": "2026-11-16T06:50:50Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "Nuvio Enhanced 1.0.0\n\nThank you to everyone who has contributed to the project, tested the betas, and supported us along the way.\n\nThis is the first stable release. It has additional features and fixes from 0.6.13-beta:\n• feat(player): use the chosen More Like This source for end-of-movie picks @luqmanfadlli\n• fix(details): fall back to TMDB when Simkl has no related titles @luqmanfadlli\n• fix(simkl): look up More Like This titles through the Simkl API client @luqmanfadlli\n• fix(ios): render mpv at the screen's backing scale (#383) @luqmanfadlli\n• fix(streams): blend episode header artwork smoothly into background (#388) @chrisk325\n\nNote\nOn Android, choose Stable in Settings → About → Update channel for fewer updates and a more stable build. Choose Beta for frequent updates, with possible breaking changes. If you were already on a beta build, you stay on Beta until you switch."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "1.0.0",
+      "versionDate": "2026-11-16T06:50:50Z",
+      "size": 75485382,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-1.0.0.ipa"
+    },
+    {
       "name": "WQ Files",
       "bundleIdentifier": "cz.kolbi.wqfiles",
       "developerName": "kolbicz",
@@ -137,40 +203,6 @@
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ee541bc.ipa"
     },
     {
-      "name": "Doer",
-      "bundleIdentifier": "com.naine.doer",
-      "developerName": "moliango",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.naine.doer.png",
-      "localizedDescription": "",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.7.ipa",
-          "size": 28409295,
-          "version": "1.8.7",
-          "buildVersion": "44",
-          "date": "2026-11-15T13:11:40Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.6...v1.8.7"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSCameraUsageDescription": "用于在站内聊天中拍照并发送图片",
-          "NSMicrophoneUsageDescription": "用于在回复中录制语音消息",
-          "NSPhotoLibraryAddUsageDescription": "用于保存话题分享图片到相册",
-          "NSSpeechRecognitionUsageDescription": "用于将按住说话的录音转成中文文字"
-        }
-      },
-      "version": "1.8.7",
-      "versionDate": "2026-11-15T13:11:40Z",
-      "size": 28409295,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.7.ipa"
-    },
-    {
       "name": "osu!",
       "bundleIdentifier": "sh.ppy.osulazer",
       "developerName": "ppy",
@@ -205,38 +237,6 @@
       "versionDate": "2026-11-15T11:27:22Z",
       "size": 269007098,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1115.0-lazer.ipa"
-    },
-    {
-      "name": "Nuvio Enhanced",
-      "bundleIdentifier": "com.nuvio.enhancedmedia",
-      "developerName": "luqmanfadlli",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.enhancedmedia.png",
-      "localizedDescription": "Unofficial Nuvio Mobile repository to build Nuvio with experimental features, improvements, and bug fixes not yet availabe in the official repository.",
-      "subtitle": "Unofficial Nuvio Mobile repository to build Nuvio with…",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.13.ipa",
-          "size": 75471987,
-          "version": "0.6.13",
-          "buildVersion": "156",
-          "date": "2026-11-15T02:58:11Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "• fix(app): log the mapped network condition after the upstream merge @luqmanfadlli\n• fix(details): apply the Simkl More Like This source @luqmanfadlli\n• feat(grid): show 6 posters per row in landscape, 7 on tablets @luqmanfadlli\n• fix(ios): keep the folder header below the landscape native bar @luqmanfadlli\n• feat(ios): apply Dolby Vision RPU reshaping in Picture in Picture @luqmanfadlli\n• fix(ios): extend toolbar fade to screen edges in landscape @luqmanfadlli\n• fix(ios): collapse collection header under the native bar @luqmanfadlli\n• fix(collection): keep folder cover visible under glass header @luqmanfadlli\n• feat(streams): static glass shows the streams artwork backdrop @luqmanfadlli\n• fix(ios): show the back button in iPad settings sub-pages (#381) @luqmanfadlli\n• fix(ios): keep the mpv drawable at native resolution (#383) @luqmanfadlli\n• fix(ios): convert Dolby Vision Profile 5 frames for Picture in Picture @luqmanfadlli\n• fix(ios): fix the hero trailer in the cinematic details background (#364) @luqmanfadlli\n• fix(hero): place the trailer mute button in the top-right corner (#353) @luqmanfadlli\n• fix(sync): push stream badge changes before the next pull (#367) @luqmanfadlli\n• fix(ios): keep HDR colours when drawing subtitles in Picture in Picture (#372) @luqmanfadlli\n• fix(player): pause seek preview prefetch while buffering and no early warm-up on iOS @luqmanfadlli\n• fix seekbar thumbnails taking a lot pf time to load (#380) @chrisk325\n• i18n: add French strings and align birth and death wording (#2664) @SK-Gits\n• i18n(vi): update latest Vietnamese strings (#2622) @blueocean2308\n• perf: smoother cold start and home on Android (#2652) @skoruppa\n• fix(home): show hero only after its source catalogs load (#2651) @skoruppa\n• feat(player): basic keyboard support (#2633) @skoruppa\n• fix(cw): dismiss a next up show by its content id, as on TV (#2632) @skoruppa\n• feat(cw): choose what selecting a Continue Watching item opens (#2630) @skoruppa\n• Translation improvements and adjustments for Slovak language (#2625) @mmsw91\n• i18n: add French strings for chapter title setting (#2621) @SK-Gits\n• feat(player): fall back to the next matching source on failure (#2612) @skoruppa\n• fix(player): show each start-up step on the loading screen, like NuvioTV (#2611) @skoruppa"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSFaceIDUsageDescription": "Use biometric authentication to unlock your primary Nuvio profile.",
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "0.6.13",
-      "versionDate": "2026-11-15T02:58:11Z",
-      "size": 75471987,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-0.6.13.ipa"
     },
     {
       "name": "EeveeSpotifyReincarnated",
