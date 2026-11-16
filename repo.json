@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.11.ipa",
+          "size": 1969224,
+          "version": "0.9.11",
+          "buildVersion": "92",
+          "date": "2026-11-15T22:14:34Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user); see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.11\n\nNew\n\n• Vietnamese (#62): WQ Files is now available in Vietnamese (Tiếng Việt). Pick it in Settings → Language.\n• Scans keep running and survive restarts (#61): Apps and Clean keep scanning when you switch tabs, and the last result is kept when WQ Files closes. An interrupted scan continues where it stopped. Use Pause Scan / Resume Scan to pause or resume one. A result older than 10 minutes refreshes when you open the screen.\n• Scan status in the tab bar: a tab shows a spinner while its scan runs and a clock ◷ while it waits for another scan. On iPhone this is a gray badge.\n\nChanged\n\n• Full file scans ask before resuming: an interrupted full scan only continues after you confirm it, and Stop discards its saved progress.\n• Fewer disk writes: scan progress is saved every 20 seconds, without holding up the scan. Saved progress is deleted when a scan finishes, or after a week if it isn't resumed.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent Logs and screenshots. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: b0ca5602762263b9db088f9df8536245fe178645aeb24587b8a2f818c9e996b8"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {}
+      },
+      "version": "0.9.11",
+      "versionDate": "2026-11-15T22:14:34Z",
+      "size": 1969224,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.11.ipa"
+    },
+    {
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
@@ -174,37 +205,6 @@
       "versionDate": "2026-11-15T11:27:22Z",
       "size": 269007098,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1115.0-lazer.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.10.ipa",
-          "size": 1918805,
-          "version": "0.9.10",
-          "buildVersion": "90",
-          "date": "2026-11-15T17:14:15Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user); see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.10\n\nFixes\n\n• Missing apps: some installed apps didn't appear in Apps, App Data or Extension Data (on iOS 26.5, for example UC Browser; 279 instead of 295 apps). Folders that the app database names but couldn't be paired with an app were left out. They are listed now and get their name from the folder itself.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), buraakkcayir (Turkish review). Thanks to everyone who sent Logs and screenshots. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 1df859a827e589a9a1668b3bd3e3966b69eedf3e9a56a84e6f041183295adda9"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {}
-      },
-      "version": "0.9.10",
-      "versionDate": "2026-11-15T17:14:15Z",
-      "size": 1918805,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.10.ipa"
     },
     {
       "name": "Nuvio Enhanced",
