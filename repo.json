@@ -8,6 +8,70 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-4c3facf.ipa",
+          "size": 39771776,
+          "version": "0.10.5.1",
+          "buildVersion": "61",
+          "date": "2026-11-16T12:56:42Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📡 Plex\n• Plex Media Server support. In Settings, open Jellyfin, Emby & Plex, add a connection, choose Plex and select Sign in with Plex. Enter the 4-character code at plex.tv/link on your phone or computer, then pick your server. Servers shared with you work too, and your Plex password is never entered in Debrify.\n• Your Plex copies appear as playback sources on movie and episode pages and play straight from your server.\n• Browse your Plex movie and TV libraries in Discover, with sorting, search by title, Recently Added and Continue Watching.\n• Watch progress is sent back to Plex, and finished titles are marked watched.\n• Only encrypted connections are used by default. If your router blocks them on your home network, you can allow an unencrypted connection to the server's local address when you sign in.\n• Not included yet: transcoding, switching Plex Home users, Live TV, music and photos.\n\n📺 Android TV\n• Back now works on Wi-Fi and air-mouse remotes that act like a keyboard, and with a game controller's B button.\n• Creating a profile with the remote works again. The remote can reach Next on every step of the new-profile questions; before, it got stuck on \"Who is this for?\".\n\n👤 Profiles\n• \"Ask who's watching at startup\" now appears only when there is a single profile. Turning it off could only ever skip the picker for one profile without a PIN, so with more profiles it did nothing. Its description now says what it does."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.10.5.1",
+      "versionDate": "2026-11-16T12:56:42Z",
+      "size": 39771776,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-4c3facf.ipa"
+    },
+    {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.15.ipa",
+          "size": 2076710,
+          "version": "0.9.15",
+          "buildVersion": "100",
+          "date": "2026-11-16T19:28:26Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.15\n\nApple patched worse_query in iOS 27.3 beta 2 (build 24C5049d). WQ Files can't open other apps' folders there or on any later build. Don't update to 27.3 beta 2 or later if you want to keep using it.\n\nNew\n\n• iOS 27.3 beta 2 and later are recognized: the startup check now says that Apple patched worse_query on these builds, instead of suggesting a reset that can't help. If some folders still open, it shows a warning.\n\nFixes\n\n• Access cache repairs itself (#65): when another app sharing WQ Files' App Group (for example in LiveContainer) left its access cache broken, every folder was refused until you tapped Reset Access Cache. WQ Files now repairs it automatically and tries again. Nothing is deleted.\n• No more \"the sandbox escape doesn't work on iOS 27.0.1\": if no folder opens on a supported iOS, the startup check names the likely cause (another app in the same App Group) and what to do, instead of blaming iOS.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: d924596e7719038ac3fbdc8c1adea2e710ef4a6f3352ee1d56257f47f9cf02f1"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
+        }
+      },
+      "version": "0.9.15",
+      "versionDate": "2026-11-16T19:28:26Z",
+      "size": 2076710,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.15.ipa"
+    },
+    {
       "name": "Doer",
       "bundleIdentifier": "com.naine.doer",
       "developerName": "moliango",
@@ -72,37 +136,6 @@
       "versionDate": "2026-11-16T06:50:50Z",
       "size": 75485382,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-1.0.0.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.11.ipa",
-          "size": 1969224,
-          "version": "0.9.11",
-          "buildVersion": "92",
-          "date": "2026-11-15T22:14:34Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 27, or iOS 26.0 – 26.7.2. Tested on iOS 27.0.1, 27.2.1, 26.7.1 and the 27.3 beta (confirmed by a user); see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.11\n\nNew\n\n• Vietnamese (#62): WQ Files is now available in Vietnamese (Tiếng Việt). Pick it in Settings → Language.\n• Scans keep running and survive restarts (#61): Apps and Clean keep scanning when you switch tabs, and the last result is kept when WQ Files closes. An interrupted scan continues where it stopped. Use Pause Scan / Resume Scan to pause or resume one. A result older than 10 minutes refreshes when you open the screen.\n• Scan status in the tab bar: a tab shows a spinner while its scan runs and a clock ◷ while it waits for another scan. On iPhone this is a gray badge.\n\nChanged\n\n• Full file scans ask before resuming: an interrupted full scan only continues after you confirm it, and Stop discards its saved progress.\n• Fewer disk writes: scan progress is saved every 20 seconds, without holding up the scan. Saved progress is deleted when a scan finishes, or after a week if it isn't resumed.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent Logs and screenshots. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: b0ca5602762263b9db088f9df8536245fe178645aeb24587b8a2f818c9e996b8"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {}
-      },
-      "version": "0.9.11",
-      "versionDate": "2026-11-15T22:14:34Z",
-      "size": 1969224,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.11.ipa"
     },
     {
       "name": "Nuvio",
@@ -170,37 +203,6 @@
       "versionDate": "2026-11-15T15:07:37Z",
       "size": 222775641,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.665.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ee541bc.ipa",
-          "size": 39706694,
-          "version": "0.10.4.1",
-          "buildVersion": "60",
-          "date": "2026-11-15T12:33:14Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n🏠 Home\n• New \"Airing soon\" row. It lists the coming week's episodes of the shows you follow, using your Trakt, Simkl or MDBList calendar. Each show gets one card for its next episode, labelled Today, Tomorrow or the day name. Turn it on in Settings > Home rows > Upcoming.\n• The Calendar tab keeps its shows when a tracker has a brief connection problem, instead of going blank.\n• After switching profiles, the Calendar no longer shows the previous profile's shows.\n\n▶️ Sources and Player\n• Play a source in the other player, just once. Long-press a source (hold OK on a TV) and choose Play in external player or Play in Debrify player. Your default player doesn't change, and the next episode uses it again.\n• The Portuguese filter now finds dubbed releases (DUBLADO, NACIONAL, Dual Áudio, 🇧🇷 / 🇵🇹 flags), not just subtitled ones. Releases marked LEGENDADO count as subtitled unless they also have a Portuguese audio track.\n• A release whose description says \"Multi Audio\" now passes a language filter for a language it names.\n• The source menu scrolls, so all its actions fit on a phone in landscape.\n\n🎬 Detail page\n• Rotten Tomatoes score next to IMDb (e.g. \"RT 93%\") on movie pages, the classic series page and the Showcase series style. It needs an MDBList key.\n\n📺 IPTV\n• Jump to a channel number now works in Favorites and custom lists on Android TV. Before, it showed \"Select a provider before jumping by channel number\". After a jump, channel up/down still goes through the whole list."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.10.4.1",
-      "versionDate": "2026-11-15T12:33:14Z",
-      "size": 39706694,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ee541bc.ipa"
     },
     {
       "name": "osu!",
