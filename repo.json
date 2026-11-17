@@ -8,6 +8,39 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.16.ipa",
+          "size": 2078252,
+          "version": "0.9.16",
+          "buildVersion": "101",
+          "date": "2026-11-16T22:54:40Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.16\n\nNew\n\n• Invert Selection in the Cache Cleaner's Select menu. Select All and Invert are greyed out when no row can be cleaned, and Select None clears the selection everywhere, including rows the search hides.\n\nFixes\n\n• LiveContainer (#65): inside LiveContainer every app folder was refused, and Reset Access Cache didn't help. LiveContainer gives WQ Files a stand-in App Group folder, while iOS hands out access for the real one. WQ Files now uses the real folder.\n• Cache Cleaner: Clean stayed grey after a scan (#67): since 0.9.11 a finished scan selected nothing. A scan that finishes while the Cache Cleaner is open now selects every row that can be cleaned again, as up to 0.9.10. Results shown again later, e.g. after a restart, still start with nothing selected.\n• Wi-Fi Sharing uploads: nothing is saved anymore after you stop sharing, even if an upload was still running. An upload whose name already exists is saved as \"name 2\" again instead of failing.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 66b0edea54a69c1d0021061b8f79efffe2cffb89574584ccc995727bd7dfa420"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
+        }
+      },
+      "version": "0.9.16",
+      "versionDate": "2026-11-16T22:54:40Z",
+      "size": 2078252,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.16.ipa"
+    },
+    {
       "name": "Debrify",
       "bundleIdentifier": "com.varunsalian.debrify",
       "developerName": "varunsalian",
@@ -37,39 +70,6 @@
       "versionDate": "2026-11-16T12:56:42Z",
       "size": 39771776,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-4c3facf.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.15.ipa",
-          "size": 2076710,
-          "version": "0.9.15",
-          "buildVersion": "100",
-          "date": "2026-11-16T19:28:26Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.15\n\nApple patched worse_query in iOS 27.3 beta 2 (build 24C5049d). WQ Files can't open other apps' folders there or on any later build. Don't update to 27.3 beta 2 or later if you want to keep using it.\n\nNew\n\n• iOS 27.3 beta 2 and later are recognized: the startup check now says that Apple patched worse_query on these builds, instead of suggesting a reset that can't help. If some folders still open, it shows a warning.\n\nFixes\n\n• Access cache repairs itself (#65): when another app sharing WQ Files' App Group (for example in LiveContainer) left its access cache broken, every folder was refused until you tapped Reset Access Cache. WQ Files now repairs it automatically and tries again. Nothing is deleted.\n• No more \"the sandbox escape doesn't work on iOS 27.0.1\": if no folder opens on a supported iOS, the startup check names the likely cause (another app in the same App Group) and what to do, instead of blaming iOS.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: d924596e7719038ac3fbdc8c1adea2e710ef4a6f3352ee1d56257f47f9cf02f1"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
-        }
-      },
-      "version": "0.9.15",
-      "versionDate": "2026-11-16T19:28:26Z",
-      "size": 2076710,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.15.ipa"
     },
     {
       "name": "Doer",
