@@ -8,39 +8,6 @@
   "tintColor": "3c94fc",
   "apps": [
     {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.16.ipa",
-          "size": 2078252,
-          "version": "0.9.16",
-          "buildVersion": "101",
-          "date": "2026-11-16T22:54:40Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.16\n\nNew\n\n• Invert Selection in the Cache Cleaner's Select menu. Select All and Invert are greyed out when no row can be cleaned, and Select None clears the selection everywhere, including rows the search hides.\n\nFixes\n\n• LiveContainer (#65): inside LiveContainer every app folder was refused, and Reset Access Cache didn't help. LiveContainer gives WQ Files a stand-in App Group folder, while iOS hands out access for the real one. WQ Files now uses the real folder.\n• Cache Cleaner: Clean stayed grey after a scan (#67): since 0.9.11 a finished scan selected nothing. A scan that finishes while the Cache Cleaner is open now selects every row that can be cleaned again, as up to 0.9.10. Results shown again later, e.g. after a restart, still start with nothing selected.\n• Wi-Fi Sharing uploads: nothing is saved anymore after you stop sharing, even if an upload was still running. An upload whose name already exists is saved as \"name 2\" again instead of failing.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 66b0edea54a69c1d0021061b8f79efffe2cffb89574584ccc995727bd7dfa420"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
-        }
-      },
-      "version": "0.9.16",
-      "versionDate": "2026-11-16T22:54:40Z",
-      "size": 2078252,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.16.ipa"
-    },
-    {
       "name": "Debrify",
       "bundleIdentifier": "com.varunsalian.debrify",
       "developerName": "varunsalian",
@@ -51,13 +18,13 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-4c3facf.ipa",
-          "size": 39771776,
-          "version": "0.10.5.1",
-          "buildVersion": "61",
-          "date": "2026-11-16T12:56:42Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ab809b9.ipa",
+          "size": 39783772,
+          "version": "0.10.6.1",
+          "buildVersion": "62",
+          "date": "2026-11-17T11:25:21Z",
           "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📡 Plex\n• Plex Media Server support. In Settings, open Jellyfin, Emby & Plex, add a connection, choose Plex and select Sign in with Plex. Enter the 4-character code at plex.tv/link on your phone or computer, then pick your server. Servers shared with you work too, and your Plex password is never entered in Debrify.\n• Your Plex copies appear as playback sources on movie and episode pages and play straight from your server.\n• Browse your Plex movie and TV libraries in Discover, with sorting, search by title, Recently Added and Continue Watching.\n• Watch progress is sent back to Plex, and finished titles are marked watched.\n• Only encrypted connections are used by default. If your router blocks them on your home network, you can allow an unencrypted connection to the server's local address when you sign in.\n• Not included yet: transcoding, switching Plex Home users, Live TV, music and photos.\n\n📺 Android TV\n• Back now works on Wi-Fi and air-mouse remotes that act like a keyboard, and with a game controller's B button.\n• Creating a profile with the remote works again. The remote can reach Next on every step of the new-profile questions; before, it got stuck on \"Who is this for?\".\n\n👤 Profiles\n• \"Ask who's watching at startup\" now appears only when there is a single profile. Turning it off could only ever skip the picker for one profile without a PIN, so with more profiles it did nothing. Its description now says what it does."
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n🎬 Playback\n• Media-server episodes no longer fail with \"timeout\" in the built-in player. On a slow or remote Jellyfin, Emby or Plex server, the time spent checking watch progress counted against the startup limit, so episodes that played fine in an external player were rejected. The limit now starts when the file actually opens.\n• Skip Intro and Skip Credits keep working with TheIntroDB. Debrify now uses TheIntroDB's current API. The older one is being shut down, and when it goes, skip markers would have stopped appearing without any warning.\n\n📝 Detail pages\n• Cut-off descriptions can be read in full. When a description is too long for the Showcase layout, the last line ends in … MORE. Tap or click it, or press Up from the buttons on a remote, to read the whole text. When a catalog only sends a shortened description ending in \"...\", Debrify shows the full plot from IMDb instead.\n• Episode descriptions in full. An episode's options menu (⋮, or hold OK on TV) now starts with its full description.\n• Back from an episode's Sources returns to the season you were on. Before, it went all the way back to Home.\n\n🔎 Search\n• Titles in Cyrillic and other non-Latin or accented scripts display correctly instead of as garbled characters like \"ÐÐ°Ñ…\". Sources that really use the older Latin-1 encoding still display correctly.\n\n📺 Live TV\n• Holding Up in the channel guide scrolls up to channel 1 and stops there. Before, it jumped to the search bar and then to the source picker, so the list could not be scrolled by holding Up. The Stremio TV guide and the channel lists on other devices behave the same way now."
         }
       ],
       "appPermissions": {
@@ -66,10 +33,10 @@
           "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
         }
       },
-      "version": "0.10.5.1",
-      "versionDate": "2026-11-16T12:56:42Z",
-      "size": 39771776,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-4c3facf.ipa"
+      "version": "0.10.6.1",
+      "versionDate": "2026-11-17T11:25:21Z",
+      "size": 39783772,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ab809b9.ipa"
     },
     {
       "name": "Doer",
@@ -82,13 +49,13 @@
       "category": "utilities",
       "versions": [
         {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.8.ipa",
-          "size": 28479268,
-          "version": "1.8.8",
-          "buildVersion": "46",
-          "date": "2026-11-16T07:28:33Z",
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.8.1.ipa",
+          "size": 28504713,
+          "version": "1.8.8.1",
+          "buildVersion": "47",
+          "date": "2026-11-17T09:01:54Z",
           "minOSVersion": "15.0",
-          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.7.1...v1.8.8"
+          "localizedDescription": "Full Changelog: https://github.com/moliango/doer/compare/v1.8.8...v1.8.8.1"
         }
       ],
       "appPermissions": {
@@ -100,10 +67,79 @@
           "NSSpeechRecognitionUsageDescription": "用于将按住说话的录音转成中文文字"
         }
       },
-      "version": "1.8.8",
-      "versionDate": "2026-11-16T07:28:33Z",
-      "size": 28479268,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.8.ipa"
+      "version": "1.8.8.1",
+      "versionDate": "2026-11-17T09:01:54Z",
+      "size": 28504713,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Doer.rel-1.8.8.1.ipa"
+    },
+    {
+      "name": "osu!",
+      "bundleIdentifier": "sh.ppy.osulazer",
+      "developerName": "ppy",
+      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
+      "localizedDescription": "rhythm is just a *click* away!",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1117.0-lazer.ipa",
+          "size": 269016022,
+          "version": "2026.1117.0-lazer",
+          "buildVersion": "2026.1117.0",
+          "date": "2026-11-17T08:51:12Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "What's Changed\n• Move matchmaking pool fetching to QueueController by @LiquidPL in https://github.com/ppy/osu/pull/39189\n• Add store component for ranked play division data by @LiquidPL in https://github.com/ppy/osu/pull/39163\n• Update framework by @peppy in https://github.com/ppy/osu/pull/39210\n• Copy user setting for effect volume to hitsound volume by @peppy in https://github.com/ppy/osu/pull/39208\n\nFull Changelog: https://github.com/ppy/osu/compare/2026.1115.0-lazer...2026.1117.0-lazer"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "beta-reports-active",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
+          "NSCameraUsageDescription": "We don't use the camera.",
+          "NSMicrophoneUsageDescription": "We don't use the microphone."
+        }
+      },
+      "version": "2026.1117.0-lazer",
+      "versionDate": "2026-11-17T08:51:12Z",
+      "size": 269016022,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1117.0-lazer.ipa"
+    },
+    {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.17.ipa",
+          "size": 2089006,
+          "version": "0.9.17",
+          "buildVersion": "105",
+          "date": "2026-11-17T12:17:07Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.17\n\nFixes\n\n• LiveContainer (#65): in a few LiveContainer setups every app folder was refused, because LiveContainer reported a different App Group folder than the one iOS hands out access for. WQ Files now prefers the App Group LiveContainer itself uses and always prepares the folder the access is really issued for (build 105). Ordinary installs and the many LiveContainer setups that already worked are unchanged.\n• Restoring an SQLite database from Backups now also resets its -wal/-shm files. Before, SQLite could reopen the newer data after a \"successful\" restore. The replaced files are kept in Backups.\n• SQLite editor: saving a field without changing it no longer turns NULL into empty text, and decimal numbers are shown with full precision.\n• Plist editor: an XML plist is no longer saved with rounded dates (XML stores dates to the second; WQ Files now says so instead), and a file over 64 MB is refused instead of being read only in part.\n• App backups are listed newest first in the file browser too, like in the restore picker.\n• Apps: tapping an app while the search keyboard is up no longer shows a broken menu.\n• Clear Data checks Allow Deleting again right before clearing.\n• Stopping a folder delete now says how many files were already deleted and that their copies are in Backups.\n• Wi-Fi Sharing uploads with very long names, or a name already used 999 times, no longer fail.\n• Access cache: the automatic repair also fixes a broken lock file.\n• Simplified Chinese: \"Home\" reads 首页 (#68).\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Translations: iosrxwy and FrogTool (Simplified Chinese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent screenshots and Logs, especially ManuelKoegler and esterTion for the LiveContainer Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 4dbd55f88a2d796315f8ce63359b0a741b5e8a8107f1c1ec93291dd2129218f5"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
+        }
+      },
+      "version": "0.9.17",
+      "versionDate": "2026-11-17T12:17:07Z",
+      "size": 2089006,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.17.ipa"
     },
     {
       "name": "Nuvio Enhanced",
@@ -203,42 +239,6 @@
       "versionDate": "2026-11-15T15:07:37Z",
       "size": 222775641,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.665.ipa"
-    },
-    {
-      "name": "osu!",
-      "bundleIdentifier": "sh.ppy.osulazer",
-      "developerName": "ppy",
-      "iconURL": "https://starkayc.github.io/iOS/icons/sh.ppy.osulazer.png",
-      "localizedDescription": "rhythm is just a *click* away!",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1115.0-lazer.ipa",
-          "size": 269007098,
-          "version": "2026.1115.0-lazer",
-          "buildVersion": "2026.1115.0",
-          "date": "2026-11-15T11:27:22Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "What's Changed\n• Fix radians/degrees mismatch in static storyboard rotation commands decode and encode by @logisticalissue in https://github.com/ppy/osu/pull/38877\n• Prevent /watch command from spectating the local user by @LiquidPL in https://github.com/ppy/osu/pull/38870\n• Fix ConfirmExitDialog localisation by @diquoks in https://github.com/ppy/osu/pull/38858\n• fix InspectCode scripts after nvika removal by @wakka810 in https://github.com/ppy/osu/pull/38857\n• Fix transform scale when key is pressed on legacy counter by @tsunyoku in https://github.com/ppy/osu/pull/38865\n• Avoid Velopack restart for package managed installs by @wakka810 in https://github.com/ppy/osu/pull/38856\n• Allow searching settings by hint text by @Joehuu in https://github.com/ppy/osu/pull/38881\n• Encode all colours from beatmap skin into the .osu by @bdach in https://github.com/ppy/osu/pull/38828\n• Update SFX for the final results screen of ranked play by @nekodex in https://github.com/ppy/osu/pull/38850\n• Fix storyboard loops being shifted on saves due to relative time in encoder by @logisticalissue in https://github.com/ppy/osu/pull/38895\n• Add \"notifications\" as a search term for alerts and privacy section by @Joehuu in https://github.com/ppy/osu/pull/38892\n• Add Opacity setting to SkinnableSprite by @stanriders in https://github.com/ppy/osu/pull/38821\n• Clamp object positions to [0, 512] during parsing by @bdach in https://github.com/ppy/osu/pull/38844\n• Allow uploading screenshots using Shift + F12 by @LiquidPL in https://github.com/ppy/osu/pull/36133\n• Adjust LegacyKeyCounterDisplay sprites alignment to match stable by @unststable81 in https://github.com/ppy/osu/pull/38875\n• Warn users when screenshot uploads are rate limited by @LiquidPL in https://github.com/ppy/osu/pull/38922\n• Fix context menus potentially going offscreen in multiplayer and playlists by @khoaphhh in https://github.com/ppy/osu/pull/38901\n• Update style of extended details on profile page by @diquoks in https://github.com/ppy/osu/pull/38196\n• Remove FavouriteButton's tooltip when it's disabled by @diquoks in https://github.com/ppy/osu/pull/38706\n• Make pressing ESC first deselect any placement tool by @LittleEndu in https://github.com/ppy/osu/pull/38921\n• Fix panel flash for time signatures not fitting power-of-two rate by @logisticalissue in https://github.com/ppy/osu/pull/38827\n• Refactor UserCoverBackground to be used with other models by @LiquidPL in https://github.com/ppy/osu/pull/36277\n• Fix input subsections leaving content rendering even when collapsed by @peppy in https://github.com/ppy/osu/pull/38949\n• Fix iOS build by @bdach in https://github.com/ppy/osu/pull/38952\n• Fix game not always respecting user's no-video download preference by @peppy in https://github.com/ppy/osu/pull/38948\n• Keep width of markers on legacy bar hit error meter constant regardless of scale by @bdach in https://github.com/ppy/osu/pull/38953\n• Fix blocking windows key not working with SDL3 raw keyboard by @Susko3 in https://github.com/ppy/osu/pull/35727\n• Fix duplicate test runs by @smoogipoo in https://github.com/ppy/osu/pull/38955\n• Fix screenshot rate limit error handling not working as expected by @peppy in https://github.com/ppy/osu/pull/38960\n• Adjust WebSocketChannel logic to avoid crashes by @bdach in https://github.com/ppy/osu/pull/38962\n• Fix CI test report step failing by @bdach in https://github.com/ppy/osu/pull/38964\n• Extend IScoreInfo interface to cover all baseline properties of score by @bdach in https://github.com/ppy/osu/pull/38961\n• Display active user counts in channel listing by @peppy in https://github.com/ppy/osu/pull/38959\n• Fix iOS hard crash on startup on iOS 27 devices by @peppy in https://github.com/ppy/osu/pull/38966\n• Add WebSocket messages for beatmap data and user activity by @tsunyoku in https://github.com/ppy/osu/pull/38071\n• Change tablet x and y offset precision to 0.01 by @C6JW in https://github.com/ppy/osu/pull/38718…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "beta-reports-active",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSBluetoothAlwaysUsageDescription": "We don't use Bluetooth.",
-          "NSCameraUsageDescription": "We don't use the camera.",
-          "NSMicrophoneUsageDescription": "We don't use the microphone."
-        }
-      },
-      "version": "2026.1115.0-lazer",
-      "versionDate": "2026-11-15T11:27:22Z",
-      "size": 269007098,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Osu.rel-2026.1115.0-lazer.ipa"
     },
     {
       "name": "EeveeSpotifyReincarnated",
