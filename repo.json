@@ -8,6 +8,38 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "RyukSign",
+      "bundleIdentifier": "ryuk2.anoxclan.com",
+      "developerName": "faroukbmiled",
+      "iconURL": "https://starkayc.github.io/iOS/icons/ryuk2.anoxclan.com.png",
+      "localizedDescription": "Feather but better",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.1.0.ipa",
+          "size": 22041701,
+          "version": "4.1.0",
+          "buildVersion": "2dbf78cc8947292c963bcef71fbde7ffad2180b4",
+          "date": "2026-11-18T16:37:57Z",
+          "minOSVersion": "16.0",
+          "localizedDescription": "What's new in 4.1.0\n\nNew\n\n• Added Update All to Sources updates with search, a source picker for each app, and a choice to add, sign, or sign and install\n• Added long press actions to grouped updates, including Ignore Updates\n• Added a Versions to Delete option to Automatic Cleanup to also remove same or newer copies after installing\n• Added your Library's identifiers for the same app to the Identifier editor when signing\n\nImprovements\n\n• Improved updates to keep the bundle identifier of your installed or signed copy, so they replace it instead of installing a second app\n\nFixes\n\n• Fixed apps missing their provisioning profile after signing and Remove Provisioning not working\n• Fixed large apps timing out or showing Failed while still installing\n• Fixed installs getting stuck halfway\n• Fixed tiny apps showing Failed after installing\n• Fixed the wrong app icon showing in Sources updates after another app finished updating\n• Fixed a black screen when using View in Sources from an update's source list\n\nInstall\n\n• Download RyukSign.ipa from the assets below and sign it, or\n• Add the RyukSign source to get updates in the app: https://raw.githubusercontent.com/faroukbmiled/RyukSign/main/app-repo.json\n\nFull changelog: https://github.com/faroukbmiled/RyukSign/compare/v4.0.0...v4.1.0\n\n<sub>Built 2026-11-18 from fc365a3</sub>"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "RyukSign uses your local network to transfer IPAs and tweaks to this device over the Web Manager server.",
+          "NSUserNotificationUsageDescription": "RyukSign will notify you when downloads complete and are ready to import."
+        }
+      },
+      "version": "4.1.0",
+      "versionDate": "2026-11-18T16:37:57Z",
+      "size": 22041701,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.1.0.ipa"
+    },
+    {
       "name": "WQ Files",
       "bundleIdentifier": "cz.kolbi.wqfiles",
       "developerName": "kolbicz",
@@ -478,38 +510,6 @@
       "versionDate": "2026-11-12T13:24:02Z",
       "size": 44070414,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Palladium.rel-1.5.1.ipa"
-    },
-    {
-      "name": "RyukSign",
-      "bundleIdentifier": "ryuk2.anoxclan.com",
-      "developerName": "faroukbmiled",
-      "iconURL": "https://starkayc.github.io/iOS/icons/ryuk2.anoxclan.com.png",
-      "localizedDescription": "Feather but better",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.0.0.ipa",
-          "size": 21967290,
-          "version": "4.0.0",
-          "buildVersion": "2dbf78cc8947292c963bcef71fbde7ffad2180b4",
-          "date": "2026-11-13T08:37:33Z",
-          "minOSVersion": "16.0",
-          "localizedDescription": "What's new in 4.0.0\n\nNew\n\n• Added iPhone Duo support with a full screen layout and landscape when unfolded\n• Added an Enable iPhone Duo Support signing experiment\n• Added update choices: tapping Update lists every source that has the app with its version and description, and you can pin a source to update from it automatically\n• Added Update, View in Sources and Reset Update Source to the Library app menu\n• Added an Update line under Library apps that have a newer version, can be turned off from the Library filter menu\n• Added an Updates filter to the Library\n• Added update options in Settings › Sources: always take the newest version, skip the choice when only one source has the app, group updates by app and check on launch\n• Added offline sources: repositories open instantly from a saved copy, with refresh and cache options in Settings › Sources\n• Added favorite repositories, pinned in their own section at the top of Sources\n• Added sorting for repositories by name, app count or date added\n• Added app counts to repositories, can be turned off in Settings › Sources\n• Added news from every source to All Repositories, can be turned off in Settings › Sources\n• Added an option to delete older versions of an app after installing an update, kept by default\n• Added an on-device certificate for local installs, so installing no longer depends on a downloaded certificate\n• Added Detect Failed Installs in Installation settings, so updates iOS refuses show an error instead of completing\n• Added Minimum OS and entitlements to app info\n• Added a confirmation before installing from a link\n• Added Block Sandbox Escape and Remove App Groups signing options to protect against the bad_query and worse_query exploits\n\nImprovements\n\n• Improved update checks: one row per Library app, the same count everywhere and faster checks on large sources\n• Improved installs: the app is packed at full priority and without compression\n• Improved install queues: a failed install no longer stops the rest and failures are listed at the end\n• Improved install errors: failed installs show Failed with a Details button, and batch failures can be tapped to read the full error\n• Improved Settings with Signing, Files and Storage groups and one Automatic Cleanup screen\n• Improved filter menus in Library and Sources with icons, sort order and quick toggles\n• Improved Tab Bar settings with drag handles to reorder tabs\n• Improved the install sheet to follow your accent color and appearance\n• Sources now load at launch and refresh every 30 minutes by default, so Library updates show without opening Sources\n• SSL certificates for local installs now refresh automatically once a week\n• Automatic cleanup now picks up where it left off if the app is closed mid way\n• Updated the signing engine\n\nFixes\n\n• Fixed RyukSign draining battery in the background after an install finished\n• Fixed every install leaving a full copy of the app in temporary storage until the next launch\n• Fixed updating an app not clearing its update, including tweaked builds that report a different version\n• Fixed updates matching unrelated apps that only share a name\n• Fixed the install sheet hanging on Ready when the install prompt never appears or is dismissed\n• Fixed installs getting stuck when iOS refuses the install link, the backup install page opens again\n• Fixed a blank page when opening the backup install page during batch installs\n• Fixed Delete After Installing removing an app while its install card was still open\n• Fixed a crash when several downloads finish importing at the same time\n• Fixed downloads sometimes getting stuck on Starting\n• Fixed a crash when shrinking an iPad window while a sidebar only tab was open\n• Fixed All Repositories and repository tabs staying empty when opened from the iPad sidebar\n• Fixed Certificates sometimes not opening from the iPad sidebar\n• Fixed All Repositories showing a load error instead of an empty state when no sources are added…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "RyukSign uses your local network to transfer IPAs and tweaks to this device over the Web Manager server.",
-          "NSUserNotificationUsageDescription": "RyukSign will notify you when downloads complete and are ready to import."
-        }
-      },
-      "version": "4.0.0",
-      "versionDate": "2026-11-13T08:37:33Z",
-      "size": 21967290,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.0.0.ipa"
     },
     {
       "name": "OpenParsec",
