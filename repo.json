@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-a33d367.ipa",
+          "size": 39827928,
+          "version": "0.11.1.1",
+          "buildVersion": "64",
+          "date": "2026-11-19T20:01:28Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📂 Sources\n• Find titles on your WebDAV servers. When you open Sources for a movie or episode, Debrify now also looks through the WebDAV servers you've connected and lists matching files next to everything else. Season packs, \"Complete Series\" folders and multi-episode files are recognised.\n• Never holds up your results. Other sources show as soon as they're ready. WebDAV matches arrive afterwards behind the \"+N new sources\" pill, so the list doesn't jump while you're browsing it.\n• Clear progress messages. You'll see \"Looking through WebDAV · NAS… 12 folders checked\" while it works. If it's slow, you're told why: WebDAV lists one folder at a time. If something goes wrong, you get a plain reason: wrong password, server offline, folder too large, or search stopped early with a naming tip.\n• Works with Quick Play and auto-play too, as well as the next episode, recovery after a failed source, and the player's Load more sources. It gets only a second extra once other sources have found something, and a server that didn't answer recently is skipped for a few minutes.\n• Turn it off under Settings → Engines → Search sources → Search WebDAV servers.\n\n🎬 Playback\n• YouTube videos and trailers play again. YouTube recently started rejecting the way Debrify fetched videos, so playback failed for most of them. Debrify now fetches them the same way other open-source players do, and every quality up to 4K is back.\n• Links that need a sign-in always open in Debrify's own player, including WebDAV files and add-on links that carry login details. An external player would only receive the bare link and fail to play it."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.11.1.1",
+      "versionDate": "2026-11-19T20:01:28Z",
+      "size": 39827928,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-a33d367.ipa"
+    },
+    {
       "name": "RyukSign",
       "bundleIdentifier": "ryuk2.anoxclan.com",
       "developerName": "faroukbmiled",
@@ -71,37 +102,6 @@
       "versionDate": "2026-11-17T15:21:21Z",
       "size": 2171189,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.18.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ab809b9.ipa",
-          "size": 39783772,
-          "version": "0.10.6.1",
-          "buildVersion": "62",
-          "date": "2026-11-17T11:25:21Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n🎬 Playback\n• Media-server episodes no longer fail with \"timeout\" in the built-in player. On a slow or remote Jellyfin, Emby or Plex server, the time spent checking watch progress counted against the startup limit, so episodes that played fine in an external player were rejected. The limit now starts when the file actually opens.\n• Skip Intro and Skip Credits keep working with TheIntroDB. Debrify now uses TheIntroDB's current API. The older one is being shut down, and when it goes, skip markers would have stopped appearing without any warning.\n\n📝 Detail pages\n• Cut-off descriptions can be read in full. When a description is too long for the Showcase layout, the last line ends in … MORE. Tap or click it, or press Up from the buttons on a remote, to read the whole text. When a catalog only sends a shortened description ending in \"...\", Debrify shows the full plot from IMDb instead.\n• Episode descriptions in full. An episode's options menu (⋮, or hold OK on TV) now starts with its full description.\n• Back from an episode's Sources returns to the season you were on. Before, it went all the way back to Home.\n\n🔎 Search\n• Titles in Cyrillic and other non-Latin or accented scripts display correctly instead of as garbled characters like \"ÐÐ°Ñ…\". Sources that really use the older Latin-1 encoding still display correctly.\n\n📺 Live TV\n• Holding Up in the channel guide scrolls up to channel 1 and stops there. Before, it jumped to the search bar and then to the source picker, so the list could not be scrolled by holding Up. The Stremio TV guide and the channel lists on other devices behave the same way now."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.10.6.1",
-      "versionDate": "2026-11-17T11:25:21Z",
-      "size": 39783772,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-ab809b9.ipa"
     },
     {
       "name": "Doer",
