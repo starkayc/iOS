@@ -8,6 +8,42 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.682.ipa",
+          "size": 224532521,
+          "version": "0.1.682",
+          "buildVersion": "682",
+          "date": "2026-11-20T06:41:53Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nTried a game on an earlier build? Reset its settings first. On the game's page: Options › Recommended settings › Reset to Recommended, then check that Options › Auto-tune › Auto-tune this game is on.\n\niPhone Duo is supported\n\n• BCD fills both displays. BCD is now built with the iOS 27 SDK, so installed directly it fills the whole inner display, open or half open, and the outer display when the phone is closed. Until now it got a small window on the inner display unless it ran inside LiveContainer.\n• The interface fits every pose. On the outer display in landscape, and on the inner display held upright, the top bar was wider than the screen and the Settings button ran off the edge. Now the bar measures itself: when it does not fit, the update chip says Update and the memory and controller chips step aside. Upright, the outer display's tab bar now reaches past the camera column. A bar that fits is exactly as before, on every iPhone and iPad.\n• Duo enhancements (Settings › Graphics › Foldable iPhone, experimental, off by default): the Update available button could hardly be read in the system's glass. It is clear now.\n• Checked screen by screen, open, half open and closed, in landscape and upright, in Apple's iPhone Duo simulator. Games already ran on iPhone Duo; tell us how this build plays on yours, and send a log if anything looks wrong.\n\nSteam in BCD Dock\n\n• Steam no longer stays on \"connecting\". Steam's client in BCD Dock contacts Steam's crash report server at every start, and one of that server's addresses stopped answering: a Dock start could wait on \"connecting\" for minutes, or never sign in. BCD now refuses that one server name (BCD sends Steam no crash dumps anyway), so Steam signs in and the game starts. env.MADEIRA_DNS_REFUSE_CRASH = 0 restores the old lookup.\n• Steam components are not started as games. Play on Steamworks Common Redistributables or EA app Installer, which Steam lists with the games, now says that it is a Steam component and that you should start the game itself, instead of opening Steam's own error or waiting five minutes.\n• \"Steam is still preparing this game's program\" appears on the starting screen after 20 seconds instead of 60, so you know to keep BCD open.\n\nExternal drives on iOS 26\n\n• Add a drive or folder now opens on iOS 26 and earlier. On those versions the folder picker in Settings › Storage › External drives never appeared: the button did nothing. It is now the system's folder picker presented directly; the folder is still used in place, never copied. Reconnect uses the same picker.\n• Windows prefix › Import an export had the same problem on iOS 26 and earlier and now opens too.\n\nNew\n\n• Unity games that need Windows Runtime types start without a setting. Before a start BCD reads the game's own 64-bit programs and libraries, and when one of them needs the Windows Runtime buffer interface (many Unity games: Car For Sale Simulator 2023, Tears of Metal, Turbo Dismount 2, The Long Dark, The Phantom ...), the session gets Wine's Windows Runtime types library. Until now such a game closed at once with a missing-library error (c0000135) unless its settings had env.MADEIRA_WINTYPES = 1. A game's own env.MADEIRA_WINTYPES = 0 keeps it off.\n• Large games with a fixed-address program start the first time. BCD now measures the window such a program needs from the game's folder before every start, from the library as from BCD Dock (exe-window-auto, on by default; exe-window-auto = 0 in a game's settings turns it off). Until now a game like Persona 5 Royal, Far Cry Primal, Mega Man Battle Network Legacy Collection or Demon Slayer -Kimetsu no Yaiba- The Hinokami Chronicles 2 failed its first start with c0000018 and needed auto-tune's second try.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.682",
+      "versionDate": "2026-11-20T06:41:53Z",
+      "size": 224532521,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.682.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -267,42 +303,6 @@
       "versionDate": "2026-11-15T18:28:31Z",
       "size": 69922744,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.0.ipa"
-    },
-    {
-      "name": "BCD",
-      "bundleIdentifier": "com.thebcd69.bcd",
-      "developerName": "thebcd69",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
-      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
-      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.665.ipa",
-          "size": 222775641,
-          "version": "0.1.665",
-          "buildVersion": "665",
-          "date": "2026-11-15T15:07:37Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nRed Dead Redemption 2\n\n• No processor time lost on exceptions. RDR2 asks Windows for the time tens of thousands of times a second, and every one of those calls used to take an exception that BCD caught and answered: about 20,000 a second through the tick count, and up to about 18,000 more through timer calls in the game's own process, which Rockstar's launcher starts. Both now run as plain calls, so a performance core no longer goes to exceptions and iOS has less reason to lower the processor clock.\n• Rockstar's launcher off the fast cores sooner. The launcher, its Social Club helper and its service move to the efficiency cores one second after the game starts drawing instead of after a minute, leaving the performance cores and the power budget to the game.\n• New recommended settings. BCD's own diagnostics sample less and its helper threads run on the efficiency cores; the game gets a larger memory pool, the swap file for game data only and faster Direct3D 12 paths. These settings held 30 FPS on a 12 GB iPhone. On the game's page use Options › Recommended settings › Reset to Recommended to get them.\n\nThe two time fixes help GTA V and every other 64-bit game too (below); the sooner launcher move and the new settings are RDR2's own.\n\nAlso in this build\n\nVulkan for 32-bit programs, GOG games of the older download kind, a newer Steam client for the games that need it, and a long list of fixes from testers' logs. Everything new is off until you turn it on, except the fixes.\n\nFaster\n\n• 64-bit games no longer pay for asking the time. Windows programs read the tick count from a shared page at a fixed address that iOS does not allow, so every GetTickCount and GetTickCount64 call cost an exception that BCD caught and answered. Red Dead Redemption 2 asks about 20,000 times a second, enough to keep a performance core busy and make iOS lower the CPU clock sooner. BCD's 64-bit kernel32 now reads the same page directly: the same values, no exception. On for every 64-bit program; env.MADEIRA_USD_DIRECT = 0 restores the old path.\n• Games started by a launcher stop taking exceptions on library calls: a program that another program starts (RDR2 and GTA V Enhanced from Rockstar's launcher, Social Club's helper) now calls between Windows' own libraries directly, as the first program always did. Before, each such call took an exception, for example every timer call through timeGetTime: up to about 18,000 a second in RDR2. Together with the tick count fix above, RDR2 no longer spends a performance core on exceptions. env.MADEIRA_AUX_IAT_HEAL_CHILD = 0 turns it off.\n• Direct3D 12 sampler cache: identical samplers are created once. On by default; sampler-cache = 0 turns it off.\n• Time zones: a program that asks for the local time no longer makes Windows look up the time zone each time.\n• Thread registers: a program that reads its threads' registers often (a garbage collector, a profiler) no longer makes BCD read its settings files each time.\n\nNew\n\n• Vulkan for 32-bit programs: the same vulkan = moltenvk line that gives a 64-bit game Vulkan now works for 32-bit games too.\n• GOG: older downloads. A GOG game that only has GOG's older kind of download (Return to Castle Wolfenstein, the Quake games) now installs, updates and repairs in BCD's GOG downloader, with the same pause, resume and progress as the others.\n• BCD Dock: newer Steam client (September 2026). Some games ask for a newer Steam interface than the January 2026 client has (Grim Dawn, Hades II, Enshrouded). Settings › BCD Dock › Newer Steam client installs the September 2026 client. BCD renames the old client folder (nothing is deleted) and moves your games, saves and settings into the new one. Off by default.…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
-          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
-        }
-      },
-      "version": "0.1.665",
-      "versionDate": "2026-11-15T15:07:37Z",
-      "size": 222775641,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.665.ipa"
     },
     {
       "name": "EeveeSpotifyReincarnated",
