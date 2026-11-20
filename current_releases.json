@@ -22,7 +22,7 @@
   },
   "BCD": {
     "release_type": "any",
-    "version": "0.1.682"
+    "version": "0.1.686"
   },
   "Debrify": {
     "release_type": "prerelease",
@@ -79,7 +79,7 @@
   },
   "Mangayomi": {
     "release_type": "stable",
-    "version": "0.9.96"
+    "version": "0.9.97"
   },
   "MiniWatts": {
     "release_type": "stable",
