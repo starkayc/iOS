@@ -18,7 +18,7 @@
   },
   "ARMSX2": {
     "release_type": "any",
-    "version": "nightly-20261114"
+    "version": "nightly-20261120"
   },
   "BCD": {
     "release_type": "any",
@@ -152,6 +152,6 @@
   },
   "WQFiles": {
     "release_type": "stable",
-    "version": "0.9.18"
+    "version": "0.9.19"
   }
 }
