@@ -8,6 +8,71 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261120.ipa",
+          "size": 40427581,
+          "version": "20261120",
+          "buildVersion": "260",
+          "date": "2026-11-20T02:24:38Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• Catalog: a cache entry stamped one second ahead of time() is fresh\n• SDL frontend: pausing a game launched from the command line no longer quits\n• GS/Vulkan: the pipeline builder checks each vertex array against its own limit\n• tests: a Vulkan pipeline with eight vertex attributes takes a second buffer and a ninth attribute\n• eerunner: --frame-hashes reads VU1 memory once the VU1 thread is idle\n• GS/HW: below 1x, give every render target an exact scaled size\n• Android: launch extras that turn PINE on and pick the GPU driver\n• gsctl: pad commands and a TCP connection\n• eerunner: --pad-script, --pad-record, --frame-hashes and the nullhw renderer\n• PINE: messages to hold pads, play pad scripts and record pad input\n• Pad: scripts, clients and recordings can hold a DualShock 2\n• GS/Vulkan: declare the run shader's depth write depth_less too\n• GS/Vulkan: declare the pixel shader's depth write depth_less again\n• GS/Vulkan: flush the run machine's index and table rings before the submit\n• Android: tell apart malisx2 installed but not selected from malisx2 missing\n• gsrunner: drop -readback-kick-passes\n• Android: a changed PGO profile rebuilds every object\n• SIF: a forced stop of SIF0 or SIF1 ends the EE side of the transfer\n• GS/Vulkan: do not spin the GPU for readbacks on Mali\n• Qt: give the GS a pending window type while surfaceless\n• GS/Vulkan: one sampling call per run on Turnip\n• GS/Vulkan: round an unblended draw's output in a blending run\n• GS/Vulkan: no run way for Af through the blend constant\n• GS/Vulkan: merge the blend unit's own alpha blend into runs\n• Android: regenerate the PGO profile on the source with the sprite ramp, alpha rectangle, IOP thread lag and folder memory card changes\n• FolderMcd: read a save file the host will not open for writing\n• tests: a pause flush during a folder card block rewrite keeps the files\n• FolderMcd: rebuild the cluster-to-file map on every flush\n• FolderMcd: skip a flush when nothing was written since the last one\n• FolderMcd: keep a cached page that the flush could not write\n• Android: call the Java file helpers through cached method IDs\n• IOP thread: hold the tight lag bound while a memory card server call runs\n• GS/Vulkan: decide full-screen exclusive from the window system on Windows\n• GS/Metal: shrink the pipeline selector's padding for the two-byte VSSelector\n• GS/Vulkan: accept VK_KHR_calibrated_timestamps as well as the EXT name\n• GS/Vulkan: give a device window support while its Android surface is gone\n• GS/Vulkan: signal the spin semaphore only when the spin has its own queue\n• GS/Vulkan: test the sprite ramp without integer division\n• GS: drop a reference to private notes from the sprite ramp comment\n• GS/Vulkan: carry the sprite ramp in its own vertex shader variant…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261120",
+      "versionDate": "2026-11-20T02:24:38Z",
+      "size": 40427581,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261120.ipa"
+    },
+    {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.19.ipa",
+          "size": 2182113,
+          "version": "0.9.19",
+          "buildVersion": "112",
+          "date": "2026-11-20T01:16:50Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.19\n\nA small fix release, plus optional App Store icons.\n\nNew\n\n• Settings → App Store Icons (off by default): other apps' icons can't be read with worse_query, so WQ Files can fetch them from Apple's public App Store lookup instead. This sends the bundle ids of your installed apps and your region to Apple. Sideloaded apps and apps that were removed from the App Store keep the placeholder. Icons are stored in WQ Files (about 7 KB each, not backed up); turning the setting off deletes them.\n\nFixed\n\n• Apps with one-word bundle ids like Pinterest (pinterest) showed \"container identity unavailable\" and 0 KB, and couldn't be opened, backed up or cleared. They work now.\n• App icons: other apps' icons can't be read with worse_query, so they show a placeholder. Third-party apps now all get the neutral one, instead of misleading guesses like the Books icon for Facebook or the Music icon for TikTok. Apple services that iOS only gives a placeholder for no longer show iOS's grey grid in dark mode.\n• iOS 27 beta 5 / public beta 3 (#70): after swiping back from App Backups, the first row on the Backups tab stopped responding. It keeps working now. The blurred band under the bar can still look too tall on that beta; that's an iOS bug. Release versions of iOS aren't affected.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Custom inspectors idea: deltaII. Translations: iosrxwy and FrogTool (Simplified Chinese), kinboy56 (Japanese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to control0forver for testing four debug builds, and to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 912f036be87cfe682e6ec8fba7e58ceda2e9f2b77c2ac3f7e25e026e25b1d79f"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
+        }
+      },
+      "version": "0.9.19",
+      "versionDate": "2026-11-20T01:16:50Z",
+      "size": 2182113,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.19.ipa"
+    },
+    {
       "name": "Debrify",
       "bundleIdentifier": "com.varunsalian.debrify",
       "developerName": "varunsalian",
@@ -69,39 +134,6 @@
       "versionDate": "2026-11-18T16:37:57Z",
       "size": 22041701,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.1.0.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.18.ipa",
-          "size": 2171189,
-          "version": "0.9.18",
-          "buildVersion": "106",
-          "date": "2026-11-17T15:21:21Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.18\n\nYour own inspectors, your own cleaning targets, and Japanese.\n\nNew\n\n• Custom inspectors (#45): small JavaScript programs that show a file's contents your way. Long-press a file → Open As → Custom Inspector…. WQ Files ships only the runtime; the inspectors are yours.\n• Install: open a .zip holding an inspector with WQ Files (share sheet, AirDrop, Files app), or copy its folder into Settings → Inspectors. Installing one with the same name again updates it.\n• Write one: a folder with manifest.json and inspect.js. The script gets the file as bytes, as text and, for property lists, already parsed, and returns sections with rows or text. A data.json can hold your own lookup tables. Two examples and the full format are in the README.\n• Results: tap a value to copy it; Share sends everything as text. Script errors show with their line number.\n• Safe by design: inspectors only read. A script has no access to other files, the network or the app, and is stopped after 2 seconds.\n• Your own folders and files in the Cache Cleaner: long-press a folder or file inside an app's data → Add to Cache Cleaner. Instagram, for example, keeps uploaded videos in Library/Application Support/Instagram/VideoUpload long after they're posted.\n• Choose Always Select (selected after every scan and by Select All, like caches) or Select by Hand (you pick it each time). Long-press it in the Cache Cleaner to switch Select Automatically later, or to take it off the list.\n• A folder is emptied (the folder itself stays), a file is deleted.\n• Only add what the app can do without: anything it keeps there (drafts, downloads, logins) is gone once cleaned. The app's settings folders can't be added.\n• Saved per app, so it keeps working when the app moves to a new container.\n• Japanese (#69), the 14th language. Thanks to kinboy56.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Custom inspectors idea: deltaII. Translations: iosrxwy and FrogTool (Simplified Chinese), kinboy56 (Japanese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 177b383c541f6deb04db331a8c7b5ed3ba8f574d85e24a72cb867f3699550a18"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
-        }
-      },
-      "version": "0.9.18",
-      "versionDate": "2026-11-17T15:21:21Z",
-      "size": 2171189,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.18.ipa"
     },
     {
       "name": "Doer",
@@ -375,38 +407,6 @@
       "versionDate": "2026-11-14T17:16:59Z",
       "size": 117340839,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.96.ipa"
-    },
-    {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261114.ipa",
-          "size": 40717380,
-          "version": "20261114",
-          "buildVersion": "260",
-          "date": "2026-11-14T15:41:20Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• macOS: a refused notarization is not a build failure\n• arm64: the crash post-mortem's microVU readers are Linux only\n• GameDB: Stuntman and Driv3r run the EE at Exact clamping\n• arm64: a SIGILL gets the crash post-mortem too\n• arm64: the crash post-mortem names where the lr points\n• arm64: the crash post-mortem's VU microcode comes from the program's copy\n• arm64: the crash post-mortem names the library a pc outside the JIT is in\n• arm64: the crash post-mortem shows the VU microcode at the fault block\n• arm64: the crash post-mortem names the microVU block that holds the pc\n• LSFG: rebuild the swap chain before the acquire, and make it FIFO\n• microVU: don't finish VU1 through a dispatcher that does not exist\n• Tests: a second boot after a VM that stopped with VU1 busy\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261113...6d9511e29e3e00d5ab78899f5292b967ab850ddb"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261114",
-      "versionDate": "2026-11-14T15:41:20Z",
-      "size": 40717380,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261114.ipa"
     },
     {
       "name": "Apollo",
