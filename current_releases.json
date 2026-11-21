@@ -18,7 +18,7 @@
   },
   "ARMSX2": {
     "release_type": "any",
-    "version": "nightly-20261120"
+    "version": "nightly-20261121"
   },
   "BCD": {
     "release_type": "any",
@@ -96,7 +96,7 @@
   },
   "Nuvio": {
     "release_type": "stable",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "Nuvio Enhanced": {
     "release_type": "stable",
