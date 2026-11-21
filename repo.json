@@ -8,6 +8,69 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261121.ipa",
+          "size": 40743520,
+          "version": "20261121",
+          "buildVersion": "260",
+          "date": "2026-11-21T16:45:32Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• iOS: split the menu controller input router\n• iOS: split the controller accessibility navigation file\n• iOS: split the orb field file and move the theme tables to Appearance\n• iOS: localize the Report a Problem screens in nine languages\n• iOS: offer a report after a session that ended badly\n• iOS: report a problem from the pause menu with the paused frame\n• iOS: add Settings Diagnostics with the report sheet\n• iOS: carry the paused frame, a photo and crash files in the report\n• iOS: build a redacted problem report zip from the session logs\n• iOS: read how each session ended from its log markers\n• iOS: keep each launch's logs in a session folder with markers\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261120...8bee9fff99b2063ecb032af45a313c4cee5d8f6b"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261121",
+      "versionDate": "2026-11-21T16:45:32Z",
+      "size": 40743520,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261121.ipa"
+    },
+    {
+      "name": "Nuvio",
+      "bundleIdentifier": "com.nuvio.media",
+      "developerName": "NuvioMedia",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
+      "localizedDescription": "Official Nuvio Mobile Repository",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "entertainment",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.1.ipa",
+          "size": 69936384,
+          "version": "1.0.1",
+          "buildVersion": "160",
+          "date": "2026-11-21T14:50:47Z",
+          "minOSVersion": "16.1",
+          "localizedDescription": "• c31c30e1 fix(player): ignore gesture insets for bottom controls on android @skoruppa\n• 4baf886e fix(ios): keep downloads out of iCloud and computer backups @claude\n• f81edc65 fix(debrid): match TorBox alternative-hash cache answers @WhiteGiso\n• 103c5e07 fix(trakt): prevent unbounded library refresh queue @enricopro"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
+        }
+      },
+      "version": "1.0.1",
+      "versionDate": "2026-11-21T14:50:47Z",
+      "size": 69936384,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.1.ipa"
+    },
+    {
       "name": "BCD",
       "bundleIdentifier": "com.thebcd69.bcd",
       "developerName": "thebcd69",
@@ -83,38 +146,6 @@
       "versionDate": "2026-11-20T16:46:43Z",
       "size": 117415847,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.97.ipa"
-    },
-    {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261120.ipa",
-          "size": 40427581,
-          "version": "20261120",
-          "buildVersion": "260",
-          "date": "2026-11-20T02:24:38Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• Catalog: a cache entry stamped one second ahead of time() is fresh\n• SDL frontend: pausing a game launched from the command line no longer quits\n• GS/Vulkan: the pipeline builder checks each vertex array against its own limit\n• tests: a Vulkan pipeline with eight vertex attributes takes a second buffer and a ninth attribute\n• eerunner: --frame-hashes reads VU1 memory once the VU1 thread is idle\n• GS/HW: below 1x, give every render target an exact scaled size\n• Android: launch extras that turn PINE on and pick the GPU driver\n• gsctl: pad commands and a TCP connection\n• eerunner: --pad-script, --pad-record, --frame-hashes and the nullhw renderer\n• PINE: messages to hold pads, play pad scripts and record pad input\n• Pad: scripts, clients and recordings can hold a DualShock 2\n• GS/Vulkan: declare the run shader's depth write depth_less too\n• GS/Vulkan: declare the pixel shader's depth write depth_less again\n• GS/Vulkan: flush the run machine's index and table rings before the submit\n• Android: tell apart malisx2 installed but not selected from malisx2 missing\n• gsrunner: drop -readback-kick-passes\n• Android: a changed PGO profile rebuilds every object\n• SIF: a forced stop of SIF0 or SIF1 ends the EE side of the transfer\n• GS/Vulkan: do not spin the GPU for readbacks on Mali\n• Qt: give the GS a pending window type while surfaceless\n• GS/Vulkan: one sampling call per run on Turnip\n• GS/Vulkan: round an unblended draw's output in a blending run\n• GS/Vulkan: no run way for Af through the blend constant\n• GS/Vulkan: merge the blend unit's own alpha blend into runs\n• Android: regenerate the PGO profile on the source with the sprite ramp, alpha rectangle, IOP thread lag and folder memory card changes\n• FolderMcd: read a save file the host will not open for writing\n• tests: a pause flush during a folder card block rewrite keeps the files\n• FolderMcd: rebuild the cluster-to-file map on every flush\n• FolderMcd: skip a flush when nothing was written since the last one\n• FolderMcd: keep a cached page that the flush could not write\n• Android: call the Java file helpers through cached method IDs\n• IOP thread: hold the tight lag bound while a memory card server call runs\n• GS/Vulkan: decide full-screen exclusive from the window system on Windows\n• GS/Metal: shrink the pipeline selector's padding for the two-byte VSSelector\n• GS/Vulkan: accept VK_KHR_calibrated_timestamps as well as the EXT name\n• GS/Vulkan: give a device window support while its Android surface is gone\n• GS/Vulkan: signal the spin semaphore only when the spin has its own queue\n• GS/Vulkan: test the sprite ramp without integer division\n• GS: drop a reference to private notes from the sprite ramp comment\n• GS/Vulkan: carry the sprite ramp in its own vertex shader variant…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261120",
-      "versionDate": "2026-11-20T02:24:38Z",
-      "size": 40427581,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261120.ipa"
     },
     {
       "name": "WQ Files",
@@ -313,37 +344,6 @@
       "versionDate": "2026-11-16T06:50:50Z",
       "size": 75485382,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio-Enhanced.rel-1.0.0.ipa"
-    },
-    {
-      "name": "Nuvio",
-      "bundleIdentifier": "com.nuvio.media",
-      "developerName": "NuvioMedia",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.nuvio.media.png",
-      "localizedDescription": "Official Nuvio Mobile Repository",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "entertainment",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.0.ipa",
-          "size": 69922744,
-          "version": "1.0.0",
-          "buildVersion": "157",
-          "date": "2026-11-15T18:28:31Z",
-          "minOSVersion": "16.1",
-          "localizedDescription": "Nuvio 1.0.0\n\nThank you to everyone who has contributed to the project, tested the betas, and supported us along the way.\n\nThis is the first stable release. It has the same features and fixes as 0.6.13-beta.\n\nOn Android, choose Stable in Settings → About → Update channel for fewer updates and a more stable build. Choose Beta for frequent updates, with possible breaking changes. If you were already on a beta build, you stay on Beta until you switch."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Nuvio connects to media servers on your local network."
-        }
-      },
-      "version": "1.0.0",
-      "versionDate": "2026-11-15T18:28:31Z",
-      "size": 69922744,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.0.ipa"
     },
     {
       "name": "EeveeSpotifyReincarnated",
