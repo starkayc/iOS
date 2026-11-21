@@ -8,6 +8,39 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.20.ipa",
+          "size": 2199929,
+          "version": "0.9.20",
+          "buildVersion": "114",
+          "date": "2026-11-21T21:41:37Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.20\n\nApps Manager backups, and safer handling of databases that are in use.\n\nNew\n\n• Import Apps Manager backups (#19): Apps → tap the app → Import as Backup… now accepts .adbk files from Apps Manager. The app's data is saved as a normal WQ Files backup, ready to restore.\n• Only the app's own data folder is imported. App Group data in the file isn't, because WQ Files backups don't include App Groups. The keychain items Apps Manager saves are encrypted, so they can't be imported either. When you import, WQ Files lists what it left out.\n• If the file says it belongs to a different app than the one you tapped, WQ Files asks first, as with any other import.\n• Opening an .adbk from the Files app or the share sheet doesn't start an import; start it from Apps.\n\nFixed\n\n• Files another app is using: deleting or replacing them, for example an app's database in its App Group while the app runs, failed with \"Resource temporarily unavailable (errno 35)\". WQ Files now says another app is using the file and that quitting that app and trying again should work. Its extensions or widgets can keep the file open even after you quit it.\n• Databases in use stay intact: an app's database comes with -wal and -shm files next to it, and while the app runs, iOS doesn't lock the -wal file. WQ Files could delete or replace it while refusing the database file, which lost the app's newest data. Now a database and its -wal, -shm and -journal files are only changed together: if one of them is in use, none of them is touched. This applies to deleting (also whole folders), replacing on import and editing.\n• Deleting or importing several files at once: each database is handled before its -wal and -shm files, which are skipped if the database itself couldn't be deleted or replaced. \"N of M files were imported\" is translated now.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Custom inspectors idea: deltaII. Translations: iosrxwy and FrogTool (Simplified Chinese), kinboy56 (Japanese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to braless for the Apps Manager sample, and to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 9ddfa3c1ff01de4d76f601d3b6b76390436136d529f029b9bfaa48c501cfe197"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
+        }
+      },
+      "version": "0.9.20",
+      "versionDate": "2026-11-21T21:41:37Z",
+      "size": 2199929,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.20.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -146,39 +179,6 @@
       "versionDate": "2026-11-20T16:46:43Z",
       "size": 117415847,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.97.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.19.ipa",
-          "size": 2182113,
-          "version": "0.9.19",
-          "buildVersion": "112",
-          "date": "2026-11-20T01:16:50Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.19\n\nA small fix release, plus optional App Store icons.\n\nNew\n\n• Settings → App Store Icons (off by default): other apps' icons can't be read with worse_query, so WQ Files can fetch them from Apple's public App Store lookup instead. This sends the bundle ids of your installed apps and your region to Apple. Sideloaded apps and apps that were removed from the App Store keep the placeholder. Icons are stored in WQ Files (about 7 KB each, not backed up); turning the setting off deletes them.\n\nFixed\n\n• Apps with one-word bundle ids like Pinterest (pinterest) showed \"container identity unavailable\" and 0 KB, and couldn't be opened, backed up or cleared. They work now.\n• App icons: other apps' icons can't be read with worse_query, so they show a placeholder. Third-party apps now all get the neutral one, instead of misleading guesses like the Books icon for Facebook or the Music icon for TikTok. Apple services that iOS only gives a placeholder for no longer show iOS's grey grid in dark mode.\n• iOS 27 beta 5 / public beta 3 (#70): after swiping back from App Backups, the first row on the Backups tab stopped responding. It keeps working now. The blurred band under the bar can still look too tall on that beta; that's an iOS bug. Release versions of iOS aren't affected.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Custom inspectors idea: deltaII. Translations: iosrxwy and FrogTool (Simplified Chinese), kinboy56 (Japanese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to control0forver for testing four debug builds, and to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 912f036be87cfe682e6ec8fba7e58ceda2e9f2b77c2ac3f7e25e026e25b1d79f"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
-        }
-      },
-      "version": "0.9.19",
-      "versionDate": "2026-11-20T01:16:50Z",
-      "size": 2182113,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.19.ipa"
     },
     {
       "name": "Debrify",
