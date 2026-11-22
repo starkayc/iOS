@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-5ea0fb1.ipa",
+          "size": 39923077,
+          "version": "0.11.2.1",
+          "buildVersion": "65",
+          "date": "2026-11-22T17:33:22Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📂 Sources\n• WebDAV search finds movies in many more folder layouts. It used to open only folders named like a library, such as \"Movies\" or \"Films\", so many movies that were on the server never showed up. It now also looks in drive, user, language and collection folders (\"HDD1\", \"English\", \"Marvel Collection\"), year folders (\"2010\", \"2010s\", \"Movies 2010\"), letter folders (\"Movies A-L\"), and libraries up to five levels deep.\n• System and non-video folders are skipped, such as Photos, Music, recycle bins and NAS system folders, which keeps searches quick.\n• More file names are recognised: IronMan.2008, 2010 - Inception, Inception.Extended.Cut.2010, and names that start with a website address.\n• Fixes for servers that report names unevenly: names without an extension, names with encoded spaces, and folders that aren't marked as folders.\n• A clearer message when nothing is found. It now says how many folders were checked.\n\n📺 Simkl\n• Anime now shows up in Continue Watching. Simkl keeps anime in its own list, and Debrify used to read only your TV shows. Anime now gets up-next episodes and resume, and can be removed from Continue Watching. For shows split into parts, the part you watched most recently decides what's next.\n• Watched ticks and resets work for anime. Episode ticks follow Simkl's anime numbering, a show is only ticked once every aired part is caught up, and resetting a show clears every part.\n• Anime episodes appear in the Simkl calendar, at their real air times shown in your time zone."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.11.2.1",
+      "versionDate": "2026-11-22T17:33:22Z",
+      "size": 39923077,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-5ea0fb1.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -179,37 +210,6 @@
       "versionDate": "2026-11-20T16:46:43Z",
       "size": 117415847,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.97.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-a33d367.ipa",
-          "size": 39827928,
-          "version": "0.11.1.1",
-          "buildVersion": "64",
-          "date": "2026-11-19T20:01:28Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📂 Sources\n• Find titles on your WebDAV servers. When you open Sources for a movie or episode, Debrify now also looks through the WebDAV servers you've connected and lists matching files next to everything else. Season packs, \"Complete Series\" folders and multi-episode files are recognised.\n• Never holds up your results. Other sources show as soon as they're ready. WebDAV matches arrive afterwards behind the \"+N new sources\" pill, so the list doesn't jump while you're browsing it.\n• Clear progress messages. You'll see \"Looking through WebDAV · NAS… 12 folders checked\" while it works. If it's slow, you're told why: WebDAV lists one folder at a time. If something goes wrong, you get a plain reason: wrong password, server offline, folder too large, or search stopped early with a naming tip.\n• Works with Quick Play and auto-play too, as well as the next episode, recovery after a failed source, and the player's Load more sources. It gets only a second extra once other sources have found something, and a server that didn't answer recently is skipped for a few minutes.\n• Turn it off under Settings → Engines → Search sources → Search WebDAV servers.\n\n🎬 Playback\n• YouTube videos and trailers play again. YouTube recently started rejecting the way Debrify fetched videos, so playback failed for most of them. Debrify now fetches them the same way other open-source players do, and every quality up to 4K is back.\n• Links that need a sign-in always open in Debrify's own player, including WebDAV files and add-on links that carry login details. An external player would only receive the bare link and fail to play it."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.11.1.1",
-      "versionDate": "2026-11-19T20:01:28Z",
-      "size": 39827928,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-a33d367.ipa"
     },
     {
       "name": "RyukSign",
