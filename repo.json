@@ -8,6 +8,38 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261122.ipa",
+          "size": 40780130,
+          "version": "20261122",
+          "buildVersion": "260",
+          "date": "2026-11-22T06:28:24Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• GameDB: VU1 clamp mode Extra for Tales of Destiny\n• GS/Vulkan: run program off on Qualcomm's driver\n• Comments: drop pointers to notes that are not in this tree\n• eerunner: --gamedb runs a no-disc savestate under a game's serial and CRC\n• eerunner: --dump-config loads --savestate first\n• eerunner: --nodisc boots with the tray empty and loads the savestate\n• Android: remove the live GS apply queue, which nothing calls\n• Android: queue settings applies on the CPU thread instead of waiting for them\n• Android: drop a trigger's duplicate key event whenever its axis moves (#674)\n• arm64: drop the blank line at the end of BaseblockEx-arm64.h\n• gsrunner: -panvk-bifrost puts PanVK's Bifrost paths on any Vulkan device\n• GS/Vulkan: neither load nor store a stencil-one temporary on PanVK with a Bifrost GPU\n• GS: keep stencil-one DATE on a temporary when its primitives overlap\n• GS: DATE without a depth buffer reads the target on PanVK with a Bifrost GPU\n• GS/Vulkan: keep game depth without stencil on PanVK with a Bifrost GPU\n• GS/Vulkan: open render passes over their draws on PanVK with a Bifrost GPU\n• arm64: the IOP recompiler uses the per-page block index\n• arm64: FindByHostPc's comment says again that the walk only reads, takes no locks and allocates nothing\n• arm64: BlockPageIndex header carries the ARMSX2 Contributors copyright line\n• EE arm64: reduce JIT block-index insertion stalls\n• GS: the fused-layout comments name the layouts and counts that are there now\n• tests: the {RGBAQ, XYZF2} pair through Transfer, draw buffering, the mid-record resume and a draw start\n• tests: the NOP-padded {ST, RGBAQ, XYZ2} triple under a moving environment and at a draw start\n• GS: Fuse {RGBAQ, XYZF2} packed tags in the vertex kernel\n• GS: Fuse NOP-padded ST/RGBAQ/XYZ2 triangle strips\n• FullscreenUI: show AM or PM on the 12-hour clock in locales without AM/PM text\n• FullscreenUI: regenerate the translation string block\n• FullscreenUI: add a clock format setting for the menu clocks\n• Android: ignore cluster_cpus_list in the app's cpuinfo copy when the cluster id is unknown\n• 3rdparty/cpuinfo: ignore cluster_cpus_list when the cluster id is unknown\n• libretro: apply the Multitap option at startup only\n• libretro: add a Multitap option\n• libretro: send rumble to the pad's libretro port\n• libretro: read input from every controller port\n• GS: force-inline three lambdas with the attribute, not __forceinline\n• Android: offer the newest ARMSX2 GPU driver once after each app update\n• iOS: drop the launch trigger that builds a report\n• iOS: drop the perf telemetry and simulator no-JIT switches\n• vtlb: drop the iPSX2_FORCE_NO_FASTMEM switch\n• iOS: build the runtime with ARC\n• iOS: split SceneDelegate.mm into the VM thread and AirPlay files…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261122",
+      "versionDate": "2026-11-22T06:28:24Z",
+      "size": 40780130,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261122.ipa"
+    },
+    {
       "name": "WQ Files",
       "bundleIdentifier": "cz.kolbi.wqfiles",
       "developerName": "kolbicz",
@@ -39,38 +71,6 @@
       "versionDate": "2026-11-21T21:41:37Z",
       "size": 2199929,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.20.ipa"
-    },
-    {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261121.ipa",
-          "size": 40743520,
-          "version": "20261121",
-          "buildVersion": "260",
-          "date": "2026-11-21T16:45:32Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• iOS: split the menu controller input router\n• iOS: split the controller accessibility navigation file\n• iOS: split the orb field file and move the theme tables to Appearance\n• iOS: localize the Report a Problem screens in nine languages\n• iOS: offer a report after a session that ended badly\n• iOS: report a problem from the pause menu with the paused frame\n• iOS: add Settings Diagnostics with the report sheet\n• iOS: carry the paused frame, a photo and crash files in the report\n• iOS: build a redacted problem report zip from the session logs\n• iOS: read how each session ended from its log markers\n• iOS: keep each launch's logs in a session folder with markers\n\nFull changelog: https://github.com/ARMSX2/ARMSX2/compare/nightly-20261120...8bee9fff99b2063ecb032af45a313c4cee5d8f6b"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261121",
-      "versionDate": "2026-11-21T16:45:32Z",
-      "size": 40743520,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261121.ipa"
     },
     {
       "name": "Nuvio",
