@@ -8,6 +8,172 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.712.ipa",
+          "size": 230491268,
+          "version": "0.1.712",
+          "buildVersion": "712",
+          "date": "2026-11-23T04:06:46Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nEverything new in this release is experimental and has been tried on only a few devices so far. It may work great on yours, or it may not work at all. Either way, a log helps a lot.\n\nTried a game on an earlier build? Reset its settings first. On the game's page: Options › Recommended settings › Reset to Recommended. The recommended list changed for 78 games in this release.\n\nThis build brings everything since 0.1.686: X-Plane 12 getting further, frame generation and an FPS counter for Vulkan games, Valve's November 2026 Steam client for BCD Dock, an experimental Steam for Windows, new pages in Settings, a round of fixes from the logs you sent, and a fix for Epic games on an external drive.\n\nX-Plane 12 (experimental)\n\nX-Plane 12 gets further than before. On one iPhone it loaded, drew its cockpit and flew for six minutes. It is slow, it has been tried on that one iPhone only, and it is still experimental.\n\n• What you need: iOS 26 or later and a device with a Metal 4 GPU. Start the game from your Steam library through BCD Dock, the way it was tried. On the game's page choose Options › Recommended settings › Reset to Recommended. The recommended settings carry everything below.\n• Lowest graphics settings (new): the recommended settings now carry xplane-graphics = lowest.\n• Why: X-Plane saves its preferences only when it quits cleanly, and it never had. So every start took X-Plane's default settings and went straight into its first-time flight, with no main menu to lower them in. At those defaults the game stopped twice with \"X-Plane is totally out of memory\" and \"Failed to allocate a GPU buffer\", each time with BCD's address space full.\n• What it does: before X-Plane starts, BCD sets the default of each of its 14 graphics settings, in X-Plane's own Resources/settings.txt, to the lowest value. X-Plane's safe mode and every other byte of the file stay as they were. What you save in X-Plane still wins over these defaults.\n• Going back: X-Plane's own file is kept as settings.txt.bcd-original and put back when the line is removed.\n• A 4 GB swap file (new): the recommended settings now carry swap-mb = 4096, swap-mode = 2 and swap-min-mb = 1. BCD then moves game data to a file on the device's storage when memory runs short. Without it iOS ended the app at its 8 GB limit while the flight loaded (5 GB at the menu, 8.1 GB three minutes later). With it the flight ran for six minutes at a peak of 6.8 GB, and X-Plane quit cleanly from its own menu.\n• A freeze while loading: one log showed the game compiling about 700 shader libraries over eight minutes. Then one more compile, a Metal library with no shader source, was still running 96 seconds later, and the game never drew again. BCD now refuses such a request at once instead of sending it to Metal's compiler. This was checked on a Mac. On the iPhone the next run took every shader from the cache, so the refusal itself has not been seen working there yet.\n• FPS counter: it never worked for X-Plane, because Vulkan games did not reach it. It does now (see below).\n• What to expect: about 13 to 18 FPS in flight at the lowest settings. The first start compiles shaders for several minutes (about 700 compiles over eight minutes in one log); later starts read them from the cache.\n• With frame generation (below) X-Plane reached about 35 FPS shown in flight on that iPhone, from about 15 of its own (the HUD's 15+15). iPads and other iPhones have not been tried. If it fails on yours, please send a log.\n\nFrame generation and the FPS counter for Vulkan games (experimental)…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.712",
+      "versionDate": "2026-11-23T04:06:46Z",
+      "size": 230491268,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.712.ipa"
+    },
+    {
+      "name": "Andarium",
+      "bundleIdentifier": "com.imxieyi.andarium",
+      "developerName": "imxieyi",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.imxieyi.andarium.png",
+      "localizedDescription": "Run real Linux kernel natively on iOS",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Kernarium.rel-andarium-1.1.ipa",
+          "size": 1248669708,
+          "version": "1.1",
+          "buildVersion": "16",
+          "date": "2026-11-22T18:45:39Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "What's new\n• Root access: apps you allow in Magisk can now run as root. Turn on Root access on Home, and the next start installs the official Magisk app.\n• AOT: Android's system libraries now run from code translated ahead of time, so Android runs faster. It is on by default, in Performance on Home.\n• 120 Hz: on a ProMotion iPhone or iPad, Android can now run at 120 Hz for smoother motion, using more battery. It is off until you turn it on in Performance on Home.\n• Add to Home Screen: on iPhone and iPad with iOS 27, put an Android app's icon on the Home Screen, and open the app from there, from Shortcuts or with Siri.\n• VoiceOver and TalkBack: Andarium now works with VoiceOver. To hear Android's screen, turn on TalkBack under Accessibility.\n• Frame rate when hot: Android now lowers the frame rate only when the device is very hot. To keep it even then, set When hot to Full frame rate under Performance.\n• Text messages: Android can now receive a text message that you write. Choose Send text message… in Settings while Android is running, and it arrives as an incoming text.\n• Update notice: when a newer version is out, Home tells you and shows how to update. It checks once a day, and you can turn it off in Info.\n• iOS 26: the app now runs on iOS 26 or later.\n• Fixes:\n• Fixed the virtual machine's Wi-Fi dropping briefly when you return to Andarium\n• Fixed face scans failing in some apps that use the front camera\n• Fixed connections hanging after the device moves from Wi-Fi to cellular data\n• Fixed apps failing to reach servers for a while after the network returns\n• VP9 videos now play with the device's hardware decoder\n\nSideloading\nYou can sideload the app with AltStore or SideStore.\n\nThe easy way is to add the source, so updates show up in AltStore or SideStore:\n\nhttps://raw.githubusercontent.com/imxieyi/Kernarium/main/sideload/source.json\n\nAlternatively, install the IPA by hand:\n\n1. Download Andarium-1.1-16.ipa on the device. It's about 1 GB.\n2. Open AltStore or SideStore, tap + in My Apps and pick the IPA.\n\nA few things to know:\n\n• iOS 26 or later is required.\n• The app uses the Increased Memory Limit and Extended Virtual Addressing entitlements.\n• A free Apple ID works, but the app expires after 7 days and must be refreshed in AltStore or SideStore.\n• With a free Apple ID, Android gets less memory. AltStore 2.2 or later keeps the increased memory limit, SideStore doesn't by default. Extended virtual addressing needs a paid developer account.\n• JIT is optional and experimental. To use it, assign the universal script to Andarium in StikDebug once, then open Andarium from StikDebug.\n• To update by hand, install the new IPA with the same Apple ID and the same tool. It replaces the old version and keeps your virtual machine.\n\nPrebuilt artifacts\n• android-6.18-…-ca1.tar.gz: the accepted Android kernel bundle. Extract it into .build/kernel/artifacts/.\n• lineage24-…-r29.tar.gz: the accepted Android system release.\n• lineage24-…-r29-aot.tar.gz: the AOT artifact of that release. Extract both anywhere, then run android/lineage-24/tools/install-release.py --source <dir>/lineage24-mainline6.18-4k-20261121-los24-r29 --aot-artifact <dir>/lineage24-mainline6.18-4k-20261121-los24-r29-aot."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSCameraUsageDescription": "Andarium uses the camera only when you turn on Camera, so that apps in the virtual machine can use it.",
+          "NSLocalNetworkUsageDescription": "Apps running in Andarium use this to connect to devices on your local network, such as printers, media servers and computers, and ADB over network uses it to let a computer on your network connect to Andarium. Internet access doesn't need it.",
+          "NSLocationWhenInUseUsageDescription": "Andarium shares this device's location only when you turn on Location, so that apps in the virtual machine can use it.",
+          "NSMicrophoneUsageDescription": "Andarium records from the microphone only when you turn on Microphone, so that apps in the virtual machine can use it."
+        }
+      },
+      "version": "1.1",
+      "versionDate": "2026-11-22T18:45:39Z",
+      "size": 1248669708,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Kernarium.rel-andarium-1.1.ipa"
+    },
+    {
+      "name": "Vesper",
+      "bundleIdentifier": "app.vesper",
+      "developerName": "DjangoCustard225",
+      "iconURL": "https://starkayc.github.io/iOS/icons/app.vesper.png",
+      "localizedDescription": "Native iOS content hub.",
+      "subtitle": "Native iOS content hub",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Vesper.rel-0.5.4.ipa",
+          "size": 15884030,
+          "version": "0.5.4",
+          "buildVersion": "54",
+          "date": "2026-11-22T14:38:06Z",
+          "minOSVersion": "27.0",
+          "localizedDescription": "• Introduced widgets for Continue Watching, Up Next and your Library. Tapping a poster or title opens the stream, and posters keep their colours in Clear mode.\n• New app icon.\n• Cleaned up the API entry pages. Each sheet has a checkmark that saves and verifies your key.\n• iCloud sync for your library and add-ons. Add-ons that arrive through sync ask for your approval first.\n• Plain HTTP add-ons show a warning before install.\n• Faster launch, with your library and watch progress loading in the background.\n• Sheets close with the native Liquid Glass cross, and scroll bars are hidden throughout the app.\n• Various UI refinements, plus security and reliability improvements."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Vesper connects to add-ons and video sources on your local network."
+        }
+      },
+      "version": "0.5.4",
+      "versionDate": "2026-11-22T14:38:06Z",
+      "size": 15884030,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Vesper.rel-0.5.4.ipa"
+    },
+    {
+      "name": "Wrath",
+      "bundleIdentifier": "app.wrath.downloader",
+      "developerName": "DjangoCustard225",
+      "iconURL": "https://starkayc.github.io/iOS/icons/app.wrath.downloader.png",
+      "localizedDescription": "Native iOS media downloader",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Wrath.rel-0.1.2.ipa",
+          "size": 23621413,
+          "version": "0.1.2",
+          "buildVersion": "69",
+          "date": "2026-10-20T17:07:58Z",
+          "minOSVersion": "17.0",
+          "localizedDescription": "• Added App Lock with a six-digit passcode and Face ID / Touch ID support.\n• Integrated gallery-dl for photo galleries and supported Instagram photo posts.\n• Refined the download interface, progress sheet, and Library animations.\n• Added website sign-in to save cookies for Reddit and Instagram downloads.\n• Cleaned up settings and removed unnecessary warnings on saved galleries.\n\nChoose ios17+ for compatibility or ios26+ for Liquid Glass. Both IPAs are unsigned and require sideloading."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use Face ID to unlock Wrath and verify your identity when resetting your app PIN.",
+          "NSLocalNetworkUsageDescription": "Download media from links on your local network.",
+          "NSPhotoLibraryAddUsageDescription": "Save photos or videos to your photo library when you choose Save from the share sheet."
+        }
+      },
+      "version": "0.1.2",
+      "versionDate": "2026-10-20T17:07:58Z",
+      "size": 23621413,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Wrath.rel-0.1.2.ipa"
+    },
+    {
+      "name": "iRAM+",
+      "bundleIdentifier": "novadev.iram-plus",
+      "developerName": "NexSideloading",
+      "iconURL": "https://starkayc.github.io/iOS/icons/novadev.iram-plus.png",
+      "localizedDescription": "An app that allows you to enable 'Increased Memory Limit' to your sideloaded apps directly on device",
+      "subtitle": "An app that allows you to enable 'Increased Memory Limit'…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/iRAM-Plus.rel-1.3.1.ipa",
+          "size": 4562979,
+          "version": "1.3.1",
+          "buildVersion": "7",
+          "date": "2026-09-18T23:43:28Z",
+          "minOSVersion": "16.0",
+          "localizedDescription": "Hey everyone,\nSorry for not working on or updating this app in a while, but this release fixes the -80045 sign in issue and other bugs!"
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.3.1",
+      "versionDate": "2026-09-18T23:43:28Z",
+      "size": 4562979,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/iRAM-Plus.rel-1.3.1.ipa"
+    },
+    {
       "name": "Debrify",
       "bundleIdentifier": "com.varunsalian.debrify",
       "developerName": "varunsalian",
@@ -133,42 +299,6 @@
       "versionDate": "2026-11-21T14:50:47Z",
       "size": 69936384,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Nuvio.rel-1.0.1.ipa"
-    },
-    {
-      "name": "BCD",
-      "bundleIdentifier": "com.thebcd69.bcd",
-      "developerName": "thebcd69",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
-      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
-      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.686.ipa",
-          "size": 224574618,
-          "version": "0.1.686",
-          "buildVersion": "686",
-          "date": "2026-11-20T18:32:54Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nEverything new in this release is experimental and has been tried on only a few devices so far. It may work great on yours, or it may not work at all. Either way, a log helps a lot.\n\nFixed: games crashed at start on iOS and iPadOS 26 and older\n\n• 0.1.682 crashed every game launch on iOS/iPadOS 26 and older. It was the first release built with the iOS 27 SDK, and it used a system function that exists only from iOS 27. On older systems the game's start ended in a crash. Thanks to the players who sent crash reports and tested the fix.\n• If you went back to 0.1.665, you can update now: install 0.1.686 over it as usual.\n• New release checks now compare every system function BCD uses against older iOS versions, so this kind of mistake stops the build instead of reaching you.\n\nLaunch options for Steam games (experimental)\n\n• Launch arguments for Steam games. A Steam game's Options › Launch › Launch arguments now works like Steam's own Launch Options:\n• Started through BCD Dock, Steam hands the arguments to the game.\n• Started as The game, they come after Steam's own arguments for the program.\n• With the field empty, the game starts exactly as before.\n• New quick picks: -vulkan, and Unity's -force-vulkan. The game also needs Graphics › Vulkan (experimental) turned on.\n• Mod loaders: Options › Windows › Components › Game's own copy first loads DLLs such as an ASI loader's dinput8.dll or version.dll from the game's folder before Wine's own. This is the WINEDLLOVERRIDES ...=n,b of Proton guides.\n• Tried on only a few games so far. If a game ignores its arguments or a mod does not load, please send a log.\n\nEpic games on an external drive (experimental)\n\n• An Epic game can install on a USB SSD. While a drive is connected (Settings › Storage › External drives), an Epic game's page offers External drive beside Install. The game goes to the drive's Epic Games folder. Install still installs on this device.\n• If the drive is unplugged during the download, the download stops and waits for it instead of filling your device. Play, Uninstall and cloud saves of such a game also wait for the drive.\n• Drive format: use an exFAT or APFS drive. A FAT32 drive cannot hold files of 4 GB or more.\n• Tried on only a few drives so far. Please send a log if anything goes wrong.\n\niPhone Duo: a touchpad below the fold (experimental)\n\n• Turning it on: switch on Settings › Graphics › Foldable iPhone › Foldable iPhone support, then half fold the phone with the inner display upright. The game stays above the fold, and the screen below it works as a touchpad.\n• Gestures:\n• One finger moves the pointer.\n• A tap clicks.\n• Two fingers right-click and scroll.\n• Hold, then move, to drag.\n• The on-screen controls keep working.\n• Turning it off: Touchpad below the fold, in the same place. Nothing changes on any other device.\n• Checked in Apple's iPhone Duo simulator, not yet on a real iPhone Duo. If you have one, please send a log and tell us how it feels.\n\nInstall help, game reports and ideas: the BCD-Games Discord is open, https://discord.gg/43TmupTVug"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
-          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
-        }
-      },
-      "version": "0.1.686",
-      "versionDate": "2026-11-20T18:32:54Z",
-      "size": 224574618,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.686.ipa"
     },
     {
       "name": "Mangayomi",
