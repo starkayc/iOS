@@ -78,6 +78,11 @@
       "release_type": "stable"
     },
     {
+      "name": "iRAM Plus",
+      "repo": "NexSideloading/iRAM-Plus",
+      "release_type": "stable"
+    },
+    {
       "name": "Ksign",
       "repo": "Nyasami/Ksign",
       "release_type": "prerelease"
@@ -85,6 +90,11 @@
     {
       "name": "Ketamine",
       "repo": "Nouvborne/Ketamine",
+      "release_type": "stable"
+    },
+    {
+      "name": "Kernarium",
+      "repo": "imxieyi/Kernarium",
       "release_type": "stable"
     },
     {
@@ -193,8 +203,18 @@
       "release_type": "stable"
     },
     {
+      "name": "Vesper",
+      "repo": "DjangoCustard225/Vesper",
+      "release_type": "stable"
+    },
+    {
       "name": "WQFiles",
       "repo": "kolbicz/WQFiles",
+      "release_type": "stable"
+    },
+    {
+      "name": "Wrath",
+      "repo": "DjangoCustard225/Wrath",
       "release_type": "stable"
     }
   ]
