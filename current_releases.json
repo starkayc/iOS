@@ -22,7 +22,7 @@
   },
   "BCD": {
     "release_type": "any",
-    "version": "0.1.686"
+    "version": "0.1.712"
   },
   "Debrify": {
     "release_type": "prerelease",
@@ -60,6 +60,10 @@
     "release_type": "stable",
     "version": "3.4"
   },
+  "iRAM Plus": {
+    "release_type": "stable",
+    "version": "1.3.1"
+  },
   "Ksign": {
     "release_type": "prerelease",
     "commit": "c14dedc"
@@ -67,6 +71,10 @@
   "Ketamine": {
     "release_type": "stable",
     "version": "1.2.1"
+  },
+  "Kernarium": {
+    "release_type": "stable",
+    "version": "andarium-1.1"
   },
   "LSX4": {
     "release_type": "stable",
@@ -150,8 +158,16 @@
     "release_type": "stable",
     "version": "1.6.5"
   },
+  "Vesper": {
+    "release_type": "stable",
+    "version": "0.5.4"
+  },
   "WQFiles": {
     "release_type": "stable",
     "version": "0.9.20"
+  },
+  "Wrath": {
+    "release_type": "stable",
+    "version": "0.1.2"
   }
 }
