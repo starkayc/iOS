@@ -8,6 +8,37 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Debrify",
+      "bundleIdentifier": "com.varunsalian.debrify",
+      "developerName": "varunsalian",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
+      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
+      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-a8dfae2.ipa",
+          "size": 39981676,
+          "version": "0.11.3.1",
+          "buildVersion": "66",
+          "date": "2026-11-24T14:07:46Z",
+          "minOSVersion": "15.0",
+          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n⚽ Sports\n• New Match stats page. Open a match on the Sports board and choose Match stats to see:\n• a win-probability chart once play starts, or the matchup predictor before kick-off\n• team stats side by side\n• game leaders, or season leaders before kick-off\n• each team's last five results\n• Covers two-team leagues: football, NFL, NBA, NHL, MLB, college and rugby. Not every sport gets every section. Football has no win probability, for example.\n• Live matches refresh by themselves while the page is open. A page left open before kick-off switches to live when the match starts.\n• Works with a TV remote, and uses two columns on big screens.\n• Respects Hide scores: with it on, stats stay hidden until you choose to show them.\n\n📺 Simkl\n• Anime in Continue Watching now loads and plays. Since the last alpha, anime rows showed up without their details, and no sources were found when you pressed Play. Simkl lists anime without their IMDb ids, which details and sources need. Debrify now looks those up, so anime rows open, show their episodes and play.\n• Shows that share an id keep separate rows. For example, JoJo and Steel Ball Run no longer merge into one."
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
+        }
+      },
+      "version": "0.11.3.1",
+      "versionDate": "2026-11-24T14:07:46Z",
+      "size": 39981676,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-a8dfae2.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -204,37 +235,6 @@
       "versionDate": "2026-09-18T23:43:28Z",
       "size": 4562979,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/iRAM-Plus.rel-1.3.1.ipa"
-    },
-    {
-      "name": "Debrify",
-      "bundleIdentifier": "com.varunsalian.debrify",
-      "developerName": "varunsalian",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.varunsalian.debrify.png",
-      "localizedDescription": "Unified debrid management meets Stremio and Trakt — control Real-Debrid, Torbox, and PikPak, sync your watch progress, and browse content  from anywhere. Available on Android, Android TV, Windows, macOS, Linux, and iOS.",
-      "subtitle": "Unified debrid management meets Stremio and Trakt — control…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-5ea0fb1.ipa",
-          "size": 39923077,
-          "version": "0.11.2.1",
-          "buildVersion": "65",
-          "date": "2026-11-22T17:33:22Z",
-          "minOSVersion": "15.0",
-          "localizedDescription": "⚠️ Alpha build — this release is for early testers only. Take a backup before upgrading, expect rough edges, and please report anything broken. Regular users should wait for the upcoming beta.\n\n📂 Sources\n• WebDAV search finds movies in many more folder layouts. It used to open only folders named like a library, such as \"Movies\" or \"Films\", so many movies that were on the server never showed up. It now also looks in drive, user, language and collection folders (\"HDD1\", \"English\", \"Marvel Collection\"), year folders (\"2010\", \"2010s\", \"Movies 2010\"), letter folders (\"Movies A-L\"), and libraries up to five levels deep.\n• System and non-video folders are skipped, such as Photos, Music, recycle bins and NAS system folders, which keeps searches quick.\n• More file names are recognised: IronMan.2008, 2010 - Inception, Inception.Extended.Cut.2010, and names that start with a website address.\n• Fixes for servers that report names unevenly: names without an extension, names with encoded spaces, and folders that aren't marked as folders.\n• A clearer message when nothing is found. It now says how many folders were checked.\n\n📺 Simkl\n• Anime now shows up in Continue Watching. Simkl keeps anime in its own list, and Debrify used to read only your TV shows. Anime now gets up-next episodes and resume, and can be removed from Continue Watching. For shows split into parts, the part you watched most recently decides what's next.\n• Watched ticks and resets work for anime. Episode ticks follow Simkl's anime numbering, a show is only ticked once every aired part is caught up, and resetting a show clears every part.\n• Anime episodes appear in the Simkl calendar, at their real air times shown in your time zone."
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Debrify connects to WebDAV servers and companion devices on your local network."
-        }
-      },
-      "version": "0.11.2.1",
-      "versionDate": "2026-11-22T17:33:22Z",
-      "size": 39923077,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-5ea0fb1.ipa"
     },
     {
       "name": "WQ Files",
