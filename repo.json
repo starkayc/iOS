@@ -8,6 +8,38 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios.nightly",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261123.ipa",
+          "size": 40949886,
+          "version": "20261123",
+          "buildVersion": "260",
+          "date": "2026-11-23T20:48:17Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64.AppImage, for 4K, 16K and 64K page kernels alike\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• EE: charge taking an exception 9 cycles, as the console takes\n• EE: charge ERET 6 cycles, as the console takes\n• EE rec: do not charge a cycle the interpreter does not after ERET, SYSCALL and EI\n• EE: charge SYNC.P 5 cycles, as the console takes\n• microVU: keep the program cache in a few large blocks, bounded by the RAM cap\n• iOS: put EmulatorBridge on the main actor\n• iOS: put ExternalGameLibrary on the main actor\n• iOS: type NumberRowActivity's closure for the main actor\n• iOS: drop @unchecked Sendable from the controller image cache\n• iOS: put PadLayoutStore on the main actor\n• iOS: put the pad preset and skin library stores on the main actor\n• iOS: enable cheats through SettingsStore\n• iOS: read the boot and logging keys through SettingsStore\n• iOS: make the dynamic thumbstick settings a SettingsStore sub-store\n• iOS: read the RetroAchievements keys through SettingsStore\n• iOS: push the haptics setting to the rumble path\n• iOS: keep the DEV9 hosts in SettingsStore.Network\n• iOS: drop the duplicate upscale write in dynamic resolution\n• iOS: test that shared names are declared once\n• iOS: declare the menu sound names once\n• iOS: type the game library dictionary keys\n• iOS: type the RetroAchievements state keys\n• iOS: type the per-game settings dictionary keys\n• iOS: declare the shared notification names once\n• EE: charge MOVZ and MOVN 1 cycle\n• EE: charge stores 1 cycle, as the console takes\n• EE: charge loads 1 cycle, as the console takes\n• EE: charge MFHI, MFLO, MTHI, MTLO and the SA moves 1 cycle, as the console takes\n• EE: charge the integer ALU ops, shifts, LUI, SLT and NOP 1 cycle, as the console takes\n• EE: charge NOP its table entry in the recompiler\n• libretro CI: drop the Android page size argument\n• Android: build and ship one core library, libemucore.so\n• Android: read the host page size at load time\n• Android: describe what applyPadButton does with p_range\n• Android: drop unchanged USB pad reports on the reader thread\n• Android: rumble for a DualShock 3 under the USB takeover\n• Android: keep a DualShock 3 button pressed while its pressure reads 0\n• Android: native DualShock 3 button pressure over USB\n• Linux arm64: pad shared structures to 128 bytes, warn only on a smaller line\n• tests: drop host_page_test, its tests already run in common_test and recompiler_tests\n• Linux arm64: detect host page geometry at runtime\n• iOS: stop SettingsStore's init from starting GameSession\n• iOS: move the DEV9 settings into SettingsStore.Network\n• iOS: move the controller settings into SettingsStore.Controller\n• iOS: move the appearance preferences into SettingsStore.Appearance\n• iOS: make the setting descriptors static tables in their domain files\n• iOS: move the types and ranges out of SettingsStore.swift\n• iOS: stop three background flags rewriting themselves at launch…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "20261123",
+      "versionDate": "2026-11-23T20:48:17Z",
+      "size": 40949886,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261123.ipa"
+    },
+    {
       "name": "Wrath",
       "bundleIdentifier": "app.wrath.downloader",
       "developerName": "DjangoCustard225",
@@ -203,38 +235,6 @@
       "versionDate": "2026-11-22T17:33:22Z",
       "size": 39923077,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Debrify.pre-5ea0fb1.ipa"
-    },
-    {
-      "name": "ARMSX2",
-      "bundleIdentifier": "com.armsx2.ios.nightly",
-      "developerName": "ARMSX2",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.nightly.png",
-      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261122.ipa",
-          "size": 40780130,
-          "version": "20261122",
-          "buildVersion": "260",
-          "date": "2026-11-22T06:28:24Z",
-          "minOSVersion": "17.4",
-          "localizedDescription": "Automated nightly build for community testing (unsigned).\n\nEvery download is named ARMSX2-nightly-DATE-COMMIT-PLATFORM, so builds\nfrom different nights stay distinguishable after you have downloaded them.\n\n• macOS arm64: macOS-arm64.tar.xz\n• Linux arm64: Linux-arm64-4K-pages.AppImage on most distros, or the 16K one on Asahi Linux and other Apple Silicon kernels (run getconf PAGESIZE if unsure)\n• Windows arm64: Windows-arm64.zip\n• RetroArch on Linux arm64: Linux-arm64-libretro-core.tar.zst, a 4K-page build\n• Bare-display kmsdrm handhelds: Linux-arm64-SDL-handheld.tar.zst, a 4K-page build (Rocknix and Batocera run compositors, so use the Qt AppImage there instead)\n• Android: Android-arm64.apk (installs as ARMSX2 Nightly, alongside the stable app)\n• iOS: iOS-arm64.ipa, unsigned, sideload it (installs as ARMSX2 Nightly, alongside the stable app)\n\nComing from an old nightly? Nightlies are now a separate app, ARMSX2 Nightly, next to stable.\n\n• Android: stable cannot install over an old nightly. Back up your saves and memory cards, uninstall the old nightly, then install the stable APK.\n• iOS: your old nightly is the ARMSX2 iOS app and still has your saves. Copy them into ARMSX2 Nightly with the Files app.\n\nWhat's new\n• GameDB: VU1 clamp mode Extra for Tales of Destiny\n• GS/Vulkan: run program off on Qualcomm's driver\n• Comments: drop pointers to notes that are not in this tree\n• eerunner: --gamedb runs a no-disc savestate under a game's serial and CRC\n• eerunner: --dump-config loads --savestate first\n• eerunner: --nodisc boots with the tray empty and loads the savestate\n• Android: remove the live GS apply queue, which nothing calls\n• Android: queue settings applies on the CPU thread instead of waiting for them\n• Android: drop a trigger's duplicate key event whenever its axis moves (#674)\n• arm64: drop the blank line at the end of BaseblockEx-arm64.h\n• gsrunner: -panvk-bifrost puts PanVK's Bifrost paths on any Vulkan device\n• GS/Vulkan: neither load nor store a stencil-one temporary on PanVK with a Bifrost GPU\n• GS: keep stencil-one DATE on a temporary when its primitives overlap\n• GS: DATE without a depth buffer reads the target on PanVK with a Bifrost GPU\n• GS/Vulkan: keep game depth without stencil on PanVK with a Bifrost GPU\n• GS/Vulkan: open render passes over their draws on PanVK with a Bifrost GPU\n• arm64: the IOP recompiler uses the per-page block index\n• arm64: FindByHostPc's comment says again that the walk only reads, takes no locks and allocates nothing\n• arm64: BlockPageIndex header carries the ARMSX2 Contributors copyright line\n• EE arm64: reduce JIT block-index insertion stalls\n• GS: the fused-layout comments name the layouts and counts that are there now\n• tests: the {RGBAQ, XYZF2} pair through Transfer, draw buffering, the mid-record resume and a draw start\n• tests: the NOP-padded {ST, RGBAQ, XYZ2} triple under a moving environment and at a draw start\n• GS: Fuse {RGBAQ, XYZF2} packed tags in the vertex kernel\n• GS: Fuse NOP-padded ST/RGBAQ/XYZ2 triangle strips\n• FullscreenUI: show AM or PM on the 12-hour clock in locales without AM/PM text\n• FullscreenUI: regenerate the translation string block\n• FullscreenUI: add a clock format setting for the menu clocks\n• Android: ignore cluster_cpus_list in the app's cpuinfo copy when the cluster id is unknown\n• 3rdparty/cpuinfo: ignore cluster_cpus_list when the cluster id is unknown\n• libretro: apply the Multitap option at startup only\n• libretro: add a Multitap option\n• libretro: send rumble to the pad's libretro port\n• libretro: read input from every controller port\n• GS: force-inline three lambdas with the attribute, not __forceinline\n• Android: offer the newest ARMSX2 GPU driver once after each app update\n• iOS: drop the launch trigger that builds a report\n• iOS: drop the perf telemetry and simulator no-JIT switches\n• vtlb: drop the iPSX2_FORCE_NO_FASTMEM switch\n• iOS: build the runtime with ARC\n• iOS: split SceneDelegate.mm into the VM thread and AirPlay files…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
-          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
-        }
-      },
-      "version": "20261122",
-      "versionDate": "2026-11-22T06:28:24Z",
-      "size": 40780130,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.nig-20261122.ipa"
     },
     {
       "name": "WQ Files",
