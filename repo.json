@@ -8,6 +8,42 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "BCD",
+      "bundleIdentifier": "com.thebcd69.bcd",
+      "developerName": "thebcd69",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
+      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
+      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
+      "tintColor": "3c94fc",
+      "category": "games",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.721.ipa",
+          "size": 231480629,
+          "version": "0.1.721",
+          "buildVersion": "721",
+          "date": "2026-11-25T12:47:58Z",
+          "minOSVersion": "18.0",
+          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nEverything new in this release is experimental and has been tried on only a few devices so far. It may work great on yours, or it may not work at all. Either way, a log helps a lot.\n\nTried a game on an earlier build? Reset its settings first. On the game's page: Options › Recommended settings › Reset to Recommended. The recommended list changed for 17 games in this release.\n\nThis build brings everything since 0.1.712:\n• a fix for the launch crash on the iOS 27.2 beta;\n• Steam Cloud saves that games could not see;\n• a round of fixes from the logs you sent and from the #game-reports channel;\n• LiveContainer 3.8.14 support for the built-in JIT helper;\n• live logs over Wi-Fi;\n• an option to see the game's cursor in Mouse-look;\n• a fix for bcd.cfg losing every setting over one odd character, fixes for videos in 32-bit games and two new switches that save CPU time.\n\nFixed: the launch crash on the iOS 27.2 beta\n\n0.1.712 crashed at once on the iOS 27.2 beta when a Steam account was signed in. Two of Apple's date comparisons are new in iOS 27.2, and the beta says it is 27.2 without having them yet. BCD now compares dates in a way that gives the same result on every iOS. The build now also fails on my build Mac if a new call of that kind ever comes in.\n\nSteam Cloud: saves the game could not see (changed default)\n\nSome games keep their saves through Steam Cloud's own interface: The Binding of Isaac, Don't Starve and Slay the Spire 2, for example. Players reported \"no cloud saves\" in such games. BCD downloaded the files, but the game started a new profile.\n\n• Why: in a BCD Dock session such a game sees only the files Valve's client lists in its own file list (remotecache.vdf). BCD downloaded your saves next to that list but did not add them to it. The game saw no saves, started a new profile, and that new profile could later be uploaded over the old one.\n• What changed: after each comparison, before the game starts, BCD now writes Valve's list when a save that is the same on the device and in the cloud is missing from it. A game whose list already names its saves, and a game with no such saves, gets no write. The rewrite existed before, but it was off.\n• Going back: in Settings › All settings, env.MADEIRA_STEAM_CLOUD_REMOTECACHE (Steam Cloud: Valve's client's file list) offers three choices:\n• When a save is missing from it (the new default);\n• After every comparison;\n• Never (as before).\n• Not covered: games that keep their saves in their own folders through Steam's automatic cloud (Cult of the Lamb, for example). If yours lost its save, please send the log of a start right after you see the empty save.\n• The log now counts, at each comparison, how many saves the list names and how many it misses. It counts only and names no files.\n\nFixed in games (from the logs you sent and #game-reports)\n\nEach was made from a log and checked by tests on a Mac.\n\n• Cyberpunk 2077 now gets far: on one 12 GB iPhone it played for one to two minutes at about 30 FPS. Then Metal ended it for a blend setting it does not allow on a second render target. BCD now builds such a pipeline without that blend.\n• The Binding of Isaac: Repentance+ still crashed with the 32-bit memory settings that 0.1.712 put in its recommended settings: the game's memory library asks for memory without naming an upper limit, and the settings only looked at requests that name one. Such a request now also stays inside the game's own part of the address space.\n• Hitman: Blood Money stopped in its start-up code every time (14 logs). Its recommended settings now make BCD's translator check every instruction against the program's current bytes (env.FEX_SMCCHECKS = full). It is slower.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.developer.kernel.extended-virtual-addressing",
+          "com.apple.developer.kernel.increased-memory-limit",
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network or to send the live log to your own devices on this Wi-Fi.",
+          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
+        }
+      },
+      "version": "0.1.721",
+      "versionDate": "2026-11-25T12:47:58Z",
+      "size": 231480629,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.721.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios.nightly",
       "developerName": "ARMSX2",
@@ -102,42 +138,6 @@
       "versionDate": "2026-11-23T09:01:07Z",
       "size": 24681645,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Wrath.rel-0.1.3.ipa"
-    },
-    {
-      "name": "BCD",
-      "bundleIdentifier": "com.thebcd69.bcd",
-      "developerName": "thebcd69",
-      "iconURL": "https://starkayc.github.io/iOS/icons/com.thebcd69.bcd.png",
-      "localizedDescription": "BCD: Windows games on iPhone and iPad. Steam and GOG built in.",
-      "subtitle": "BCD: Windows games on iPhone and iPad. Steam and GOG built…",
-      "tintColor": "3c94fc",
-      "category": "games",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.712.ipa",
-          "size": 230491268,
-          "version": "0.1.712",
-          "buildVersion": "712",
-          "date": "2026-11-23T04:06:46Z",
-          "minOSVersion": "18.0",
-          "localizedDescription": "BCD is in alpha: an early stage of development, before beta. Many games run, many do not yet, and things can break between builds. When a game fails, please send a log.\n\nEverything new in this release is experimental and has been tried on only a few devices so far. It may work great on yours, or it may not work at all. Either way, a log helps a lot.\n\nTried a game on an earlier build? Reset its settings first. On the game's page: Options › Recommended settings › Reset to Recommended. The recommended list changed for 78 games in this release.\n\nThis build brings everything since 0.1.686: X-Plane 12 getting further, frame generation and an FPS counter for Vulkan games, Valve's November 2026 Steam client for BCD Dock, an experimental Steam for Windows, new pages in Settings, a round of fixes from the logs you sent, and a fix for Epic games on an external drive.\n\nX-Plane 12 (experimental)\n\nX-Plane 12 gets further than before. On one iPhone it loaded, drew its cockpit and flew for six minutes. It is slow, it has been tried on that one iPhone only, and it is still experimental.\n\n• What you need: iOS 26 or later and a device with a Metal 4 GPU. Start the game from your Steam library through BCD Dock, the way it was tried. On the game's page choose Options › Recommended settings › Reset to Recommended. The recommended settings carry everything below.\n• Lowest graphics settings (new): the recommended settings now carry xplane-graphics = lowest.\n• Why: X-Plane saves its preferences only when it quits cleanly, and it never had. So every start took X-Plane's default settings and went straight into its first-time flight, with no main menu to lower them in. At those defaults the game stopped twice with \"X-Plane is totally out of memory\" and \"Failed to allocate a GPU buffer\", each time with BCD's address space full.\n• What it does: before X-Plane starts, BCD sets the default of each of its 14 graphics settings, in X-Plane's own Resources/settings.txt, to the lowest value. X-Plane's safe mode and every other byte of the file stay as they were. What you save in X-Plane still wins over these defaults.\n• Going back: X-Plane's own file is kept as settings.txt.bcd-original and put back when the line is removed.\n• A 4 GB swap file (new): the recommended settings now carry swap-mb = 4096, swap-mode = 2 and swap-min-mb = 1. BCD then moves game data to a file on the device's storage when memory runs short. Without it iOS ended the app at its 8 GB limit while the flight loaded (5 GB at the menu, 8.1 GB three minutes later). With it the flight ran for six minutes at a peak of 6.8 GB, and X-Plane quit cleanly from its own menu.\n• A freeze while loading: one log showed the game compiling about 700 shader libraries over eight minutes. Then one more compile, a Metal library with no shader source, was still running 96 seconds later, and the game never drew again. BCD now refuses such a request at once instead of sending it to Metal's compiler. This was checked on a Mac. On the iPhone the next run took every shader from the cache, so the refusal itself has not been seen working there yet.\n• FPS counter: it never worked for X-Plane, because Vulkan games did not reach it. It does now (see below).\n• What to expect: about 13 to 18 FPS in flight at the lowest settings. The first start compiles shaders for several minutes (about 700 compiles over eight minutes in one log); later starts read them from the cache.\n• With frame generation (below) X-Plane reached about 35 FPS shown in flight on that iPhone, from about 15 of its own (the HUD's 15+15). iPads and other iPhones have not been tried. If it fails on yours, please send a log.\n\nFrame generation and the FPS counter for Vulkan games (experimental)…"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.developer.kernel.extended-virtual-addressing",
-          "com.apple.developer.kernel.increased-memory-limit",
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "BCD uses the local network to pair with this device for JIT, without a computer, and, if you turn it on in Settings, to download Steam games from a PC on this network.",
-          "NSPhotoLibraryAddUsageDescription": "BCD saves the screenshots you take in a game to your photo library. It never reads your photos."
-        }
-      },
-      "version": "0.1.712",
-      "versionDate": "2026-11-23T04:06:46Z",
-      "size": 230491268,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/BCD.rel-0.1.712.ipa"
     },
     {
       "name": "Andarium",
