@@ -8,6 +8,70 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "ARMSX2",
+      "bundleIdentifier": "com.armsx2.ios",
+      "developerName": "ARMSX2",
+      "iconURL": "https://starkayc.github.io/iOS/icons/com.armsx2.ios.png",
+      "localizedDescription": "ARMSX2 - The Playstation 2 Emulator for ARM64 Platforms",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.rel-iOSv2.6.1.ipa",
+          "size": 41420239,
+          "version": "2.6.1",
+          "buildVersion": "261",
+          "date": "2026-11-25T19:03:43Z",
+          "minOSVersion": "17.4",
+          "localizedDescription": "Everything below is compared with 2.6.0.\n\nNew\n\nReport a Problem. (@J1coding: #1032) Settings has a new Diagnostics page and the pause menu has a Report a Problem row. They bundle recent logs, settings, crash files, a photo and the paused frame into one report, with sensitive details redacted. After a crash, a freeze or a failed start, the next launch asks once whether you want to send one.\n\nAutomatic Performance Tuning. (@bmdhacks) A new switch in the emulator settings tries lower resolution, blending accuracy and other options on its own when a game runs slow. It keeps what helps and tells you on screen. It can also lower the emulated CPU clock when the device can't keep up. It is off by default.\n\nRebuilt pad layout editor. (@J1coding: #1065) The old editor is gone, and every entry point now opens the new one: Settings > Virtual Pad > Edit Layout, the pause menu, Per-Game Settings > Pad and the library's game menu. It works with a controller and VoiceOver. You can move, resize and fade pad pieces from 10 percent to full opacity, including the whole D-pad or face button cluster as one piece.\n\nFloating sticks and L3/R3 in layouts. (@J1coding: #1065) Each stick can float or stay put, overriding the global Dynamic Thumbsticks setting, and can have its own touch zone. L3 and R3 buttons can be shown, placed and sized like Select and Start. They start hidden, so your existing layouts play as before.\n\niPhone Duo support. (@J1coding) The pause card and in-game panels now lay themselves out around the hinge and fold. Folding or unfolding with the pause card open keeps the item your controller had selected instead of jumping back to Resume. The on-screen pad is refit to the shorter portrait screens, OrbitKeys sizes its keys by window size so the inner screen no longer gets phone-sized keys, and the library, pad editor and menus no longer flip between portrait and landscape when the on-screen keyboard shrinks the window.\n\nControls and menus\n\nHeld keys keep moving. (@J1coding: #1060) Holding an arrow key on a keyboard now keeps moving through menus the way a held D-pad does. In the Use Controller Navigation? alert, Return and space press the highlighted button.\n\nHaptic Feedback follows the setting. (@J1coding: #907, #1040, #1053) Turning it off in the middle of a game now stops the phone rumble at the next rumble change, instead of at the next game. The switch now also covers the iPhone game rumble, which ignored it before.\n\nHidden pad stays hidden. (@J1coding: #1002) A virtual pad you hid stays hidden after you open and close the menu.\n\nSpeed shortcut keeps its place. (@J1coding: #909, #1002) After a trip to the menu, the speed shortcut keeps stepping from the speed the game is really running at.\n\nGame Library fixes. (@J1coding: #1002) Renamed games stay in their sorted place when you favorite or unfavorite them. A long press on a card no longer sometimes boots the game after a rotation. The library also decides portrait or landscape in one place, so card settings, layout and the launch animation agree.\n\nRight-to-left and VoiceOver. (@J1coding) In languages such as Arabic, the controller focus ring is no longer drawn mirrored away from the control it belongs to. There are also small VoiceOver and layout fixes on every device.\n\nVersion opens About. (@J1coding: #1002) The Version row in the Settings list now opens the About page, the same way Licenses and Help open their pages.\n\nSpeed\n\nNew VU1 compiler, on by default. (@bmdhacks) A new whole-program compiler for the PS2's vector unit 1 now runs on top of the existing one. It builds its code on a background thread and falls back to the old compiler when it has to. Compiled code is saved per game and kept in memory, so slow storage no longer stalls save state loads or quitting, and games that move their routines around in memory no longer make it compile the same routine over and over. Turning the compiler off clears the code it saved.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "ARMSX2 uses local network access for PS2 online play through DEV9 sockets.",
+          "NSMotionUsageDescription": "ARMSX2 uses device motion to control the emulated right analog stick when Gyroscope Camera is enabled."
+        }
+      },
+      "version": "2.6.1",
+      "versionDate": "2026-11-25T19:03:43Z",
+      "size": 41420239,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/ARMSX2.rel-iOSv2.6.1.ipa"
+    },
+    {
+      "name": "RyukSign",
+      "bundleIdentifier": "ryuk2.anoxclan.com",
+      "developerName": "faroukbmiled",
+      "iconURL": "https://starkayc.github.io/iOS/icons/ryuk2.anoxclan.com.png",
+      "localizedDescription": "Feather but better",
+      "subtitle": "",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.2.0.ipa",
+          "size": 22247678,
+          "version": "4.2.0",
+          "buildVersion": "2dbf78cc8947292c963bcef71fbde7ffad2180b4",
+          "date": "2026-11-25T22:41:34Z",
+          "minOSVersion": "16.0",
+          "localizedDescription": "What's new in 4.2.0\n\nNew\n\n• Added on-device pairing on iOS 27, no computer needed for a pairing file\n• Added certificate reordering with Move to Top, used everywhere you pick a certificate\n• Added certificate search\n• Added Japanese translation by @kinboy56\n\nImprovements\n\n• Improved installs to show progress while the app is sent to iOS\n\nFixes\n\n• Fixed installs failing after the SSL certificate renews\n• Fixed installs staying stuck halfway when iOS hides install progress\n• Fixed untranslated text in the Tweak Manager\n\nInstall\n\n• Download RyukSign.ipa from the assets below and sign it, or\n• Add the RyukSign source to get updates in the app: https://raw.githubusercontent.com/faroukbmiled/RyukSign/main/app-repo.json\n\nFull changelog: https://github.com/faroukbmiled/RyukSign/compare/v4.1.0...v4.2.0\n\n<sub>Built 2026-11-25 from 49ccb30</sub>"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "RyukSign uses the local network to pair this device and to share files with Web Manager.",
+          "NSUserNotificationUsageDescription": "RyukSign will notify you when downloads complete and are ready to import."
+        }
+      },
+      "version": "4.2.0",
+      "versionDate": "2026-11-25T22:41:34Z",
+      "size": 22247678,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.2.0.ipa"
+    },
+    {
       "name": "BCD",
       "bundleIdentifier": "com.thebcd69.bcd",
       "developerName": "thebcd69",
@@ -340,38 +404,6 @@
       "versionDate": "2026-11-20T16:46:43Z",
       "size": 117415847,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Mangayomi.rel-0.9.97.ipa"
-    },
-    {
-      "name": "RyukSign",
-      "bundleIdentifier": "ryuk2.anoxclan.com",
-      "developerName": "faroukbmiled",
-      "iconURL": "https://starkayc.github.io/iOS/icons/ryuk2.anoxclan.com.png",
-      "localizedDescription": "Feather but better",
-      "subtitle": "",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.1.0.ipa",
-          "size": 22041701,
-          "version": "4.1.0",
-          "buildVersion": "2dbf78cc8947292c963bcef71fbde7ffad2180b4",
-          "date": "2026-11-18T16:37:57Z",
-          "minOSVersion": "16.0",
-          "localizedDescription": "What's new in 4.1.0\n\nNew\n\n• Added Update All to Sources updates with search, a source picker for each app, and a choice to add, sign, or sign and install\n• Added long press actions to grouped updates, including Ignore Updates\n• Added a Versions to Delete option to Automatic Cleanup to also remove same or newer copies after installing\n• Added your Library's identifiers for the same app to the Identifier editor when signing\n\nImprovements\n\n• Improved updates to keep the bundle identifier of your installed or signed copy, so they replace it instead of installing a second app\n\nFixes\n\n• Fixed apps missing their provisioning profile after signing and Remove Provisioning not working\n• Fixed large apps timing out or showing Failed while still installing\n• Fixed installs getting stuck halfway\n• Fixed tiny apps showing Failed after installing\n• Fixed the wrong app icon showing in Sources updates after another app finished updating\n• Fixed a black screen when using View in Sources from an update's source list\n\nInstall\n\n• Download RyukSign.ipa from the assets below and sign it, or\n• Add the RyukSign source to get updates in the app: https://raw.githubusercontent.com/faroukbmiled/RyukSign/main/app-repo.json\n\nFull changelog: https://github.com/faroukbmiled/RyukSign/compare/v4.0.0...v4.1.0\n\n<sub>Built 2026-11-18 from fc365a3</sub>"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "RyukSign uses your local network to transfer IPAs and tweaks to this device over the Web Manager server.",
-          "NSUserNotificationUsageDescription": "RyukSign will notify you when downloads complete and are ready to import."
-        }
-      },
-      "version": "4.1.0",
-      "versionDate": "2026-11-18T16:37:57Z",
-      "size": 22041701,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/RyukSign.rel-4.1.0.ipa"
     },
     {
       "name": "Doer",
