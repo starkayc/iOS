@@ -18,7 +18,7 @@
   },
   "ARMSX2": {
     "release_type": "any",
-    "version": "nightly-20261124"
+    "version": "iOSv2.6.1"
   },
   "BCD": {
     "release_type": "any",
@@ -144,7 +144,7 @@
   },
   "RyukSign": {
     "release_type": "stable",
-    "version": "4.1.0"
+    "version": "4.2.0"
   },
   "SceneBox": {
     "release_type": "stable",
