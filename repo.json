@@ -8,6 +8,39 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "WQ Files",
+      "bundleIdentifier": "cz.kolbi.wqfiles",
+      "developerName": "kolbicz",
+      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
+      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
+      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.30.ipa",
+          "size": 2268148,
+          "version": "0.9.30",
+          "buildVersion": "115",
+          "date": "2026-11-26T11:23:07Z",
+          "minOSVersion": "26.0",
+          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.30\n\nShortcuts actions, and a round of fixes after a full review of the code: safer restores and imports, fewer hangs, and faster lists.\n\nNew\n\n• Shortcuts actions: WQ Files now adds actions to the Shortcuts app, for shortcuts and automations.\n• Files: List Folder, Get File, Save File, Copy, Move, Rename, New Folder and Delete. They take full paths and work in any app's container, like the file browser.\n• Apps: Clean App Caches and Back Up App Data, by bundle identifier. Clean App Caches also takes the identifier of an app extension, as the Cache Cleaner lists them.\n• List Folder and Get File always work. Everything that changes files needs Settings → Allow Shortcuts to Change Files, which is off until you turn it on. Deleting and cleaning also need Allow Deleting.\n• The actions follow the app's rules: deleted files go to Recently Deleted, a replaced file is kept in Backups, and nothing is replaced by accident: Copy and Save File give \"Name 2\" for a name that is taken, and Move, Rename and New Folder refuse it.\n• An action that had to wait more than 20 seconds because WQ Files was busy is not run, so nothing is changed after Shortcuts has reported a failure.\n• Most action names and descriptions in the Shortcuts app are in English for now.\n• See Shortcuts in the README.\n• Cache Cleaner: the long-press menu of an app has Copy Bundle ID, handy for the Shortcuts actions.\n\nFixed\n\nFiles and folders\n\n• Sort by Size: when folder sizes finished measuring, the list was put in the new order but the rows on screen weren't. A tap, a swipe to delete or the long-press menu could then act on a different item than the row showed. The rows follow the order now.\n• Folder sizes after an error: after pulling down on a folder that first couldn't be listed, sizes were not measured until you left and came back.\n• Folders with é, ü, Korean or similar characters in their path could leave the access cache stuck, so every folder was refused until Settings → Reset Access Cache. They open normally now, and a cache that is already stuck is repaired on its own.\n• Folders WQ Files couldn't open were sometimes reported as cleaned or deleted, with nothing removed. They are reported as not accessible.\n• Pictures over 4 MB showed cut off, or as a hex dump. They are read whole and scaled down for viewing.\n• Alphabet index with Folders on Top listed its letters out of order in folders that hold both folders and files.\n• Container roots and WQ Files' own backup folders could be moved or renamed in the file browser. They are refused, as deleting them already was.\n• Renaming, moving or uploading a file to a -wal or -journal name next to a database another app has open is refused, as creating one already was.\n• Importing several files with Keep Both: when a database got a new name (\"db 2.sqlite\"), its -wal and -shm files kept their old names and landed next to the database that was already there, which could damage it. They now get the same new name.\n\nApps and backups\n\n• Import as Backup: on some devices nothing could be selected in the Files sheet (#72). It now asks first whether you want to pick a file or a folder, and writes to the Log what the Files sheet returned.\n• An interrupted restore that can't be undone (the app was removed or reinstalled since, or its safety backup was deleted) blocked every restore of every app, with the same message at each launch. It is closed with a note that says where the data from before is.\n• Imported backups with only Documents or only Library: restoring one emptied the other folder of the app. It is left as it is now, and the import says when a folder is missing.…"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          "com.apple.security.application-groups"
+        ],
+        "privacy": {
+          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
+        }
+      },
+      "version": "0.9.30",
+      "versionDate": "2026-11-26T11:23:07Z",
+      "size": 2268148,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.30.ipa"
+    },
+    {
       "name": "ARMSX2",
       "bundleIdentifier": "com.armsx2.ios",
       "developerName": "ARMSX2",
@@ -299,39 +332,6 @@
       "versionDate": "2026-09-18T23:43:28Z",
       "size": 4562979,
       "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/iRAM-Plus.rel-1.3.1.ipa"
-    },
-    {
-      "name": "WQ Files",
-      "bundleIdentifier": "cz.kolbi.wqfiles",
-      "developerName": "kolbicz",
-      "iconURL": "https://starkayc.github.io/iOS/icons/cz.kolbi.wqfiles.png",
-      "localizedDescription": "File browser, app data manager and cache cleaner for iOS 26 and 27 (worse_query, no jailbreak)",
-      "subtitle": "File browser, app data manager and cache cleaner for iOS 26…",
-      "tintColor": "3c94fc",
-      "category": "utilities",
-      "versions": [
-        {
-          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.20.ipa",
-          "size": 2199929,
-          "version": "0.9.20",
-          "buildVersion": "114",
-          "date": "2026-11-21T21:41:37Z",
-          "minOSVersion": "26.0",
-          "localizedDescription": "Requires: iOS 26.0 – 26.7.2, or iOS 27.0 up to 27.3 beta 1. Not supported: iOS 27.3 beta 2 and later, where Apple patched worse_query. Tested on iOS 27.0.1, 27.2.1, 27.3 beta 1 (confirmed by a user) and 26.7.1; see Tested devices.\nNeeds: a sideloading tool that keeps the App Group entitlement; see Signing in the README.\n\nWorse Query Files 0.9.20\n\nApps Manager backups, and safer handling of databases that are in use.\n\nNew\n\n• Import Apps Manager backups (#19): Apps → tap the app → Import as Backup… now accepts .adbk files from Apps Manager. The app's data is saved as a normal WQ Files backup, ready to restore.\n• Only the app's own data folder is imported. App Group data in the file isn't, because WQ Files backups don't include App Groups. The keychain items Apps Manager saves are encrypted, so they can't be imported either. When you import, WQ Files lists what it left out.\n• If the file says it belongs to a different app than the one you tapped, WQ Files asks first, as with any other import.\n• Opening an .adbk from the Files app or the share sheet doesn't start an import; start it from Apps.\n\nFixed\n\n• Files another app is using: deleting or replacing them, for example an app's database in its App Group while the app runs, failed with \"Resource temporarily unavailable (errno 35)\". WQ Files now says another app is using the file and that quitting that app and trying again should work. Its extensions or widgets can keep the file open even after you quit it.\n• Databases in use stay intact: an app's database comes with -wal and -shm files next to it, and while the app runs, iOS doesn't lock the -wal file. WQ Files could delete or replace it while refusing the database file, which lost the app's newest data. Now a database and its -wal, -shm and -journal files are only changed together: if one of them is in use, none of them is touched. This applies to deleting (also whole folders), replacing on import and editing.\n• Deleting or importing several files at once: each database is handled before its -wal and -shm files, which are skipped if the database itself couldn't be deleted or replaced. \"N of M files were imported\" is translated now.\n\nCredit\n\nNew design: GpGp700. Sandbox technique: worse_query by Taj C (forcequit). Container enumeration: KAMUI by murk-sus. Resumable scans: hhh2210. Custom inspectors idea: deltaII. Translations: iosrxwy and FrogTool (Simplified Chinese), kinboy56 (Japanese), hfip (Arabic), hooray804 (Korean), Reinascape (Russian), romlayvn-93 (Vietnamese), buraakkcayir (Turkish review). Thanks to braless for the Apps Manager sample, and to everyone who sent screenshots and Logs. GPL-3.0-or-later.\n\nSHA-256 of WQFiles.ipa: 9ddfa3c1ff01de4d76f601d3b6b76390436136d529f029b9bfaa48c501cfe197"
-        }
-      ],
-      "appPermissions": {
-        "entitlements": [
-          "com.apple.security.application-groups"
-        ],
-        "privacy": {
-          "NSLocalNetworkUsageDescription": "Wi-Fi Sharing lets browsers on your network open the folder you share."
-        }
-      },
-      "version": "0.9.20",
-      "versionDate": "2026-11-21T21:41:37Z",
-      "size": 2199929,
-      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/WQFiles.rel-0.9.20.ipa"
     },
     {
       "name": "Nuvio",
