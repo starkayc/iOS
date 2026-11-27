@@ -8,6 +8,32 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "Get More Ram",
+      "bundleIdentifier": "com.aigch.nmsl",
+      "developerName": "hugeBlack",
+      "iconURL": "https://starkayc.github.io/iOS/icons/placeholder.png",
+      "localizedDescription": "A simple AltSign wrapper app that allows you to enable \"Increased Memory Limit\" to your sideloaded apps without using Xcode",
+      "subtitle": "A simple AltSign wrapper app that allows you to enable…",
+      "tintColor": "3c94fc",
+      "category": "utilities",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Get-More-Ram.pre-f9f483b.ipa",
+          "size": 2449921,
+          "version": "1.0",
+          "buildVersion": "1",
+          "date": "2026-11-27T16:35:48Z",
+          "minOSVersion": "16.0",
+          "localizedDescription": "This is a nightly release created automatically with GitHub Actions workflow."
+        }
+      ],
+      "appPermissions": {},
+      "version": "1.0",
+      "versionDate": "2026-11-27T16:35:48Z",
+      "size": 2449921,
+      "downloadURL": "https://github.com/starkayc/iOS/releases/download/ipa-assets/Get-More-Ram.pre-f9f483b.ipa"
+    },
+    {
       "name": "WQ Files",
       "bundleIdentifier": "cz.kolbi.wqfiles",
       "developerName": "kolbicz",
